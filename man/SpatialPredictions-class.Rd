@@ -1,0 +1,54 @@
+\name{SpatialPredictions-class}
+\docType{class}
+\alias{SpatialPredictions-class}
+\title{A class for spatial predictions produced using \code{gstat} package}
+\description{A class containing input and output maps generated through the process of geostatistical mapping. Object of this class can be directly visualized in Google Earth by using the \code{\link{plotKML-methods}}.}
+\section{Slots}{
+  \describe{
+    \item{\code{variable}:}{object of class \code{"character"}; variable name}
+    \item{\code{observed}:}{object of class \code{"SpatialPointsDataFrame"} (must be 2D); see \code{sp::SpatialPointsDataFrame} }
+    \item{\code{glm}:}{object of class \code{"glm"}; contains the summary of the regression model}
+    \item{\code{vgmModel}:}{object of class \code{"data.frame"}; contains the variogram parameters passed from gstat}
+    \item{\code{predicted}:}{object of class \code{"SpatialPixelsDataFrame"}; see \code{sp::SpatialPixelsDataFrame}}
+    \item{\code{validation}:}{object of class \code{"SpatialPointsDataFrame"} containing results of validation}
+  }
+}
+\section{Methods}{
+  \describe{
+	\item{plotKML}{\code{signature(obj = "SpatialPredictions")}: plots all objects in Google Earth}
+	\item{summary}{\code{signature(obj = "SpatialPredictions")}: summarize object by showing the mapping accuracy (cross-validation) and the amount of variation explained by the model }
+  }
+}
+\references{
+\itemize{
+\item Hengl, T. (2009) \href{http://spatial-analyst.net/book/}{A Practical Guide to Geostatistical Mapping}, 2nd Edt. University of Amsterdam, www.lulu.com, 291 p.
+\item Hengl, T., Nikolic, M., MacMillan, R.A., (2012) \href{http://dx.doi.org/10.1016/j.jag.2012.02.005}{Mapping efficiency and information content}. International Journal of Applied Earth Observation and Geoinformation, special issue Spatial Statistics Conference.
+}
+}
+\note{ \code{"SpatialPredictions"} saves results of predictions for a single target variable, which can be of type numeric or factor. Multiple variables can be combined into a list.
+}
+\author{ Tomislav Hengl }
+\seealso{ \code{\link{fit.gstatModel}}, \code{gstat::gstat-class}, \code{\link{RasterBrickSimulations-class}}
+}
+\examples{ 
+# load observations:
+data(meuse)
+coordinates(meuse) <- ~x+y
+proj4string(meuse) <- CRS("+init=epsg:28992")
+# load grids:
+data(meuse.grid)
+gridded(meuse.grid) <- ~x+y
+proj4string(meuse.grid) <- CRS("+init=epsg:28992")
+# fit a model:
+omm <- fit.gstatModel(observations = meuse, formulaString = om~dist, 
+  family = gaussian(log), covariates = meuse.grid)
+show(omm@regModel)
+# produce SpatialPredictions:
+om.rk <- predict(omm, predictionLocations = meuse.grid)
+# overview of the prediction process:
+show(om.rk)
+\dontrun{# plot the whole geostatical mapping project in Google Earth:
+plotKML(om.rk)
+}
+}
+\keyword{classes}
