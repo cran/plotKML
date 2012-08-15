@@ -28,7 +28,6 @@ The \code{bargrid} data frame (regular grid at 30 m intervals) contains the foll
 }
 \examples{
 library(gstat)
-library(rgdal)
 # sampled elevations:
 data(barxyz)
 prj = "+proj=tmerc +lat_0=0 +lon_0=18 +k=0.9999 +x_0=6500000 +y_0=0 +ellps=bessel +units=m 

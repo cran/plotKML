@@ -86,8 +86,12 @@ setMethod("is.projected", signature(obj = "Raster"),
 
 ## check proj4string
 check_projection <- function(obj, control = TRUE, ref_CRS = get("ref_CRS", envir = plotKML.opts)){
-   
+  
   require(rgdal)
+  if(is.na(proj4string(obj))){
+    stop("Proj4 string missing")
+  } 
+
   #  First, check if it is in the metric system or unprojected:
   if(ref_CRS=="+proj=longlat +datum=WGS84"&is.projected(obj)){
     ret = FALSE

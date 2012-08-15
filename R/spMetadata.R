@@ -141,10 +141,10 @@ spMetadata.Spatial <- function(
     xmlValue(ml[["spdoinfo"]][["indspref"]]) <- Indirect_Spatial_Reference
     xmlValue(ml[["idinfo"]][["native"]]) <- paste(R.version$version.string, "running on", Sys.info()[["sysname"]], Sys.info()[["release"]])
     if(xmlValue(ml[["metainfo"]][["metc"]][["cntinfo"]][["cntperp"]][["cntorg"]]) == ""){
-    xmlValue(ml[["metainfo"]][["metc"]][["cntinfo"]][["cntperp"]][["cntorg"]]) <- Sys.getenv(c("USERDNSDOMAIN"))[[1]]  
+      xmlValue(ml[["metainfo"]][["metc"]][["cntinfo"]][["cntperp"]][["cntorg"]]) <- Sys.getenv(c("USERDNSDOMAIN"))[[1]]  
     }
     if(xmlValue(ml[["metainfo"]][["metc"]][["cntinfo"]][["cntperp"]][["cntper"]]) == ""){
-    xmlValue(ml[["metainfo"]][["metc"]][["cntinfo"]][["cntperp"]][["cntper"]]) <- paste(Sys.getenv(c("USERNAME"))[[1]], "(username)", Sys.getenv(c("COMPUTERNAME"))[[1]], "(computer name)")
+      xmlValue(ml[["metainfo"]][["metc"]][["cntinfo"]][["cntperp"]][["cntper"]]) <- paste(Sys.getenv(c("USERNAME"))[[1]], "(username)", Sys.getenv(c("COMPUTERNAME"))[[1]], "(computer name)")
     }
     }
 
@@ -154,7 +154,7 @@ spMetadata.Spatial <- function(
     met <- data.frame(metadata=gsub("\\.", "_", names(ny)), value=paste(ny))
     # add friendly names:
     mdnames <- read.table(system.file("mdnames.csv", package="plotKML"), sep=";")
-    field_names <- merge(met, mdnames[,c("metadata","field.names")], by="metadata", all.x=TRUE)[,"field.names"]
+    field_names <- merge(met, mdnames[,c("metadata","field.names")], by="metadata", all.x=TRUE, all.y=FALSE)[,"field.names"]
     
     # generate metadata doc:
     f = tempfile()

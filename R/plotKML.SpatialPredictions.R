@@ -5,7 +5,7 @@
 # Note           : it basically requires only a single input object;
 
 
-plotKML.SpatialPredictions <- function(
+setMethod("plotKML", "SpatialPredictions", function(
   obj,
   folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))),
   file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""),
@@ -93,9 +93,7 @@ plotKML.SpatialPredictions <- function(
   }
   # open KML file in the default browser:
   kml_View(file.name)
-}
-
-setMethod("plotKML", "SpatialPredictions", plotKML.SpatialPredictions)
+})
 
 
 # end of script;

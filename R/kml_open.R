@@ -43,13 +43,12 @@ kml_open <- function(
 }
 
 ## Closes the current KML canvas
-kml_close <- function(file.name, overwrite = FALSE, ...){
+kml_close <- function(file.name, overwrite = FALSE, ...) {
   
-  require(RSAGA) 
   # get our invisible file connection from custom evnrionment
   kml.out <- get("kml.out", envir=plotKML.fileIO)
   saveXML(kml.out, file.name)
-  message(paste("Closing", set.file.extension(file.name, ".kml")))
+  message(paste("Closing ", file.name))
   
 }
 

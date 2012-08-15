@@ -87,8 +87,8 @@ kml_layer.SoilProfileCollection <- function(
   message("Parsing to KML...")
 
   if(plot.points==TRUE){
-  pl2b = newXMLNode("Folder", parent=pl1)
-  pl3b <- newXMLNode("name", var.name, parent = pl2b)
+    pl2b = newXMLNode("Folder", parent=pl1)
+    pl3b <- newXMLNode("name", var.name, parent = pl2b)
   }
 
   # Calculate 3D coordinates
@@ -117,10 +117,10 @@ for(i.site in 1:length(obj@site[,obj@idcol])) {
   if(missing(color.name)){
     pal <- colorRampPalette(c("chocolate4", "darkgoldenrod1", "cornsilk")) 
     soil_color[[i.site]] <- col2kml(pal(length(xval)))
-    }
-    else { 
+  } 
+  else { 
     soil_color[[i.site]] <- col2kml(obj@horizons[prof.na[[i.site]], color.name])
-    }
+  }
   
   # horizon centre:
   Z <- max.depth - (htop+(hbot-htop)/2)
@@ -175,7 +175,7 @@ for(i.site in 1:length(obj@site[,obj@idcol])) {
 }
 
   # Parse ATTRIBUTE TABLE (for each placemark):
-  if ((is.logical(balloon) | class(balloon) %in% c('character','numeric')) & ("horizons" %in% slotNames(obj))){
+  if ((balloon == TRUE | class(balloon) %in% c('character','numeric')) & ("horizons" %in% slotNames(obj))){
      html.table <- .df2htmltable(obj@horizons[unlist(prof.na),]) 
   }
 

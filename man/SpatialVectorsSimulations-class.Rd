@@ -4,7 +4,7 @@
 \alias{aggregate}
 \alias{plotKML,SpatialVectorsSimulations}
 \title{A class for spatial simulations containing equiprobable line, point or polygon features}
-\description{A class containing input and output maps generated as equiprobable simulations of the same discrete object (for example multiple realizations of stream networks). Objects of this type can be directly visualized in Google Earth by using the \code{\link{plotKML-methods}}.}
+\description{A class containing input and output maps generated as equiprobable simulations of the same discrete object (for example multiple realizations of stream networks). Objects of this type can be directly visualized in Google Earth by using the \code{\link{plotKML-method}}.}
 \section{Slots}{
   \describe{    
     \item{\code{realizations}:}{object of class \code{"list"}; multiple realizations of the same feature e.g. multiple realizations of stream network}
@@ -17,7 +17,7 @@
   }
 }
 \author{ Tomislav Hengl }
-\seealso{ \code{\link{RasterBrickSimulations-class}}, \code{\link{plotKML-methods}}
+\seealso{ \code{\link{RasterBrickSimulations-class}}, \code{\link{plotKML-method}}
 }
 \examples{ 
 # load a list of equiprobable streams:

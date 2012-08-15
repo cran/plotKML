@@ -14,15 +14,15 @@
 The \code{eberg} data frame (irregular points) contains the following columns:
   \describe{
 	\item{\code{ID}}{universal identifier}
-	\item{\code{soiltype}}{a vector containing factors; abbreviated soil class names according to the German soil classification system (see "TAXGRSC" column)}
-	\item{\code{TAXGRSC}}{a vector containing factors; soil classes according to the German soil classification system: "Auenboden" (A), "Braunerde" (B), "Pelosol" (D), "Gley" (G), "Moor" (Ha), "HMoor" (Hw), "Kolluvisol" (K), "Parabraunerde" (L), "Ranker" (N), "Regosol" (Q), "Rendzina" (R), "Pseudogley" (S), "Pararendzina" (Z)}
+	\item{\code{soiltype}}{a vector containing factors; soil classes according to the German soil classification system: \code{"A"} (Auenboden), \code{"B"} (Braunerde), \code{"D"} (Pelosol), \code{"G"} (Gley), \code{"Ha"} (Moor), \code{"Hw"} (HMoor), \code{"K"} (Kolluvisol), \code{"L"} (Parabraunerde), \code{"N"} (Ranker), \code{"Q"} (Regosol), \code{"R"} (Rendzina), \code{"S"} (Pseudogley), \code{"Z"} (Pararendzina)}
+	\item{\code{TAXGRSC}}{a vector containing factors; full soil class names according to the German soil classification system (see \code{soiltype} column)}
 	\item{\code{X}}{a numeric vector; x-coordinate (m) in DHDN / Gauss-Krueger zone 3 (German coordinate system) }
 	\item{\code{Y}}{a numeric vector; y-coordinate (m) in DHDN / Gauss-Krueger zone 3 (German coordinate system) }
 	\item{\code{UHDICM_*}}{a numeric vector; upper horizon depth in cm per horizon}
 	\item{\code{LHDICM_*}}{a numeric vector; lower horizon depth in cm per horizon}
-	\item{\code{SNDMHT_*}}{a numeric vector; topsoil sand content estimated by hand per horizon (0-100); see Ad-hoc-AG Boden (2005) for more details}
-	\item{\code{SLTMHT_*}}{a numeric vector; topsoil silt content estimated by hand per horizon (0-100)}
-	\item{\code{CLYMHT_*}}{a numeric vector; topsoil clay content estimated by hand per horizon (0-100)}
+	\item{\code{SNDMHT_*}}{a numeric vector; sand content estimated by hand per horizon (0-100 percent); see Ad-hoc-AG Boden (2005) for more details}
+	\item{\code{SLTMHT_*}}{a numeric vector; silt content estimated by hand per horizon (0-100 percent)}
+	\item{\code{CLYMHT_*}}{a numeric vector; clay content estimated by hand per horizon (0-100 percent)}
 } 
 The \code{eberg_grid} data frame (regular grid at 100 m resolution) contains the following columns:
   \describe{
@@ -54,8 +54,7 @@ The \code{eberg_grid25} data frame (regular grid at 25 m resolution) contains th
 \item  \url{http://geomorphometry.org/content/ebergotzen}
 }
 }
-\note{ Texture by hand method can be used to determine the content of soil earth fractions only to an accuracy of \enc{±}{+-}5-10\% (\href{https://www.soils.org/publications/sssaj/articles/65/4/1038}{Skaggs et al. 2001}). A surveyor distinguishes to which of the 32 texture classes a soil samples belongs to, and then estimates the content of fractions; e.g. texture class \code{St2} has 10\% clay, 25\% silt and 65\% sand (Ad-hoc-AG Boden, 2005). 
-}
+\note{Texture by hand method can be used to determine the content of soil earth fractions only to an accuracy of \enc{±}{+-}5-10\% (\href{https://www.soils.org/publications/sssaj/articles/65/4/1038}{Skaggs et al. 2001}). A surveyor distinguishes to which of the 32 texture classes a soil samples belongs to, and then estimates the content of fractions; e.g. texture class \code{St2} has 10\% clay, 25\% silt and 65\% sand (Ad-hoc-AG Boden, 2005).}
 \examples{
 data(eberg)
 data(eberg_grid)

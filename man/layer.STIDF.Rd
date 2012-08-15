@@ -30,7 +30,7 @@ tags will be inserted. Temporal support (\eqn{\Delta t}{dt}) is estimated using 
 }
 }
 \author{Tomislav Hengl }
-\seealso{ \code{\link{kml_layer.STIDFtraj}} }
+\seealso{ \code{\link{kml_layer.STTDF}} }
 \examples{
 data(HRtemp08)
 # format the time column:
@@ -49,7 +49,7 @@ library("maptools")
 fname <- system.file("shapes/sids.shp", package="maptools")[1]
 nc <- readShapePoly(fname, proj4string=CRS("+proj=longlat +datum=NAD27"))
 time <- as.POSIXct(strptime(c(rep("1974-01-01", length(nc)), 
-rep("1979-01-01", length(nc))), format="%Y-%m-%d"), tz = "GMT")
+   rep("1979-01-01", length(nc))), format="%Y-%m-%d"), tz = "GMT")
 data <- data.frame(BIR = c(nc$BIR74, nc$BIR79), NWBIR = c(nc$NWBIR74, nc$NWBIR79), 
 SID = c(nc$SID74, nc$SID79))
 # copy polygons:

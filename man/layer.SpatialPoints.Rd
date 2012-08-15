@@ -29,7 +29,7 @@ For observations at point support (a single moment in time), use the same time v
 Optional aesthetics arguments are \code{shapes} (icons), \code{colour}, \code{sizes}, \code{altitude} (if not a 3D object; variable to be used to specify altitude above ground), \code{altitudeMode} (altitude mode type (\code{clampToGround}, \code{relativeToGround} or \code{absolute}). Although this function can be used to plot over five variables, more than three aesthetics arguments is not recommended (e.g. limit to size and colour).
 }
 \author{Pierre Roudier, Tomislav Hengl and Dylan Beaudette }
-\seealso{ \code{\link{kml_layer.STIDFtraj}} }
+\seealso{ \code{\link{kml_layer.STTDF}} }
 \examples{
 data(eberg)
 data(SAGA_pal)

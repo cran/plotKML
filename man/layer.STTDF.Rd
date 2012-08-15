@@ -1,12 +1,12 @@
-\name{kml_layer.STIDFtraj}
+\name{kml_layer.STTDF}
 \encoding{latin1}
-\alias{kml_layer.STIDFtraj}
-\alias{STIDFtraj}
+\alias{kml_layer.STTDF}
+\alias{STTDF}
 \title{Write a space-time trajectory to KML}
-\description{Writes an object of class \code{"STIDFtraj"} to a KML file with a possibility to parse attribute variables using several aesthetics arguments.
+\description{Writes an object of class \code{"STTDF"} to a KML file with a possibility to parse attribute variables using several aesthetics arguments.
 }
 \usage{
-kml_layer.STIDFtraj(obj, id.name = names(obj@data)[which(names(obj@data)== "id")],
+kml_layer.STTDF(obj, id.name = names(obj@data)[which(names(obj@data)== "burst")],
        dtime = "", extrude = FALSE, 
        start.icon = paste(get("home_url", envir = plotKML.opts), "3Dballyellow.png", sep = ""), 
        end.icon = paste(get("home_url", envir = plotKML.opts), "golfhole.png", sep = ""), 
@@ -14,7 +14,7 @@ kml_layer.STIDFtraj(obj, id.name = names(obj@data)[which(names(obj@data)== "id")
        metadata = NULL, html.table = NULL, \dots )
 }
 \arguments{
-  \item{obj}{space-time object of class \code{"STIDFraj"} (spatio-temporal irregular data.frames trajectory)}
+  \item{obj}{space-time object of class \code{"STTDF"} (spatio-temporal irregular data.frames trajectory)}
   \item{id.name}{trajectory ID column name}
   \item{dtime}{temporal support size (in seconds)}
   \item{extrude}{logical; extrude GPS vertices?}
@@ -50,14 +50,14 @@ proj4string(gpxbtour) <- CRS("+proj=longlat +datum=WGS84")
 library(fossil)
 xy <- as.list(data.frame(t(coordinates(gpxbtour))))
 gpxbtour$dist.km <- sapply(xy, function(x) 
-deg.dist(long1=x[1], lat1=x[2], long2=xy[[1]][1], lat2=xy[[1]][2]))
+  deg.dist(long1=x[1], lat1=x[2], long2=xy[[1]][1], lat2=xy[[1]][2]))
 plot(gpxbtour$dist.km, gpxbtour$speed, type="l", 
-xlab="Distance from origin in km", ylab="speed in km per hour")
-# convert to a STIDFtraj class:
+  xlab="Distance from origin in km", ylab="speed in km per hour")
+# convert to a STTDF class:
 library(spacetime)
 library(adehabitat)
 gpx.ltraj <- as.ltraj(coordinates(gpxbtour), gpxbtour$ctime, id = "th")
-gpx.st <- as(gpx.ltraj, "STIDFtraj")
+gpx.st <- as(gpx.ltraj, "STTDF")
 gpx.st$speed <- gpxbtour$speed
 gpx.st@sp@proj4string <- CRS("+proj=longlat +datum=WGS84")
 # open KML file:

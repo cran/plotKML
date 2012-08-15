@@ -5,7 +5,7 @@
 # Note           : it basically requires only a single input object;
 
 
-plotKML.RasterBrickSimulations <- function(
+setMethod("plotKML", "RasterBrickSimulations", function(
   obj,
   folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))),
   file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""),
@@ -43,7 +43,7 @@ plotKML.RasterBrickSimulations <- function(
   tl <- spsample(smp, n=100, "regular")
   tl <- SpatialLines(list(Lines(list(Line(coordinates(tl))), ID="t")), prj)
   # parse the transect:
-  kml_layer.SpatialLines(obj = tl, colours = rep(rgb(0,0,0), length(obj)), extrude = TRUE)  
+  kml_layer.SpatialLines(obj = tl, colours = rep(rgb(0,0,0), length(obj)), extrude = TRUE)
 
   # plot the correlation graph and variogram:
   png(filename=paste(varname, "_cross_section.png", sep=""), width=pngwidth, height=pngheight, bg="white", pointsize=pngpointsize)
@@ -68,9 +68,7 @@ plotKML.RasterBrickSimulations <- function(
   # open KML file in the default browser:
   kml_View(file.name)
   
-}
-
-setMethod("plotKML", "RasterBrickSimulations", plotKML.RasterBrickSimulations)
+})
 
 
 # end of script;

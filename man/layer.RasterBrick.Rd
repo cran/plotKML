@@ -36,15 +36,15 @@ proj4string(LST) <- CRS("+proj=utm +zone=33 +datum=WGS84 +units=m")
 dates <- sapply(strsplit(names(LST), "LST"), function(x){x[[2]]})
 LST <- brick(LST)
 LST@title = "Time series of MODIS Land Surface Temperature images"
-LST@zvalue <- format(as.Date(dates, "\%Y_\%m_\%d"), "\%Y-\%m-\%dT\%H:\%M:\%SZ")
+LST <- setZ(LST, format(as.Date(dates, "\%Y_\%m_\%d"), "\%Y-\%m-\%dT\%H:\%M:\%SZ"))
 data(SAGA_pal)
 # time dimension defined via zvalue slot:
-LST@zvalue[c(1,12,24)]
+getZ(LST)[c(1,12,24)]
 # subset to 3 images:
 LSTs <- brick(raster(LST, 1), raster(LST, 12), raster(LST, 24))
 LST_ll <- reproject(LSTs, program="FWTools")
 # copy the dates:
-LST_ll@zvalue <- LST@zvalue[c(1,12,24)]
+LST_ll <- setZ(LST_ll, getZ(LST)[c(1,12,24)])
 # KML plot with block temporal support of 8 days:
 kml(LST_ll, colour_scale=SAGA_pal[[1]], dtime=8*24*60^2)
 }

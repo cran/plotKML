@@ -9,7 +9,7 @@
 setClass("sp.palette", representation(type = 'character', bounds = 'vector', color = 'character', names = 'character', icons = 'character'), validity = function(object) {
    if(!class(object@bounds)=="numeric")
       return('Vector with upper and lower limits required')
-   if((length(object@bounds)-1)!=length(object@color)|(length(object@bounds)-1)!=length(x@names))
+   if((length(object@bounds)-1)!=length(object@color)|(length(object@bounds)-1)!=length(object@names))
       return('Size of bounds (-1), colors and element names must be equal')
    if(any(nchar(object@color)<7|nchar(object@color)>9))
       return('Colors in the hex system required') 
@@ -19,8 +19,14 @@ setClass("sp.palette", representation(type = 'character', bounds = 'vector', col
 setClass("SpatialMetadata", representation(xml = "XMLInternalDocument", field.names = "character", palette = "sp.palette", sp = "Spatial"), validity = function(object) {
     if(!xmlName(xmlRoot(object@xml))=="metadata")
       return("XML file tagged 'metadata' not found")
-    if(!length(.getXMLnames(object@xml))==length(object@field.names))
-      return("Length of field names does not match the column names in xml slot")
+    # check the metadata names:
+    ny <- unlist(xmlToList(object@xml, addAttributes=FALSE))
+    met <- data.frame(metadata=gsub("\\.", "_", names(ny)), value=paste(ny))
+    # add friendly names:
+    mdnames <- read.table(system.file("mdnames.csv", package="plotKML"), sep=";")
+    field_names <- merge(met, mdnames[,c("metadata","field.names")], by="metadata", all.x=TRUE, all.y=FALSE)[,"field.names"]    
+    if(!any(field_names %in% object@field.names))
+      return("Field names does not match the column names in the xml slot")
     if(!class(object@field.names)=="character")
       return("Field names as character vector required")      
 })
@@ -77,17 +83,6 @@ setClass("SpatialPhotoOverlay", representation(filename = "character", pixmap = 
     }      
 })
 
-## A new class for models fitted in gstat:
-setClass("gstatModel", representation(regModel = "glm", sp = "SpatialPoints", vgmModel = "data.frame"), validity = function(object) {
-    cn = c("model", "psill", "range", "kappa", "ang1", "ang2", "ang3", "anis1", "anis2")
-    if(any(!(names(object@vgmModel) %in% cn)))
-      return(paste("Expecting only column names:", cn))
-    if(!all(cn %in% names(object@vgmModel))){
-      x <- cn[!(cn %in% names(object@vgmModel))]
-      return(paste("Missing column names:", x)) 
-      }
-})
-
 ## A new class for SpatialPredictions:
 setClass("SpatialPredictions", representation(variable = "character", observed = "SpatialPointsDataFrame", glm = "list", vgmModel = "data.frame", predicted = "SpatialPixelsDataFrame", validation = "SpatialPointsDataFrame"), validity = function(object) {
     if(any(!(object@variable %in% names(object@observed@data))))
@@ -105,14 +100,15 @@ setClass("SpatialPredictions", representation(variable = "character", observed =
 setClass("SpatialVectorsSimulations", representation(realizations = "list", summaries = "SpatialGridDataFrame"), validity = function(object) {
    object.ov <- overlay(object@summaries, as(object@realizations[[1]], "SpatialPoints"))
     if(length(object.ov)==0)
-      return("'Realizations' and 'summaries' spatial objects do not overlap spatially")
+      return("'Realizations' and 'summaries' objects do not overlap spatially")
     if(length(names(object@summaries))<2)
       return("The 'summaries' slot should contain at least two layers (aggregate values and information entropy)")
 })
 
 setClass("RasterBrickSimulations", representation(variable = "character", sampled = "SpatialLines", realizations = "RasterBrick"), validity = function(object) {
-    if(ncol(object@realizations@data@values)<5)
-      warning("Using <5 simulations can result in artifacts")
+   object.ov <- extract(object@realizations, as(object@sampled, "SpatialPoints"))
+    if(length(object.ov)==0)
+      return("'Realizations' and 'sampled' objects do not overlap spatially")
 })
 
 
@@ -125,6 +121,9 @@ setClass("SpatialSamplingPattern", representation(method = "character", pattern 
 
 ## A new class for RasterBrickTimeSeries:
 setClass("RasterBrickTimeSeries", representation(variable = "character", sampled = "SpatialPointsDataFrame", rasters = "RasterBrick", TimeSpan.begin = "POSIXct", TimeSpan.end = "POSIXct"), validity = function(object) {
+    sel <- !is.na(object@TimeSpan.begin)&!is.na(object@TimeSpan.end)
+    if(any(object@TimeSpan.begin[sel] > object@TimeSpan.end[sel]))
+      return("'TimeSpan.begin' must indicate time before or equal to 'TimeSpan.end'")
     if(!(length(object@TimeSpan.begin)==length(object@TimeSpan.end)&length(object@TimeSpan.begin)==ncol(object@rasters@data@values)))
       return("Length of the 'TimeSpan.begin' and 'TimeSpan.end' slots and the total number of rasters do not match")
     ov <- extract(object@rasters, object@sampled)
@@ -133,7 +132,9 @@ setClass("RasterBrickTimeSeries", representation(variable = "character", sampled
 })
 
 ### A new class for SpeciesDistributionMap:
-setClass("SpatialMaxEntOutput", representation(sciname = "character", occurrences = "SpatialPoints", TimeSpan.begin = "POSIXct", TimeSpan.end = "POSIXct", maxent = "MaxEnt", sp.domain = "SpatialPolygonsDataFrame", predicted = "RasterLayer"), validity = function(object) {
+setClass("SpatialMaxEntOutput", representation(sciname = "character", occurrences = "SpatialPoints", TimeSpan.begin = "POSIXct", TimeSpan.end = "POSIXct", maxent = "MaxEnt", sp.domain = "Spatial", predicted = "RasterLayer"), validity = function(object) {
+    if(object@TimeSpan.begin > object@TimeSpan.end)
+      return("'TimeSpan.begin' must indicate time before or equal to 'TimeSpan.end'")    
     if(length(object@occurrences) <5)
       warning("Occurences critically small (<5) for reliable validation")  
     object.ov <- extract(x=object@predicted, y=object@occurrences)
@@ -182,10 +183,6 @@ if (!isGeneric("reproject")){
 
 if (!isGeneric("vect2rast")){
   setGeneric("vect2rast", function(obj, ...){standardGeneric("vect2rast")})
-}
-
-if (!isGeneric("fit.gstatModel")){
-  setGeneric("fit.gstatModel", function(observations, formulaString, covariates, ...){standardGeneric("fit.gstatModel")})
 }
 
 if (!isGeneric("plotKML")){

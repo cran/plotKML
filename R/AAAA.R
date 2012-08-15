@@ -37,29 +37,32 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
         
         # if present
         if(!length(x) == 0) {
-        im.dir <- paths[grep(paths, pattern="ImageMagick")[1]]
-        convert = shQuote(normalizePath(file.path(im.dir, "convert.exe")))
-        message(system(convert,  show.output.on.console = FALSE, intern = TRUE)[1])
-        }
+          im.dir <- paths[grep(paths, pattern="ImageMagick")[1]]
+          convert = shQuote(normalizePath(file.path(im.dir, "convert.exe")))
+          message(system(convert,  show.output.on.console = FALSE, intern = TRUE)[1])
+          }
         } # end checking for Imagemagick on Windows
         
         # check for all other OS:
         else{
-        if(!length(x <- grep(paths <- strsplit(Sys.getenv('PATH')[[1]], ":")[[1]], pattern="Magick"))==0) {
-        im.dir <- paths[grep(paths, pattern="Magick")[1]]
-        convert = "convert"
-        message(system(convert,  show.output.on.console = FALSE, intern = TRUE)[1])
-        # message(paste("Located ImageMagick from the path: \"", im.dir, "\"", sep=""))
-    }}
+          if(!length(x <- grep(paths <- strsplit(Sys.getenv('PATH')[[1]], ":")[[1]], pattern="Magick"))==0) {
+            im.dir <- paths[grep(paths, pattern="Magick")[1]]
+            convert = "convert"
+            message(system(convert,  show.output.on.console = FALSE, intern = TRUE)[1])
+            # message(paste("Located ImageMagick from the path: \"", im.dir, "\"", sep=""))
+          }
+        }
     
         if(is.null(im.dir)){ 
         warning("Install ImageMagick and add to PATH. See http://imagemagick.org for more info.")
+        convert = ""
         }
     }
     else { 
     message(system(convert,  show.output.on.console = FALSE, intern = TRUE)[1])
       }  
   
+  # try to locate FWTools / Patyhon:
   if(.Platform$OS.type == "windows") {
 
      reg.paths <- names(utils::readRegistry("SOFTWARE"))
@@ -68,61 +71,62 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
      
      if(length(x)>0 & !inherits(try({ fw.path = utils::readRegistry(paste("SOFTWARE", reg.paths[x], "FWTools", sep="\\"))$Install_Dir }, silent = TRUE), "try-error")) {      
        if (nzchar(fw.path))  { 
-      gdalwarp = shQuote(shortPathName(normalizePath(file.path(fw.path, "bin/gdalwarp.exe"))))
-      gdal_translate = shQuote(shortPathName(normalizePath(file.path(fw.path, "bin/gdal_translate.exe"))))
-      message(paste("Located FWTools from the Registry Hive: \"", shortPathName(fw.path), "\"", sep="")) 
-              } } 
-
-      else { if(nzchar(prog <- Sys.getenv("ProgramFiles")) &&
-          length(fw.dir <- list.files(prog, "^FWTools.*")) &&
-          length(fw.path <- list.files(file.path(prog, fw.dir), pattern = "^gdalwarp\\.exe$", full.names = TRUE, recursive = TRUE))  |
-          length(fw.path2 <- list.files(file.path(prog, fw.dir), pattern = "^gdal_translate\\.exe$", full.names = TRUE, recursive = TRUE)) )
-       {
-      gdalwarp = shQuote(shortPathName(normalizePath(fw.path[1])))
-      gdal_translate = shQuote(shortPathName(normalizePath(fw.path2[1])))
-      message(paste("Located FWTools from the 'Program Files' directory: \"", shortPathName(fw.path), "\"", sep=""))
+          gdalwarp = shQuote(shortPathName(normalizePath(file.path(fw.path, "bin/gdalwarp.exe"))))
+          gdal_translate = shQuote(shortPathName(normalizePath(file.path(fw.path, "bin/gdal_translate.exe"))))
+          message(paste("Located FWTools from the Registry Hive: \"", shortPathName(fw.path), "\"", sep="")) 
+       } 
      } 
-     else if(nzchar(prog <- Sys.getenv("ProgramFiles(x86)")) &&
-          length(fw.dir <- list.files(prog, "^FWTools.*")) &&
-          length(fw.path <- list.files(file.path(prog, fw.dir), pattern = "^gdalwarp\\.exe$", full.names = TRUE, recursive = TRUE))  &&
-          length(fw.path2 <- list.files(file.path(prog, fw.dir), pattern = "^gdal_translate\\.exe$", full.names = TRUE, recursive = TRUE))   )
+
+     else { if(nzchar(prog <- Sys.getenv("ProgramFiles")) &&
+        length(fw.dir <- list.files(prog, "^FWTools.*")) &&
+        length(fw.path <- list.files(file.path(prog, fw.dir), pattern = "^gdalwarp\\.exe$", full.names = TRUE, recursive = TRUE))  |
+        length(fw.path2 <- list.files(file.path(prog, fw.dir), pattern = "^gdal_translate\\.exe$", full.names = TRUE, recursive = TRUE)) )  {
+          gdalwarp = shQuote(shortPathName(normalizePath(fw.path[1])))
+          gdal_translate = shQuote(shortPathName(normalizePath(fw.path2[1])))
+          message(paste("Located FWTools from the 'Program Files' directory: \"", shortPathName(fw.path), "\"", sep=""))
+        } else if(nzchar(prog <- Sys.getenv("ProgramFiles(x86)")) &&
+            length(fw.dir <- list.files(prog, "^FWTools.*")) &&
+            length(fw.path <- list.files(file.path(prog, fw.dir), pattern = "^gdalwarp\\.exe$", full.names = TRUE, recursive = TRUE))  &&
+            length(fw.path2 <- list.files(file.path(prog, fw.dir), pattern = "^gdal_translate\\.exe$", full.names = TRUE, recursive = TRUE))   )
        {
-      gdalwarp = shQuote(shortPathName(normalizePath(fw.path[1])))
-      gdal_translate = shQuote(shortPathName(normalizePath(fw.path2[1])))
-      message(paste("Located FWTools from the 'Program Files' directory: \"", shortPathName(fw.path), "\"", sep=""))
+        gdalwarp = shQuote(shortPathName(normalizePath(fw.path[1])))
+        gdal_translate = shQuote(shortPathName(normalizePath(fw.path2[1])))
+        message(paste("Located FWTools from the 'Program Files' directory: \"", shortPathName(fw.path), "\"", sep=""))
      } 
      
      else {
       warning("Could not locate FWTools! Install program and add it to the Windows registry. See http://fwtools.maptools.org for more info.")
-      return()
-       } }
+        gdalwarp = ""
+        gdal_translate = ""    
+       } 
+      }
       
+      # Python:
       if(length(x)>0 & !inherits(try({ 
-      py.paths <- utils::readRegistry(paste("SOFTWARE", reg.paths[x], "Python", sep="\\"), maxdepth=3)
-      py.path = utils::readRegistry(paste("SOFTWARE", reg.paths[x], "Python", names(py.paths), names(py.paths[[1]]), "InstallPath", sep="\\"))[[1]] 
-      }, silent = TRUE), "try-error")) {
-      if (nzchar(py.path))  { 
-      python = shQuote(shortPathName(normalizePath(file.path(py.path, "python.exe"))))
-      message(paste("Located Python from the Registry Hive: \"", shortPathName(py.path), "\"", sep="")) 
-      } 
-      }
-      else { 
+        py.paths <- utils::readRegistry(paste("SOFTWARE", reg.paths[x], "Python", sep="\\"), maxdepth=3)
+        py.path = utils::readRegistry(paste("SOFTWARE", reg.paths[x], "Python", names(py.paths), names(py.paths[[1]]), "InstallPath", sep="\\"))[[1]] 
+        }, silent = TRUE), "try-error")) {
+          if (nzchar(py.path))  { 
+            python = shQuote(shortPathName(normalizePath(file.path(py.path, "python.exe"))))
+            message(paste("Located Python from the Registry Hive: \"", shortPathName(py.path), "\"", sep="")) 
+          } 
+      } else { 
       if(!inherits(try({ 
-      py.paths <- utils::readRegistry(paste("SOFTWARE", "Python", sep="\\"), maxdepth=3)
-      py.path = utils::readRegistry(paste("SOFTWARE", "Python", names(py.paths), names(py.paths[[1]])[1], "InstallPath", sep="\\"))[[1]] 
-      }, silent = TRUE), "try-error")) {
-      if (nzchar(py.path))  { 
-      python = shQuote(shortPathName(normalizePath(file.path(py.path, "python.exe"))))
-      message(paste("Located Python from the Registry Hive: \"", shortPathName(py.path), "\"", sep="")) 
-      }
+        py.paths <- utils::readRegistry(paste("SOFTWARE", "Python", sep="\\"), maxdepth=3)
+        py.path = utils::readRegistry(paste("SOFTWARE", "Python", names(py.paths), names(py.paths[[1]])[1], "InstallPath", sep="\\"))[[1]] 
+        }, silent = TRUE), "try-error")) {
+        if (nzchar(py.path))  { 
+          python = shQuote(shortPathName(normalizePath(file.path(py.path, "python.exe"))))
+          message(paste("Located Python from the Registry Hive: \"", shortPathName(py.path), "\"", sep="")) 
+        }
       } 
            
       else {
-      warning("Could not locate Python! Install program and add it to the Windows registry. See http://python.org for more info.")
-      return()
+        warning("Could not locate Python! Install program and add it to the Windows registry. See http://python.org for more info.")
+        python = ""
       }}
        
-              
+      # try to locate SAGA GIS (if not on a standard path):        
       if(is.null(saga_cmd)){
       if(nzchar(prog <- Sys.getenv("ProgramFiles")) &&
           length(saga.dir <- list.files(prog, "^SAGA*"))>0 &&
@@ -146,13 +150,14 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
      }
       
       if(is.null(saga_cmd)){
-      warning("Could not locate SAGA GIS! Install program and add it to the Windows registry. See http://www.saga-gis.org/en/ for more info.") 
-      return()
+      warning("Could not locate SAGA GIS! Install program and add it to the Windows registry. See http://www.saga-gis.org/en/ for more info.")
+      saga_vc = "" 
       }   
      }
      else {
-       message(paste("Located SAGA GIS ", saga.version, " from the 'Program Files' directory: \"", shortPathName(saga_cmd), "\"", sep=""))  }
+       message(paste("Located SAGA GIS ", saga.version, " from the 'Program Files' directory: \"", shortPathName(saga_cmd), "\"", sep=""))  
      }
+    }
     
     ## UNIX:
     else {
@@ -165,7 +170,8 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
       }
     else { 
         warning("Install FWTools and add to PATH. See http://fwtools.maptools.org for more info.")
-        return()
+      gdalwarp = ""
+      gdal_translate = ""
       }
     
     if(!length(x <- grep(paths <- strsplit(Sys.getenv('PATH')[[1]], ":")[[1]], pattern="Python"))==0) {
@@ -175,21 +181,23 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
       }
     else { 
         warning("Install Python and add to PATH. See http://python.org for more info.")
-        return()
+        python = ""
       }
     
     if(is.null(im.dir)){ 
         warning("Install ImageMagick and add to PATH. See http://imagemagick.org for more info.")
-        return()
+        convert = ""
         }
     if(is.null(saga_cmd)){
         warning("Install SAGA GIS and add to PATH. See http://www.saga-gis.org for more info.")
-        return()
+        saga_cmd = ""
         }
     }
 
     lt <- data.frame(gdalwarp, gdal_translate, convert, python, saga_cmd, stringsAsFactors = FALSE)
-    if(show.paths){  return(lt)  }
+    if(show.paths){  
+    return(lt)  
+    }
 }
 
 ################## STANDARD SETTINGS ##############
@@ -202,6 +210,7 @@ plotKML.env <- function(
     NAflag,
     icon,
     LabelScale,
+    size_range,
     license_url,
     metadata_sel,
     kmz,
@@ -229,6 +238,7 @@ plotKML.env <- function(
     if(missing(NAflag)) { NAflag <- -99999 }
     if(missing(icon)) { icon <- "icon3.png" }   # "http://maps.google.com/mapfiles/kml/shapes/donut.png"
     if(missing(LabelScale)) { LabelScale <- .5 }
+    if(missing(size_range)) { size_range <- c(0.25, 2.5) }
     if(missing(license_url)) { license_url <- "http://creativecommons.org/licenses/by/3.0/" }
     if(missing(metadata_sel)) { metadata_sel <- c("idinfo_citation_citeinfo_title", "idinfo_descript_abstract", "spdoinfo_ptvctinf_sdtsterm_ptvctcnt", "idinfo_timeperd_timeinfo_rngdates_begdate", "idinfo_timeperd_timeinfo_rngdates_enddate", "distinfo_stdorder_digform_digtopt_onlinopt_computer_networka_networkr", "idinfo_citation_citeinfo_othercit", "idinfo_citation_citeinfo_onlink", "idinfo_datacred", "distinfo_distrib_cntinfo_cntorgp_cntorg", "distinfo_stdorder_digform_digtinfo_formcont", "idinfo_native") }
     if(missing(kmz)) { kmz <- FALSE }
@@ -259,6 +269,7 @@ plotKML.env <- function(
     assign("NAflag", NAflag, envir=plotKML.opts)
     assign("icon", icon, envir=plotKML.opts)
     assign("LabelScale", LabelScale, envir=plotKML.opts)
+    assign("size_range", size_range, envir=plotKML.opts)
     assign("license_url", license_url, envir=plotKML.opts)
     assign("metadata_sel", metadata_sel, envir=plotKML.opts)
     assign("kmz", kmz, envir=plotKML.opts)
@@ -274,8 +285,8 @@ plotKML.env <- function(
     assign("home_url", home_url, envir=plotKML.opts)
     assign("googleAPIkey", googleAPIkey, envir=plotKML.opts)
     
-    plotKML.opts <- list(colour_scale_numeric, colour_scale_factor, colour_scale_svar, ref_CRS, NAflag, icon, LabelScale, license_url, metadata_sel, kmz, kml_xsd, kml_url, kml_gx, gpx_xsd, fgdc_xsd, convert, gdalwarp, gdal_translate, python, home_url, googleAPIkey)
-    names(plotKML.opts) <- c("colour scale for numeric variables", "colour scale for factor variables", "colour scale for the standardized prediction error", "referent CRS", "NA flag value", "default icon", "default label size", "default license url", "print metadata", "compress to kmz", "kml xsd URL", "kml URL", "kml gx URL", "gpx xsd URL", "fgdc xsd URL", "location of convert program", "location of gdalwarp program", "location of gdal_translate program", "location of python program", "data repository URL", "google API key")
+    plotKML.opts <- list(colour_scale_numeric, colour_scale_factor, colour_scale_svar, ref_CRS, NAflag, icon, LabelScale, size_range, license_url, metadata_sel, kmz, kml_xsd, kml_url, kml_gx, gpx_xsd, fgdc_xsd, convert, gdalwarp, gdal_translate, python, home_url, googleAPIkey)
+    names(plotKML.opts) <- c("colour scale for numeric variables", "colour scale for factor variables", "colour scale for the standardized prediction error", "referent CRS", "NA flag value", "default icon", "default label size", "default size ranges", "default license url", "print metadata", "compress to kmz", "kml xsd URL", "kml URL", "kml gx URL", "gpx xsd URL", "fgdc xsd URL", "location of convert program", "location of gdalwarp program", "location of gdal_translate program", "location of python program", "data repository URL", "google API key")
     
     if(show.env){  return(plotKML.opts)  }
  

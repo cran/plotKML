@@ -4,9 +4,11 @@
 \title{Writes a list of soil profiles to KML}
 \description{Writes object of type \code{"SoilProfileCollection"} (a number of soil profiles with site and horizon data) to KML. Several attributes such as horizontal and vertical exaggeration can be passed via arguments. }
 \usage{
-kml_layer.SoilProfileCollection(obj, var.name, var.min = 0, var.scale, 
+kml_layer.SoilProfileCollection(obj, 
+     var.name, var.min = 0, var.scale, 
      site_names = profile_id(obj), 
-     method = c("soil_block", "depth_function")[1], block.size = 100, 
+     method = c("soil_block", "depth_function")[1], 
+     block.size = 100, 
      color.name, z.scale = 1, x.min, max.depth = 300,
      plot.points = TRUE, 
      LabelScale = get("LabelScale", envir = plotKML.opts) * 0.7,
