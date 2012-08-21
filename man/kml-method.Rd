@@ -19,7 +19,7 @@ Writes any \code{Spatial*} object (from the sp package) or \code{Raster*} object
   \item{\dots}{additional aesthetics arguments (see details below)}
 }
 \value{A KML file. By default parses the object name and adds a ".kml" extension.}
-\details{To \code{kml} you can also pass \code{folder.name}, \code{file.name} (output file name *.kml), \code{overwrite} (logical; overwrites the existing file) and \code{kmz} (logical; specifies whether to compress the kml file) arguments.
+\details{To \code{kml} you can also pass \code{folder.name}, \code{file.name} (output file name *.kml), \code{overwrite} (logical; overwrites the existing file) and \code{kmz} (logical; specifies whether to compress the kml file) arguments. Gridded objects (objects of class \code{"SpatialGridDataFrame"} or \code{"RasterLayer"} require at least one aesthetics parameter to run, usually the \code{colour}.) 
 }
 \author{Pierre Roudier, Tomislav Hengl and Dylan Beaudette}
 \seealso{

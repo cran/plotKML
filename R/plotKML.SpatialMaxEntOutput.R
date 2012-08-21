@@ -4,7 +4,7 @@
 # Dev Status     : Alpha
 # Note           : Only Google Earth 5.0 (and later) supports plain text content, as well as full HTML and JavaScript, within description balloons;
 
-plotKML.SpatialMaxEntOutput <- function(
+setMethod("plotKML", "SpatialMaxEntOutput", function(
   obj,
   folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))),
   file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""),
@@ -14,13 +14,24 @@ plotKML.SpatialMaxEntOutput <- function(
   pngwidth = 280, 
   pngheight = 280,
   pngpointsize = 14,
+  colour,
   shape = "http://plotkml.r-forge.r-project.org/icon17.png",
   kmz = TRUE,
-  layer = names(obj@predicted)[1],
   TimeSpan.begin = obj@TimeSpan.begin,
   TimeSpan.end = obj@TimeSpan.end,
   ...
 ){
+
+  # Guess aesthetics if missing:
+  if(missing(colour)){ 
+    obj@sp.domain@data[,"colour"] <- obj@sp.domain@data[,1]
+  } else {
+    if(is.name(colour)|is.call(colour)){
+      obj@sp.domain@data[,"colour"] <- eval(colour, obj@sp.domain@data)
+    } else {
+      obj@sp.domain@data[,"colour"] <- obj@sp.domain@data[,as.character(colour)]      
+    }
+  }
 
   # objects:
   spname <- obj@sciname
@@ -39,9 +50,9 @@ plotKML.SpatialMaxEntOutput <- function(
   # occurrences:
   kml_layer.SpatialPoints(obj = obj@occurrences, shape = shape, TimeSpan.begin = TimeSpan.begin, TimeSpan.end = TimeSpan.end, labels = "", ...)
   # spatial domain (green colour):
-  kml_layer(obj = obj@sp.domain, colour = rep(rgb(t(col2rgb("dark green"))/255), length(obj)))
+  kml_layer(obj = obj@sp.domain, colour = colour, colour_scale = rgb(t(col2rgb(c("white", rep("dark green", 5))))/255), plot.legend = FALSE)
   # predicted values:
-  kml_layer(obj = pr, colour = layer, z.lim = c(0,1), ...)
+  kml_layer.SpatialPixels(obj = pr, colour = layer, ...)
 
   # plot the contributions to the model:
   png(filename=paste(spname, "_var_contribution.png", sep=""), width=pngwidth, height=pngheight, bg="white", pointsize=pngpointsize)
@@ -59,9 +70,7 @@ plotKML.SpatialMaxEntOutput <- function(
   # open KML file in the default browser:
   kml_View(file.name)
   
-}
-
-setMethod("plotKML", "SpatialMaxEntOutput", plotKML.SpatialMaxEntOutput)
+})
 
 
 # copied from the Dismo package (it does not export 'dismo::plot' method)

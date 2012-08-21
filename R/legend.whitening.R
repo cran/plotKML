@@ -25,7 +25,7 @@ kml_legend.whitening <- function(legend.res = 0.01, width=120, height=300, point
   leg.plt <- pixmapIndexed(data=1:length(HSV), nrow=length(ylg), ncol=length(xlg), bbox=c(e.lim[1], x.lim[1], e.lim[2], x.lim[2]), col=HSV)
   # par(las = 0)
   
-  png(filename=legend.file, width=width, height=height, bg="transparent", pointsize=pointsize)
+  png(filename=legend.file, width=width, height=height, bg="transparent", pointsize=pointsize, type="cairo-png")
   par(mar=c(2.5,2.5,0.5,0))
   plot(leg.plt, axes=FALSE, col.lab=rgb(0.99,0.99,0.99), bg=NA, asp=leg.asp)
   axis(side=1, at=e.lim, cex=.8, col.axis=rgb(0.99,0.99,0.99), col.lab=rgb(0.99,0.99,0.99))

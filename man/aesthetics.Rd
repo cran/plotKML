@@ -1,8 +1,9 @@
 \name{aesthetics}
 \alias{aesthetics}
 \alias{kml_aes}
+\alias{kml_width}
 \title{Plotting aesthetics parameters}
-\description{Parses various object parameters / columns to KML aesthetics: size of the icons, fill color, labels, elevations \dots}
+\description{Parses various object parameters / columns to KML aesthetics: size of the icons, fill color, labels, altitude, width, \dots}
 \usage{
 kml_aes(obj, \dots)
 }

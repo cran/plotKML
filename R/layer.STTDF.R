@@ -4,13 +4,13 @@
 # Status         : Alpha
 # Note           : This method works only with the Space time irregular data frame class objects from the spacetime package; see also how Time Stamps work at [http://kml-samples.googlecode.com]
 
-kml_layer.STIDFtraj <- function(
+kml_layer.STTDF <- function(
   obj,
-  id.name = names(obj@data)[which(names(obj@data)=="id")],   # trajectory ID column 
+  id.name = names(obj@data)[which(names(obj@data)=="burst")],   # trajectory ID column 
   ## TH: Normally we should be able to pass the ID column via "labels"
   dtime = "", # time support
   extrude = FALSE,
-#  tessellate = FALSE,
+  # tessellate = FALSE,
   start.icon = paste(get("home_url", envir = plotKML.opts), "3Dballyellow.png", sep=""),
   end.icon = paste(get("home_url", envir = plotKML.opts), "golfhole.png", sep=""),
   LabelScale = .8*get("LabelScale", envir = plotKML.opts),
@@ -22,6 +22,7 @@ kml_layer.STIDFtraj <- function(
   
   require(xts)
   require(grDevices)
+  
   # Get our invisible file connection from custom environment
   kml.out <- get('kml.out', envir=plotKML.fileIO)
   
@@ -41,24 +42,27 @@ kml_layer.STIDFtraj <- function(
   width <- aes[["width"]]
   altitudeMode <- aes[["altitudeMode"]]
   balloon <- aes[["balloon"]]
-  
-  # object ID names / coordinate names
+
+  # object ID names:
   lv <- levels(as.factor(obj@data[,id.name]))
   line.colours <- hex2kml(brewer.pal(n=2+length(lv), name = "Set1"))
-  nc <- attr(obj@sp@coords, "dimname")[[2]]
+  # names of the coordinate columns:
+  nc <- lapply(obj@traj, FUN=function(x){attr(x@sp@coords, "dimname")[[2]]})
+  # strip times:
+  xt <- as.POSIXct(unlist(lapply(lapply(obj@traj, slot, "time"), time)), origin="1970-01-01")
    
   # Format the time slot for writing to KML:
   if(all(dtime==0)) {  
-    when <- format(time(obj@time), "%Y-%m-%dT%H:%M:%SZ")
+    when <- format(xt, "%Y-%m-%dT%H:%M:%SZ")
   }
   else {
     if(length(obj@time)>1&!nzchar(dtime)){
-      period <- periodicity(obj@time) # estimate the time support (if not indicated)
+      period <- periodicity(xt) # estimate the time support (if not indicated)
       dtime <- period$frequency
   }
     
-    TimeSpan.begin <- format(as.POSIXct(unclass(as.POSIXct(time(obj@time))) - dtime/2, origin="1970-01-01"), "%Y-%m-%dT%H:%M:%SZ")
-    TimeSpan.end <- format(as.POSIXct(unclass(as.POSIXct(time(obj@time))) + dtime/2, origin="1970-01-01"), "%Y-%m-%dT%H:%M:%SZ")
+    TimeSpan.begin <- format(as.POSIXct(unclass(xt) - dtime/2, origin="1970-01-01"), "%Y-%m-%dT%H:%M:%SZ")
+    TimeSpan.end <- format(as.POSIXct(unclass(xt) + dtime/2, origin="1970-01-01"), "%Y-%m-%dT%H:%M:%SZ")
   }
 
   # Parse ATTRIBUTE TABLE (for each placemark):
@@ -82,20 +86,18 @@ kml_layer.STIDFtraj <- function(
   current.line.coords <- NULL
   ldist <- NULL
   coords <- NULL
-  # scale time dimension so the numbers are approximately similar:
-  t.scale <- mean(diff(t(obj@sp@bbox)))/diff(range(unclass(as.POSIXct(time(obj@time)))))
   
   for (i.line in 1:length(lv)) {  # for each line
 
-    cfd <- data.frame(coordinates(obj@sp[obj@data[,id.name]==lv[i.line],]))
+    cfd <- data.frame(coordinates(obj@traj[[i.line]]))
     # convert to line objects (this assumes that the points are sorted chronologically!)
     cl <- Line(cfd)
     # line length:
     ldist[[i.line]] <- LineLength(cl, longlat=TRUE, sum=TRUE) 
-    current.line.coords[[i.line]] <- cfd[,nc]
-    if(length(nc)<3){
-    current.line.coords[[i.line]][,3] <- rep(0, length(cfd[,1])) 
-    }
+    current.line.coords[[i.line]] <- cfd[,nc[[i.line]]]
+    if(length(nc[[i.line]])<3){
+      current.line.coords[[i.line]][,3] <- rep(0, length(cfd[,1])) 
+    } 
     current.line.coords[[i.line]][,3] <- current.line.coords[[i.line]][,3] * z.scale
     # parse coordinates:
     coords[[i.line]] <- paste(current.line.coords[[i.line]][, 1], ',', current.line.coords[[i.line]][, 2], ',', current.line.coords[[i.line]][,3], collapse='\n ', sep = "")
@@ -165,6 +167,6 @@ kml_layer.STIDFtraj <- function(
   assign('kml.out', kml.out, envir=plotKML.fileIO)
 }
 
-setMethod("kml_layer", "STIDFtraj", kml_layer.STIDFtraj)
+setMethod("kml_layer", "STTDF", kml_layer.STTDF)
 
 # end of script;

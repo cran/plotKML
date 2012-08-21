@@ -26,13 +26,19 @@ kml_altitude <- function(obj, altitude = NULL) {
 }
 
 # Guesses the appropriate altitudeMode tag
-#
-kml_altitude_mode <- function(altitude){
+kml_altitude_mode <- function(altitude, GroundOverlay=FALSE){
   if (is.numeric(altitude) & all(altitude > 0)) {
-    altitude_mode <- "relativeToGround"
+    if(GroundOverlay == TRUE){
+      altitude_mode <- "absolute"
+    } else {
+      altitude_mode <- "relativeToGround"
+    }
+
   }
   else {
     altitude_mode <- "clampToGround"
   }
   altitude_mode
 }
+
+# end of script;

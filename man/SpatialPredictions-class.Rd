@@ -2,7 +2,7 @@
 \docType{class}
 \alias{SpatialPredictions-class}
 \title{A class for spatial predictions produced using \code{gstat} package}
-\description{A class containing input and output maps generated through the process of geostatistical mapping. Object of this class can be directly visualized in Google Earth by using the \code{\link{plotKML-methods}}.}
+\description{A class containing input and output maps generated through the process of geostatistical mapping. Object of this class can be directly visualized in Google Earth by using the \code{\link{plotKML-method}}.}
 \section{Slots}{
   \describe{
     \item{\code{variable}:}{object of class \code{"character"}; variable name}
@@ -28,7 +28,7 @@
 \note{ \code{"SpatialPredictions"} saves results of predictions for a single target variable, which can be of type numeric or factor. Multiple variables can be combined into a list.
 }
 \author{ Tomislav Hengl }
-\seealso{ \code{\link{fit.gstatModel}}, \code{gstat::gstat-class}, \code{\link{RasterBrickSimulations-class}}
+\seealso{ \code{GSIF::fit.gstatModel}, \code{gstat::gstat-class}, \code{\link{RasterBrickSimulations-class}}
 }
 \examples{ 
 # load observations:
@@ -39,7 +39,8 @@ proj4string(meuse) <- CRS("+init=epsg:28992")
 data(meuse.grid)
 gridded(meuse.grid) <- ~x+y
 proj4string(meuse.grid) <- CRS("+init=epsg:28992")
-# fit a model:
+\dontrun{# fit a model:
+library(GSIF)
 omm <- fit.gstatModel(observations = meuse, formulaString = om~dist, 
   family = gaussian(log), covariates = meuse.grid)
 show(omm@regModel)
@@ -47,7 +48,7 @@ show(omm@regModel)
 om.rk <- predict(omm, predictionLocations = meuse.grid)
 # overview of the prediction process:
 show(om.rk)
-\dontrun{# plot the whole geostatical mapping project in Google Earth:
+# plot the whole geostatical mapping project in Google Earth:
 plotKML(om.rk)
 }
 }

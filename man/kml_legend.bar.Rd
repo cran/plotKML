@@ -4,7 +4,7 @@
 \description{Produces a PNG file that can be used as a screen overlay --- legend bar for numeric and factor type variables.}
 \usage{
 kml_legend.bar(x, width, height, pointsize = 14, legend.file, legend.pal, 
-         zlim = range(x, na.rm=TRUE, finite=TRUE), factor.labels = levels(as.factor(x)))
+         zlim = range(x, na.rm=TRUE, finite=TRUE), factor.labels)
 }
 \arguments{
   \item{x}{numeric or factor-type vector}

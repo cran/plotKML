@@ -9,7 +9,7 @@ setMethod("summary", signature(object = "SpatialMetadata"), function(object, sel
     fix.enc = TRUE, full.names = "", delim.sign = "_"){
     
     if(full.names == ""){     
-      full.names = read.table(system.file("mdnames.csv", package="plotKML"), sep=";")      
+      full.names = read.table(system.file("mdnames.csv", package="plotKML"), sep=";")     
     }
     
     nx <- unlist(xmlToList(object@xml, addAttributes=FALSE))
@@ -43,7 +43,12 @@ kml_metadata <- function(
     asText = FALSE
     ){
     
+    if(!class(obj)=="SpatialMetadata"){
+      stop("Object of class '' required")
+    }
+    
     md <- summary(obj)    
+    if(!nrow(md)==0){
     # write to html:
     l1 <- newXMLNode("table", attrs=c(width=twidth, border="0", cellspacing="5", cellpadding="10"))
     l2 <- newXMLNode("caption", "Spatial metadata summary:", parent = l1)
@@ -56,6 +61,9 @@ kml_metadata <- function(
     }
     else {  
       return(l1) 
+    }
+    } else {
+      warning("Metadata contains no elements. See 'spMetadata-method' for more info.")
     }
 }
 

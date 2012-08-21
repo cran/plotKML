@@ -3,7 +3,7 @@
 \alias{RasterBrickSimulations-class}
 \alias{plotKML,RasterBrickSimulations}
 \title{A class for spatial simulations containing equiprobable gridded features}
-\description{A class containing input and output maps containing multiple realizations of the same feature. Objects of this class can be directly visualized in Google Earth by using the \code{\link{plotKML-methods}}.}
+\description{A class containing input and output maps containing multiple realizations of the same feature. Objects of this class can be directly visualized in Google Earth by using the \code{\link{plotKML-method}}.}
 \section{Slots}{
   \describe{
     \item{\code{variable}:}{character; variable name}    
@@ -17,7 +17,7 @@
   }
 }
 \author{ Tomislav Hengl }
-\seealso{ \code{\link{SpatialVectorsSimulations-class}}, \code{\link{RasterBrickTimeSeries-class}}, \code{\link{plotKML-methods}}
+\seealso{ \code{\link{SpatialVectorsSimulations-class}}, \code{\link{RasterBrickTimeSeries-class}}, \code{\link{plotKML-method}}
 }
 \examples{ 
 # load input data:

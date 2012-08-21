@@ -25,7 +25,7 @@ setMethod("aggregate", signature(x = "GridTopology"), function(x, vectL, ...){
 
 
 ## plot object:
-plotKML.SpatialVectorsSimulations <- function(
+setMethod("plotKML", "SpatialVectorsSimulations", function(
   obj,
   folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))),
   file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""),
@@ -78,7 +78,7 @@ plotKML.SpatialVectorsSimulations <- function(
   # Realizations:
   for(i in 1:N.r){
     rel <- obj@realizations[[i]]
-    kml_layer(obj = rel, colours = rep(rgb(0,0,0), length(obj)), width = rep(2, length(obj)), TimeSpan.begin = i, TimeSpan.end = i+1)  
+    kml_layer(obj = rel, TimeSpan.begin = i, TimeSpan.end = i+1)
   }
 
   # close the file:
@@ -89,8 +89,6 @@ plotKML.SpatialVectorsSimulations <- function(
   # open KML file in the default browser:
   kml_View(file.name)
     
-}
-
-setMethod("plotKML", "SpatialVectorsSimulations", plotKML.SpatialVectorsSimulations)
+})
 
 # end of script;

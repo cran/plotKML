@@ -44,14 +44,14 @@ kml_layer.RasterBrick <- function(
   altitudeMode <- kml_altitude_mode(altitude)
 
   # Format the time slot for writing to KML:
-  if(!any(class(obj@zvalue) %in% "POSIXct")|!any(class(obj@zvalue) %in% "character")){
-    if(any(obj@zvalue=="")){
-      obj@zvalue <- format(as.POSIXct(rev(as.Date(Sys.time())-1:ncol(obj@data@values))), "%Y-%m-%dT%H:%M:%SZ")
+  if(!any(class(getZ(obj)) %in% "POSIXct")|!any(class(getZ(obj)) %in% "character")){
+    if(any(getZ(obj)=="")|is.null(getZ(obj))){
+      obj <- setZ(obj, format(as.POSIXct(rev(as.Date(Sys.time())-1:ncol(obj@data@values))), "%Y-%m-%dT%H:%M:%SZ"))
     }
-      DateTime <- obj@zvalue[1:ncol(obj@data@values)]
+      DateTime <- getZ(obj)[1:ncol(obj@data@values)]
     }
     else { 
-      DateTime <- obj@zvalue[1:ncol(obj@data@values)] 
+      DateTime <- getZ(obj)[1:ncol(obj@data@values)] 
    }
   
   if(all(dtime==0)) {  
@@ -65,7 +65,7 @@ kml_layer.RasterBrick <- function(
 
   # Parse ATTRIBUTE TABLE (for each placemark):
   if (balloon & ("layernames" %in% slotNames(obj))){
-      html.table <- .df2htmltable(data.frame(layernames=obj@layernames, zvalue=obj@zvalue, unit=obj@unit))
+      html.table <- .df2htmltable(data.frame(layernames=obj@layernames, zvalue=getZ(obj), unit=obj@unit))
   }
 
   # plot the legend (PNG)
@@ -92,7 +92,7 @@ kml_layer.RasterBrick <- function(
 
   # Plotting the image
   for(j in 1:length(raster_name)){
-  png(filename = raster_name[j], bg = "transparent")
+  png(filename = raster_name[j], bg = "transparent", type="cairo-png")
   par(mar = c(0, 0, 0, 0), xaxs = "i", yaxs = "i")
   image(raster(obj, j), col = colour_scale, zlim = z.lim, frame.plot = FALSE)
   dev.off()

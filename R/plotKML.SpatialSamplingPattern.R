@@ -5,7 +5,7 @@
 # Note           : it is largely based on the spcosa classes;
 
 
-plotKML.SpatialSamplingPattern <- function(
+setMethod("plotKML", "SpatialSamplingPattern", function(
   obj,
   folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))),
   file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""),
@@ -34,8 +34,6 @@ plotKML.SpatialSamplingPattern <- function(
   }
   # open KML file in the default browser:
   kml_View(file.name)
-}
-
-setMethod("plotKML", "SpatialSamplingPattern", plotKML.SpatialSamplingPattern)
+})
 
 # end of script;

@@ -84,7 +84,7 @@ readKML.GBIFdensity <- function(kml.file, gbif.url = FALSE, silent = FALSE){
   out.r@title <- paste("GBIF cell density count for:", lname)
   out.r@history <- paste(kml.file)
   out.r@zname <- "Last update"
-  out.r@zvalue <- as.character(file.info(kml.file)$mtime)
+  out.r <- setZ(out.r, as.character(file.info(kml.file)$mtime))
   
   return(out.r)
   
@@ -96,4 +96,4 @@ readKML.GBIFdensity <- function(kml.file, gbif.url = FALSE, silent = FALSE){
   }
 }
   
-
+# end of script;

@@ -14,7 +14,9 @@ vect2rast.SpatialPoints <- function(obj, fname = names(obj)[1], cell.size, bbox,
     # add indicator value if missing data frame:
     if(!any(slotNames(obj) %in% "data")){
        obj <- SpatialPointsDataFrame(obj, data=data.frame(x=rep(1, length(obj))))
-       names(obj) <- fname
+       names(obj) <- "mask"
+    } else {
+       obj <- obj[fname]
     }
     
     if(missing(bbox)) { bbox <- obj@bbox }
@@ -26,10 +28,11 @@ vect2rast.SpatialPoints <- function(obj, fname = names(obj)[1], cell.size, bbox,
     }
     
       require(spatstat)
-      x <- as(obj[fname], "ppp")
+      x <- as(obj, "ppp")
       nd <- nndist(x$x, x$y)
       ndb <- boxplot(nd, plot=FALSE)
       cell.size <- signif(ndb$stats[3]/2, 2)
+      if(cell.size==0){ stop("Estimated cell size is 0, consider removing duplicate points") }
     if(silent==FALSE){message(paste("Estimated nearest neighbour distance (point pattern):", cell.size*2))}
     }
 
@@ -39,14 +42,18 @@ vect2rast.SpatialPoints <- function(obj, fname = names(obj)[1], cell.size, bbox,
       r.sp <- SpatialGrid(x, proj4string = obj@proj4string)
       r <- raster(r.sp)
       # convert factors to integers:
-      if(is.factor(obj@data[,fname])){
-       obj@data[,fname] <- as.integer(obj@data[,fname])
+      if(is.factor(obj@data[,1])){
+       obj@data[,1] <- as.integer(obj@data[,1])
       }
       # rasterize - convert vector to a raster map:    
-      obj <- obj[!is.na(obj@data[,fname]),]
-      in.r <- rasterize(obj, r, field = fname)
+      obj <- obj[!is.na(obj@data[,1]),]
+      in.r <- rasterize(obj, r, field = names(obj)[1])
       res <- as(in.r, "SpatialGridDataFrame")
-      names(res) = fname
+      names(res) = names(obj)[1]
+      attr(res@bbox, "dimnames") = attr(obj@bbox, "dimnames")
+      attr(res@grid@cellcentre.offset, "names") <- attr(obj@bbox, "dimnames")[[1]]
+      attr(res@grid@cellsize, "names") <- attr(obj@bbox, "dimnames")[[1]]
+      attr(res@grid@cells.dim, "names") <- attr(obj@bbox, "dimnames")[[1]]
     
       if(!missing(file.name)){
       writeRaster(in.r, filename=file.name, overwrite=TRUE)
@@ -68,7 +75,12 @@ vect2rast.SpatialPoints <- function(obj, fname = names(obj)[1], cell.size, bbox,
       # rasterize map using SAGA GIS:
       rsaga.geoprocessor("grid_gridding", 0, param=list(INPUT=tf, FIELD=FIELD, MULTIPLE=MULTIPLE, LINE_TYPE=LINE_TYPE, GRID_TYPE=0, TARGET=0, USER_XMIN=bbox[1,1]+cell.size/2, USER_XMAX=bbox[1,2]-cell.size/2, USER_YMIN=bbox[2,1]+cell.size/2, USER_YMAX=bbox[2,2]-cell.size/2, USER_SIZE=cell.size, USER_GRID=file.name, GRID_TYPE=GRID_TYPE), show.output.on.console = silent)
       res <- readGDAL(set.file.extension(file.name, ".sdat"), silent = silent)
-      names(res) = fname
+      names(res) = names(obj)[1]
+      attr(res@bbox, "dimnames") = attr(obj@bbox, "dimnames")
+      attr(res@grid@cellcentre.offset, "names") <- attr(obj@bbox, "dimnames")[[1]]
+      attr(res@grid@cellsize, "names") <- attr(obj@bbox, "dimnames")[[1]]
+      attr(res@grid@cells.dim, "names") <- attr(obj@bbox, "dimnames")[[1]]
+
       }
       else { stop("SAGA GIS path could not be located. See 'rsaga.env()' for more info.") }
     }  
@@ -88,7 +100,9 @@ vect2rast.SpatialLines <- function(obj, fname = names(obj)[1], cell.size, bbox, 
     # add indicator value if missing data frame:
     if(!any(slotNames(obj) %in% "data")){
        obj <- SpatialLinesDataFrame(obj, data=data.frame(x=rep(1, length(obj))))
-       names(obj) <- fname
+       names(obj) <- "mask"
+    } else {
+       obj <- obj[fname]
     }
     
     if(missing(bbox)) { bbox <- obj@bbox }
@@ -101,10 +115,11 @@ vect2rast.SpatialLines <- function(obj, fname = names(obj)[1], cell.size, bbox, 
     
       require(spatstat)
       require(spatstat)
-      x <- as(as(obj[fname], "SpatialLines"), "psp")
+      x <- as(as(obj, "SpatialLines"), "psp")
       nd <- nndist.psp(x)  # this can be time consuming!
       ndb <- boxplot(nd, plot=FALSE)
       cell.size <- signif(ndb$stats[3]/2, 2)
+      if(cell.size==0){ stop("Estimated cell size is 0, consider removing duplicate points") }
     if(silent==FALSE){message(paste("Estimated nearest neighbour distance (line segments):", cell.size*2))}
     }
 
@@ -114,14 +129,18 @@ vect2rast.SpatialLines <- function(obj, fname = names(obj)[1], cell.size, bbox, 
       r.sp <- SpatialGrid(x, proj4string = obj@proj4string)
       r <- raster(r.sp)
       # convert factors to integers:
-      if(is.factor(obj@data[,fname])){
-       obj@data[,fname] <- as.integer(obj@data[,fname])
+      if(is.factor(obj@data[,1])){
+       obj@data[,1] <- as.integer(obj@data[,1])
       }
       # rasterize - convert vector to a raster map:    
-      obj <- obj[!is.na(obj@data[,fname]),]
-      in.r <- rasterize(obj, r, field = fname)
+      obj <- obj[!is.na(obj@data[,1]),]
+      in.r <- rasterize(obj, r, field = names(obj)[1])
       res <- as(in.r, "SpatialGridDataFrame")
-      names(res) = fname
+      names(res) = names(obj)[1]
+      attr(res@bbox, "dimnames") = attr(obj@bbox, "dimnames")
+      attr(res@grid@cellcentre.offset, "names") <- attr(obj@bbox, "dimnames")[[1]]
+      attr(res@grid@cellsize, "names") <- attr(obj@bbox, "dimnames")[[1]]
+      attr(res@grid@cells.dim, "names") <- attr(obj@bbox, "dimnames")[[1]]  
     
       if(!missing(file.name)){
       writeRaster(in.r, filename=file.name, overwrite=TRUE)
@@ -143,7 +162,12 @@ vect2rast.SpatialLines <- function(obj, fname = names(obj)[1], cell.size, bbox, 
       # rasterize map using SAGA GIS:
       rsaga.geoprocessor("grid_gridding", 0, param=list(INPUT=tf, FIELD=FIELD, MULTIPLE=MULTIPLE, LINE_TYPE=LINE_TYPE, GRID_TYPE=0, TARGET=0, USER_XMIN=bbox[1,1]+cell.size/2, USER_XMAX=bbox[1,2]-cell.size/2, USER_YMIN=bbox[2,1]+cell.size/2, USER_YMAX=bbox[2,2]-cell.size/2, USER_SIZE=cell.size, USER_GRID=file.name, GRID_TYPE=GRID_TYPE), show.output.on.console = silent)
       res <- readGDAL(set.file.extension(file.name, ".sdat"), silent = silent)
-      names(res) = fname
+      names(res) = names(obj)[1]
+      attr(res@bbox, "dimnames") = attr(obj@bbox, "dimnames")
+      attr(res@grid@cellcentre.offset, "names") <- attr(obj@bbox, "dimnames")[[1]]
+      attr(res@grid@cellsize, "names") <- attr(obj@bbox, "dimnames")[[1]]
+      attr(res@grid@cells.dim, "names") <- attr(obj@bbox, "dimnames")[[1]]
+      
       }
       else { stop("SAGA GIS path could not be located. See 'rsaga.env()' for more info.") }
     }  
@@ -163,8 +187,10 @@ vect2rast.SpatialPolygons <- function(obj, fname = names(obj)[1], cell.size, bbo
     # add indicator value if missing data frame:
     if(!any(slotNames(obj) %in% "data")){
        obj <- SpatialPolygonsDataFrame(obj, data=data.frame(x=rep(1, length(obj))))
-       names(obj) <- fname
-    }    
+       names(obj) <- "mask"
+    } else {
+       obj <- obj[fname]
+    } 
 
     if(missing(bbox)) { bbox <- obj@bbox }
     # make an empty raster based on extent:
@@ -178,7 +204,8 @@ vect2rast.SpatialPolygons <- function(obj, fname = names(obj)[1], cell.size, bbo
       require(spatstat)
       x <- sapply(obj@polygons, slot, "area")
       cell.size <- signif(sqrt(median(x))/2, 2)
-    if(silent==FALSE){message(paste("Estimated median polygon size:", cell.size*2))}
+      if(cell.size==0){ stop("Estimated cell size is 0, consider removing duplicate points") }
+      if(silent==FALSE){message(paste("Estimated median polygon size:", cell.size*2))}
     }
 
     if(method=="raster"){
@@ -187,14 +214,18 @@ vect2rast.SpatialPolygons <- function(obj, fname = names(obj)[1], cell.size, bbo
       r.sp <- SpatialGrid(x, proj4string = obj@proj4string)
       r <- raster(r.sp)
       # convert factors to integers:
-      if(is.factor(obj@data[,fname])){
-       obj@data[,fname] <- as.integer(obj@data[,fname])
+      if(is.factor(obj@data[,1])){
+       obj@data[,1] <- as.integer(obj@data[,1])
       }
       # rasterize - convert vector to a raster map:    
-      obj <- obj[!is.na(obj@data[,fname]),]
-      in.r <- rasterize(obj, r, field = fname)
+      obj <- obj[!is.na(obj@data[,1]),]
+      in.r <- rasterize(obj, r, field = names(obj)[1])
       res <- as(in.r, "SpatialGridDataFrame")
-      names(res) = fname
+      names(res) = names(obj)[1]
+      attr(res@bbox, "dimnames") = attr(obj@bbox, "dimnames")
+      attr(res@grid@cellcentre.offset, "names") <- attr(obj@bbox, "dimnames")[[1]]
+      attr(res@grid@cellsize, "names") <- attr(obj@bbox, "dimnames")[[1]]
+      attr(res@grid@cells.dim, "names") <- attr(obj@bbox, "dimnames")[[1]]
     
       if(!missing(file.name)){
       writeRaster(in.r, filename=file.name, overwrite=TRUE)
@@ -216,7 +247,12 @@ vect2rast.SpatialPolygons <- function(obj, fname = names(obj)[1], cell.size, bbo
       # rasterize map using SAGA GIS:
       rsaga.geoprocessor("grid_gridding", 0, param=list(INPUT=tf, FIELD=FIELD, MULTIPLE=MULTIPLE, LINE_TYPE=LINE_TYPE, GRID_TYPE=0, TARGET=0, USER_XMIN=bbox[1,1]+cell.size/2, USER_XMAX=bbox[1,2]-cell.size/2, USER_YMIN=bbox[2,1]+cell.size/2, USER_YMAX=bbox[2,2]-cell.size/2, USER_SIZE=cell.size, USER_GRID=file.name, GRID_TYPE=GRID_TYPE), show.output.on.console = silent)
       res <- readGDAL(set.file.extension(file.name, ".sdat"), silent = silent)
-      names(res) = fname
+      names(res) = names(obj)[1]
+      attr(res@bbox, "dimnames") = attr(obj@bbox, "dimnames")
+      attr(res@grid@cellcentre.offset, "names") <- attr(obj@bbox, "dimnames")[[1]]
+      attr(res@grid@cellsize, "names") <- attr(obj@bbox, "dimnames")[[1]]
+      attr(res@grid@cells.dim, "names") <- attr(obj@bbox, "dimnames")[[1]]
+      
       }
       else { stop("SAGA GIS path could not be located. See 'rsaga.env()' for more info.") }
     }  

@@ -2,15 +2,15 @@
 \docType{class}
 \alias{SpatialMaxEntOutput-class}
 \title{A class for outputs of analysis produced using the dismo package (MaxEnt)}
-\description{A class containing input and output data produced by running the \code{maxent} (Maximum Entropy) species distribution modeling algorithm. Object of this class can be directly visualized in Google Earth by using the \code{\link{plotKML-methods}}.}
+\description{A class containing input and output data produced by running the \code{maxent} (Maximum Entropy) species distribution modeling algorithm. Object of this class can be directly visualized in Google Earth by using the \code{\link{plotKML-method}}.}
 \section{Slots}{
   \describe{
     \item{\code{sciname}:}{object of class \code{"character"}; vector of species name compatible with the \code{rgbif} package; usually latin "genus" and "species" name}
     \item{\code{occurrences}:}{object of class \code{"SpatialPoints"}; occurrence-only records}
-    \item{\code{TimeSpan.begin}:}{object of class \code{"POSIXct"}; begin of sampling}
-    \item{\code{TimeSpan.end}:}{object of class \code{"POSIXct"}; end of sampling}
+    \item{\code{TimeSpan.begin}:}{object of class \code{"POSIXct"}; begin of the sampling period}
+    \item{\code{TimeSpan.end}:}{object of class \code{"POSIXct"}; end of the sampling period}
     \item{\code{maxent}:}{object of class \code{"MaxEnt"} (species distribution model); produced as an output of the \code{dismo::maxent} function}
-    \item{\code{sp.domain}:}{object of class \code{"SpatialPolygonsDataFrame"}; assumed spatial domain that can be set by the user or estimated by MaxEnt (see examples below)}
+    \item{\code{sp.domain}:}{object of class \code{"Spatial"} (ideally \code{"SpatialPolygonsDataFrame"} or \code{"SpatialPixelsDataFrame"}); assumed spatial domain that can be set by the user or it will be estimated by MaxEnt (see examples below)}
     \item{\code{predicted}:}{object of class \code{"RasterLayer"}; contains results of prediction produced using the MaxEnt software}
   }
 }
@@ -29,11 +29,10 @@
 }
 }
 \author{ Tomislav Hengl }
-\seealso{ \code{dismo::maxent}, \code{rgbif::taxonsearch} 
+\seealso{ \code{dismo::maxent}, \code{rgbif::taxonsearch}, \code{GSIF::MaxEnt} 
 }
 \examples{ 
 # load occurences:
-library(rgdal)
 data(bigfoot)
 aea.prj <- "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23 +lon_0=-96 
 +x_0=0 +y_0=0 +ellps=GRS80 +datum=NAD83 +units=m +no_defs"
@@ -65,7 +64,7 @@ if (file.exists(jar)) {
   # prepare the occurrence-only records:
   xy <- data.frame(bigfoot.aea@coords[sel.ov,])
   # fit a MaxEnt model (can take few minutes!):
-  me <- maxent(predictors, xy, factors='globcov')
+  me <- maxent(predictors, xy, factors='globcov') # takes 1-2 mins;
   # predict distribution of Big Foot:
   bigfoot.pr <- predict(me, predictors, progress='window')
   par(mfrow=c(1,2), mar=c(.5,.5,3.5,0.5), oma=c(0,0,0,0))
@@ -92,7 +91,7 @@ if (file.exists(jar)) {
   dev.off()
   # prepare data for plotKML:
   hr <- calc(bigfoot.pr, fun=function(x){ifelse(x>threshold, 1, NA)})
-  bigfoot.hr <- rasterToPolygons(hr, dissolve=TRUE) # takes time!
+  bigfoot.hr <- rasterToPolygons(hr, dissolve=TRUE) # takes 3-4 mins!
   occ <- SpatialPoints(bigfoot.aea[sel.ov,]); proj4string(occ) = CRS(aea.prj)
   # create an object of type "SpatialMaxEntOutput":
   bigfoot.smo <- new("SpatialMaxEntOutput", sciname = "Sasquatch", occurrences = occ, 

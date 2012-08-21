@@ -25,7 +25,7 @@ kml_layer.SpatialPoints <- function(
   prj.check <- check_projection(obj, control = TRUE)
 
   # Trying to reproject data if the check was not successful
-  if (prj.check==FALSE) {   obj <- reproject(obj)  }
+  if(prj.check==FALSE) {   obj <- reproject(obj)  }
 
   # Parsing the call for aesthetics
   aes <- kml_aes(obj, ...)
@@ -41,7 +41,7 @@ kml_layer.SpatialPoints <- function(
 
   # Parse ATTRIBUTE TABLE (for each placemark):
   if(is.null(html.table)){
-    if((is.logical(balloon) | class(balloon) %in% c('character','numeric')) & ("data" %in% slotNames(obj))){
+    if((balloon==TRUE | class(balloon) %in% c('character','numeric')) & ("data" %in% slotNames(obj))){
       html.table <- .df2htmltable(obj@data) 
     }}
 

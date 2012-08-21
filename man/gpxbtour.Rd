@@ -25,11 +25,11 @@ data(gpxbtour)
 gpxbtour$ctime <- as.POSIXct(gpxbtour$time, format="\%Y-\%m-\%dT\%H:\%M:\%SZ")
 coordinates(gpxbtour) <- ~lon+lat
 proj4string(gpxbtour) <- CRS("+proj=longlat +datum=WGS84")
-\dontrun{# convert to a STIDFtraj class:
+\dontrun{# convert to a STTDF class:
 library(spacetime)
 library(adehabitat)
 gpx.ltraj <- as.ltraj(coordinates(gpxbtour), gpxbtour$ctime, id = "th")
-gpx.st <- as(gpx.ltraj, "STIDFtraj")
+gpx.st <- as(gpx.ltraj, "STTDF")
 # Google maps plot:
 library(RgoogleMaps)
 llc <- c(mean(gpx.st@sp@bbox[2,]), mean(gpx.st@sp@bbox[1,]))

@@ -5,7 +5,7 @@
 \title{plotKML specific environmental variables / paths}
 \description{Sets the environmental, package specific parameters and settings (URLs, names, default color palettes and similar) that can be later on passed to other functions.}
 \usage{plotKML.env(colour_scale_numeric = "", colour_scale_factor = "",
-              colour_scale_svar = "", ref_CRS, NAflag, icon, LabelScale, 
+              colour_scale_svar = "", ref_CRS, NAflag, icon, LabelScale, size_range, 
               license_url, metadata_sel, kmz, kml_xsd, kml_url, kml_gx, gpx_xsd,
               fgdc_xsd, convert, gdalwarp, gdal_translate, python,
               home_url, googleAPIkey, show.env = TRUE, silent = TRUE)
@@ -14,10 +14,11 @@
   \item{colour_scale_numeric}{default colour scheme for numeric variables}
   \item{colour_scale_factor}{default colour scheme for factor variables}
   \item{colour_scale_svar}{default colour scheme for model error (e.g. mapping error)}
-  \item{ref_CRS}{the referent CRS proj4string (\code{"+proj=longlat +datum=WGS84"})}
+  \item{ref_CRS}{the referent CRS \href{http://spatialreference.org/ref/epsg/4326/}{proj4string} (\code{"+proj=longlat +datum=WGS84"})}
   \item{NAflag}{the default missing value flag (usually \code{"-99999"})}
   \item{icon}{the default icon URL}
   \item{LabelScale}{the default scale factor for labels}
+  \item{size_range}{the default size range}
   \item{license_url}{the default license URL}
   \item{metadata_sel}{a list of the default metadata fields for summary}
   \item{kmz}{logical; the default compression setting}

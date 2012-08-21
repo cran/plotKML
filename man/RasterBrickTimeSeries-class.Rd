@@ -3,7 +3,7 @@
 \alias{RasterBrickTimeSeries-class}
 \alias{plotKML,RasterBrickTimeSeries}
 \title{A class for a time series of regular grids}
-\description{A class containing list of rasters, begin, end times and sample points to allow exploration of the values. Objects of this class can be directly visualized in Google Earth by using the \code{\link{plotKML-methods}}.}
+\description{A class containing list of rasters, begin, end times and sample points to allow exploration of the values. Objects of this class can be directly visualized in Google Earth by using the \code{\link{plotKML-method}}.}
 \section{Slots}{
   \describe{    
     \item{\code{variable}:}{object of class \code{"character"}; variable name} 
@@ -19,7 +19,7 @@
   }
 }
 \author{ Tomislav Hengl }
-\seealso{ \code{\link{RasterBrickSimulations-class}}, \code{\link{plotKML-methods}}
+\seealso{ \code{\link{RasterBrickSimulations-class}}, \code{\link{plotKML-method}}
 }
 \examples{
 data(LST)

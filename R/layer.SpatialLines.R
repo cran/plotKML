@@ -30,26 +30,26 @@ kml_layer.SpatialLines <- function(
   # Read the relevant aesthetics
   lines_names <- aes[["labels"]]
   colours <- aes[["colour"]]
-  width <- aes[["width"]]
+  widths <- aes[["width"]]
   altitude <- aes[["altitude"]]
   altitudeMode <- aes[["altitudeMode"]]
   balloon <- aes[["balloon"]]
 
   # Parse ATTRIBUTE TABLE (for each placemark):
-  if (balloon & ("data" %in% slotNames(obj))){
+  if(balloon & ("data" %in% slotNames(obj))){
       html.table <- .df2htmltable(obj@data)
   }
   
   message("Parsing to KML...")
-  # Folder and name of the points folder
+  # Folder name / name of the points folder
   pl1 = newXMLNode("Folder", parent=kml.out[["Document"]])
   pl2 <- newXMLNode("name", paste(class(obj)), parent = pl1)
 
   # Insert metadata:
   if(!is.null(metadata)){
     md.txt <- kml_metadata(metadata, asText = TRUE)
-    txt <- sprintf('<description><![CDATA[%s]]></description>', md.txt)
-    parseXMLAndAdd(txt, parent=pl1)
+    txtm <- sprintf('<description><![CDATA[%s]]></description>', md.txt)
+    parseXMLAndAdd(txtm, parent=pl1)
   }  
 
   # process lines:
@@ -63,7 +63,7 @@ kml_layer.SpatialLines <- function(
   
   # Line styles
   # ============
-  txts <- sprintf('<Style id="line%s"><LineStyle><color>%s</color><width>%.0f</width></LineStyle><BalloonStyle><text>$[description]</text></BalloonStyle></Style>', 1:lv, colours, width)
+  txts <- sprintf('<Style id="line%s"><LineStyle><color>%s</color><width>%.0f</width></LineStyle><BalloonStyle><text>$[description]</text></BalloonStyle></Style>', 1:lv, colours, widths)
   parseXMLAndAdd(txts, parent=pl1)  
   
   # Writing lines

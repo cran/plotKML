@@ -8,7 +8,7 @@
 \alias{vect2rast,SpatialPolygons-method}
 \alias{rasterize}
 \title{Convert points, lines and/or polygons to rasters}
-\description{Converts any \code{"SpatialPoints*"}, \code{"SpatialLines*"}, or \code{"SpatialPolygons*"} object to a raster map, and (optional) writes it to an external file (GDAL-supported formats; it used the SAGA GIS format by default).}
+\description{Converts any \code{"SpatialPoints*"}, \code{"SpatialLines*"}, or \code{"SpatialPolygons*"} object to a raster map, and (optional) writes it to an external file (GDAL-supported formats; writes to SAGA GIS format by default).}
 \usage{
 vect2rast(obj, \dots )
 }

@@ -2,7 +2,7 @@
 # Maintainer     : Pierre Roudier (pierre.roudier@landcare.nz);
 # Contributions  : Tomislav Hengl (tom.hengl@wur.nl); Dylan Beaudette (debeaudette@ucdavis.edu); 
 # Status         : pre-alpha
-# Note           : Rasters can also be written as polygons; see "?grid2poly"
+# Note           : Rasters can also be written as polygons; see "?grid2poly";
 
 kml_layer.Raster <- function(
   obj,  
@@ -19,63 +19,72 @@ kml_layer.Raster <- function(
   # Checking the projection 
   prj.check <- check_projection(obj, control = TRUE)
 
-  # Parsing the call for "colour"
+  # Parsing the call:
   call <- substitute(list(...))
   call <- as.list(call)[-1]
 
-  # Parse the current call
-  colour <- charmatch("colour", names(call))
-
-  if (is.na(colour))
+  # Check if any attribute has been selected:
+  if (is.na(charmatch("colour", names(call)))){
     stop("No attribute selected. Please use the colour = ... option.")
+  }
 
-  if (is.call(call[["colour"]])) {
-    x <- data.frame(getValues(obj))
+  if(is.call(call[["colour"]])|is.name(call[["colour"]])){
+    x <- data.frame(values(obj))
+    names(x) <- layerNames(obj)
     x <- eval(call[["colour"]], x)
     obj <- raster(obj)
     values(obj) <- x
-  }
-  else if (is.name(call[["colour"]])) {
-    if (nlayers(obj) > 1) {
-      i_layer <- which(layerNames(obj) == as.character(call[["colour"]]))
-      obj <- raster(obj, layer = i_layer)
-    }
-  }
-  else if (is.numeric(call[["colour"]])) {
+  } else { 
+  if(is.numeric(call[["colour"]])) {
     i_layer <- call[["colour"]]
     if (nlayers(obj) > 1) {
       obj <- raster(obj, layer = i_layer)
     }
-  }
-  else if (is.character(call[["colour"]])) {
+  } else { 
+  if(is.character(call[["colour"]])) {
     i_layer <- which(layerNames(obj) == call[["colour"]])
     if (nlayers(obj) > 1) {
       obj <- raster(obj, layer = i_layer)
     }
+  }}}
+
+  # TH: this needs to be fixed
+  altitude <- charmatch("altitude", names(call))
+  if(!is.na(altitude)){
+    altitude <- eval(call[["altitude"]], length(obj))
+    altitude <- kml_altitude(obj, altitude)
+  } else {
+    altitude <- kml_altitude(obj, altitude=NULL)
+  }
+  altitudeMode <- kml_altitude_mode(altitude, GroundOverlay=TRUE) 
+
+  # prepare the palette:
+  if (!is.na(charmatch("colour_scale", names(call)))){
+    pal <- eval(call[["colour_scale"]])
+  } else {
+  ## default colour palettes
+    if (!is.factor(obj@data[,1])){
+      pal <- get("colour_scale_numeric", envir = plotKML.opts)
+    } else {
+      pal <- get("colour_scale_factor", envir = plotKML.opts)
+    }
   }
 
   # Trying to reproject data if the check was not successful
-  if(!prj.check) {  obj <- reproject(obj) }
-  x <- getValues(obj)
-
-  #   altitude <- eval(call[["altitude"]], obj@data)
-  altitude <- kml_altitude(obj, altitude = NULL)
-  altitudeMode <- kml_altitude_mode(altitude)
-
-  pal <- charmatch("colour_scale", names(call))
-  if (!is.na(pal))
-    pal <- eval(call[["colour_scale"]])
-  else {
-  ## default colour palettes
-  .colour_scale_numeric = get("colour_scale_numeric", envir = plotKML.opts)
-  .colour_scale_factor = get("colour_scale_factor", envir = plotKML.opts)
-    if (!is.factor(obj))
-      pal <- .colour_scale_numeric
-    else
-      pal <- .colour_scale_factor
+  if(!prj.check) {  
+    obj <- reproject(obj) 
   }
 
-  colour_scale <- colorRampPalette(pal)(length(x))
+  if(is.factor(obj)){
+    if(length(labels(obj))==0){
+      warning("RasterLayer of type factor missing labels")
+      colour_scale <- colorRampPalette(pal)(length(levels(as.factor(values(obj)))))      
+    } else {
+      colour_scale <- colorRampPalette(pal)(length(labels(obj)[[1]]))
+    }
+  } else {
+    colour_scale <- colorRampPalette(pal)(length(values(obj)))  
+  }
 
   # Transparency
   alpha <- charmatch("alpha", names(call))
@@ -86,16 +95,13 @@ kml_layer.Raster <- function(
     colour_scale <- kml_alpha(obj, alpha = eval(call[["alpha"]], obj@data), colours = colour_scale, RGBA = TRUE)
   }
 
-  # Creating a SpatialPixelsDataFrame object to be plotted
-  call_name <- deparse(call[["colour"]])
-
   # Creating the PNG file
   if(missing(raster_name)){
     raster_name <- set.file.extension(as.character(call[["colour"]]), ".png")
   }
 
   # Plotting the image
-  png(filename = raster_name, bg = "transparent")
+  png(filename = raster_name, bg = "transparent", type="cairo-png")
   par(mar = c(0, 0, 0, 0), xaxs = "i", yaxs = "i")
   image(obj, col = colour_scale, frame.plot = FALSE)
   dev.off()
@@ -107,13 +113,13 @@ kml_layer.Raster <- function(
   if(nchar(convert)==0){
     plotKML.env(silent = FALSE, show.env = FALSE)
     convert <- get("convert", envir = plotKML.opts)
-  }
-  # if it does manages to find ImageMagick:
-  if(!nchar(convert)==0){
+  } else {
+    # if it does manages to find ImageMagick:
+    if(!nchar(convert)==0){
       system(paste(convert, ' ', raster_name, ' -matte -transparent "#FFFFFF" ', raster_name, sep=""))
-  }
-  else{
-  warning("PNG transparency possibly ineffective. Install ImageMagick and add to PATH. See ?kml_layer.Raster for more info.")
+    } else {
+    warning("PNG transparency possibly ineffective. Install ImageMagick and add to PATH. See ?kml_layer.Raster for more info.")
+    }
   }
 
   # plot the legend (PNG)
@@ -123,7 +129,17 @@ kml_layer.Raster <- function(
     } else {
       legend_name <- paste(strsplit(raster_name, "\\.")[[1]][1], "legend.png", sep="_")      
     }
-    kml_legend.bar(x = x, legend.file = legend_name, legend.pal = colour_scale) 
+    if(is.factor(obj)){
+      x <- as.factor(values(obj))
+      if(length(labels(obj))==0){
+        levels(x) <- levels(as.factor(values(obj)))
+      } else {
+        levels(x) = labels(obj)[[1]]
+      }
+      kml_legend.bar(x = x, legend.file = legend_name, legend.pal = colour_scale) 
+    } else {
+      kml_legend.bar(x = values(obj), legend.file = legend_name, legend.pal = colour_scale) 
+    }
   }
 
   message("Parsing to KML...")
@@ -141,7 +157,8 @@ kml_layer.Raster <- function(
   # Ground overlay
   # =====================
   pl2b <- newXMLNode("GroundOverlay", parent = pl1)
-  pl3 <- newXMLNode("name", call_name, parent = pl2b)
+  # Creating a SpatialPixelsDataFrame object to be plotted
+  pl3 <- newXMLNode("name", deparse(call[["colour"]]), parent = pl2b)
   pl3b <- newXMLNode("altitude", altitude, parent = pl2b)
   pl3b <- newXMLNode("altitudeMode", altitudeMode, parent = pl2b)
   pl3c <- newXMLNode("Icon", parent = pl2b)
@@ -155,8 +172,8 @@ kml_layer.Raster <- function(
   # Legend
   # ======================
   if(plot.legend == TRUE){
-  txtso <- sprintf('<ScreenOverlay><name>Legend</name><Icon><href>%s</href></Icon><overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/><screenXY x="0" y="1" xunits="fraction" yunits="fraction"/></ScreenOverlay>', legend_name)
-  parseXMLAndAdd(txtso, parent=kml.out[["Document"]])
+    txtso <- sprintf('<ScreenOverlay><name>Legend</name><Icon><href>%s</href></Icon><overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/><screenXY x="0" y="1" xunits="fraction" yunits="fraction"/></ScreenOverlay>', legend_name)
+    parseXMLAndAdd(txtso, parent=kml.out[["Document"]])
   }
   
   # save results: 

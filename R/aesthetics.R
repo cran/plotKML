@@ -15,6 +15,7 @@
   width = 1,
   labels = "",
   altitude = 0,
+  altitudeMode = "",  
   balloon = FALSE
 )
 
@@ -42,7 +43,7 @@ kml_aes <- function(obj, ...) {
 
   # Names
   if ("labels" %in% called_aes) {
-    # If labelss defined using a column of data
+    # If labels defined using a column of data
     if (is.name(parent_call[['labels']])){
       aes[['labels']] <- as.character(obj[[as.character(parent_call[['labels']])]])
     }
@@ -131,11 +132,11 @@ kml_aes <- function(obj, ...) {
 
   # Size
   if ("size" %in% called_aes) {
-    # If a column name as been used
+    # If a column name has been used
     if (is.name(parent_call[['size']])){
       aes[['size']] <- kml_size(obj, size = as.character(parent_call[['size']]))
     }
-    # Otherwise it is interpreted as a colour to use
+    # Otherwise it is interpreted as a vector
     else {
       aes[['size']] <- rep(parent_call[['size']], length.out = length(obj))
     }
@@ -146,12 +147,22 @@ kml_aes <- function(obj, ...) {
 
   # Width
   if ("width" %in% called_aes) {
-#    aes[['width']] <- kml_width(obj, ...)
-#  }
-#  else {
+   # If a column name has been used
+   if(is.call(parent_call[['width']])){
+      aes[['width']] <- eval(parent_call[['width']])    
+    } else {
+    if (is.name(parent_call[['width']])){
+      aes[['width']] <- kml_width(obj, width = as.character(parent_call[['width']]))
+    }
+    # Otherwise it is interpreted as a vector
+    else {
+      aes[['width']] <- rep(parent_call[['width']], length.out = length(obj))
+    }
+  }}
+  else {
     aes[['width']] <- rep(.all_kml_aesthetics[["width"]], length.out = length(obj))
   }
-
+  
   # Altitude
   if ("altitude" %in% called_aes) {
     aes[['altitude']] <- kml_altitude(obj, altitude = eval(parent_call[['altitude']], obj@data))
@@ -162,7 +173,12 @@ kml_aes <- function(obj, ...) {
   }
 
   # AltitudeMode
-  aes[["altitudeMode"]] <- kml_altitude_mode(aes[['altitude']])
+  if ("altitudeMode" %in% called_aes) {
+    aes[["altitudeMode"]] <- parent_call[['altitudeMode']]
+  }
+  else {
+    aes[["altitudeMode"]] <- kml_altitude_mode(aes[['altitude']])
+  }
 
   # Balloon (pop ups)
   if ("balloon" %in% called_aes) {
@@ -327,13 +343,13 @@ kml_alpha <- function(obj, alpha, colours, RGBA = FALSE, ...){
 # }
 
 # Size (points)
-kml_size <- function(obj, size, size.min = 0.25, size.max = 2.5, size.default = 1){
+kml_size <- function(obj, size, size.min = get("size_range", envir = plotKML.opts)[1], size.max = get("size_range", envir = plotKML.opts)[2], size.default = 1){
 
   if (!is.na(size) & "data" %in% slotNames(obj)) {
     # If data is numeric
     if (is.numeric(obj[[size]])) {
       max.value <- max(obj[[size]], na.rm = TRUE)
-      size.values <- (obj[[size]] / max.value) * size.max + size.min
+      size.values <- size.min + scales::rescale(obj[[size]]) * size.max
     }
     # Otherwise: factor, character, logical, ...
     else {
@@ -357,8 +373,33 @@ kml_size <- function(obj, size, size.min = 0.25, size.max = 2.5, size.default = 
 }
 
 # Width (lines)
-# kml_width <- function(obj, width, width.min = 0.1, width.max = 5, width.default = 1){
-#  
-# }
+kml_width <- function(obj, width, width.min = 1, width.max = 6, width.default = 1){
+
+  if (!is.na(width) & "data" %in% slotNames(obj)) {
+    # If data is numeric
+    if (is.numeric(obj[[width]])) {
+      max.value <- max(obj[[width]], na.rm = TRUE)
+      width.values <- round(width.min + scales::rescale(obj[[width]]) * width.max, 0)
+    }
+    # Otherwise: factor, character, logical, ...
+    else {
+      if (!is.factor(obj[[width]]))
+        obj[[width]] <- factor(obj[[width]])
+
+      # compute number of levels
+      nl <- nlevels(obj[[width]])
+      # compute the different size values
+      width.levels <- seq(width.min, width.max, length.out = nl)
+      # affect them to the factor
+      width.values <- cut(obj[[width]], breaks = quantile(obj[[width]], probs=seq(0, 1, length.out = nl + 1)), labels = width.levels, include.lowest = TRUE)
+      width.values <- as.numeric(as.character(width.values))
+    }
+  }
+  # If no size aesthetic is asked, or if no data slot
+  else
+    width.values <- rep(width.default, length.out = length(obj))
+
+  width.values  
+}
 
 # end of script;
