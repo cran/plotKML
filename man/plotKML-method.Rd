@@ -20,10 +20,70 @@
 \alias{plotKML,SpatialSamplingPattern-method}
 \title{Methods for plotting results of spatial analysis in Google Earth}
 \description{The method writes inputs and outputs of spatial analysis (a list of point, gridded and polygon data usually) to KML and opens the KML file in Google Earth (or any other default package used to view KML/KMZ files).}
-\usage{plotKML(obj, \dots )
+\usage{
+\S4method{plotKML}{SpatialPointsDataFrame}(obj, folder.name, file.name, size, colour, points_names, 
+      shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", 
+      metadata = NULL, kmz = TRUE, \dots)
+\S4method{plotKML}{SpatialLinesDataFrame}(obj, folder.name, file.name, metadata = NULL, kmz = TRUE, \dots)
+\S4method{plotKML}{SpatialPolygonsDataFrame}(obj, folder.name, file.name, colour, plot.labpt, labels, metadata = NULL, kmz = TRUE, \dots)
+\S4method{plotKML}{SpatialPixelsDataFrame}(obj, folder.name, file.name, colour, raster_name, metadata = NULL, kmz = FALSE, \dots)
+\S4method{plotKML}{SpatialGridDataFrame}(obj, folder.name, file.name, colour, raster_name, metadata = NULL, kmz = FALSE, \dots)
+\S4method{plotKML}{RasterLayer}(obj, folder.name, file.name, colour, raster_name, metadata = NULL, kmz = FALSE, \dots)
+\S4method{plotKML}{SpatialPhotoOverlay}(obj, folder.name, file.name, dae.name, kmz = TRUE, \dots)
+\S4method{plotKML}{SoilProfileCollection}(obj, folder.name, file.name, var.name, metadata = NULL, kmz = TRUE, \dots)
+\S4method{plotKML}{STIDF}(obj, folder.name, file.name, colour, shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", 
+      points_names, kmz = TRUE, \dots)
+\S4method{plotKML}{STTDF}(obj, folder.name, file.name, colour, 
+      start.icon = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", 
+      kmz = TRUE, \dots)
+\S4method{plotKML}{RasterBrickTimeSeries}(obj, folder.name, file.name, var.name = names(obj@sampled)[1],
+      pngwidth = 680, pngheight = 180, pngpointsize = 14, kmz = TRUE, \dots)
+\S4method{plotKML}{RasterBrickSimulations}(obj, folder.name, file.name, obj.summary = TRUE,
+      pngwidth = 680, pngheight = 200, pngpointsize = 14, kmz = TRUE, \dots)
+\S4method{plotKML}{SpatialMaxEntOutput}(obj, folder.name, file.name, html.file = obj@maxent@html, 
+      iframe.width = 800, iframe.height = 800, pngwidth = 280, 
+      pngheight = 280, pngpointsize = 14, colour, 
+      shape = "http://plotkml.r-forge.r-project.org/icon17.png", 
+      kmz = TRUE, TimeSpan.begin = obj@TimeSpan.begin, TimeSpan.end = obj@TimeSpan.end, \dots)
+\S4method{plotKML}{SpatialPredictions}(obj, folder.name, file.name, 
+      colour_scale_svar = get("colour_scale_svar", envir = plotKML.opts), grid2poly = FALSE, 
+      obj.summary = TRUE, plot.svar = FALSE, pngwidth = 210, 
+      pngheight = 580, pngpointsize = 14, kmz = TRUE, \dots)
+\S4method{plotKML}{SpatialSamplingPattern}(obj, folder.name, file.name, kmz = TRUE, 
+      var.name = names(obj@sp.domain)[1], \dots)
+\S4method{plotKML}{SpatialVectorsSimulations}(obj, folder.name, file.name, 
+      colour_scale_svar = get("colour_scale_svar", envir = plotKML.opts), 
+      grid2poly = FALSE, obj.summary = TRUE, plot.svar = FALSE, 
+      var.name = names(obj@summaries)[1], kmz = TRUE, \dots)
 }
 \arguments{
   \item{obj}{input object of specific class; either some \href{http://cran.r-project.org/package=sp}{sp} or \href{http://cran.r-project.org/package=raster}{raster} package class object, or plotKML composite objects containing both inputs and outputs of analysis}
+  \item{folder.name}{character; folder name in the KML file}
+  \item{file.name}{character; output KML file name}
+  \item{size}{for point objects for plotting (see \link{aesthetics})}
+  \item{colour}{colour variable for plotting (see \link{aesthetics})}
+  \item{points_names}{vector of characters that can be used as labels}
+  \item{shape}{character; icons used for plotting (see \link{aesthetics})}
+  \item{raster_name}{(optional) specify the output file name (PNG)}
+  \item{metadata}{(optional) the metadata object}
+  \item{plot.labpt}{logical; specifies whether to plot centroids for polygon data}
+  \item{labels}{character vector; list of labels that will attached to the centroids}
+  \item{start.icon}{icon for the start position (for trajectory data)}
+  \item{dae.name}{output DAE file name}
+  \item{var.name}{column name for the target variable}
+  \item{html.file}{specify the location of the html file containing report data (if the input object is of class \code{"SpatialMaxEntOutput"})}
+  \item{iframe.width}{integer; width of the screen for iframe}
+  \item{iframe.height}{integer; height of the screen for iframe}
+  \item{TimeSpan.begin}{object of class \code{"POSIXct"}; begin of the sampling period}
+  \item{TimeSpan.end}{object of class \code{"POSIXct"}; end of the sampling period}
+  \item{pngwidth}{integer; width of the PNG plot}
+  \item{pngheight}{integer; height of the PNG plot}
+  \item{pngpointsize}{integer; text size in the PNG plot}
+  \item{colour_scale_svar}{colour palette for the model uncertainty (standard deviation)}
+  \item{grid2poly}{logical; specifies whether to convert gridded object to polygons}
+  \item{obj.summary}{logical; specifies whether to print the object summary}
+  \item{plot.svar}{logical; specifies whether to plot the model uncertainty}
+  \item{kmz}{logical; specifies whether to compress the output KML file}
   \item{\dots}{(optional) arguments passed to the lower level functions}
 }
 \details{This is a generic function to plot various R objects that contain both inputs and outputs of spatial analysis. The resulting plots (referred to as \emph{`views'}) are usually cartographically complete as they contain legends, and data and model descriptions. In principle, \code{plotKML} works only with complex objects such as \code{"SpatialPredictions"}, \code{"SpatialVectorsSimulations"}, \code{"RasterBrickSimulations"}, \code{"RasterBrickTimeSeries"}, \code{"SpatialMaxEntOutput"} and similar. To further customize visualizations consider combining the lower level functions \code{\link{kml_open}}, \code{\link{kml_close}}, \code{\link{kml_compress}}, \code{\link{kml_screen}} into your own wrapper function.

@@ -92,11 +92,21 @@ kml_aes <- function(obj, ...) {
     if (is.name(parent_call[['colour']]) | is.call(parent_call[['colour']]) & "data" %in% slotNames(obj)) {
 
       # Trying to get the colour ramp
-      if ("colour_scale" %in% names(parent_call))
-        aes[['colour']] <- kml_colour(obj, colour = parent_call[['colour']], colour_scale = parent_call[['colour_scale']])
+      if ("colour_scale" %in% names(parent_call)){
+        if("z.lim" %in% names(parent_call)){
+          aes[['colour']] <- kml_colour(obj, colour = parent_call[['colour']], colour_scale = parent_call[['colour_scale']], z.lim = eval(parent_call[['z.lim']]))
+        } else {
+          aes[['colour']] <- kml_colour(obj, colour = parent_call[['colour']], colour_scale = parent_call[['colour_scale']])
+        }
+      }
       # Otherwise use the default colour ramp
-      else
-        aes[['colour']] <- kml_colour(obj, colour = parent_call[['colour']])
+      else {
+        if("z.lim" %in% names(parent_call)){
+        aes[['colour']] <- kml_colour(obj, colour = parent_call[['colour']], z.lim = eval(parent_call[['z.lim']]))
+        } else {
+        aes[['colour']] <- kml_colour(obj, colour = parent_call[['colour']])         
+        }
+    }
     }
 
     # Otherwise it is interpreted as a colour to use

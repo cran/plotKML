@@ -17,19 +17,23 @@ plotKML.opts <- new.env(hash=TRUE, parent = parent.frame())
 paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "", python = "", show.paths = TRUE){ 
      
      require(utils)
+     
      if(require(animation)){
         convert <- ani.options("convert")
      }
      
-     if(require(RSAGA)) {
-        if(.Platform$OS.type == "windows") { saga_cmd <- shortPathName(normalizePath(paste(rsaga.env()$path, rsaga.env()$cmd, sep="/"))) }
-        else { saga_cmd <- paste(rsaga.env()$path, rsaga.env()$cmd, sep="/") } 
+     if(require(RSAGA)){
+     if(.Platform$OS.type == "windows") { 
+        saga_cmd <- shortPathName(normalizePath(paste(rsaga.env()$path, rsaga.env()$cmd, sep="/"))) 
+     }
+     else { 
+        saga_cmd <- paste(rsaga.env()$path, rsaga.env()$cmd, sep="/") 
+     } 
         saga.version <- rsaga.get.version()
      }
-     else {   saga_cmd <- NULL  }
     
-    im.dir <- NULL
-    if(is.null(convert)){
+     im.dir <- NULL
+     if(is.null(convert)){
         if(.Platform$OS.type == "windows") {
         # get paths and check for ImageMagick
         paths <- strsplit(Sys.getenv('PATH')[[1]], ";")[[1]]
@@ -57,10 +61,10 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
         warning("Install ImageMagick and add to PATH. See http://imagemagick.org for more info.")
         convert = ""
         }
-    }
-    else { 
-    message(system(convert,  show.output.on.console = FALSE, intern = TRUE)[1])
-      }  
+     }
+     else { 
+     message(system(convert,  show.output.on.console = FALSE, intern = TRUE)[1])
+       }  
   
   # try to locate FWTools / Patyhon:
   if(.Platform$OS.type == "windows") {
@@ -188,10 +192,11 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
         warning("Install ImageMagick and add to PATH. See http://imagemagick.org for more info.")
         convert = ""
         }
+
     if(is.null(saga_cmd)){
         warning("Install SAGA GIS and add to PATH. See http://www.saga-gis.org for more info.")
         saga_cmd = ""
-        }
+        } 
     }
 
     lt <- data.frame(gdalwarp, gdal_translate, convert, python, saga_cmd, stringsAsFactors = FALSE)

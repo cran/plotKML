@@ -201,7 +201,7 @@ spMetadata.Spatial <- function(
 
 }
 
-spMetadata.Raster <- function(obj, Target_variable, bounds, color, ...){
+spMetadata.Raster <- function(obj, Target_variable, bounds = NULL, color = NULL, ...){
     
     if(!is.null(bounds)) {bounds <- obj@legend@values}
     if(!is.null(color)) {color <- obj@legend@color}

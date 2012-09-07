@@ -7,7 +7,7 @@
 \title{Methods to create a Styled Layer Description (\bold{SLD}) file}
 \description{Creates a \href{http://docs.geoserver.org/stable/en/user/styling/sld-introduction.html}{Styled Layer Description} (\bold{SLD}) file, that can be attached to a spatial layer contributed to GeoServer. It writes the \code{"sp.pallete"} object (legend entries, titles and colors) to an external file.}
 \usage{
-metadata2SLD(obj, \dots)
+\S4method{metadata2SLD}{SpatialMetadata}(obj, \dots)
 }
 \arguments{
   \item{obj}{object of class \code{"SpatialMetadata"}}

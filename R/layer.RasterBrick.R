@@ -92,10 +92,10 @@ kml_layer.RasterBrick <- function(
 
   # Plotting the image
   for(j in 1:length(raster_name)){
-  png(filename = raster_name[j], bg = "transparent", type="cairo-png")
-  par(mar = c(0, 0, 0, 0), xaxs = "i", yaxs = "i")
-  image(raster(obj, j), col = colour_scale, zlim = z.lim, frame.plot = FALSE)
-  dev.off()
+    png(filename = raster_name[j], bg = "transparent", type="cairo-png")
+    par(mar = c(0, 0, 0, 0), xaxs = "i", yaxs = "i")
+    image(raster(obj, j), col = colour_scale, zlim = z.lim, frame.plot = FALSE)
+    dev.off()
   }
 
 

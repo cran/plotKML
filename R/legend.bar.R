@@ -5,8 +5,7 @@
 # Note           : 1D legend with min max and avg values;
  
 
-kml_legend.bar <- function(x, width, height, pointsize = 14, legend.file, legend.pal, 
-  zlim = range(x, na.rm = TRUE, finite = TRUE), factor.labels){
+kml_legend.bar <- function(x, width, height, pointsize = 14, legend.file, legend.pal, z.lim = range(x, na.rm = TRUE, finite = TRUE), factor.labels){
 
   require(colorspace)
   require(plotrix)
@@ -14,7 +13,7 @@ kml_legend.bar <- function(x, width, height, pointsize = 14, legend.file, legend
   ## Factor-type variables:
   if(class(x) == "factor" | class(x) == "character") {
  
-    zlim <- NA
+    z.lim <- NA
     if(missing(factor.labels)){ 
       col.no <- length(levels(as.factor(x)))  
     } else { 
@@ -65,7 +64,7 @@ kml_legend.bar <- function(x, width, height, pointsize = 14, legend.file, legend
     par(mar=c(.5,0,.5,4))
     plot(x=0:5, y=0:5, asp=3, type="n", axes=FALSE, xlab='', ylab='')
     # get the 2-4 significant digits
-    col.labels <- signif(c(zlim[1], mean(zlim), zlim[2]), 2)
+    col.labels <- signif(c(z.lim[1], mean(z.lim), z.lim[2]), 2)
     color.legend(xl=0, yb=0, xr=5, yt=5, legend=col.labels, rect.col=legend.pal, gradient="y", align="rb", cex=1.4, col=rgb(0.99,0.99,0.99))
   
     dev.off()

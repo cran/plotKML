@@ -27,9 +27,10 @@ gridded(LST) <- ~x+y
 proj4string(LST) <- CRS("+proj=utm +zone=33 +datum=WGS84 +units=m")
 dates <- sapply(strsplit(names(LST), "LST"), function(x){x[[2]]})
 datesf <- format(as.Date(dates, "\%Y_\%m_\%d"), "\%Y-\%m-\%dT\%H:\%M:\%SZ")
-\dontrun{# begin / end dates +/- 4 days:
+# begin / end dates +/- 4 days:
 TimeSpan.begin = as.POSIXct(unclass(as.POSIXct(datesf))-4*24*60*60, origin="1970-01-01") 
 TimeSpan.end = as.POSIXct(unclass(as.POSIXct(datesf))+4*24*60*60, origin="1970-01-01")
+\dontrun{# reproject (takes time):
 LST_ll <- reproject(LST)
 # pick few climatic stations:
 data(HRtemp08)

@@ -115,3 +115,5 @@ kml_layer.SpatialLines <- function(
 }
 
 setMethod("kml_layer", "SpatialLines", kml_layer.SpatialLines)
+
+# end of script;

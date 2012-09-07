@@ -20,6 +20,7 @@
 \seealso{ \code{spcosa::spsample}, \code{\link{plotKML-method}}
 }
 \examples{ 
+\dontrun{# stratified random sampling
 library(spcosa)
 # read a polygon map:
 shpFarmsum <- readOGR(dsn = system.file("maps", package = "spcosa"), layer = "farmsum")
@@ -29,7 +30,7 @@ myStratification <- stratify(shpFarmsum, nStrata = 50)
 mySamplingPattern <- spsample(myStratification, n = 2)
 # plot the resulting sampling pattern
 plot(myStratification, mySamplingPattern)
-\dontrun{# attach the correct proj4 string:
+# attach the correct proj4 string:
 library(RCurl)
 nl.rd <- getURL("http://spatialreference.org/ref/sr-org/6781/proj4/")
 proj4string(mySamplingPattern@sample) <- CRS(nl.rd) 

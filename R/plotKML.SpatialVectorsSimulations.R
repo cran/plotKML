@@ -33,21 +33,21 @@ setMethod("plotKML", "SpatialVectorsSimulations", function(
   grid2poly = FALSE,
   obj.summary = TRUE,
   plot.svar = FALSE,  
-  observed = names(obj@summaries)[1],
-  observed.sd = names(obj@summaries)[2],
+  var.name = names(obj@summaries)[1],
   kmz = TRUE,
   ...
 ){
 
+  var.name.sd = names(obj@summaries)[2]
   # mask out 0 pixels
-  obj@summaries@data[,observed] <- ifelse(obj@summaries@data[,observed]==0, NA, obj@summaries@data[,observed])
+  obj@summaries@data[,var.name] <- ifelse(obj@summaries@data[,var.name]==0, NA, obj@summaries@data[,var.name])
   N.r <- length(obj@realizations)
-  obs <- obj@summaries[observed]
+  obs <- obj@summaries[var.name]
 
   # summary properties of the RK model:
   if(obj.summary==TRUE){
-    sel <- obj@summaries@data[,observed]>0
-    md <- data.frame(Names=c("N.realizations", "avg.probability", "N.pixels"), Values=c(N.r, signif(mean(obj@summaries@data[sel,observed], na.rm=TRUE), 3), sum(sel)), stringsAsFactors = FALSE)
+    sel <- obj@summaries@data[,var.name]>0
+    md <- data.frame(Names=c("N.realizations", "avg.probability", "N.pixels"), Values=c(N.r, signif(mean(obj@summaries@data[sel,var.name], na.rm=TRUE), 3), sum(sel)), stringsAsFactors = FALSE)
     html <- kml_description(md, asText = TRUE, cwidth = 120, twidth = 240)
   }
   
@@ -64,15 +64,15 @@ setMethod("plotKML", "SpatialVectorsSimulations", function(
   assign('kml.out', kml.out, envir=plotKML.fileIO)
   
   if(grid2poly == TRUE){  
-    kml_layer(obj = pol, colour = observed, ...)
+    kml_layer(obj = pol, colour = var.name, ...)
   }
   else {
-    kml_layer(obj = obs, z.lim = c(0,1), colour = observed, raster_name = paste(folder.name, "_observed.png", sep=""), ...)
+    kml_layer(obj = obs, z.lim = c(0,1), colour = var.name, raster_name = paste(folder.name, "_observed.png", sep=""), ...)
   }
 
   if(plot.svar==TRUE){
-    sums <- obj@summaries[observed.sd]
-    kml_layer(obj = sums, colour = observed.sd, colour_scale = colour_scale_svar, raster_name = paste(folder.name, "_observed.sd.png", sep=""), plot.legend = FALSE)  
+    sums <- obj@summaries[var.name.sd]
+    kml_layer(obj = sums, colour = var.name.sd, colour_scale = colour_scale_svar, raster_name = paste(folder.name, "_observed.sd.png", sep=""), plot.legend = FALSE)  
   }
   
   # Realizations:

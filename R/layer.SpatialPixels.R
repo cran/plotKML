@@ -1,3 +1,9 @@
+# Purpose        : Write a SpatialPixels object to KML;
+# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
+# Contributions  : ; 
+# Status         : pre-alpha
+# Note           : ;
+
 kml_layer.SpatialPixels <- function(  
   obj,
   raster_name,
@@ -71,7 +77,7 @@ kml_layer.SpatialPixels <- function(
   if(is.factor(obj@data[,1])){
     colour_scale <- colorRampPalette(pal)(length(levels(obj@data[,1])))
   } else {
-    colour_scale <- colorRampPalette(pal)(nrow(obj))  
+    colour_scale <- colorRampPalette(pal)(100)  
   }
 
   # Transparency
@@ -88,6 +94,11 @@ kml_layer.SpatialPixels <- function(
   # Plotting the image
   png(filename = raster_name, bg = "transparent", type="cairo-png")
   par(mar = c(0, 0, 0, 0), xaxs = "i", yaxs = "i")
+  if(!is.na(charmatch("z.lim", names(call)))){ 
+    z.lim <- eval(call[["z.lim"]])
+    r <- calc(r, fun=function(x){ x[x < z.lim[1]] <- z.lim[1]; return(x)}) 
+    r <- calc(r, fun=function(x){ x[x > z.lim[2]] <- z.lim[2]; return(x)}) 
+  }
   image(r, col = colour_scale, frame.plot = FALSE)
   dev.off()
 
@@ -114,7 +125,11 @@ kml_layer.SpatialPixels <- function(
     } else {
       legend_name <- paste(strsplit(raster_name, "\\.")[[1]][1], "legend.png", sep="_")  
     }
-    kml_legend.bar(x = obj@data[,1], legend.file = legend_name, legend.pal = colour_scale)
+    if(!is.na(charmatch("z.lim", names(call)))){
+      kml_legend.bar(x = obj@data[,1], legend.file = legend_name, legend.pal = colour_scale, z.lim = eval(call[["z.lim"]]))
+    } else {
+      kml_legend.bar(x = obj@data[,1], legend.file = legend_name, legend.pal = colour_scale)
+    }
   }
 
   message("Parsing to KML...")
@@ -134,7 +149,7 @@ kml_layer.SpatialPixels <- function(
   pl2b <- newXMLNode("GroundOverlay", parent = pl1)
   # Creating a SpatialPixelsDataFrame object to be plotted
   pl3 <- newXMLNode("name", deparse(call[["colour"]]), parent = pl2b)
-  pl3b <- newXMLNode("altitude", altitude, parent = pl2b)
+  pl3b <- newXMLNode("altitude", signif(altitude, 4), parent = pl2b)
   pl3b <- newXMLNode("altitudeMode", altitudeMode, parent = pl2b)
   pl3c <- newXMLNode("Icon", parent = pl2b)
   pl4 <- newXMLNode("href", raster_name, parent = pl3c)
