@@ -13,9 +13,18 @@
 \description{
 Writes any \code{Spatial*} object (from the sp package) or \code{Raster*} object (from the raster package) to a KML file via the \code{plotKML.fileIO} environment. Various \emph{aesthetics} parameters can be set via \code{colour}, \code{alpha}, \code{size}, \code{shape} arguments. Their availability depends on the class of the object to plot.
 }
-\usage{kml(obj, \dots)}
+\usage{
+\S4method{kml}{Raster}(obj, folder.name, file.name, kmz, \dots)
+\S4method{kml}{Spatial}(obj, folder.name, file.name, kmz, \dots)
+\S4method{kml}{STIDF}(obj, folder.name, file.name, kmz, \dots)
+\S4method{kml}{SoilProfileCollection}(obj, folder.name, file.name, kmz, \dots)
+\S4method{kml}{SpatialPhotoOverlay}(obj, folder.name, file.name, kmz, \dots)
+}
 \arguments{
   \item{obj}{object inheriting from the \code{Spatial*} or the \code{Raster*} classes}
+  \item{folder.name}{character; folder name in the KML file}
+  \item{file.name}{character; output KML file name}
+  \item{kmz}{logical; specief whether to compress the KML file}
   \item{\dots}{additional aesthetics arguments (see details below)}
 }
 \value{A KML file. By default parses the object name and adds a ".kml" extension.}

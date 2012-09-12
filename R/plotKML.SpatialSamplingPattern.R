@@ -10,7 +10,7 @@ setMethod("plotKML", "SpatialSamplingPattern", function(
   folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))),
   file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""),
   kmz = TRUE,
-  ID = names(obj@sp.domain)[1],
+  var.name = names(obj@sp.domain)[1],
   ...
 ){
  
@@ -24,7 +24,7 @@ setMethod("plotKML", "SpatialSamplingPattern", function(
   assign('kml.out', kml.out, envir=plotKML.fileIO)  
 
   # plot strata and points:
-  kml_layer.SpatialPolygons(obj = obj@sp.domain, colour = ID)
+  kml_layer.SpatialPolygons(obj = obj@sp.domain, colour = var.name)
   kml_layer.SpatialPoints(obj = obj@pattern, ...)
 
   # close the file:

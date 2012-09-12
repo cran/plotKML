@@ -8,11 +8,11 @@
 \title{Methods to get the proj4 string}
 \description{Gets the proj4 string from a object of type "Spatial" or "Raster".}
 \usage{
-getCRS(obj, \dots ) 
+\S4method{getCRS}{Spatial}(obj)
+\S4method{getCRS}{Raster}(obj) 
 }
 \arguments{
   \item{obj}{object of type \code{"Spatial"} or \code{"Raster"}}
-  \item{\dots}{other optional arguments}
 }
 \details{For more details about the PROJ.4 parameters refer to the \href{http://trac.osgeo.org/proj/wiki/GenParms}{http://trac.osgeo.org}.}
 \author{ Tomislav Hengl and Pierre Roudier}

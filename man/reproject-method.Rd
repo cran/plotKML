@@ -16,10 +16,24 @@
 \alias{reproject,RasterLayer-method}
 \alias{reproject,RasterBrick-method}
 \title{Methods to reproject maps to a referent coordinate system (WGS84)}
-\description{This wrapper function reprojects any vector or raster spatial data to some referent coordinate system (by default: geographic coordinates on the World Geodetic System of 1984 / WGS84 datum).}
-\usage{reproject(obj, \dots)}
+\description{This wrapper function reprojects any vector or raster spatial data to some referent coordinate system (by default: geographic coordinates on the \href{http://spatialreference.org/ref/epsg/4326/}{World Geodetic System of 1984 / WGS84} datum).}
+\usage{
+\S4method{reproject}{SpatialPoints}(obj, CRS, \dots)
+\S4method{reproject}{SpatialPolygons}(obj, CRS, \dots)
+\S4method{reproject}{SpatialLines}(obj, CRS, \dots)
+\S4method{reproject}{RasterStack}(obj, CRS, \dots)
+\S4method{reproject}{RasterLayer}(obj, CRS, program = "raster", tmp.file = TRUE, NAflag, show.output.on.console = FALSE, \dots)
+\S4method{reproject}{RasterBrick}(obj, CRS, \dots)
+\S4method{reproject}{SpatialGridDataFrame}(obj, CRS, tmp.file = TRUE, program = "raster", NAflag, show.output.on.console = FALSE, \dots)
+\S4method{reproject}{SpatialPixelsDataFrame}(obj, CRS, tmp.file = TRUE, program = "raster", NAflag, show.output.on.console = FALSE, \dots)
+}
 \arguments{
   \item{obj}{Spatial* or Raster* object}
+  \item{CRS}{object of class \code{"CRS"}; proj4 string}
+  \item{program}{reprojection engine; either raster package or FWTools}
+  \item{tmp.file}{logical; specifies whether to create a temporary file or not}
+  \item{NAflag}{character; missing value flag}
+  \item{show.output.on.console}{logical; specifies whether to print the progress}
   \item{\dots}{arguments evaluated in the context of function \code{projectRaster} from the raster package}
 }
 \details{
@@ -54,4 +68,3 @@ system.time(eberg_grid_ll2 <- reproject(eberg_grid25[1], program="FWTools"))
 }
 }
 \keyword{spatial}
-

@@ -23,10 +23,12 @@
 \description{
 Writes any \code{Spatial*} object (from the sp package) or \code{Raster*} object (from the raster package) to a KML file (connection) as a separate layer. Various \emph{aesthetics}, i.e. ways to represent target variables, can be set via colour, transparency, size, width, shape arguments. Their availability depends on the class of the object to plot.
 }
-\usage{kml_layer(obj, \dots)}
+\usage{
+kml_layer(obj, \dots)
+}
 \arguments{
   \item{obj}{object inheriting from the \code{Spatial*} or the \code{Raster*} classes}
-  \item{\dots}{additional aesthetics arguments; see \code{kml_aes}}
+  \item{\dots}{additional aesthetics arguments; see details for each \code{kml_layer} function and the \code{kml_aes} function}
 }
 \value{An XML object that can be further parsed to a KML file (via an open connection).}
 \author{Pierre Roudier, Tomislav Hengl and Dylan Beaudette}

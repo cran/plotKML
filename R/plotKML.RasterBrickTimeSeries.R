@@ -8,7 +8,7 @@ setMethod("plotKML", "RasterBrickTimeSeries", function(
   obj,
   folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))),
   file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""),
-  labsname = names(obj@sampled)[1],
+  var.name = names(obj@sampled)[1],
   pngwidth = 680,
   pngheight = 180,
   pngpointsize = 14,
@@ -19,7 +19,7 @@ setMethod("plotKML", "RasterBrickTimeSeries", function(
   # sampling locations:
   varname <- paste(obj@variable)
   locs <- obj@sampled
-  labs <- paste(locs@data[,labsname])
+  labs <- paste(locs@data[,var.name])
   # Begin end times:
   TimeSpan.begin <- obj@TimeSpan.begin
   TimeSpan.end <- obj@TimeSpan.end
