@@ -9,7 +9,6 @@
 vect2rast.SpatialPoints <- function(obj, fname = names(obj)[1], cell.size, bbox, file.name, silent = FALSE, method = c("raster", "SAGA")[1], FIELD = 0, MULTIPLE = 1, LINE_TYPE = 0, GRID_TYPE = 2, ...){
 
     require(maptools)
-    require(rgdal)
     
     # add indicator value if missing data frame:
     if(!any(slotNames(obj) %in% "data")){
@@ -37,7 +36,6 @@ vect2rast.SpatialPoints <- function(obj, fname = names(obj)[1], cell.size, bbox,
     }
 
     if(method=="raster"){
-      require(raster)
       x <- GridTopology(cellcentre.offset=bbox[,1], cellsize=c(cell.size,cell.size), cells.dim=c(round(abs(diff(bbox[1,])/cell.size), 0), ncols=round(abs(diff(bbox[2,])/cell.size), 0)))
       r.sp <- SpatialGrid(x, proj4string = obj@proj4string)
       r <- raster(r.sp)
@@ -95,7 +93,6 @@ vect2rast.SpatialPoints <- function(obj, fname = names(obj)[1], cell.size, bbox,
 vect2rast.SpatialLines <- function(obj, fname = names(obj)[1], cell.size, bbox, file.name, silent = FALSE, method = c("raster", "SAGA")[1], FIELD = 0, MULTIPLE = 1, LINE_TYPE = 1, GRID_TYPE = 2, ...){
 
     require(maptools)
-    require(rgdal)
 
     # add indicator value if missing data frame:
     if(!any(slotNames(obj) %in% "data")){
@@ -124,7 +121,6 @@ vect2rast.SpatialLines <- function(obj, fname = names(obj)[1], cell.size, bbox, 
     }
 
     if(method=="raster"){
-      require(raster)
       x <- GridTopology(cellcentre.offset=bbox[,1], cellsize=c(cell.size,cell.size), cells.dim=c(round(abs(diff(bbox[1,])/cell.size), 0), ncols=round(abs(diff(bbox[2,])/cell.size), 0)))
       r.sp <- SpatialGrid(x, proj4string = obj@proj4string)
       r <- raster(r.sp)
@@ -182,7 +178,6 @@ vect2rast.SpatialLines <- function(obj, fname = names(obj)[1], cell.size, bbox, 
 vect2rast.SpatialPolygons <- function(obj, fname = names(obj)[1], cell.size, bbox, file.name, silent = FALSE, method = c("raster", "SAGA")[1], FIELD = 0, MULTIPLE = 0, LINE_TYPE = 1, GRID_TYPE = 2, ...){
 
     require(maptools)
-    require(rgdal)
     
     # add indicator value if missing data frame:
     if(!any(slotNames(obj) %in% "data")){
@@ -209,7 +204,6 @@ vect2rast.SpatialPolygons <- function(obj, fname = names(obj)[1], cell.size, bbo
     }
 
     if(method=="raster"){
-      require(raster)
       x <- GridTopology(cellcentre.offset=bbox[,1], cellsize=c(cell.size,cell.size), cells.dim=c(round(abs(diff(bbox[1,])/cell.size), 0), ncols=round(abs(diff(bbox[2,])/cell.size), 0)))
       r.sp <- SpatialGrid(x, proj4string = obj@proj4string)
       r <- raster(r.sp)

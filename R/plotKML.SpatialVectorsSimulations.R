@@ -5,54 +5,47 @@
 # Note           : it basically requires only a single input object;
 
 
-## get a summary of an object for a list of lines:
-setMethod("aggregate", signature(x = "GridTopology"), function(x, vectL, ...){
-    # rasterize each line separately:
-    sg <- SpatialGridDataFrame(x, proj4string = vectL[[1]]@proj4string, data=data.frame(observed=rep(NA, x@cells.dim[1]*x@cells.dim[2]), observed.sd=rep(NA, x@cells.dim[1]*x@cells.dim[2])))
-    xv <- NULL
-    for(i in 1:length(vectL)){
-     vv <- vectL[[i]]
-     vv$x <- rep(1, nrow(vv))
-     xv[[i]]  <- vect2rast(vv, fname="x", cell.size=sg@grid@cellsize[1], bbox=sg@bbox, ...)@data
-    }
-    # bind all rasters:
-    xv <- do.call(cbind, xv)
-    
-    sg$observed <- rowSums(xv, na.rm=T, dims=1)/length(xv)
-    sg$observed.sd <- ifelse(sg$observed==0|sg$observed==1, 0, -sg$observed*log2(sg$observed)-(1-sg$observed)*log2(1-sg$observed))  ## information entropy (H) of a Bernoulli trial 
-    new("SpatialVectorsSimulations", realizations = vectL, summaries = sg)
-})
-
-
 ## plot object:
 setMethod("plotKML", "SpatialVectorsSimulations", function(
   obj,
   folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))),
-  file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""),
+  file.name = paste(folder.name, ".kml", sep=""),
+  colour,
   colour_scale_svar = get("colour_scale_svar", envir = plotKML.opts),
   grid2poly = FALSE,
   obj.summary = TRUE,
-  plot.svar = FALSE,  
-  var.name = names(obj@summaries)[1],
-  kmz = TRUE,
+  plot.svar = FALSE,
+  kmz = get("kmz", envir = plotKML.opts),
   ...
 ){
-
-  var.name.sd = names(obj@summaries)[2]
+  
+  # if missing colour, pick the first var on the list
+  if(missing(colour)){ 
+    obj@summaries@data[,"colour"] <- obj@summaries@data[,1] 
+    message("Plotting the first variable on the list")  
+  } else {
+    if(is.name(colour)|is.call(colour)){
+      obj@summaries@data[,"colour"] <- eval(colour, obj@summaries@data)
+    } else {
+      obj@summaries@data[,"colour"] <- obj@summaries@data[,as.character(colour)]  
+    }
+  }
+  
+  # error map (this assumes that it is always the 2nd on the list):
+  names(obj@summaries)[2] = "colour.sd"
   # mask out 0 pixels
-  obj@summaries@data[,var.name] <- ifelse(obj@summaries@data[,var.name]==0, NA, obj@summaries@data[,var.name])
+  obj@summaries@data[,"colour"] <- ifelse(obj@summaries@data[,"colour"]==0, NA, obj@summaries@data[,"colour"])
   N.r <- length(obj@realizations)
-  obs <- obj@summaries[var.name]
 
   # summary properties of the RK model:
   if(obj.summary==TRUE){
-    sel <- obj@summaries@data[,var.name]>0
-    md <- data.frame(Names=c("N.realizations", "avg.probability", "N.pixels"), Values=c(N.r, signif(mean(obj@summaries@data[sel,var.name], na.rm=TRUE), 3), sum(sel)), stringsAsFactors = FALSE)
+    sel <- obj@summaries@data[,"colour"]>0
+    md <- data.frame(Names=c("N.realizations", "avg.probability", "N.pixels"), Values=c(N.r, signif(mean(obj@summaries@data[sel,"colour"], na.rm=TRUE), 3), sum(sel, na.rm=TRUE)), stringsAsFactors = FALSE)
     html <- kml_description(md, asText = TRUE, cwidth = 120, twidth = 240)
   }
   
   if(grid2poly == TRUE){
-    pol <- grid2poly(obs)
+    pol <- grid2poly(obj@summaries["colour"])
   }
 
   kml_open(folder.name = folder.name, file.name = file.name)
@@ -64,15 +57,14 @@ setMethod("plotKML", "SpatialVectorsSimulations", function(
   assign('kml.out', kml.out, envir=plotKML.fileIO)
   
   if(grid2poly == TRUE){  
-    kml_layer(obj = pol, colour = var.name, ...)
+    kml_layer(obj = pol, colour = colour, ...)
   }
   else {
-    kml_layer(obj = obs, z.lim = c(0,1), colour = var.name, raster_name = paste(folder.name, "_observed.png", sep=""), ...)
+    kml_layer(obj = obj@summaries, z.lim = c(0,1), colour = colour, raster_name = paste(folder.name, "_observed.png", sep=""), ...)
   }
 
   if(plot.svar==TRUE){
-    sums <- obj@summaries[var.name.sd]
-    kml_layer(obj = sums, colour = var.name.sd, colour_scale = colour_scale_svar, raster_name = paste(folder.name, "_observed.sd.png", sep=""), plot.legend = FALSE)  
+    kml_layer(obj = obj@summaries, colour = colour.sd, colour_scale = colour_scale_svar, raster_name = paste(folder.name, "_observed.sd.png", sep=""), plot.legend = FALSE)  
   }
   
   # Realizations:
@@ -90,5 +82,7 @@ setMethod("plotKML", "SpatialVectorsSimulations", function(
   kml_View(file.name)
     
 })
+
+
 
 # end of script;

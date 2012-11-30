@@ -1,7 +1,7 @@
 # Purpose        : Parsing "SoilPhotoOverlay" objects to KML
 # Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); Pierre Roudier (pierre.roudier@landcare.nz);
-# Status         : not tested yet
+# Contributions  : ;
+# Status         : alpha version
 # Note           : plots either a PhotoOverlay or a monolith (COLLADA model);
 
 

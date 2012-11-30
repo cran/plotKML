@@ -6,29 +6,15 @@
 
 
 reproject.SpatialPoints <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts), ...) {
-  require(rgdal)
   message(paste("Reprojecting to", CRS, "..."))
   res <- spTransform(x = obj, CRSobj = CRS(CRS))
   return(res)
 }
 
 
-reproject.RasterStack <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts), ...) {
-  rs <- stack(lapply(obj@layers, reproject, CRS = CRS, ...))
-  return(rs)
-}
-
-
-reproject.RasterBrick <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts), ...) {
-  r <- stack(obj)
-  rs <- brick(lapply(r@layers, reproject, CRS = CRS, ...))
-  return(rs)
-}
-
-
 reproject.RasterLayer <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts), program = "raster", tmp.file = TRUE, NAflag = get("NAflag", envir = plotKML.opts), show.output.on.console = FALSE, ...) {
 
-  if (is.factor(obj)){  
+  if(raster::is.factor(obj)){  
     method <- "ngb" 
   } else {  
     method <- "bilinear" 
@@ -36,8 +22,8 @@ reproject.RasterLayer <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts
   
   if(program=="raster"){
     message(paste("Reprojecting to", CRS, "..."))
-    res <- projectRaster(obj, crs = CRS, method = method, progress='text', ...)
-    layerNames(res) <- layerNames(obj)
+    res <- raster::projectRaster(obj, crs = CRS, method = method, progress='text', ...)
+    names(res) <- names(obj)
   } else {
   
   if(program=="FWTools"){
@@ -62,7 +48,7 @@ reproject.RasterLayer <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts
         message(paste("Reprojecting to", CRS, "..."))
         system(paste(gdalwarp, " ", tf, ".tif", " -t_srs \"", CRS, "\" ", tf, "_ll.tif -dstnodata \"", NAflag, "\" ", " -r ", method, sep=""), show.output.on.console = show.output.on.console)
         res <- raster(paste(tf, "_ll.tif", sep=""), silent = TRUE)
-        layerNames(res) <- layerNames(obj)
+        names(res) <- names(obj)
       } else {
         stop("Could not locate FWTools. See 'plotKML.env()' for more info.") }
   }
@@ -78,34 +64,46 @@ reproject.SpatialGrid <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts
 
     # if multiple layers:
     if(ncol(obj) > 1) {
-      r <- stack(obj)
-      r <- stack(lapply(r@layers, reproject, CRS = CRS, ...))
-      res <- as(r, "SpatialGridDataFrame")
-    ## TH: time consuming but would be preferred:
-    #  res <- as(res, "SpatialPixelsDataFrame")
+      r <- raster::stack(obj)
+      res <- list(NULL)
+      for(j in 1:ncol(obj)){
+        if(is.factor(obj@data[,j])){
+          r[[j]] <- raster::as.factor(r[[j]])
+        }
+        res[[j]] <- reproject(r[[j]], CRS = CRS) 
+      }
+      res <- as(raster::stack(res), "SpatialGridDataFrame")
+      ## TH: time consuming but would be preferred:
+      #  res <- as(res, "SpatialPixelsDataFrame")
       names(res) <- names(obj)
     }
 
     # single layer:
     else {
       r <- raster(obj)
-      res <- as(reproject(r, CRS = CRS, ...), "SpatialGridDataFrame")
+      if(is.factor(obj@data[,1])){
+        r <- raster::as.factor(r)
+        message(paste("Reprojecting to", CRS, "..."))
+        res <- as(raster::projectRaster(r, crs = CRS, method = "ngb"), "SpatialGridDataFrame")
+      } else {
+        res <- as(reproject(r, CRS = CRS, ...), "SpatialGridDataFrame")
+      }
+      
       names(res) <- names(obj)
     }
     
     # fix factor-type objects:
     for(j in 1:ncol(obj)){
       if(is.factor(obj@data[,j])){
-      # copy levels:
-      res@data[,j] <- as.factor(res@data[,j])
-      levels(res@data[,j]) = levels(as.factor(paste(obj@data[,j])))
+        # copy levels:
+        res@data[,j] <- as.factor(res@data[,j])
+        levels(res@data[,j]) = levels(as.factor(paste(obj@data[,j])))
       }
     }
   }
   
   if(program=="FWTools"){
   gdalwarp <- get("gdalwarp", envir = plotKML.opts)
-  require(rgdal)
   
   # look for FWTools path:  
   if(nchar(gdalwarp)==0){
@@ -162,7 +160,8 @@ reproject.SpatialGrid <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts
   } 
   
   else {
-  stop("Could not locate FWTools. See 'plotKML.env()' for more info.") }
+    stop("Could not locate FWTools. See 'plotKML.env()' for more info.") 
+  }
   
   } 
   
@@ -171,15 +170,30 @@ reproject.SpatialGrid <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts
   return(res)
 }
 
-# connect all methods and classes:
-setMethod("reproject", signature="SpatialPoints", definition=reproject.SpatialPoints)
-setMethod("reproject", signature="SpatialPolygons", definition=reproject.SpatialPoints)
-setMethod("reproject", signature="SpatialLines", definition=reproject.SpatialPoints)
-setMethod("reproject", signature="RasterStack", definition=reproject.RasterStack)
-setMethod("reproject", signature="RasterLayer", definition=reproject.RasterLayer)
-setMethod("reproject", signature="RasterBrick", definition=reproject.RasterBrick)
-setMethod("reproject", signature="SpatialGridDataFrame", definition=reproject.SpatialGrid)
-setMethod("reproject", signature="SpatialPixelsDataFrame", definition=reproject.SpatialGrid)
 
+reproject.RasterStack <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts)) {
+  rs <- list(NULL)
+  for(j in 1:nlayers(obj)){
+    rs[[j]] <- reproject(obj[[j]], CRS = CRS)
+  }
+  return(stack(rs))
+}
+
+
+reproject.RasterBrick <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts)) {
+  r <- stack(obj)
+  rs <- reproject.RasterStack(r, CRS = CRS)
+  return(rs)
+}
+
+# connect all methods and classes:
+setMethod("reproject", "SpatialPoints", reproject.SpatialPoints)
+setMethod("reproject", "SpatialPolygons", reproject.SpatialPoints)
+setMethod("reproject", "SpatialLines", reproject.SpatialPoints)
+setMethod("reproject", "RasterLayer", reproject.RasterLayer)
+setMethod("reproject", "SpatialGridDataFrame", reproject.SpatialGrid)
+setMethod("reproject", "SpatialPixelsDataFrame", reproject.SpatialGrid)
+setMethod("reproject", "RasterStack", reproject.RasterStack)
+setMethod("reproject", "RasterBrick", reproject.RasterBrick)
 
 # end of script;

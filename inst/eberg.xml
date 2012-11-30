@@ -100,21 +100,21 @@
 <eainfo>
 <detailed>
 <attr>
-<attrlabl>SAND</attrlabl>
+<attrlabl>SNDMHT_A</attrlabl>
 <attrdef>topsoil silt content estimated by hand in %</attrdef>
 <attrvai>
 <attrva>7.5</attrva>
 </attrvai>
 </attr>
 <attr>
-<attrlabl>SILT</attrlabl>
+<attrlabl>SLTMHT_A</attrlabl>
 <attrdef>topsoil sand content estimated by hand in %</attrdef>
 <attrvai>
 <attrva>7.5</attrva>
 </attrvai>
 </attr>
 <attr>
-<attrlabl>CLAY</attrlabl>
+<attrlabl>CLYMHT_A</attrlabl>
 <attrdef>topsoil clay content estimated by hand in %</attrdef>
 <attrvai>
 <attrva>7.5</attrva>

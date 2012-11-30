@@ -36,7 +36,10 @@ kml_layer(obj, \dots)
 \code{\link{kml_layer.SpatialPoints}}, \code{\link{kml_layer.Raster}}, \code{\link{kml_layer.SpatialLines}}, \code{\link{kml_layer.SpatialPolygons}}, \code{\link{kml_layer.STIDF}}, \code{\link{kml_layer.STTDF}}, \code{\link{kml_layer.SoilProfileCollection}}, \code{\link{kml-methods}}, \code{\link{kml_open}}, \code{\link{kml_close}}
 }
 \examples{
+library(rgdal)
 data(eberg_grid)
+library(sp)
+library(raster)
 gridded(eberg_grid) <- ~x+y
 proj4string(eberg_grid) <- CRS("+init=epsg:31467")
 data(SAGA_pal)
@@ -47,6 +50,7 @@ kml_layer(eberg_grid, colour=DEMSRT6, colour_scale=R_pal[["terrain_colors"]])
 kml_layer(eberg_grid, colour=TWISRT6, colour_scale=SAGA_pal[[1]])
 kml_close("eberg_grids.kml")
 # print the result:
+library(XML)
 xmlRoot(xmlTreeParse("eberg_grids.kml"))[["Document"]]
 }
 }

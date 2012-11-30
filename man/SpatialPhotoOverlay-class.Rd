@@ -22,5 +22,5 @@ Class \code{"pixmapRGB"}.
   }
 }
 \author{ Tomislav Hengl }
-\seealso{ \code{\link{spPhoto}} }
+\seealso{ \code{\link{plotKML-method}}, \code{\link{spPhoto}} }
 \keyword{classes}

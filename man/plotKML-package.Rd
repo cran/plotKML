@@ -14,7 +14,7 @@ LazyLoad: \tab yes\cr
 }
 }
 \author{
-Tomislav Hengl (\email{tom.hengl@wur.nl}), Pierre Roudier (\email{pierre.roudier@landcare.nz}), Dylan Beaudette (\email{debeaudette@ucdavis.edu}), Daniel \enc{Nüst}{Nuest} (\email{d.nuest@52north.org})
+Tomislav Hengl (\email{tom.hengl@wur.nl}), Pierre Roudier (\email{pierre.roudier@landcare.nz}), Dylan Beaudette (\email{debeaudette@ucdavis.edu}), Edzer Pebesma (\email{edzer.pebesma@uni-muenster.de})
 }
 \references{
 \itemize{
@@ -24,4 +24,3 @@ Tomislav Hengl (\email{tom.hengl@wur.nl}), Pierre Roudier (\email{pierre.roudier
 }
 \note{This package has been developed as a part of the \href{http://isric.org/projects/global-soil-information-facilities-gsif}{\strong{Global Soil Information Facilities}} project, which is run jointly by the ISRIC Institute and collaborators. ISRIC is a non-profit organization with a mandate to serve the international community as custodian of global soil information and to increase awareness and understanding of the role of soils in major global issues.}
 \keyword{spatial}
-

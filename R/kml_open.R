@@ -1,7 +1,7 @@
 # Purpose        : Open and close KML file;
 # Maintainer     : Pierre Roudier (pierre.roudier@landcare.nz);
-# Contributions  : Tomislav Hengl (tom.hengl@wur.nl); Dylan Beaudette (debeaudette@ucdavis.edu);  
-# Status         : tested
+# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); Tomislav Hengl (tom.hengl@wur.nl);   
+# Status         : tested (but not on the MacOS / Linux)
 # Note           : See [http://code.google.com/apis/kml/documentation/kmlreference.html] for more info.
 
 kml_open <- function(
@@ -38,7 +38,7 @@ kml_open <- function(
   
   # init connection to an XML object: 
   assign("kml.out", kml.out, envir=plotKML.fileIO)
-  message("KML file header opened for parsing...")
+  message("KML file opened for writing...")
   
 }
 
@@ -55,10 +55,10 @@ kml_close <- function(file.name, overwrite = FALSE, ...) {
 ## Open the KML file using the default OS application:
 kml_View <- function(file.name){
   if(.Platform$OS.type == "windows") {
-      require(raster)
-      ext <- extension(file.name)
+      ext <- raster::extension(file.name)
+      x <- NULL # set default value for error checking
       if(!inherits(try({ x <- utils::readRegistry(ext, hive="HCR") }, silent = TRUE), "try-error")){
-        if(nzchar(x[which(names(x) %in% 'Content Type')][[1]])){
+        if(! is.null(x[which(names(x) %in% c('Content Type', '(Default)'))])){
           system(paste("open ", shortPathName(normalizePath(paste(getwd(), "/", file.name, sep=""))), sep=""))
         }
       }
@@ -66,12 +66,14 @@ kml_View <- function(file.name){
         warning(paste("No MIME type detected for", ext, "file extension."))
       }
   } 
+
+  ## DB: this is untested on Mac OS X / UNIX!
   else {
       if(.Platform$pkgType == "mac.binary.leopard"){
-        system(paste("open ", normalizePath(paste(getwd(), "/", file.name, sep="")), sep=""))
+        try(system(paste("open ", normalizePath(paste(getwd(), "/", file.name, sep="")), sep="")))
         }
       else{
-        system(paste("gnome-open ", normalizePath(paste(getwd(), "/", file.name, sep="")), sep=""))
+        try(system(paste("gnome-open ", normalizePath(paste(getwd(), "/", file.name, sep="")), sep="")))
       }
   }
 }

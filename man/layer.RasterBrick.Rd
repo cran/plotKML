@@ -26,29 +26,7 @@ kml_layer.RasterBrick(obj, plot.legend = TRUE, dtime = "", tz = "GMT",
 \details{This method is recommended for visualization of numeric bands representing the same variable i.e. time series of images. To export a stack of images of different type see \code{\link{kml_layer.Raster}}. If the \code{"@zvalue"} slot is empty, dates will be added by subtracting days from the current day with 1--day increments.
 }
 \author{Tomislav Hengl }
-\seealso{ \code{\link{kml-methods}}, \code{\link{kml_open}}, \code{\link{kml_layer.Raster}} }
-\examples{
-data(LST)
-coordinates(LST) <- ~x+y
-gridded(LST) <- TRUE
-proj4string(LST) <- CRS("+proj=utm +zone=33 +datum=WGS84 +units=m")
-\dontrun{# get the dates from the file names:
-dates <- sapply(strsplit(names(LST), "LST"), function(x){x[[2]]})
-LST <- brick(LST)
-LST@title = "Time series of MODIS Land Surface Temperature images"
-LST <- setZ(LST, format(as.Date(dates, "\%Y_\%m_\%d"), "\%Y-\%m-\%dT\%H:\%M:\%SZ"))
-data(SAGA_pal)
-# time dimension defined via zvalue slot:
-getZ(LST)[c(1,12,24)]
-# subset to 3 images:
-LSTs <- brick(raster(LST, 1), raster(LST, 12), raster(LST, 24))
-LST_ll <- reproject(LSTs, program="FWTools")
-# copy the dates:
-LST_ll <- setZ(LST_ll, getZ(LST)[c(1,12,24)])
-# KML plot with block temporal support of 8 days:
-kml(LST_ll, colour_scale=SAGA_pal[[1]], dtime=8*24*60^2)
-}
-}
+\seealso{ \code{\link{kml-methods}}, \code{\link{kml_open}}, \code{\link{kml_layer.Raster}}, \code{\link{plotKML-method}} }
 \keyword{spatial}
 
 

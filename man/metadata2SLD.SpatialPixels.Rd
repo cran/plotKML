@@ -26,6 +26,7 @@ metadata2SLD.SpatialPixels(obj,
 \examples{
 \dontrun{# generate missing metadata
 data(eberg_grid)
+library(sp)
 coordinates(eberg_grid) <- ~x+y
 gridded(eberg_grid) <- TRUE
 proj4string(eberg_grid) <- CRS("+init=epsg:31467")

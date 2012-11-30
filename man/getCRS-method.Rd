@@ -20,9 +20,12 @@
 }
 \examples{
 data(eberg_grid)
+library(sp)
 coordinates(eberg_grid) <- ~x+y
 gridded(eberg_grid) <- TRUE
+library(rgdal)
 proj4string(eberg_grid) <- CRS("+init=epsg:31467")
+library(raster)
 r <- raster(eberg_grid[1])
 getCRS(r)
 r.ll <- reproject(r)

@@ -55,10 +55,9 @@ kml_layer.SpatialPixels <- function(
   r <- raster(obj)
   altitude <- charmatch("altitude", names(call))
   if(!is.na(altitude)){
-    altitude <- eval(call[["altitude"]], length(r))
-    altitude <- kml_altitude(r, altitude)
+    altitude <- eval(call[["altitude"]], nlayers(r))
   } else {
-    altitude <- kml_altitude(r, altitude=NULL)
+    altitude <- rep(.all_kml_aesthetics[["altitude"]], length.out = nlayers(r))
   }
   altitudeMode <- kml_altitude_mode(altitude, GroundOverlay=TRUE) 
 

@@ -25,33 +25,38 @@ tags will be inserted. Temporal support (\eqn{\Delta t}{dt}) is estimated using 
 }
 \references{
 \itemize{
-\item Pebesma, E. (2011) Classes and Methods for Spatio-Temporal Data in R. Journal of Statistical Software.
+\item Pebesma, E. (2012) \href{http://www.jstatsoft.org/v51/i07}{Classes and Methods for Spatio-Temporal Data in R}. Journal of Statistical Software. 51(7): 1-30.
 \item spacetime package (\url{http://CRAN.R-project.org/package=spacetime})
 }
 }
 \author{Tomislav Hengl }
-\seealso{ \code{\link{kml_layer.STTDF}} }
+\seealso{ \code{\link{kml_layer.STTDF}}, \code{\link{plotKML-method}} }
 \examples{
+\dontrun{
 data(HRtemp08)
+
 # format the time column:
 HRtemp08$ctime <- as.POSIXct(HRtemp08$DATE, format="\%Y-\%m-\%dT\%H:\%M:\%SZ")
-\dontrun{# create a STIDF object:
+
+# create a STIDF object:
 library(spacetime)
 sp <- SpatialPoints(HRtemp08[,c("Lon","Lat")])
 proj4string(sp) <- CRS("+proj=longlat +datum=WGS84")
 HRtemp08.st <- STIDF(sp, time = HRtemp08$ctime, data = HRtemp08[,c("NAME","TEMP")])
+
 # write to a KML file:
 HRtemp08_jan <- HRtemp08.st[1:500]
-shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png"
-kml(HRtemp08_jan, dtime = 24*3600, colour = TEMP, shape = shape, labels = "", kmz = TRUE)
+shape <- "http://maps.google.com/mapfiles/kml/pal2/icon18.png"
+kml(HRtemp08_jan, dtime = 24*3600, colour = TEMP, shape = shape, labels = "", kmz=TRUE)
+
 ## North Carolina SIDS data set:
-library("maptools")
+library(maptools)
 fname <- system.file("shapes/sids.shp", package="maptools")[1]
 nc <- readShapePoly(fname, proj4string=CRS("+proj=longlat +datum=NAD27"))
 time <- as.POSIXct(strptime(c(rep("1974-01-01", length(nc)), 
-   rep("1979-01-01", length(nc))), format="%Y-%m-%d"), tz = "GMT")
+   rep("1979-01-01", length(nc))), format="\%Y-\%m-\%d"), tz = "GMT")
 data <- data.frame(BIR = c(nc$BIR74, nc$BIR79), NWBIR = c(nc$NWBIR74, nc$NWBIR79), 
-SID = c(nc$SID74, nc$SID79))
+   SID = c(nc$SID74, nc$SID79))
 # copy polygons:
 nc.poly <- rep(slot(nc, "polygons"), 2)
 # fix the polygon IDs:

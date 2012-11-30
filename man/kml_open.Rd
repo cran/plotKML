@@ -25,21 +25,6 @@ kml_open(file.name, folder.name = file.name, kml_open = TRUE,
 }
 \author{Pierre Roudier, Tomislav Hengl and Dylan Beaudette}
 \details{These lower level functions can be used to create customized multi-layered KML files. See plotKML package homepage / manual for more examples.}
-\seealso{ \code{\link{kml-methods}} }
-\examples{
-data(eberg_grid)
-coordinates(eberg_grid) <- ~x+y
-gridded(eberg_grid) <- TRUE
-proj4string(eberg_grid) <- CRS("+init=epsg:31467")
-\dontrun{# Open, write layer and view KML file:
-kml_open("eberg_grid_DEM.kml")
-kml_layer(eberg_grid, colour=DEMSRT6)
-kml_close("eberg_grid_DEM.kml")
-# print the result:
-xmlRoot(xmlTreeParse("eberg_grid_DEM.kml"))[["Document"]]
-# open in Google Earth:
-kml_View("eberg_grid_DEM.kml")
-}
-}
+\seealso{ \code{\link{kml_layer}}, \code{\link{kml-methods}} }
 \keyword{spatial}
 

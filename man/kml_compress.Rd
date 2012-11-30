@@ -26,16 +26,18 @@ If no internal ZIP program exists, the function looks for the system ZIP program
 External ZIP program can also be specified via the \code{zip} argument.}
 \seealso{ \code{\link{kml-methods}}, \code{\link{kml_open}} }
 \examples{
-\dontrun{# get image info from Wikimedia:
-imagename = "Soil_monolith.jpg"
-x1 <- getWikiMedia.ImageInfo(imagename)
-sm <- spPhoto(filename = x1$url$url, exif.info = x1$metadata)
-kml_open("sm.kml")
-kml_layer(sm, method="monolith")
-kml_close("sm.kml")
-# compress together both the KML file and the auxiliary COLLADA file:
-kml_compress("sm.kml", files="Soil_monolith_jpg.dae")
-}
+data(eberg)
+eberg <- eberg[runif(nrow(eberg))<.1,] 
+library(sp)
+library(rgdal)
+library(raster)
+coordinates(eberg) <- ~X+Y
+proj4string(eberg) <- CRS("+init=epsg:31467")
+kml_open("eberg.kml")
+kml_layer(eberg, colour = CLYMHT_A)
+kml_close("eberg.kml")
+# compress:
+kml_compress("eberg.kml")
 }
 \keyword{utilities}
 

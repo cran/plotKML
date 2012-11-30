@@ -1,17 +1,45 @@
-import("spacetime")
-importFrom("scales", rescale)
-importFrom("grDevices", rgb)
+#import(Hmisc)
+import(stats, utils)
 importFrom("RColorBrewer", brewer.pal)
-importFrom("stats", predict)
-importFrom("stats", aggregate)
-importFrom("colorspace", coords, hex, mixcolor)
+importFrom("scales", rescale)
+importFrom("colorspace", coords, hex, mixcolor, HSV)
 importFrom("plotrix", color.legend)
-importFrom("raster", rotate, shift)
+importFrom("raster", stack, brick, rotate, nlayers, shift, layerNames, projectRaster, extension, is.factor, as.factor, count, removeTmpFiles, rasterToPolygons, raster, projection, rasterize, writeRaster, extent, calc, getValues, "values<-", getZ, setZ)
 importFrom("dismo", maxent)
+import(zoo)
+importFrom("xts", periodicity)
+importFrom("pixmap", pixmapIndexed, pixmapRGB)
 importFrom("sp", coordinates, overlay, bbox, spplot, is.projected, SpatialPixelsDataFrame)
-importClassesFrom("sp", Spatial, SpatialPixels, SpatialGrid, SpatialGridDataFrame, SpatialPointsDataFrame, SpatialPixelsDataFrame, SpatialPolygons)
-importClassesFrom("aqp", SoilProfileCollection)
-importClassesFrom("pixmap", pixmapRGB)
-exportClasses(SpatialMetadata, sp.palette, SpatialPhotoOverlay, SpatialPredictions, SpatialVectorsSimulations, RasterBrickSimulations, RasterBrickTimeSeries, SpatialMaxEntOutput, SpatialSamplingPattern)
-exportMethods(getCRS, GetNames, GetPalette, kml, kml_layer, reproject, spMetadata, metadata2SLD, plotKML, vect2rast)
+importFrom("plyr", aaply, laply, llply, ldply)
+
+import(XML)
+import(rgdal)
+import(stringr)
+import(colorRamps)
+import(aqp)
+importClassFrom(spacetime, STTDF, STIDF)
+
+exportClasses(SpatialMetadata,
+	sp.palette,
+	SpatialPhotoOverlay,
+	SpatialPredictions,
+	SpatialVectorsSimulations,
+	RasterBrickSimulations,
+	RasterBrickTimeSeries,
+	SpatialMaxEntOutput,
+	SpatialSamplingPattern)
+exportMethods(
+	getCRS,
+	GetNames,
+	GetPalette,
+	kml,
+	kml_layer,
+	kml_metadata,
+	reproject,
+	spMetadata,
+	metadata2SLD,
+	plotKML,
+	vect2rast,
+	count)
+export(check_projection, parse_proj4)
 exportPattern("^[^\\.]")

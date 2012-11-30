@@ -7,7 +7,7 @@
 setMethod("plotKML", "SpatialMaxEntOutput", function(
   obj,
   folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))),
-  file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""),
+  file.name = paste(folder.name, ".kml", sep=""),
   html.file = obj@maxent@html,
   iframe.width = 800,
   iframe.height = 800,
@@ -16,7 +16,7 @@ setMethod("plotKML", "SpatialMaxEntOutput", function(
   pngpointsize = 14,
   colour,
   shape = "http://plotkml.r-forge.r-project.org/icon17.png",
-  kmz = TRUE,
+  kmz = get("kmz", envir = plotKML.opts),
   TimeSpan.begin = obj@TimeSpan.begin,
   TimeSpan.end = obj@TimeSpan.end,
   ...
@@ -57,7 +57,7 @@ setMethod("plotKML", "SpatialMaxEntOutput", function(
   # plot the contributions to the model:
   png(filename=paste(spname, "_var_contribution.png", sep=""), width=pngwidth, height=pngheight, bg="white", pointsize=pngpointsize)
   par(mar=c(4.5,4.5,.8,.8))
-  plot(obj@maxent, main = "")  
+  .plot.maxent(obj@maxent, main = "")  
   dev.off()
   # add the plot:
   kml_screen(image.file = paste(spname, "_var_contribution.png", sep=""), position = "LL", sname = paste("Variable contribution for", spname))
@@ -74,8 +74,7 @@ setMethod("plotKML", "SpatialMaxEntOutput", function(
 
 
 # copied from the Dismo package (it does not export 'dismo::plot' method)
-setMethod("plot", signature(x='MaxEnt', y='missing'), 
-	function(x, sort=TRUE, main='Variable contribution', xlab='Percentage') {
+.plot.maxent <- function(x, sort=TRUE, main='Variable contribution', xlab='Percentage') {
 		r <- x@results
 		rnames <- rownames(r)
 		i <- grep('.contribution', rnames)
@@ -85,8 +84,7 @@ setMethod("plot", signature(x='MaxEnt', y='missing'),
 			r <- sort(r)
 		}
 		dotchart(r, main=main, xlab=xlab)
-	}
-)
+}
 
 
 # end of script;

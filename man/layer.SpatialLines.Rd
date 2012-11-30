@@ -23,14 +23,15 @@ kml_layer.SpatialLines(obj, extrude = FALSE, z.scale = 1, metadata = NULL,
 Use the same time values for both \code{TimeSpan.begin} and \code{TimeSpan.end} if the measurements refer to a single moment in time. \code{TimeSpan.begin} and \code{TimeSpan.end} can be either a single value or a vector of values.
 }
 \author{Pierre Roudier, Tomislav Hengl and Dylan Beaudette}
-\seealso{ \code{\link{kml-methods}}, \code{\link{kml_open}}, \code{\link{kml_layer.SpatialPolygons}} }
+\seealso{ \code{\link{kml-methods}}, \code{\link{kml_open}}, \code{\link{kml_layer.SpatialPolygons}}, \code{\link{plotKML-method}} }
 \examples{
+library(rgdal)
+library(sp)
 data(eberg_contours)
 data(SAGA_pal)
 names(eberg_contours)
-\dontrun{# KML plot with elevations used as 'colour' argument:
+# KML plot with elevations used as 'colour' argument:
 kml(eberg_contours, colour_scale = SAGA_pal[[1]], colour = Z, kmz = TRUE)
-}
 }
 \keyword{spatial}
 
