@@ -7,19 +7,20 @@
 setMethod("plotKML", "RasterBrickTimeSeries", function(
   obj,
   folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))),
-  file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""),
-  var.name = names(obj@sampled)[1],
+  file.name = paste(folder.name, ".kml", sep=""),
   pngwidth = 680,
   pngheight = 180,
   pngpointsize = 14,
-  kmz = TRUE,
+  kmz = get("kmz", envir = plotKML.opts),
   ...
 ){
 
   # sampling locations:
-  varname <- paste(obj@variable)
-  locs <- obj@sampled
-  labs <- paste(locs@data[,var.name])
+  if(!("data" %in% slotNames(obj@sampled))){
+    labs <- paste(obj@sampled@data[,1])
+  } else {
+    labs <- paste(1:length(obj@sampled))
+  }
   # Begin end times:
   TimeSpan.begin <- obj@TimeSpan.begin
   TimeSpan.end <- obj@TimeSpan.end
@@ -38,19 +39,18 @@ setMethod("plotKML", "RasterBrickTimeSeries", function(
   
   # extract values at point locations:
   ov <- extract(obj@rasters, obj@sampled)
-  png_names <- paste(varname, "_timeseries_", 1:nrow(ov), ".png", sep="")
+  png_names <- paste(obj@variable, "_timeseries_", 1:nrow(ov), ".png", sep="")
   html.table <- paste('<img src="', png_names, '" height="', pngheight, '" width="', pngwidth, '" align ="middle" />', sep = '')
-  kml_layer.SpatialPoints(obj = locs, points_names = labs, html.table = html.table)
+  kml_layer.SpatialPoints(obj = obj@sampled, points_names = labs, html.table = html.table)
   
   # plot rasters:
-  rel <- obj@rasters
-  kml_layer(obj = rel, dtime=dtime, ...) 
+  kml_layer(obj = obj@rasters, dtime=dtime, ...) 
 
   # plot the time-series data:
   for(i in 1:nrow(ov)){
     png(filename=png_names[i], width=pngwidth, height=pngheight, bg="white", pointsize=pngpointsize)
     par(mar=c(4.5,4.5,.8,.8))
-    plot(as.Date(as.POSIXct(getZ(obj@rasters))), ov[i,], type="l", xlab="Date", ylab=varname, col="grey", lwd=2)
+    plot(as.Date(as.POSIXct(getZ(obj@rasters))), ov[i,], type="l", xlab="Date", ylab=obj@variable, col="grey", lwd=2)
     points(as.Date(as.POSIXct(getZ(obj@rasters))), ov[i,], pch="+", cex=.6)
     dev.off()
   }

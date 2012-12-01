@@ -16,18 +16,18 @@ kml_layer.SpatialPixels(obj, raster_name, plot.legend = TRUE, metadata = NULL, \
 \details{Google Earth does not properly handle a 24-bit PNG file which has a single transparent color (read more at \href{http://groups.google.com/group/earth-help/}{Google Earth Help}). To force transparency, plotKML will try to set it using the \code{-matte -transparent "\#FFFFFF"} option in the \href{http://www.imagemagick.org/Usage/masking/}{ImageMagick convert program} (ImageMagick needs to be installed separately and located using \code{plotKML.env()}). The PNG export uses the 'cairographics', which will never use a palette and normally creates a larger 32-bit ARGB file, but then always allows transparancy.
 }
 \author{Tomislav Hengl, Pierre Roudier and Dylan Beaudette}
-\seealso{ \code{\link{kml-methods}}, \code{\link{kml_open}}, \code{\link{kml_layer.Raster}} }
+\seealso{ \code{\link{kml-methods}}, \code{\link{kml_open}}, \code{\link{kml_layer.Raster}}, \code{\link{plotKML-method}} }
 \examples{
 data(eberg_grid)
+library(sp)
+library(rgdal)
+library(raster)
 coordinates(eberg_grid) <- ~x+y
 gridded(eberg_grid) <- TRUE
 proj4string(eberg_grid) <- CRS("+init=epsg:31467")
 data(SAGA_pal)
-\dontrun{
-# KML plot with a single raster:
+\dontrun{# KML plot with a single raster:
 kml(eberg_grid, colour_scale = SAGA_pal[[1]], colour = TWISRT6) 
-# factor-type variable:
-kml(eberg_grid, colour_scale = SAGA_pal[[1]], colour = LNCCOR6)
 }
 }
 \keyword{spatial}                          

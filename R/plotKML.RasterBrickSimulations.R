@@ -1,19 +1,19 @@
 # Purpose        : Generic methods to plot RasterBricks in Google Earth (simulations / Time Series)
 # Maintainer     : Tomislav Hengl (tom.hengl@wur.nl); 
-# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); Pierre Roudier (pierre.roudier@landcare.nz);
+# Contributions  : ;
 # Dev Status     : Alpha
-# Note           : it basically requires only a single input object;
+# Note           : it basically works only with a single variable;
 
 
 setMethod("plotKML", "RasterBrickSimulations", function(
   obj,
   folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))),
-  file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""),
+  file.name = paste(folder.name, ".kml", sep=""),
   obj.summary = TRUE,
   pngwidth = 680, 
   pngheight = 200,
   pngpointsize = 14,
-  kmz = TRUE,
+  kmz = get("kmz", envir = plotKML.opts),
   ...
 ){
 
@@ -23,7 +23,7 @@ setMethod("plotKML", "RasterBrickSimulations", function(
 
   # summary properties of the RK model:
   if(obj.summary==TRUE){
-    md <- data.frame(Names=c("variable", "N.realizations", "cellsize.x", "cellsize.y", "Min.value", "Max.value"), Values=c(varname, length(obj@realizations), res(obj@realizations)[1], res(obj@realizations)[2], signif(min(obj@realizations@data@min), 3),  signif(max(obj@realizations@data@max), 3)), stringsAsFactors = FALSE)
+    md <- data.frame(Names=c("variable", "N.realizations", "cellsize.x", "cellsize.y", "Min.value", "Max.value"), Values=c(varname, nlayers(obj@realizations), res(obj@realizations)[1], res(obj@realizations)[2], signif(min(obj@realizations@data@min), 3),  signif(max(obj@realizations@data@max), 3)), stringsAsFactors = FALSE)
     html <- kml_description(md, asText = TRUE, cwidth = 120, twidth = 240)
   }
   
@@ -35,12 +35,10 @@ setMethod("plotKML", "RasterBrickSimulations", function(
   parseXMLAndAdd(description_txt, parent=kml.out[["Document"]])  
   assign('kml.out', kml.out, envir=plotKML.fileIO)
   
-  rel <- obj@realizations
-  kml_layer(obj = rel, ...)
+  kml_layer(obj = obj@realizations, ...)
 
   # densify coordinates:
-  smp <- obj@sampled
-  tl <- spsample(smp, n=100, "regular")
+  tl <- spsample(obj@sampled, n=100, "regular")
   tl <- SpatialLines(list(Lines(list(Line(coordinates(tl))), ID="t")), prj)
   # parse the transect:
   kml_layer.SpatialLines(obj = tl, colours = rep(rgb(0,0,0), length(obj)), extrude = TRUE)

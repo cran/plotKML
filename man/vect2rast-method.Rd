@@ -45,10 +45,12 @@ This function basically extends the \code{\link{rasterize}} function available i
 \author{Tomislav Hengl }
 \seealso{ \code{\link{vect2rast.SpatialPoints}}, \code{raster::rasterize}, \code{spatstat::nndist}}
 \examples{
+\dontrun{
 data(eberg)
+library(sp)
 coordinates(eberg) <- ~X+Y
 data(eberg_zones)
-\dontrun{# point map:
+# point map:
 x <- vect2rast(eberg, fname = "SNDMHT_A")
 image(x)
 # polygon map:

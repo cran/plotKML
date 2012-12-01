@@ -6,9 +6,6 @@
 
 kml_legend.whitening <- function(legend.res = 0.01, width=120, height=300, pointsize = 14, x.lim, e.lim, leg.asp = 0.3*width/height, legend.file = "whitening_legend.png", matte = FALSE){
   
-  require(colorspace)
-  require(pixmap)
-   
   xlg <- seq(.01,1,by=legend.res)
   ylg <- seq(.01,1,by=legend.res)
   # empty grid

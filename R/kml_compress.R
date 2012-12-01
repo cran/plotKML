@@ -1,48 +1,32 @@
 # Purpose        : Compresses KML file using the system zip program;
-# Maintainer     : Pierre Roudier (pierre.roudier@landcare.nz);
-# Contributions  : Tomislav Hengl (tom.hengl@wur.nl); Dylan Beaudette (debeaudette@ucdavis.edu);  
+# Maintainer     : Dylan Beaudette (debeaudette@ucdavis.edu);
+# Contributions  : Pierre Roudier (pierre.roudier@landcare.nz); Tomislav Hengl (tom.hengl@wur.nl);   
 # Status         : pre-alpha
-# Note           : requires an internal or external ZIP program;
+# Note           : requires an internal or external ZIP program (If it is missing, then you need to install zip program and add a path to the zipping command line exe in "/etc/Renviron"); 
 
-kml_compress <- function(file.name, zip = "", files = "", rm = FALSE, ...){
 
-  require(stringr)
+kml_compress <- function(file.name, zip = Sys.getenv("R_ZIPCMD", "zip"), files = "", rm = FALSE, ...){
 
   # Changing the extension to KMZ
   extension <- str_extract(file.name, pattern="*\\..*$")
   kmz <- str_replace(file.name, extension, ".kmz") # switch the extension to kmz
-
-  # If no zip command is specified we use the generic one
-  if (zip == "") {
-      zip <- Sys.getenv("R_ZIPCMD", "zip")
-  }
-
-  # Build the command:
-  if(nzchar(files)){
-    file.copy(file.name, to="doc.kml", overwrite = TRUE)
-    cmd <- paste(zip, kmz, "doc.kml", files, collapse = " ")
-  }
-  else {
-    cmd <- paste(zip, kmz, file.name, collapse = " ")  
-  }
-  
-  # execute the command
-  execute_cmd <- try(system(cmd, intern = TRUE), silent = TRUE)
-
+	
+  # use R's zip wrapper
+  try(x <- zip(zipfile=paste(getwd(), kmz, sep='/'), files=paste(getwd(), file.name, sep='/'), zip=zip))
   # Error handling
-  if (is(execute_cmd, "try-error")) {
-    if (missing(zip))
-      stop("KMZ generation failed. Your zip utility has not been found. You can specify it manually using the 'zip = ...' argument.")
-    else
-      stop("KMZ generation failed. Wrong command passed to 'zip = ... option'.")
+  if(is(.Last.value, "try-error")| x==127) {
+    if(zip==""|!nzchar(zip)){
+       warning("KMZ generation failed. No zip utility has been found.")
+  } else {
+       warning("KMZ generation failed. Wrong command passed to 'zip = ... option'.")
   }
-  # Otherwise removing temp files
-  else {
-  message("Compressing to KMZ...")
-    # if file creation successful
-    if (file.exists(kmz) & rm) {
-      x <- file.remove(file.name, files)
-    }
-  }
+  }  
+  
+  # clean-up
+  if (file.exists(kmz) & rm==TRUE) {
+  	x <- file.remove(file.name, files)
+  	}
 
 }
+
+# end of script;

@@ -28,28 +28,6 @@
 \note{ \code{"SpatialPredictions"} saves results of predictions for a single target variable, which can be of type numeric or factor. Multiple variables can be combined into a list.
 }
 \author{ Tomislav Hengl }
-\seealso{ \code{GSIF::fit.gstatModel}, \code{gstat::gstat-class}, \code{\link{RasterBrickSimulations-class}}
-}
-\examples{ 
-# load observations:
-data(meuse)
-coordinates(meuse) <- ~x+y
-proj4string(meuse) <- CRS("+init=epsg:28992")
-# load grids:
-data(meuse.grid)
-gridded(meuse.grid) <- ~x+y
-proj4string(meuse.grid) <- CRS("+init=epsg:28992")
-\dontrun{# fit a model:
-library(GSIF)
-omm <- fit.gstatModel(observations = meuse, formulaString = om~dist, 
-  family = gaussian(log), covariates = meuse.grid)
-show(omm@regModel)
-# produce SpatialPredictions:
-om.rk <- predict(omm, predictionLocations = meuse.grid)
-# overview of the prediction process:
-show(om.rk)
-# plot the whole geostatical mapping project in Google Earth:
-plotKML(om.rk)
-}
+\seealso{ \code{\link{plotKML-method}}, \code{GSIF::fit.gstatModel}, \code{gstat::gstat-class}, \code{\link{RasterBrickSimulations-class}}
 }
 \keyword{classes}

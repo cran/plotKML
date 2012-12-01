@@ -20,7 +20,7 @@ kml_layer.RasterBrick <- function(
   require(RSAGA)
   
   if(!is.numeric(obj@data@values)){
-  stop('Values of class "numeric" required.') 
+    stop('Values of class "numeric" required.') 
   }
   
   # Get our invisible file connection from custom environment
@@ -40,7 +40,12 @@ kml_layer.RasterBrick <- function(
   balloon <- aes[["balloon"]]
 
   # optional elevations:
-  altitude <- kml_altitude(obj, altitude = NULL)
+  altitude <- charmatch("altitude", names(call))
+  if(!is.na(altitude)){
+    altitude <- eval(call[["altitude"]], nlayers(obj))
+  } else {
+    altitude <- rep(.all_kml_aesthetics[["altitude"]], length.out = nlayers(obj))
+  }
   altitudeMode <- kml_altitude_mode(altitude)
 
   # Format the time slot for writing to KML:
@@ -64,8 +69,8 @@ kml_layer.RasterBrick <- function(
   }
 
   # Parse ATTRIBUTE TABLE (for each placemark):
-  if (balloon & ("layernames" %in% slotNames(obj))){
-      html.table <- .df2htmltable(data.frame(layernames=obj@layernames, zvalue=getZ(obj), unit=obj@unit))
+  if(balloon & ("layernames" %in% slotNames(obj))){
+      html.table <- .df2htmltable(data.frame(layernames=names(obj), zvalue=getZ(obj), unit=obj@unit))
   }
 
   # plot the legend (PNG)
@@ -75,7 +80,7 @@ kml_layer.RasterBrick <- function(
     kml_legend.bar(x = z.lim, legend.file = legend_name, legend.pal = colour_scale_legend) 
   }
 
-  message("Parsing to KML...")
+  message("Writing to KML...")
   # Name of the object
   pl1 = newXMLNode("Folder", parent=kml.out[["Document"]])
   pl2 <- newXMLNode("name", paste(class(obj)), parent=pl1)
@@ -88,7 +93,7 @@ kml_layer.RasterBrick <- function(
   }
 
   # Creating the PNG files using standard z.lim's:
-  raster_name <- set.file.extension(obj@layernames, ".png")
+  raster_name <- set.file.extension(names(obj), ".png")
 
   # Plotting the image
   for(j in 1:length(raster_name)){
@@ -102,18 +107,18 @@ kml_layer.RasterBrick <- function(
   # Ground overlays:
   # =============
   if(length(html.table)>0 & all(dtime==0)){
-    txtr <- sprintf('<GroundOverlay><name>%s</name><description><![CDATA[%s]]></description><TimeStamp><when>%s</when></TimeStamp><altitude>%.0f</altitude><altitudeMode>%s</altitudeMode><Icon><href>%s</href></Icon><LatLonBox><north>%.5f</north><south>%.5f</south><east>%.5f</east><west>%.5f</west></LatLonBox></GroundOverlay>', obj@layernames, html.table, when, rep(altitude, length(raster_name)), rep(altitudeMode, length(raster_name)), paste(raster_name), rep(bbox(extent(obj))[2, 2], length(raster_name)), rep(bbox(extent(obj))[2, 1], length(raster_name)), rep(bbox(extent(obj))[1, 2], length(raster_name)), rep(bbox(extent(obj))[1, 1], length(raster_name))) 
+    txtr <- sprintf('<GroundOverlay><name>%s</name><description><![CDATA[%s]]></description><TimeStamp><when>%s</when></TimeStamp><altitude>%.0f</altitude><altitudeMode>%s</altitudeMode><Icon><href>%s</href></Icon><LatLonBox><north>%.5f</north><south>%.5f</south><east>%.5f</east><west>%.5f</west></LatLonBox></GroundOverlay>', names(obj), html.table, when, altitude, rep(altitudeMode, length(raster_name)), paste(raster_name), rep(bbox(extent(obj))[2, 2], length(raster_name)), rep(bbox(extent(obj))[2, 1], length(raster_name)), rep(bbox(extent(obj))[1, 2], length(raster_name)), rep(bbox(extent(obj))[1, 1], length(raster_name))) 
   }
   else {
   if(length(html.table)>0 & any(!dtime==0)){  # with attributes / block temporal support 
-    txtr <- sprintf('<GroundOverlay><name>%s</name><description><![CDATA[%s]]></description><TimeSpan><begin>%s</begin><end>%s</end></TimeSpan><altitude>%.0f</altitude><altitudeMode>%s</altitudeMode><Icon><href>%s</href></Icon><LatLonBox><north>%.5f</north><south>%.5f</south><east>%.5f</east><west>%.5f</west></LatLonBox></GroundOverlay>', obj@layernames, html.table, TimeSpan.begin, TimeSpan.end, rep(altitude, length(raster_name)), rep(altitudeMode, length(raster_name)), paste(raster_name), rep(bbox(extent(obj))[2, 2], length(raster_name)), rep(bbox(extent(obj))[2, 1], length(raster_name)), rep(bbox(extent(obj))[1, 2], length(raster_name)), rep(bbox(extent(obj))[1, 1], length(raster_name)))
+    txtr <- sprintf('<GroundOverlay><name>%s</name><description><![CDATA[%s]]></description><TimeSpan><begin>%s</begin><end>%s</end></TimeSpan><altitude>%.0f</altitude><altitudeMode>%s</altitudeMode><Icon><href>%s</href></Icon><LatLonBox><north>%.5f</north><south>%.5f</south><east>%.5f</east><west>%.5f</west></LatLonBox></GroundOverlay>', names(obj), html.table, TimeSpan.begin, TimeSpan.end, rep(altitude, length(raster_name)), altitude, paste(raster_name), rep(bbox(extent(obj))[2, 2], length(raster_name)), rep(bbox(extent(obj))[2, 1], length(raster_name)), rep(bbox(extent(obj))[1, 2], length(raster_name)), rep(bbox(extent(obj))[1, 1], length(raster_name)))
   }
   else {
   if(is.null(html.table) & any(!dtime==0)){   # no attributes / block temporal support 
-    txtr <- sprintf('<GroundOverlay><name>%s</name><TimeSpan><begin>%s</begin><end>%s</end></TimeSpan><altitude>%.0f</altitude><altitudeMode>%s</altitudeMode><Icon><href>%s</href></Icon><LatLonBox><north>%.5f</north><south>%.5f</south><east>%.5f</east><west>%.5f</west></LatLonBox></GroundOverlay>', obj@layernames, TimeSpan.begin, TimeSpan.end, rep(altitude, length(raster_name)), rep(altitudeMode, length(raster_name)), paste(raster_name), rep(bbox(extent(obj))[2, 2], length(raster_name)), rep(bbox(extent(obj))[2, 1], length(raster_name)), rep(bbox(extent(obj))[1, 2], length(raster_name)), rep(bbox(extent(obj))[1, 1], length(raster_name)))
+    txtr <- sprintf('<GroundOverlay><name>%s</name><TimeSpan><begin>%s</begin><end>%s</end></TimeSpan><altitude>%.0f</altitude><altitudeMode>%s</altitudeMode><Icon><href>%s</href></Icon><LatLonBox><north>%.5f</north><south>%.5f</south><east>%.5f</east><west>%.5f</west></LatLonBox></GroundOverlay>', names(obj), TimeSpan.begin, TimeSpan.end, altitude, rep(altitudeMode, length(raster_name)), paste(raster_name), rep(bbox(extent(obj))[2, 2], length(raster_name)), rep(bbox(extent(obj))[2, 1], length(raster_name)), rep(bbox(extent(obj))[1, 2], length(raster_name)), rep(bbox(extent(obj))[1, 1], length(raster_name)))
   }
   else {  # no attributes / point temporal support 
-     txtr <- sprintf('<GroundOverlay><name>%s</name><TimeStamp><when>%s</when></TimeStamp><altitude>%.0f</altitude><altitudeMode>%s</altitudeMode><Icon><href>%s</href></Icon><LatLonBox><north>%.5f</north><south>%.5f</south><east>%.5f</east><west>%.5f</west></LatLonBox></GroundOverlay>', obj@layernames, when, rep(altitude, length(raster_name)), rep(altitudeMode, length(raster_name)), paste(raster_name), rep(bbox(extent(obj))[2, 2], length(raster_name)), rep(bbox(extent(obj))[2, 1], length(raster_name)), rep(bbox(extent(obj))[1, 2], length(raster_name)), rep(bbox(extent(obj))[1, 1], length(raster_name)))
+     txtr <- sprintf('<GroundOverlay><name>%s</name><TimeStamp><when>%s</when></TimeStamp><altitude>%.0f</altitude><altitudeMode>%s</altitudeMode><Icon><href>%s</href></Icon><LatLonBox><north>%.5f</north><south>%.5f</south><east>%.5f</east><west>%.5f</west></LatLonBox></GroundOverlay>', names(obj), when, altitude, rep(altitudeMode, length(raster_name)), paste(raster_name), rep(bbox(extent(obj))[2, 2], length(raster_name)), rep(bbox(extent(obj))[2, 1], length(raster_name)), rep(bbox(extent(obj))[1, 2], length(raster_name)), rep(bbox(extent(obj))[1, 1], length(raster_name)))
   }}}
 
   parseXMLAndAdd(txtr, parent=pl1)

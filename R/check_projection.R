@@ -4,8 +4,7 @@
 # Dev Status     : Alpha
 # Note           : p4s_parameters list of proj4 parameter/value strings; Uses the string parsing functionality from the 'plyr' package;
 
-.extractProjValue <- function(p4s_parameters, param){
-  require(rgdal)
+extractProjValue <- function(p4s_parameters, param){
   
   # Locating the current PROJ4 parameter
   query <- ldply(p4s_parameters, str_locate, pattern = param)
@@ -28,7 +27,6 @@
 
 ## parse string:
 parse_proj4 <- function(p4s, params){
-  require(rgdal)
 
   if(missing(params)) {
   ref_CRS = get("ref_CRS", envir = plotKML.opts)
@@ -41,7 +39,7 @@ parse_proj4 <- function(p4s, params){
   # Splitting the whole PROJ4 string
   p4s_parameters <- str_split(p4s, " ")[[1]]
   # Extraction of the values of parameters specified above
-  x <- laply(params, .extractProjValue, p4s_parameters = p4s_parameters)
+  x <- laply(params, extractProjValue, p4s_parameters = p4s_parameters)
   # colnames for better looking result
   value <- sapply(sapply(params, strsplit, "\\+"), function(x){x[2]})
   param_names <- sapply(strsplit(value, "="), function(x){x[1]})
@@ -58,7 +56,6 @@ getCRS.Spatial <- function(obj) {
 setMethod("getCRS", "Spatial", getCRS.Spatial)
 
 getCRS.Raster <- function(obj) {
-  require(raster)
   CRSargs(projection(obj, asText = FALSE))
 }
 
@@ -87,7 +84,6 @@ setMethod("is.projected", signature(obj = "Raster"),
 ## check proj4string
 check_projection <- function(obj, control = TRUE, ref_CRS = get("ref_CRS", envir = plotKML.opts)){
   
-  require(rgdal)
   if(is.na(proj4string(obj))){
     stop("Proj4 string missing")
   } 

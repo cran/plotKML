@@ -5,7 +5,7 @@
 # Note           : these functions can be further customized;
 
 
-setMethod("plotKML", "SpatialPointsDataFrame", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""), size, colour, points_names, shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", metadata = NULL, kmz = TRUE, ...){
+setMethod("plotKML", "SpatialPointsDataFrame", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), size, colour, points_names, shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", metadata = NULL, kmz = get("kmz", envir = plotKML.opts), ...){
 
   # Guess aesthetics if missing:
   if(missing(size)){ 
@@ -39,7 +39,11 @@ setMethod("plotKML", "SpatialPointsDataFrame", function(obj, folder.name = norma
   kml_open(folder.name = folder.name, file.name = file.name, ...)
  
   # write layer:
-  kml_layer.SpatialPoints(obj, size = size, colour = colour, points_names = points_names, shape = shape, metadata = metadata, ...)
+  if(is.numeric(obj@data[,"colour"])){
+    kml_layer.SpatialPoints(obj, size = size, colour = colour, points_names = points_names, shape = shape, metadata = metadata, ...)
+  } else {
+    kml_layer.SpatialPoints(obj, colour = colour, points_names = points_names, shape = shape, metadata = metadata, ...)
+  }
 
   # close the file:
   kml_close(file.name = file.name)
@@ -52,7 +56,7 @@ setMethod("plotKML", "SpatialPointsDataFrame", function(obj, folder.name = norma
 })
 
 
-setMethod("plotKML", "SpatialLinesDataFrame", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""), metadata = NULL, kmz = TRUE, ...){
+setMethod("plotKML", "SpatialLinesDataFrame", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), metadata = NULL, kmz = get("kmz", envir = plotKML.opts), ...){
    
   # open for writing:
   kml_open(folder.name = folder.name, file.name = file.name, ...)
@@ -71,7 +75,7 @@ setMethod("plotKML", "SpatialLinesDataFrame", function(obj, folder.name = normal
 })
 
 
-setMethod("plotKML", "SpatialPolygonsDataFrame", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""), colour, plot.labpt, labels, metadata = NULL, kmz = TRUE, ...){
+setMethod("plotKML", "SpatialPolygonsDataFrame", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), colour, plot.labpt, labels, metadata = NULL, kmz = get("kmz", envir = plotKML.opts), ...){
 
   # Guess aesthetics if missing:
   if(missing(labels)){ 
@@ -112,7 +116,7 @@ setMethod("plotKML", "SpatialPolygonsDataFrame", function(obj, folder.name = nor
 })
 
 ## Pixels Grids Raster
-.plotKML.SpatialPixels <- function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""), colour, raster_name, metadata = NULL, kmz = FALSE, ...){
+.plotKML.SpatialPixels <- function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), colour, raster_name, metadata = NULL, kmz = FALSE, ...){
 
   # the kml_layer.Raster works only with "Spatial" class:
   if(class(obj)=="RasterLayer"){
@@ -155,7 +159,7 @@ setMethod("plotKML", "SpatialGridDataFrame", .plotKML.SpatialPixels)
 setMethod("plotKML", "RasterLayer", .plotKML.SpatialPixels)
 
 
-setMethod("plotKML", "SpatialPhotoOverlay", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""), dae.name, kmz = TRUE, ...){
+setMethod("plotKML", "SpatialPhotoOverlay", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), dae.name, kmz = get("kmz", envir = plotKML.opts), ...){
   
   x <- strsplit(obj@filename, "/")[[1]]
   image.id <- x[length(x)]
@@ -178,7 +182,7 @@ setMethod("plotKML", "SpatialPhotoOverlay", function(obj, folder.name = normaliz
 })
 
 
-setMethod("plotKML", "SoilProfileCollection", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""), var.name, metadata = NULL, kmz = TRUE, ...){
+setMethod("plotKML", "SoilProfileCollection", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), var.name, metadata = NULL, kmz = get("kmz", envir = plotKML.opts), ...){
   
   if(missing(var.name)){ var.name <- names(obj@horizons)[!(names(obj@horizons) %in% c(prof1@idcol, obj@depthcols))][1] }
     
@@ -199,7 +203,7 @@ setMethod("plotKML", "SoilProfileCollection", function(obj, folder.name = normal
 })
 
 ## spacetime irregular vectors
-setMethod("plotKML", "STIDF", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""), colour, shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", points_names, kmz = TRUE, ...){
+setMethod("plotKML", "STIDF", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), colour, shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", points_names, kmz = get("kmz", envir = plotKML.opts), ...){
 
   # Guess aesthetics if missing:
   if(missing(colour)){ 
@@ -237,7 +241,7 @@ setMethod("plotKML", "STIDF", function(obj, folder.name = normalizeFilename(depa
 })
 
 ## Trajectories:
-setMethod("plotKML", "STTDF", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""), colour, start.icon = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", kmz = TRUE, ...){
+setMethod("plotKML", "STTDF", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), colour, start.icon = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", kmz = get("kmz", envir = plotKML.opts), ...){
                             
   # Guess aesthetics if missing:
   if(missing(colour)){ 

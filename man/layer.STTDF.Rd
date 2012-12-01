@@ -34,40 +34,11 @@ tags will be inserted. Temporal support (\eqn{\Delta t}{dt}) is estimated using 
 }
 \references{
 \itemize{
-\item Pebesma, E. (2011) Classes and Methods for Spatio-Temporal Data in R. Journal of Statistical Software.
+\item \item Pebesma, E. (2012) \href{http://www.jstatsoft.org/v51/i07}{Classes and Methods for Spatio-Temporal Data in R}. Journal of Statistical Software. 51(7): 1-30.
 \item spacetime package (\url{http://CRAN.R-project.org/package=spacetime})
 }
 }
 \author{Tomislav Hengl }
-\seealso{ \code{\link{readGPX}} }
-\examples{
-data(gpxbtour)
-# format the time column:
-gpxbtour$ctime <- as.POSIXct(gpxbtour$time, format="\%Y-\%m-\%dT\%H:\%M:\%SZ")
-coordinates(gpxbtour) <- ~lon+lat
-proj4string(gpxbtour) <- CRS("+proj=longlat +datum=WGS84")
-\dontrun{# derive distance from origin:
-library(fossil)
-xy <- as.list(data.frame(t(coordinates(gpxbtour))))
-gpxbtour$dist.km <- sapply(xy, function(x) 
-  deg.dist(long1=x[1], lat1=x[2], long2=xy[[1]][1], lat2=xy[[1]][2]))
-plot(gpxbtour$dist.km, gpxbtour$speed, type="l", 
-  xlab="Distance from origin in km", ylab="speed in km per hour")
-# convert to a STTDF class:
-library(spacetime)
-library(adehabitat)
-gpx.ltraj <- as.ltraj(coordinates(gpxbtour), gpxbtour$ctime, id = "th")
-gpx.st <- as(gpx.ltraj, "STTDF")
-gpx.st$speed <- gpxbtour$speed
-gpx.st@sp@proj4string <- CRS("+proj=longlat +datum=WGS84")
-# open KML file:
-kml_open("gpxbtour_speed.kml")
-# plot trajectory with speed as colour attribute:
-kml_layer(obj = gpx.st, colour = speed, z.lim = c(18,32))
-# close KML:
-kml_close("gpxbtour_speed.kml")
-kml_compress("gpxbtour_speed.kml")
-}
-}
+\seealso{ \code{\link{readGPX}}, \code{\link{plotKML-method}}  }
 \keyword{spatial}
 

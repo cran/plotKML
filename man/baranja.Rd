@@ -27,6 +27,7 @@ The \code{bargrid} data frame (regular grid at 30 m intervals) contains the foll
 \note{Consider using the 30 m resolution grid (see \code{bargrid}) as the target resolution (output maps). 
 }
 \examples{
+library(sp)
 library(gstat)
 # sampled elevations:
 data(barxyz)
@@ -60,9 +61,9 @@ for (i in 1:N.sim) {
   rsaga.fill.sinks(in.dem=paste("DEM", i, ".sgrd", sep=""), out.dem="DEMflt.sgrd")
   # extract the channel network SAGA GIS 2.0.6:
   rsaga.geoprocessor(lib="ta_channels", module=0, param=list(ELEVATION="DEMflt.sgrd", 
-  CHNLNTWRK=paste("channels", i, ".sgrd", sep=""), CHNLROUTE="channel_route.sgrd", 
-  SHAPES="channels.shp", INIT_GRID="DEMflt.sgrd", DIV_CELLS=3, MINLEN=40), 
-  show.output.on.console=FALSE)
+    CHNLNTWRK=paste("channels", i, ".sgrd", sep=""), CHNLROUTE="channel_route.sgrd", 
+    SHAPES="channels.shp", INIT_GRID="DEMflt.sgrd", DIV_CELLS=3, MINLEN=40), 
+    show.output.on.console=FALSE)
   stream.list[[i]] <- readOGR("channels.shp", "channels", verbose=FALSE)
   proj4string(stream.list[[i]]) <- barxyz@proj4string
 }

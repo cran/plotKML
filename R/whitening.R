@@ -12,7 +12,6 @@ whitening <- function(
    global.var = var(z, na.rm=TRUE), 
    col.type = "RGB")  # output col.type can be "RGB" or "hex" 
    {
-   require(colorspace)
    
    # Derive the normalized error:
    er <- sqrt(zvar)/sqrt(global.var)

@@ -1,12 +1,11 @@
 # Purpose        : Insertion of metadata into a KML file
 # Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); Pierre Roudier (pierre.roudier@landcare.nz); 
+# Contributions  : ; 
 # Dev Status     : Pre-Alpha
 # Note           : Based on the US gov sp metadata standards [http://www.fgdc.gov/metadata/csdgm/];
 
 ## summary for an object of type "SpatialMetadata":
-setMethod("summary", signature(object = "SpatialMetadata"), function(object, sel,
-    fix.enc = TRUE, full.names = "", delim.sign = "_"){
+.summary.metadata <- function(object, sel, fix.enc = TRUE, full.names = "", delim.sign = "_"){
     
     if(full.names == ""){     
       full.names = read.table(system.file("mdnames.csv", package="plotKML"), sep=";")     
@@ -32,22 +31,15 @@ setMethod("summary", signature(object = "SpatialMetadata"), function(object, sel
     }
     
     return(md)
-})
+}
+
+setMethod("summary", signature(object = "SpatialMetadata"), definition=.summary.metadata)
 
 
 ## Write metadata to a KML file:                             
-kml_metadata <- function(
-    obj,   # SpatialMetadata
-    cwidth = 150,
-    twidth = 500,
-    asText = FALSE
-    ){
-    
-    if(!class(obj)=="SpatialMetadata"){
-      stop("Object of class '' required")
-    }
-    
-    md <- summary(obj)    
+setMethod("kml_metadata", signature(obj = "SpatialMetadata"), function(obj, cwidth = 150, twidth = 500, asText = FALSE){
+      
+    md <- .summary.metadata(obj)    
     if(!nrow(md)==0){
     # write to html:
     l1 <- newXMLNode("table", attrs=c(width=twidth, border="0", cellspacing="5", cellpadding="10"))
@@ -65,6 +57,6 @@ kml_metadata <- function(
     } else {
       warning("Metadata contains no elements. See 'spMetadata-method' for more info.")
     }
-}
+})
 
 # end of script;

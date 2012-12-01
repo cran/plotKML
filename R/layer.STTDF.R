@@ -20,9 +20,6 @@ kml_layer.STTDF <- function(
   ...
   ){
   
-  require(xts)
-  require(grDevices)
-  
   # Get our invisible file connection from custom environment
   kml.out <- get('kml.out', envir=plotKML.fileIO)
   
@@ -35,8 +32,7 @@ kml_layer.STTDF <- function(
   # Parsing the call for aesthetics
   aes <- kml_aes(obj, ...)   
 
-  # Read the relevant aesthetics  
-  ## TH: I am not sure if these are still usefull / at least I do not know how to use them.
+  # Read the relevant aesthetics:
   lines_names <- aes[["labels"]]  
   colours <- aes[["colour"]]   
   width <- aes[["width"]]

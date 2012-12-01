@@ -12,8 +12,8 @@ The \code{LST} data frame contains the following layers:
 	\item{\code{LST2008_01_01}}{8-day MODIS LST mosaick for period 2007-12-29 to 2008-01-04}
 	\item{\code{LST2008_01_09}}{8-day MODIS LST mosaick for period 2008-01-05 to 2008-01-13}
 	\item{\code{\dots}}{subsequent bands}
-  \item{\code{x}}{a numeric vector; x-coordinate (m) in the UTM system }
-  \item{\code{y}}{a numeric vector; y-coordinate (m) in the UTM system }
+  \item{\code{lon}}{a numeric vector; x-coordinate (m) in the WGS84 system }
+  \item{\code{lat}}{a numeric vector; y-coordinate (m) in the WGS84 system }
   }
 } 
 \author{ Tomislav Hengl and Melita Percec Tadic }
@@ -28,22 +28,4 @@ The \code{LST} data frame contains the following layers:
 \code{yyyy-mm-ddThh:mm:sszzzzzz}\cr
 
 where T is the separator between the date and the time, and the time zone is either Z (for UTC) or zzzzzz, which represents \enc{±}{+-}hh:mm in relation to UTC.}
-\examples{
-data(LST)
-gridded(LST) <- ~x+y
-proj4string(LST) <- CRS("+proj=utm +zone=33 +datum=WGS84 +units=m")
-\dontrun{# get the dates from the file names:
-dates <- sapply(strsplit(names(LST), "LST"), function(x){x[[2]]})
-LST <- brick(LST)
-LST@title = "Time series of MODIS Land Surface Temperature (8-day mosaics) images"
-LST <- setZ(LST, format(as.Date(dates, "\%Y_\%m_\%d"), "\%Y-\%m-\%dT\%H:\%M:\%SZ"))
-data(SAGA_pal)
-# plot MODIS images in Google Earth:
-LST_ll <- reproject(LST)  # reprojecting rasters takes few minutes!
-# copy the dates:
-LST_ll <- setZ(LST_ll, getZ(LST))
-# KML plot with block temporal support of 8 days:
-kml(LST_ll, colour_scale=SAGA_pal[[1]], dtime=8*24*60^2)
-}
-}
 \keyword{datasets}

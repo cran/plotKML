@@ -32,8 +32,10 @@ kml_layer.SpatialPolygons(obj, extrude = TRUE, tessellate = FALSE,
 
 Use the same time values for both \code{TimeSpan.begin} and \code{TimeSpan.end} if the measurements refer to a single moment in time. \code{TimeSpan.begin} and \code{TimeSpan.end} can be either a single value or a vector of values.}
 \author{Pierre Roudier, Tomislav Hengl and Dylan Beaudette}
-\seealso{ \code{\link{kml_layer.SpatialLines}}, \code{\link{kml_layer.STIDF}} }
+\seealso{ \code{\link{kml_layer.SpatialLines}}, \code{\link{kml_layer.STIDF}}, , \code{\link{plotKML-method}} }
 \examples{
+library(rgdal)
+library(sp)
 data(eberg_zones)
 names(eberg_zones)
 \dontrun{# visualize zones using random colors:

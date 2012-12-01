@@ -36,19 +36,17 @@ Writes any \code{Spatial*} object (from the sp package) or \code{Raster*} object
 }
 \examples{
 # Plotting a SpatialPointsDataFrame object
+library(rgdal)
 data(eberg)
+eberg <- eberg[runif(nrow(eberg))<.1,]
+library(sp)
+library(rgdal)
 coordinates(eberg) <- ~X+Y
 proj4string(eberg) <- CRS("+init=epsg:31467")
 \dontrun{# Simple plot
 kml(eberg, file = "eberg-0.kml")
 # Plot using aesthetics
 kml(eberg, colour = SNDMHT_A, size = CLYMHT_A, alpha = 0.75, file = "eberg-1.kml")
-}
-data(eberg_grid)
-gridded(eberg_grid) <- ~x+y
-proj4string(eberg_grid) <- CRS("+init=epsg:31467")
-\dontrun{# Plotting a SpatialPixelsDataFrame or a Raster* object
-kml(eberg_grid, colour = DEMSRT6, file = "eberg_grid-0.kml")
 }
 }
 \keyword{spatial}

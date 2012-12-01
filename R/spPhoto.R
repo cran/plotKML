@@ -33,8 +33,6 @@ spPhoto <- function(
    test.filename = TRUE
    ){
 
-  require(pixmap)  
-  
   if(test.filename==TRUE){
     try(con.file <- file(filename))
     if(!any(class(con.file) %in% "url")){   

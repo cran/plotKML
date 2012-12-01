@@ -25,10 +25,11 @@ vect2rast.SpatialPoints(obj, fname = names(obj)[1], cell.size, bbox,
 \author{Tomislav Hengl }
 \seealso{\code{\link{vect2rast}}}
 \examples{
-library(gstat)
+\dontrun{
+library(sp)
 data(meuse)
 coordinates(meuse) <- ~x+y
-\dontrun{# point map:
+# point map:
 x <- vect2rast(meuse, fname = "om")
 data(SAGA_pal)
 sp.p <- list("sp.points", meuse, pch="+", cex=1.5, col="black")

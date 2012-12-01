@@ -18,8 +18,6 @@ col2kml <- function(colour){
 
 ## Convert hex colours to KML specs
 hex2kml <- function(hex){
-  require(stringr)
-  require(plyr)
 
   res <- aaply(hex, 1, function(hex){
     if (str_length(hex) == 9) # if alpha is present
@@ -35,8 +33,6 @@ hex2kml <- function(hex){
 
 ## KML spec is alpha-BGR
 kml2hex <- function(kml) {
-  require(stringr)
-  require(plyr)
 
   res <- aaply(kml, 1, function(x){
     res <- paste("#", str_sub(toupper(x), 8, 9), str_sub(toupper(x), 6, 7), str_sub(toupper(x), 4, 5), str_sub(toupper(x), 2, 3), sep = "")
@@ -55,7 +51,6 @@ munsell2kml <- function(
   alpha = 1
   ){
 
-  require(aqp)
   res <- hex2kml(aqp::munsell2rgb(the_hue, the_value, the_chroma, alpha=alpha))
   
   return(res)

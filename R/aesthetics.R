@@ -178,16 +178,15 @@ kml_aes <- function(obj, ...) {
     aes[['altitude']] <- kml_altitude(obj, altitude = eval(parent_call[['altitude']], obj@data))
   }
   else {
-#     aes[['altitude']] <- rep(.all_kml_aesthetics[["altitude"]], length.out = length(obj))
     aes[['altitude']] <- kml_altitude(obj)
-  }
+  }                 
 
   # AltitudeMode
   if ("altitudeMode" %in% called_aes) {
-    aes[["altitudeMode"]] <- parent_call[['altitudeMode']]
+      aes[["altitudeMode"]] <- parent_call[['altitudeMode']]
   }
   else {
-    aes[["altitudeMode"]] <- kml_altitude_mode(aes[['altitude']])
+      aes[["altitudeMode"]] <- kml_altitude_mode(aes[['altitude']]) 
   }
 
   # Balloon (pop ups)
@@ -356,30 +355,36 @@ kml_alpha <- function(obj, alpha, colours, RGBA = FALSE, ...){
 kml_size <- function(obj, size, size.min = get("size_range", envir = plotKML.opts)[1], size.max = get("size_range", envir = plotKML.opts)[2], size.default = 1){
 
   if (!is.na(size) & "data" %in% slotNames(obj)) {
-    # If data is numeric
+    ## If data is numeric
     if (is.numeric(obj[[size]])) {
       max.value <- max(obj[[size]], na.rm = TRUE)
-      size.values <- size.min + scales::rescale(obj[[size]]) * size.max
+      size.values <- size.min + scales::rescale(obj[[size]], from = range(obj[[size]], na.rm = TRUE)) * size.max
+      ## fix the missing values:
+      size.values[is.na(size.values)] <- size.default
     }
     # Otherwise: factor, character, logical, ...
     else {
-      if (!is.factor(obj[[size]]))
+      if (!is.factor(obj[[size]])){
         obj[[size]] <- factor(obj[[size]])
+      }
 
-      # compute number of levels
+      ## compute number of levels
       nl <- nlevels(obj[[size]])
-      # compute the different size values
+      ## compute the different size values
       sizes.levels <- seq(size.min, size.max, length.out = nl)
-      # affect them to the factor
-      sizes.values <- cut(obj[[size]], breaks = quantile(obj[[size]], probs=seq(0, 1, length.out = nl + 1)), labels = sizes.levels, include.lowest = TRUE)
-      sizes.values <- as.numeric(as.character(sizes.values))
+      ## assign them to different classes:
+      sizes.values <- cut(as.integer(obj[[size]]), breaks = seq(1, nl + 1, by=1), labels = sizes.levels, include.lowest = TRUE)
+      size.values <- as.numeric(as.character(sizes.values))
+      ## fix the missing values:
+      size.values[is.na(size.values)] <- size.default
     }
-  }
-  # If no size aesthetic is asked, or if no data slot
-  else
+    
+  } else {
+    ## If no size aesthetic is asked, or if no data slot
     size.values <- rep(size.default, length.out = length(obj))
+  }
 
-  size.values
+  return(size.values)
 }
 
 # Width (lines)

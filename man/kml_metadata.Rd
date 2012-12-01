@@ -1,9 +1,11 @@
-\name{kml_metadata}
+\name{kml_metadata-methods}
 \alias{kml_metadata}
+\docType{methods}
+\alias{kml_metadata,SpatialMetadata-method}
 \title{Add metadata table to the active layer}
 \description{Adds a selection of metadata to the description box of an active layer.}
 \usage{
-kml_metadata(obj, cwidth = 150, twidth = 500, asText = FALSE)
+\S4method{kml_metadata}{SpatialMetadata}(obj, cwidth = 150, twidth = 500, asText = FALSE)
 }
 \arguments{
   \item{obj}{object of class \code{"SpatialMetadata"}}
@@ -29,3 +31,4 @@ kml_metadata(obj, cwidth = 150, twidth = 500, asText = FALSE)
 See \code{data(mdnames)} for a complete list of metadata fields. }
 \author{ Tomislav Hengl }
 \seealso{ \code{\link{spMetadata}}}
+\keyword{methods}

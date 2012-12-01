@@ -36,10 +36,13 @@
 \seealso{ \code{\link{SpatialMetadata-class}}
 }
 \examples{
+\dontrun{
 data(eberg)
+library(sp)
+library(rgdal)
 coordinates(eberg) <- ~X+Y
 proj4string(eberg) <- CRS("+init=epsg:31467")
-\dontrun{# (a) no metadata file exist:
+# (a) no metadata file exist:
 eberg.md <- spMetadata(eberg, Target_variable="SNDMHT_A")
 # (b) with localy prepared metadata file:
 eberg.md <- spMetadata(eberg, xml.file=system.file("eberg.xml", package="plotKML"), 

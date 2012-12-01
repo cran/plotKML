@@ -1,17 +1,18 @@
 Package: plotKML
-Version: 0.2-5
-Date: 2012-09-07
+Version: 0.3-1
+Date: 2012-11-30
 Title: Visualization of spatial and spatio-temporal objects in Google
         Earth
-Author: Tomislav Hengl <tom.hengl@wur.nl>, Contributions by: Pierre
-        Roudier <roudierp@landcareresearch.co.nz>, Dylan Beaudette
-        <debeaudette@ucdavis.edu>, Daniel Nuest <d.nuest@52north.org>
-Maintainer: Tomislav Hengl <tom.hengl@wur.nl>
-Depends: R (>= 2.13.0), rgdal, methods, XML, sp, pixmap, raster, plyr,
-        colorspace, grDevices, plotrix, colorRamps, stringr,
-        RColorBrewer, Hmisc, gstat, spacetime, xts, aqp, scales, dismo
-Suggests: utils, maptools, fossil, spcosa, zoo, rjson, animation,
-        spatstat, RSAGA, RCurl, rgbif, GSIF
+Authors@R: c(person("Tomislav", "Hengl", role = c("cre", "aut"), email
+        = "tom.hengl@wur.nl"), person("Pierre", "Roudier", role =
+        "ctb"), person("Dylan", "Beaudette", role = "ctb"),
+        person("Edzer", "Pebesma", role = "ctb"))
+Depends: R (>= 2.13.0)
+Imports: methods, XML, sp, rgdal, spacetime, colorspace, plotrix,
+        raster, dismo, aqp, pixmap, plyr, stringr, colorRamps, Hmisc,
+        scales, zoo, xts, RColorBrewer
+Suggests: utils, adehabitat, maptools, fossil, spcosa, rjson,
+        animation, gstat, spatstat, RSAGA, RCurl, rgbif
 Enhances: sp, raster
 Description: Writes sp-class, spacetime-class, raster-class and similar
         spatial and spatio-temporal objects to KML following some basic
@@ -20,9 +21,9 @@ Description: Writes sp-class, spacetime-class, raster-class and similar
 License: GPL
 URL: http://plotkml.r-forge.r-project.org/
 LazyLoad: yes
+Packaged: 2012-12-01 12:47:44 UTC; hengl001
+Author: Tomislav Hengl [cre, aut], Pierre Roudier [ctb], Dylan
+        Beaudette [ctb], Edzer Pebesma [ctb]
+Maintainer: Tomislav Hengl <tom.hengl@wur.nl>
 Repository: CRAN
-Repository/R-Forge/Project: plotkml
-Repository/R-Forge/Revision: 414
-Repository/R-Forge/DateTimeStamp: 2012-09-11 19:03:27
-Date/Publication: 2012-09-12 12:25:10
-Packaged: 2012-09-11 22:19:52 UTC; rforge
+Date/Publication: 2012-12-01 15:26:20

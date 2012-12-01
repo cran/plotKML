@@ -8,11 +8,23 @@
 setMethod("plotKML", "SpatialSamplingPattern", function(
   obj,
   folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))),
-  file.name = paste(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".kml", sep=""),
-  kmz = TRUE,
-  var.name = names(obj@sp.domain)[1],
+  file.name = paste(folder.name, ".kml", sep=""),
+  colour,
+  kmz = get("kmz", envir = plotKML.opts),
   ...
 ){
+ 
+  # target variable:
+  if(missing(colour)){ 
+    obj@sp.domain@data[,"colour"] <- obj@sp.domain@data[,1] 
+    message("Plotting the first variable on the list")  
+  } else {
+    if(is.name(colour)|is.call(colour)){
+      obj@sp.domain@data[,"colour"] <- eval(colour, obj@sp.domain@data)
+    } else {
+      obj@sp.domain@data[,"colour"] <- obj@sp.domain@data[,as.character(colour)]      
+    }
+  }
  
   # open the KML file for writing:
   kml_open(folder.name = folder.name, file.name = file.name)
@@ -24,7 +36,7 @@ setMethod("plotKML", "SpatialSamplingPattern", function(
   assign('kml.out', kml.out, envir=plotKML.fileIO)  
 
   # plot strata and points:
-  kml_layer.SpatialPolygons(obj = obj@sp.domain, colour = var.name)
+  kml_layer.SpatialPolygons(obj = obj@sp.domain, colour = colour)
   kml_layer.SpatialPoints(obj = obj@pattern, ...)
 
   # close the file:

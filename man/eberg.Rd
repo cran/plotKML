@@ -60,13 +60,15 @@ data(eberg)
 data(eberg_grid)
 data(eberg_zones)
 data(eberg_contours)
+library(sp)
 coordinates(eberg) <- ~X+Y
 proj4string(eberg) <- CRS("+init=epsg:31467")
 gridded(eberg_grid) <- ~x+y
 proj4string(eberg_grid) <- CRS("+init=epsg:31467")
-\dontrun{# visualize the maps:
+# visualize the maps:
 data(SAGA_pal)
 l.sp <- list("sp.lines", eberg_contours, col="black")
+\dontrun{
 spplot(eberg_grid["DEMSRT6"], col.regions = SAGA_pal[[1]], sp.layout=l.sp)
 spplot(eberg_zones, sp.layout=list("sp.points", eberg, col="black", pch="+"))
 }
