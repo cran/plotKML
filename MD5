@@ -1,4 +1,4 @@
-dd9f0cad2057b3abde7db463665544ab *DESCRIPTION
+7c27814dba35d37840bce8d43469fd99 *DESCRIPTION
 621fe7c961fe6c67361e9da5a5187cfa *NAMESPACE
 d41d8cd98f00b204e9800998ecf8427e *NEWS
 e1e6d9e43ab310e9fde27d4c326ce12c *R/AAA-classes.R
@@ -105,7 +105,7 @@ d5303eb2b21a793be8e30c2890a0c3d0 *man/kml_description.Rd
 31eaa009d05e5f95acea52c5678aa0f7 *man/kml_layer-method.Rd
 0b7a065e595da3a0d46160595e51eb33 *man/kml_legend.bar.Rd
 26e699d6651b4a7acc0c5351aedd96d2 *man/kml_metadata.Rd
-321b071d35bc2f31b1af2970dc4469eb *man/kml_open.Rd
+e64dbff2cb786c947ec7ffa46613755b *man/kml_open.Rd
 d202d839ea71f8fe430aba599595c91f *man/kml_screen.Rd
 8e19458e64bd57b0179cda2862cd6bc4 *man/layer.Raster.Rd
 3c114132c8b418d788a434838da1263f *man/layer.RasterBrick.Rd
@@ -122,7 +122,7 @@ bc9aa24f2945fe64f17adc24f718519b *man/layer.SpatialPolygons.Rd
 dac02f6b63e58406d0d2ca79490d038d *man/metadata2SLD-method.Rd
 655f7d946869e359f4eb2dbcbfbb2a6a *man/metadata2SLD.SpatialPixels.Rd
 ca181c1fc1f593708f0f34ba89728a09 *man/normalizeFilename.Rd
-ae1921db351a4825b1ad8655db591400 *man/plotKML-method.Rd
+0bc7b506e1edea72754bc8b1625d4ccc *man/plotKML-method.Rd
 58d2d1701a126cf71a0752a13647e538 *man/plotKML-package.Rd
 bdd9862e54b89adb048aca3f8f59e9f5 *man/plotKML.env.Rd
 7ffcaceb7db5064cb3ce190489be0fec *man/readGPX.Rd
