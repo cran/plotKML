@@ -25,6 +25,6 @@ kml_open(file.name, folder.name = file.name, kml_open = TRUE,
 }
 \author{Pierre Roudier, Tomislav Hengl and Dylan Beaudette}
 \details{These lower level functions can be used to create customized multi-layered KML files. See plotKML package homepage / manual for more examples.}
-\seealso{ \code{\link{kml_layer}}, \code{\link{kml-methods}} }
+\seealso{ \code{\link{plotKML-method}}, \code{\link{kml_layer}}, \code{\link{kml-methods}} }
 \keyword{spatial}
 

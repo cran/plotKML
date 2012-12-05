@@ -1,6 +1,6 @@
 Package: plotKML
-Version: 0.3-1
-Date: 2012-11-30
+Version: 0.3-2
+Date: 2012-12-04
 Title: Visualization of spatial and spatio-temporal objects in Google
         Earth
 Authors@R: c(person("Tomislav", "Hengl", role = c("cre", "aut"), email
@@ -21,9 +21,9 @@ Description: Writes sp-class, spacetime-class, raster-class and similar
 License: GPL
 URL: http://plotkml.r-forge.r-project.org/
 LazyLoad: yes
-Packaged: 2012-12-01 12:47:44 UTC; hengl001
+Packaged: 2012-12-05 12:19:26 UTC; hengl001
 Author: Tomislav Hengl [cre, aut], Pierre Roudier [ctb], Dylan
         Beaudette [ctb], Edzer Pebesma [ctb]
 Maintainer: Tomislav Hengl <tom.hengl@wur.nl>
 Repository: CRAN
-Date/Publication: 2012-12-01 15:26:20
+Date/Publication: 2012-12-05 13:54:43

@@ -148,23 +148,27 @@ proj4string(eberg) <- CRS("+init=epsg:31467")
 ## subset to 20 percent:
 eberg <- eberg[runif(nrow(eberg))<.1,]
 ## bubble type plot:
+\dontrun{
 plotKML(eberg["CLYMHT_A"])
 plotKML(eberg["CLYMHT_A"], colour_scale=rep("#FFFF00", 2), points_names="")
+}
 
 ## -------------- SpatialLinesDataFrame --------- ##
 data(eberg_contours)
 \dontrun{
 plotKML(eberg_contours)
-}
 ## plot contour lines with actual altitudes:
 plotKML(eberg_contours, colour=Z, altitude=Z)
+}
 
 ## -------------- SpatialPolygonsDataFrame --------- ##
 data(eberg_zones)
+\dontrun{
 plotKML(eberg_zones["ZONES"])
 ## add altitude:
 zmin = 230
 plotKML(eberg_zones["ZONES"], altitude=zmin+runif(length(eberg_zones))*500)
+}
 
 ## -------------- SpatialPixelsDataFrame --------- ##
 library(rgdal)
@@ -176,9 +180,9 @@ TWI <- reproject(eberg_grid["TWISRT6"])
 data(SAGA_pal)
 \dontrun{
 plotKML(TWI, colour_scale = SAGA_pal[[1]])
-}
 ## set limits manually:
 plotKML(TWI, z.lim=c(12,20), colour_scale = SAGA_pal[[1]])
+}
 ## categorical data:
 eberg_grid$LNCCOR6 <- as.factor(paste(eberg_grid$LNCCOR6))
 levels(eberg_grid$LNCCOR6)
@@ -186,7 +190,9 @@ data(worldgrids_pal)
 # attr(worldgrids_pal["corine2k"][[1]], "names")
 pal = as.character(worldgrids_pal["corine2k"][[1]][c(1,11,13,14,16,17,18)])
 LNCCOR6 <- reproject(eberg_grid["LNCCOR6"])
+\dontrun{
 plotKML(LNCCOR6, colour_scale=pal)
+}
 
 ## -------------- SpatialPhotoOverlay --------- ##
 \dontrun{
@@ -220,7 +226,9 @@ site(prof1) <- ~ lon + lat + FAO1988
 coordinates(prof1) <- ~ lon + lat
 proj4string(prof1) <- CRS("+proj=longlat +datum=WGS84")
 prof1
+\dontrun{
 plotKML(prof1, var.name="ORCDRC", color.name="soil_color")
+}
 
 ## -------------- STIDF --------- ##
 library(spacetime)
@@ -234,7 +242,9 @@ HRtemp08.st <- STIDF(sp, time = HRtemp08$ctime, data = HRtemp08[,c("NAME","TEMP"
 # subset to first 500 records:
 HRtemp08_jan <- HRtemp08.st[1:500]
 str(HRtemp08_jan)
+\dontrun{
 plotKML(HRtemp08_jan[,,"TEMP"], dtime = 24*3600, LabelScale = .4)
+}
 
 ## -------------- STTDF --------- ##
 \dontrun{
