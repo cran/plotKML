@@ -23,7 +23,7 @@
 	\item{GetNames}{\code{signature(obj = "SpatialMetadata")}: get metadata field names}
   }
 }
-\author{ Tomislav Hengl }
+\author{ Tomislav Hengl and Michael Blaschek }
 \seealso{ \code{\link{spMetadata}}, \code{\link{metadata2SLD-methods}} }
 \examples{
 \dontrun{

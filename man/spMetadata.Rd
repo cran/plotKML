@@ -17,7 +17,14 @@ The \code{read.metadata} function can be used to read the formatted metadata (\c
     Indirect_Spatial_Reference = "", GoogleGeocode = FALSE, 
     Enduser_license_URL = get("license_url", envir = plotKML.opts),
     signif.digit = 3, colour_scale, bounds, legend_names, icons, 
-    validate.schema = FALSE)
+    validate.schema = FALSE, Target_variable_descr = "NA", 
+    Geosp_Data_Presentation_Form, Edition, Purpose, Abstract, 
+    Supplinf, Publisher, Pub_Place, Temp_Ext,
+    Update_Freq = c("Unknown", "Continually", "Daily", "Weekly", 
+    "Monthly", "Annually", "As needed", "Irregular", "None planned"), 
+    Stat_Progress = c("Complete", "In work", "Planned"), 
+    Spatial_Represent_Type = c("Point", "Vector", "Raster"),
+    Keyw_theme, Keyw_place )
 }
 \arguments{
   \item{obj}{some \code{"Spatial"} or \code{"Raster"} class object with \code{"data"} slot}
@@ -37,7 +44,21 @@ The \code{read.metadata} function can be used to read the formatted metadata (\c
   \item{legend_names}{character; legend names in the order of bounds}
   \item{icons}{character; file name or URL used for icons (if applicable)}
   \item{validate.schema}{logical; specifies whether to validate the schema using the \code{xmlSchemaValidate}}
-  \item{\dots}{optional arguments}
+  \item{Target_variable_descr}{character; specifies target variable description for eainfo-node 'attrdef'}
+  \item{Geosp_Data_Presentation_Form}{character; defines node 'geoform'}
+  \item{Edition}{ defines the version of the title}
+  \item{Purpose}{ defines the purpose of the given layer}
+  \item{Abstract}{ defines the abstract of the given layer}
+  \item{Supplinf}{ defines the supplemental information of the given layer}
+  \item{Publisher}{ defines publishing organization (or individual)}
+  \item{Pub_Place}{ defines publication place ('pubplace')}
+  \item{Temp_Ext}{ defines temporal extent start/end}
+  \item{Update_Freq}{ defines update frequency}
+  \item{Stat_Progress}{ defines progress status}
+  \item{Spatial_Represent_Type}{ defines direct node (direct spatial reference method)}
+  \item{Keyw_theme}{ defines node(s) 'themekey'}
+  \item{Keyw_place}{ defines node(s) 'placekey'}
+  \item{\dots}{additional arguments to be passed}
 }
 \details{
 \code{spMetadata} tries to locate a metadata file in the working directory (it looks for a metadata file with the same name as the object name). If no \code{.xml} file exists, it will load the template xml file available in the system folder (\code{system.file("FGDC.xml", package="plotKML")}). The \code{FGDC.xml} file contains typical metadata entries with description and examples. For practical purposes, one metadata object in plotKML can be associated with only one variable i.e. one column in the \code{"data"} slot (specified via \code{Target_variable}). To prepare a metadata xml file for the layer of interest, consider using the \href{http://plotkml.r-forge.r-project.org/FGDC.xml}{FGDC.xml} template file; to enter the missing fields use e.g. the \href{http://geology.usgs.gov/tools/metadata/tools/doc/tkme.html}{Tkme} software: Another editor for formal metadata, by Peter N. Schweitzer (U.S. Geological Survey). Before commiting the metadata file, try also running a \href{http://geo-nsdi.er.usgs.gov/validation/}{validation test}.\cr
@@ -58,7 +79,7 @@ By default, plotKML uses the Creative Commons license, but this can be adjusted 
 \item Creative Commons licenses (\url{http://creativecommons.org/licenses/})
 }
 }
-\author{Tomislav Hengl}
+\author{Tomislav Hengl and Michael Blaschek}
 \seealso{ \code{\link{kml_metadata}}, \code{\link{SpatialMetadata-class}}, \code{\link{spMetadata.Spatial}}, \code{sp::Spatial}, \code{\link{kml_open}} }
 \examples{
 \dontrun{## read metadata from the system file:

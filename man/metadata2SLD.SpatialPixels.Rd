@@ -8,7 +8,8 @@ metadata2SLD.SpatialPixels(obj,
     obj.name = normalizeFilename(deparse(substitute(obj))), 
     sld.file = set.file.extension(obj.name, ".sld"),
     Citation_title = xmlValue(obj@xml[["//title"]]), 
-    ColorMap_type = "intervals", opacity = 1, \dots)
+    ColorMap_type = "intervals", opacity = 1, 
+    brw.trg = 'Greys', target.var, \dots)
 }
 \arguments{
   \item{obj}{object of class \code{"SpatialMetadata"}}
@@ -18,6 +19,8 @@ metadata2SLD.SpatialPixels(obj,
   \item{Citation_title}{character; title of the layer}
   \item{ColorMap_type}{character; type of the colorMap see \url{http://docs.geoserver.org}}
   \item{opacity}{logical; specifies the opacity}
+  \item{brw.trg}{character; color scheme according to www.colorbrewer2.org; default to 'Greys'}
+  \item{target.var}{character; target variable used to calculate the class-intervals}
   \item{\dots}{additional arguments}
 }
 \author{ Tomislav Hengl }

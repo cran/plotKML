@@ -11,6 +11,7 @@
 \alias{kml_layer,RasterLayer-method}
 \alias{kml_layer,RasterStack-method}
 \alias{kml_layer,STIDF-method}
+\alias{kml_layer,STFDF-method}
 \alias{kml_layer,STTDF-method}
 \alias{kml_layer,SoilProfileCollection-method}
 \alias{kml_layer,SpatialGrid-method}

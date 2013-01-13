@@ -1,6 +1,6 @@
 # Purpose        : Automated generation of (spatial) metadata
 # Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); Pierre Roudier (pierre.roudier@landcare.nz); 
+# Contributions  : Michael Blaschek (blaschek@geographie.uni-kiel.de); 
 # Dev Status     : Pre-Alpha
 # Note           : Based on the US gov sp metadata standards [http://www.fgdc.gov/metadata/csdgm/], which can be converted to "ISO 19139" XML schema;
 
@@ -10,77 +10,91 @@ setMethod("GetPalette", "SpatialMetadata", function(obj){obj@palette})
 
 ## Generate a spMetadata class object:
 spMetadata.Spatial <- function(
-    obj,   
-    xml.file, # optional metadata file in the FGDC format
-    generate.missing = TRUE,
-    Citation_title,
-    Target_variable,  
-    Attribute_Measurement_Resolution = 1, # numeric resolution
-    Attribute_Units_of_Measure = "NA", # measurement units
-    Indirect_Spatial_Reference = "",
-    GoogleGeocode = FALSE,
-    Enduser_license_URL = get("license_url", envir = plotKML.opts),
-    signif.digit = 3,
-    colour_scale,
-    bounds,
-    legend_names,
-    icons,
-    validate.schema = FALSE
-    )
-    {
-          
-    # Use the first column for metadata: 
-    if(missing(Target_variable)){ Target_variable <- names(obj)[1] }
-    if(!("data" %in% slotNames(obj))){
-      stop("'Data' slot required")
-    }  
-    if(!(Target_variable %in% names(obj@data))){
-      stop("'Target_variable' not available in the attribute table")
+  obj,   
+  xml.file, # optional metadata file in the FGDC format
+  generate.missing = TRUE,
+  Citation_title,
+  Target_variable,  
+  Attribute_Measurement_Resolution = 1, # numeric resolution
+  Attribute_Units_of_Measure = "NA", # measurement units
+  Indirect_Spatial_Reference = "",
+  GoogleGeocode = FALSE,
+  Enduser_license_URL = get("license_url", envir = plotKML.opts),
+  signif.digit = 3,
+  colour_scale,
+  bounds,
+  legend_names,
+  icons,
+  validate.schema = FALSE,
+  Target_variable_descr = "NA", 
+  Geosp_Data_Presentation_Form, 
+  Edition, 
+  Purpose, 
+  Abstract, 
+  Supplinf, 
+  Publisher, 
+  Pub_Place, 
+  Temp_Ext,  
+  Update_Freq = c("Unknown", "Continually", "Daily", "Weekly", "Monthly", "Annually", "As needed", "Irregular", "None planned"), 
+  Stat_Progress = c("Complete", "In work", "Planned"), 
+  Spatial_Represent_Type = c("Point", "Vector", "Raster"), 
+  Keyw_theme, 
+  Keyw_place 
+)
+{
+  
+  # Use the first column for metadata: 
+  if(missing(Target_variable)){ Target_variable <- names(obj)[1] }
+  if(!("data" %in% slotNames(obj))){
+    stop("'Data' slot required")
+  }  
+  if(!(Target_variable %in% names(obj@data))){
+    stop("'Target_variable' not available in the attribute table")
+  }
+  if(missing(xml.file)){ xml.file <- set.file.extension(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".xml") }
+  
+  if(generate.missing == TRUE){
+    # Metadata template:
+    fgdc <- xmlTreeParse(system.file("FGDC.xml", package="plotKML"), useInternalNodes = TRUE)
+    top <- xmlRoot(fgdc)
+    nx <- names(unlist(xmlToList(top, addAttributes=FALSE)))
+  }
+  
+  # If the metadata file does not exit, use the template:
+  if(!is.na(file.info(xml.file)$size)){
+    message(paste("Reading the metadata file: ", xml.file, sep=""))
+    ret <- xmlTreeParse(xml.file)  
+    a <- xmlTreeParse(xml.file, useInternalNodes = TRUE)
+    
+    if(validate.schema == TRUE){
+      message("Connecting to the FGDC schema...")
+      try(xsd <- xmlTreeParse(get("fgdc_xsd", envir = plotKML.opts), isSchema =TRUE, useInternalNodes = TRUE))
+      # validate if the schema is OK:
+      try(xsd.val <- xmlSchemaValidate(xsd, a))
+      # print the results of validation:
+      try(x <- sapply(xsd.val$errors, function(x){x["msg"][[1]]}))
+      if(nzchar(x)){
+        warning(paste(x), call. = FALSE)
+      }
     }
-    if(missing(xml.file)){ xml.file <- set.file.extension(normalizeFilename(deparse(substitute(obj, env=parent.frame()))), ".xml") }
-        
-    if(generate.missing == TRUE){
-      # Metadata template:
-      fgdc <- xmlTreeParse(system.file("FGDC.xml", package="plotKML"), useInternalNodes = TRUE)
-      top <- xmlRoot(fgdc)
-      nx <- names(unlist(xmlToList(top, addAttributes=FALSE)))
-    }
-    
-    # If the metadata file does not exit, use the template:
-    if(!is.na(file.info(xml.file)$size)){
-        message(paste("Reading the metadata file: ", xml.file, sep=""))
-        ret <- xmlTreeParse(xml.file)  
-        a <- xmlTreeParse(xml.file, useInternalNodes = TRUE)
-        
-        if(validate.schema == TRUE){
-        message("Connecting to the FGDC schema...")
-        try(xsd <- xmlTreeParse(get("fgdc_xsd", envir = plotKML.opts), isSchema =TRUE, useInternalNodes = TRUE))
-        # validate if the schema is OK:
-        try(xsd.val <- xmlSchemaValidate(xsd, a))
-        # print the results of validation:
-        try(x <- sapply(xsd.val$errors, function(x){x["msg"][[1]]}))
-          if(nzchar(x)){
-          warning(paste(x), call. = FALSE)
-          }
-        }
-    }
-    
-    # If the metadata file does not exit, use the template:
-    else {  
-        warning(paste("Could not locate ", xml.file, ". Using FGDC.xml. See '?spMetadata' for more details.", sep=""), call.=FALSE)
-        ret <- xmlTreeParse(system.file("FGDC.xml", package="plotKML"))
-        a <- xmlTreeParse(system.file("FGDC.xml", package="plotKML"), useInternalNodes = TRUE)
-    }  
-    
-    ml <- xmlRoot(ret)
-    
-    if(generate.missing == TRUE){
+  }
+  
+  # If the metadata file does not exit, use the template:
+  else {  
+    warning(paste("Could not locate ", xml.file, ". Using FGDC.xml. See '?spMetadata' for more details.", sep=""), call.=FALSE)
+    ret <- xmlTreeParse(system.file("FGDC.xml", package="plotKML"))
+    a <- xmlTreeParse(system.file("FGDC.xml", package="plotKML"), useInternalNodes = TRUE)
+  }  
+  
+  ml <- xmlRoot(ret)
+  
+  if(generate.missing == TRUE){
     # compare the actual xml file and the template:
     cross <- compareXMLDocs(a=a, b=fgdc)
-            
+    
     # Merge the existing Metadata file with FGDC and add missing nodes:
     if(length(cross[["inB"]])>0){
-    for(i in 1:length(cross[["inB"]])){
+      for(i in 1:length(cross[["inB"]])){
         # position of the missing node in the target doc:
         nodn <- attr(cross[["inB"]], "dimnames")[[1]][i]
         x_l <- strsplit(nx[grep(nodn, nx)], "\\.")[[1]]
@@ -95,15 +109,22 @@ spMetadata.Spatial <- function(
           if(j==6 & !x_l[j] %in% names(ml[[x_l[1]]][[x_l[2]]][[x_l[3]]][[x_l[4]]][[x_l[5]]])) { ml[[x_l[1]]][[x_l[2]]][[x_l[3]]][[x_l[4]]][[x_l[5]]] <- append.XMLNode(ml[[x_l[1]]][[x_l[2]]][[x_l[3]]][[x_l[4]]][[x_l[5]]], xmlNode(x_l[j], "")) }
           if(j==7 & !x_l[j] %in% names(ml[[x_l[1]]][[x_l[2]]][[x_l[3]]][[x_l[4]]][[x_l[5]]][[x_l[6]]])) { ml[[x_l[1]]][[x_l[2]]][[x_l[3]]][[x_l[4]]][[x_l[5]]][[x_l[6]]] <- append.XMLNode(ml[[x_l[1]]][[x_l[2]]][[x_l[3]]][[x_l[4]]][[x_l[5]]][[x_l[6]]], xmlNode(x_l[j], "")) }
         }
-    }}
-               
+      }}
+    
     message("Generating metadata...")
-    if(xmlValue(ml[["idinfo"]][["citation"]][["citeinfo"]][["title"]]) == "") {
-    if(missing(Citation_title)) {
-      xmlValue(ml[["idinfo"]][["citation"]][["citeinfo"]][["title"]]) <- normalizeFilename(deparse(substitute(obj)))
+    if(length(xmlValue(ml[["idinfo"]][["citation"]][["citeinfo"]][["title"]])) == 0L) {
+      if(missing(Citation_title)) {
+        xmlValue(ml[["idinfo"]][["citation"]][["citeinfo"]][["title"]]) <- normalizeFilename(deparse(substitute(obj)))
       }
-      else { 
-      xmlValue(ml[["idinfo"]][["citation"]][["citeinfo"]][["title"]]) <- Citation_title
+      else {
+        xmlValue(ml[["idinfo"]][["citation"]][["citeinfo"]][["title"]]) <- Citation_title
+      }
+    } else {
+      if(missing(Citation_title)) {
+        xmlValue(ml[["idinfo"]][["citation"]][["citeinfo"]][["title"]]) <- normalizeFilename(deparse(substitute(obj)))
+      }
+      else {
+        xmlValue(ml[["idinfo"]][["citation"]][["citeinfo"]][["title"]]) <- Citation_title
       }
     } 
     xmlValue(ml[["distinfo"]][["stdorder"]][["digform"]][["digtinfo"]][["formcont"]]) <- class(obj)[1]
@@ -112,17 +133,84 @@ spMetadata.Spatial <- function(
     xmlValue(ml[["eainfo"]][["detailed"]][["enttyp"]][["enttypl"]]) <- class(obj@data[,Target_variable])
     
     if(is.numeric(obj@data[,Target_variable])){
-    xmlValue(ml[["eainfo"]][["detailed"]][["attr"]][["attrdomv"]][["rdom"]][["rdommin"]]) <- range(obj@data[,Target_variable], na.rm=TRUE)[1] 
-    xmlValue(ml[["eainfo"]][["detailed"]][["attr"]][["attrdomv"]][["rdom"]][["rdommax"]]) <- range(obj@data[,Target_variable], na.rm=TRUE)[2]
+      xmlValue(ml[["eainfo"]][["detailed"]][["attr"]][["attrdomv"]][["rdom"]][["rdommin"]]) <- range(obj@data[,Target_variable], na.rm=TRUE)[1] 
+      xmlValue(ml[["eainfo"]][["detailed"]][["attr"]][["attrdomv"]][["rdom"]][["rdommax"]]) <- range(obj@data[,Target_variable], na.rm=TRUE)[2]
     }  
     
-    xmlValue(ml[["eainfo"]][["detailed"]][["attr"]][["attrdef"]]) <- Target_variable
+    xmlValue(ml[["eainfo"]][["detailed"]][["attr"]][["attrlabl"]]) <- Target_variable
+    xmlValue(ml[["eainfo"]][["detailed"]][["attr"]][["attrdef"]]) <- Target_variable_descr
+    ## MB: insert new geoform node; keep the original FGDC entry in case no Geosp_Data_Presentation_Form is provided during function call:
+    if(missing(Geosp_Data_Presentation_Form)) {
+    } else {
+      if(is.null(Geosp_Data_Presentation_Form)) {
+      } else {
+        xmlValue(ml[["idinfo"]][["citation"]][["citeinfo"]][["geoform"]]) <- Geosp_Data_Presentation_Form
+      }
+    }
+    ## MB: insert new 'pubinfo' nodes; keep the original FGDC entry in case no information about publication is provided during function call:
+    if(missing(Publisher)) {
+    } else {
+      xmlValue(ml[["idinfo"]][["citation"]][["citeinfo"]][["origin"]]) <- Publisher
+      xmlValue(ml[["idinfo"]][["citation"]][["citeinfo"]][["pubinfo"]][["publish"]]) <- Publisher
+      xmlValue(ml[["idinfo"]][["citation"]][["citeinfo"]][["pubinfo"]][["pubplace"]]) <- Pub_Place
+    }
+    ## MB: insert 'edition' node; no edition node, if no version information is transfered:
+    if(missing(Edition)) {
+    } else {
+      ## MB: there might be a more elegant solution to create a new node.. (newXMLNode didn't work!)
+      ml[['idinfo']][['citation']][['citeinfo']]['edition'] <- ml[['idinfo']][['citation']][['citeinfo']][8]
+      ml[['idinfo']][['citation']][['citeinfo']]['edition']$edition <- xmlNode('edition', Edition)
+    }
+    if(missing(Purpose)) {
+    } else {
+      xmlValue(ml[["idinfo"]][["descript"]][["purpose"]]) <- Purpose
+    }
+    if(missing(Abstract)) {
+    } else {
+      xmlValue(ml[["idinfo"]][["descript"]][["abstract"]]) <- Abstract
+    }
+    if(missing(Supplinf)) {
+    } else {
+      ml[['idinfo']][['descript']]['supplinf'] <- ml[['idinfo']][['descript']][2]
+      ml[['idinfo']][['descript']]['supplinf']$supplinf <- xmlNode('supplinf', Supplinf)
+    }
+    if(missing(Temp_Ext)) {
+    } else {
+      xmlValue(ml[["idinfo"]][["timeperd"]][["timeinfo"]][["rngdates"]][["begdate"]]) <- Temp_Ext[1]
+      xmlValue(ml[["idinfo"]][["timeperd"]][["timeinfo"]][["rngdates"]][["enddate"]]) <- Temp_Ext[2]
+    }    
+    if(missing(Keyw_theme)) {
+    } else {
+      xmlValue(ml[['idinfo']][['keywords']][['theme']][['themekt']]) <- 'None'
+      for (i in 1:length(Keyw_theme)) {
+        if(i != length(Keyw_theme)) {ml[['idinfo']][['keywords']][['theme']][i+2] <- ml[['idinfo']][['keywords']][['theme']][i+1]}
+        xmlValue(ml[['idinfo']][['keywords']][['theme']][i+1][['themekey']]) <- Keyw_theme[i]
+      }
+    }
+    if(missing(Keyw_place)) {
+    } else {
+      xmlValue(ml[['idinfo']][['keywords']][['place']][['placekt']]) <- 'None'
+      for (i in 1:length(Keyw_place)) {
+        if(i != length(Keyw_place)) {ml[['idinfo']][['keywords']][['place']][i+2] <- ml[['idinfo']][['keywords']][['place']][i+1]} 
+        xmlValue(ml[['idinfo']][['keywords']][['place']][i+1][['placekey']]) <- Keyw_place[i]
+      }
+    }
+        
     xmlValue(ml[["eainfo"]][["detailed"]][["attr"]][["attrdomv"]][["rdom"]][["attrmres"]]) <- Attribute_Measurement_Resolution
     xmlValue(ml[["eainfo"]][["detailed"]][["attr"]][["attrdomv"]][["rdom"]][["attrunit"]]) <- Attribute_Units_of_Measure
     xmlValue(ml[["distinfo"]][["stdorder"]][["digform"]][["digtinfo"]][["transize"]]) <-  paste(signif(object.size(obj@data[, Target_variable])/1024, 4), "Kb (uncompressed)") 
     
+    ## MB: insert status information (progress, update), match.arg ensures that the domain of allowed values is matched:
+    Stat_Progress <- match.arg(Stat_Progress); Update_Freq <- match.arg(Update_Freq)
+    xmlValue(ml[["idinfo"]][["status"]][["progress"]]) <- Stat_Progress
+    xmlValue(ml[["idinfo"]][["status"]][["update"]]) <- Update_Freq 
+    
+    ## MB: insert "direct spatial reference method", match.arg ensures that the domain of allowed values is matched:
+    Spatial_Represent_Type <- match.arg(Spatial_Represent_Type)
+    xmlValue(ml[['spdoinfo']][['direct']]) <- Spatial_Represent_Type
+        
     if(xmlValue(ml[["metainfo"]][["metd"]]) == "") {
-    xmlValue(ml[["metainfo"]][["metd"]]) <- format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ")
+      xmlValue(ml[["metainfo"]][["metd"]]) <- format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ")
     }
     
     # estimate the bounding box:
@@ -134,15 +222,18 @@ spMetadata.Spatial <- function(
     xmlValue(ml[["idinfo"]][["spdom"]][["bounding"]][["southbc"]]) <- min(coordinates(obj.ll)[,2])  
     xmlValue(ml[["spref"]][["horizsys"]][["geograph"]][["geogunit"]]) <- "Decimal degrees"
     xmlValue(ml[["spdoinfo"]][["ptvctinf"]][["sdtsterm"]][["ptvctcnt"]]) <- nrow(obj@data)
-
+    
     if(Indirect_Spatial_Reference == "" & GoogleGeocode == TRUE){
-    require(rjson)
-    googleurl <- url(paste("http://maps.googleapis.com/maps/api/geocode/json?latlng=",  mean(obj.ll@bbox[,1]), ",", mean(obj.ll@bbox[,2]), "&sensor=false", sep=""))
-    try(Indirect_Spatial_Reference <- fromJSON(file=googleurl)[["results"]][[1]][["formatted_address"]])
-    close(googleurl)
+      require(rjson)
+      googleurl <- url(paste("http://maps.googleapis.com/maps/api/geocode/json?latlng=",  mean(obj.ll@bbox[,1]), ",", mean(obj.ll@bbox[,2]), "&sensor=false", sep=""))
+      try(Indirect_Spatial_Reference <- fromJSON(file=googleurl)[["results"]][[1]][["formatted_address"]])
+      close(googleurl)
     }
-        
-    xmlValue(ml[["spdoinfo"]][["indspref"]]) <- Indirect_Spatial_Reference
+    ## MB: change output for node 'indspref' from "" to default entry through if-else..
+    if(Indirect_Spatial_Reference == '') {
+    } else {    
+      xmlValue(ml[["spdoinfo"]][["indspref"]]) <- Indirect_Spatial_Reference
+    }
     xmlValue(ml[["idinfo"]][["native"]]) <- paste(R.version$version.string, "running on", Sys.info()[["sysname"]], Sys.info()[["release"]])
     if(xmlValue(ml[["metainfo"]][["metc"]][["cntinfo"]][["cntperp"]][["cntorg"]]) == ""){
       xmlValue(ml[["metainfo"]][["metc"]][["cntinfo"]][["cntperp"]][["cntorg"]]) <- Sys.getenv(c("USERDNSDOMAIN"))[[1]]  
@@ -150,79 +241,79 @@ spMetadata.Spatial <- function(
     if(xmlValue(ml[["metainfo"]][["metc"]][["cntinfo"]][["cntperp"]][["cntper"]]) == ""){
       xmlValue(ml[["metainfo"]][["metc"]][["cntinfo"]][["cntperp"]][["cntper"]]) <- paste(Sys.getenv(c("USERNAME"))[[1]], "(username)", Sys.getenv(c("COMPUTERNAME"))[[1]], "(computer name)")
     }
-    }
-
-    # attach friendly metadata names:
-    ny <- unlist(xmlToList(ml, addAttributes=FALSE))
-    # convert to a table:
-    met <- data.frame(metadata=gsub("\\.", "_", names(ny)), value=paste(ny))
-    # add friendly names:
-    mdnames <- read.table(system.file("mdnames.csv", package="plotKML"), sep=";")
-    field_names <- merge(met, mdnames[,c("metadata","field.names")], by="metadata", all.x=TRUE, all.y=FALSE)[,"field.names"]
-    
-    # generate metadata doc:
-    f = tempfile()
-    saveXML(ml, f)
-    doc = xmlInternalTreeParse(f)
-    
-    # color palette:
-    if(missing(bounds)){
+  }
+  
+  # attach friendly metadata names:
+  ny <- unlist(xmlToList(ml, addAttributes=FALSE))
+  # convert to a table:
+  met <- data.frame(metadata=gsub("\\.", "_", names(ny)), value=paste(ny))
+  # add friendly names:
+  mdnames <- read.table(system.file("mdnames.csv", package="plotKML"), sep=";")
+  field_names <- merge(met, mdnames[,c("metadata","field.names")], by="metadata", all.x=TRUE, all.y=FALSE)[,"field.names"]
+  
+  # generate metadata doc:
+  f = tempfile()
+  saveXML(ml, f)
+  doc = xmlInternalTreeParse(f)
+  
+  # color palette:
+  if(missing(bounds)){
     if(is.numeric(obj@data[,Target_variable])){
-        bounds <- seq(range(obj@data[,Target_variable], na.rm = TRUE, finite = TRUE)[1], range(obj@data[,Target_variable], na.rm = TRUE, finite = TRUE)[2], Attribute_Measurement_Resolution/2)  ## half the numeric resolution!
-        bounds.c <- signif((bounds[-1]+bounds[-length(bounds)])/2, signif.digit)
-        if(missing(legend_names)) { legend_names <- as.character(bounds.c) }
+      bounds <- seq(range(obj@data[,Target_variable], na.rm = TRUE, finite = TRUE)[1], range(obj@data[,Target_variable], na.rm = TRUE, finite = TRUE)[2], Attribute_Measurement_Resolution/2)  ## half the numeric resolution!
+      bounds.c <- signif((bounds[-1]+bounds[-length(bounds)])/2, signif.digit)
+      if(missing(legend_names)) { legend_names <- as.character(bounds.c) }
     } 
     else { 
-        x <- as.factor(obj@data[,Target_variable])
-        bounds <- c(0, seq_along(levels(x)))
-        bounds.c <- bounds[-1]
-        if(missing(legend_names)) { legend_names <- as.character(levels(x)) }   
+      x <- as.factor(obj@data[,Target_variable])
+      bounds <- c(0, seq_along(levels(x)))
+      bounds.c <- bounds[-1]
+      if(missing(legend_names)) { legend_names <- as.character(levels(x)) }   
     } }
-    
-    # generate a palette:
-    if(missing(colour_scale)){
+  
+  # generate a palette:
+  if(missing(colour_scale)){
     if(is.numeric(obj@data[,Target_variable])){
-        colour_scale <- get("colour_scale_numeric", envir = plotKML.opts)
+      colour_scale <- get("colour_scale_numeric", envir = plotKML.opts)
     }
     else { 
-        colour_scale <- get("colour_scale_factor", envir = plotKML.opts) 
+      colour_scale <- get("colour_scale_factor", envir = plotKML.opts) 
     }
-    }
-    
-    if(missing(icons)){ 
-        icons <- rep("", length(legend_names))
-    }
-    
-    cols <- colorRamp(colour_scale, space = "rgb", interpolate = "linear")
-    cdata <- scales::rescale(bounds.c)
-    color <- rgb(cols(cdata)/255)
-    
-    # make a spatial palette:
-    pal <- new("sp.palette", type=class(obj@data[,Target_variable]), bounds=bounds, color = color, names = legend_names, icons = icons)
-    # make a SpatialMetadata object:
-    spmd <- new("SpatialMetadata",  xml=doc, field.names=paste(field_names), palette=pal, sp=as(obj, "Spatial")) 
-    return(spmd)
-
+  }
+  
+  if(missing(icons)){ 
+    icons <- rep("", length(legend_names))
+  }
+  
+  cols <- colorRamp(colour_scale, space = "rgb", interpolate = "linear")
+  cdata <- scales::rescale(bounds.c)
+  color <- rgb(cols(cdata)/255)
+  
+  # make a spatial palette:
+  pal <- new("sp.palette", type=class(obj@data[,Target_variable]), bounds=bounds, color = color, names = legend_names, icons = icons)
+  # make a SpatialMetadata object:
+  spmd <- new("SpatialMetadata",  xml=doc, field.names=paste(field_names), palette=pal, sp=as(obj, "Spatial")) 
+  return(spmd)
+  
 }
 
 spMetadata.Raster <- function(obj, Target_variable, bounds = NULL, color = NULL, ...){
-    
-    if(!is.null(bounds)) {bounds <- obj@legend@values}
-    if(!is.null(color)) {color <- obj@legend@color}
-
-    # convert a Raster layer to SGDF:
-    if(nlayers(obj) > 1){
-      if(missing(Target_variable)) {
+  
+  if(!is.null(bounds)) {bounds <- obj@legend@values}
+  if(!is.null(color)) {color <- obj@legend@color}
+  
+  # convert a Raster layer to SGDF:
+  if(nlayers(obj) > 1){
+    if(missing(Target_variable)) {
       i_layer <- 1
-      }
-      else {
-      i_layer <- which(names(obj) == Target_variable)
-      }
-      obj <- raster(obj, layer = i_layer)
     }
-    obj <- as(obj, "SpatialGridDataFrame") 
-    
-    spMetadata.Spatial(obj, ...)
+    else {
+      i_layer <- which(names(obj) == Target_variable)
+    }
+    obj <- raster(obj, layer = i_layer)
+  }
+  obj <- as(obj, "SpatialGridDataFrame") 
+  
+  spMetadata.Spatial(obj, ...)
 }
 
 setMethod("spMetadata", "Spatial", spMetadata.Spatial)
@@ -231,19 +322,19 @@ setMethod("spMetadata", "RasterLayer", spMetadata.Raster)
 
 ## Read metadata from a xml.file and convert to a table:
 read.metadata <- function(xml.file, delim.sign = "_", full.names){
-
-    if(missing(full.names)){    
-      full.names = read.table(system.file("mdnames.csv", package="plotKML"), sep=";")      
-    }
-    ret <- xmlTreeParse(xml.file, useInternalNodes = TRUE)
-    top <- xmlRoot(ret)
-    nx <- unlist(xmlToList(top, addAttributes=FALSE))
-    # convert to a table:
-    met <- data.frame(metadata=gsub("\\.", delim.sign, attr(nx, "names")), value=paste(nx), stringsAsFactors = FALSE)
-    # add more friendly names:
-    metm <- merge(x=met, y=full.names[,c("metadata","field.names")], by="metadata", all.x=TRUE)
-    
-    return(metm[,c(1,3,2)])
+  
+  if(missing(full.names)){    
+    full.names = read.table(system.file("mdnames.csv", package="plotKML"), sep=";")      
+  }
+  ret <- xmlTreeParse(xml.file, useInternalNodes = TRUE)
+  top <- xmlRoot(ret)
+  nx <- unlist(xmlToList(top, addAttributes=FALSE))
+  # convert to a table:
+  met <- data.frame(metadata=gsub("\\.", delim.sign, attr(nx, "names")), value=paste(nx), stringsAsFactors = FALSE)
+  # add more friendly names:
+  metm <- merge(x=met, y=full.names[,c("metadata","field.names")], by="metadata", all.x=TRUE)
+  
+  return(metm[,c(1,3,2)])
 }
 
 # end of script;

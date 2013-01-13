@@ -1,6 +1,7 @@
 \name{kml_layer.STIDF}
 \encoding{latin1}
 \alias{kml_layer.STIDF}
+\alias{kml_layer.STFDF}
 \alias{STIDF}
 \title{Write irregular spatio-temporal observations (points, lines and polygons) to KML}
 \description{Writes an object of class \code{"STIDF"} (unstructured/irregular spatio-temporal data) to a KML file with a possibility to parse attribute variables using several aesthetics arguments.

@@ -135,7 +135,7 @@ setMethod("plotKML", "SpatialPolygonsDataFrame", function(obj, folder.name = nor
     }
   }
   if(missing(raster_name)){ 
-    raster_name <- set.file.extension(names(obj)[1], ".png")
+    raster_name <- paste(normalizeFilename(names(obj)[1]), ".png", sep="")
   }
    
   # open for writing:
@@ -202,8 +202,8 @@ setMethod("plotKML", "SoilProfileCollection", function(obj, folder.name = normal
 
 })
 
-## spacetime irregular vectors
-setMethod("plotKML", "STIDF", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), colour, shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", points_names, kmz = get("kmz", envir = plotKML.opts), ...){
+## spacetime irregular vectors / spacetime full data frames...
+.plotKML.ST <- function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), colour, shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", points_names, kmz = get("kmz", envir = plotKML.opts), ...){
 
   # Guess aesthetics if missing:
   if(missing(colour)){ 
@@ -216,19 +216,25 @@ setMethod("plotKML", "STIDF", function(obj, folder.name = normalizeFilename(depa
       obj@data[,"colour"] <- obj@data[,as.character(colour)]      
     }
   }
-  if(missing(points_names)){ 
+  if(missing(points_names)&class(obj@sp)=="SpatialPoints"){ 
     if(is.numeric(obj@data[,1])){ 
       points_names <- signif(obj@data[,1], 3) 
     } else {
       points_names <- paste(obj@data[,1])     
     }
   }
+  # subset to target variable:
+  obj <- obj[,,"colour"]
     
   # open for writing:
   kml_open(folder.name = folder.name, file.name = file.name)
  
   # write layer:
-  kml_layer.STIDF(obj, shape = shape, colour = colour, points_names = points_names, ...)
+  if(class(obj@sp)=="SpatialPoints"){
+    kml_layer(obj, shape = shape, colour = colour, points_names = points_names, ...)
+  } else {
+    kml_layer(obj, ...)  
+  }
 
   # close the file:
   kml_close(file.name = file.name)
@@ -238,7 +244,11 @@ setMethod("plotKML", "STIDF", function(obj, folder.name = normalizeFilename(depa
   # open KML file in the default browser:
   kml_View(file.name)
 
-})
+}
+
+setMethod("plotKML", "STIDF", .plotKML.ST)
+setMethod("plotKML", "STFDF", .plotKML.ST)
+
 
 ## Trajectories:
 setMethod("plotKML", "STTDF", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), colour, start.icon = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", kmz = get("kmz", envir = plotKML.opts), ...){
