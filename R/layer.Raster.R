@@ -12,7 +12,6 @@ kml_layer.Raster <- function(
   ...
   ){
 
-  require(RSAGA)
   # get our invisible file connection from custom environment
   kml.out <- get("kml.out", envir=plotKML.fileIO)
 
@@ -107,7 +106,7 @@ kml_layer.Raster <- function(
     obj <- calc(obj, fun=function(x){ x[x < z.lim[1]] <- z.lim[1]; return(x)}) 
     obj <- calc(obj, fun=function(x){ x[x > z.lim[2]] <- z.lim[2]; return(x)}) 
   }
-  image(obj, col = colour_scale, frame.plot = FALSE)
+  raster::image(obj, col = colour_scale, zlim = z.lim, frame.plot = FALSE, main="")
   dev.off()
 
   ## There is a bug in Google Earth that does not allow transparency of PNGs:

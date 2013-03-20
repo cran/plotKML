@@ -272,4 +272,98 @@ setMethod("plotKML", "STTDF", function(obj, folder.name = normalizeFilename(depa
 })
 
 
+## List of objects of type "sp"
+setMethod("plotKML", "list", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), size = NULL, colour, points_names = "", shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", plot.labpt = TRUE, labels = "", metadata = NULL, kmz = get("kmz", envir = plotKML.opts), ...){
+   
+  # check class of object:
+  if(any(!(sapply(obj, class)=="SpatialPointsDataFrame"|sapply(obj, class)=="SpatialLinesDataFrame"|sapply(obj, class)=="SpatialPolygonsDataFrame"|sapply(obj, class)=="SpatialPixelsDataFrame"))){
+    stop("List of objects of class SpatialPoints*, SpatialLines*, SpatialPolygons*, SpatialPixels* expected")
+  }
+    
+  # open for writing:
+  kml_open(folder.name = folder.name, file.name = file.name, ...)
+
+  ## target variable: 
+  for(i in 1:length(obj)){    
+  if(missing(colour)){ 
+    obj[[i]]@data[,"colour"] <- obj[[i]]@data[,1] 
+  } else {
+    if(is.name(colour)|is.call(colour)){
+      obj[[i]]@data[,"colour"] <- eval(colour, obj[[i]]@data)
+    } else {
+      obj[[i]]@data[,"colour"] <- obj[[i]]@data[,as.character(colour)]      
+    }
+    }
+  }
+    
+  if(all(sapply(obj, class)=="SpatialPointsDataFrame")){
+    for(i in 1:length(obj)){
+
+      if(points_names == ""){ 
+        if(is.numeric(obj[[i]]@data[,1])){ 
+          points_names_i <- signif(obj[[i]]@data[,1], 3) 
+        } else {
+          points_names_i <- paste(obj[[i]]@data[,1])     
+        }
+      }
+
+      if(is.numeric(obj[[i]]@data[,"colour"])){
+        kml_layer.SpatialPoints(obj[[i]], colour = colour, points_names = points_names_i, shape = shape, metadata = metadata, ...)
+      } else {
+        kml_layer.SpatialPoints(obj[[i]], colour = colour, points_names = points_names, shape = shape, metadata = metadata, ...)
+      }
+    }
+  }
+
+  if(all(sapply(obj, class)=="SpatialLinesDataFrame")){    
+    for(i in 1:length(obj)){
+      kml_layer.SpatialLines(obj[[i]], metadata = metadata, ...)
+    }
+  }
+    
+  if(all(sapply(obj, class)=="SpatialPolygonsDataFrame")){
+    for(i in 1:length(obj)){
+      # Guess aesthetics if missing:
+      if(labels == ""){ 
+        obj[[i]]@data[,"labels_i"] <- obj[[i]]@data[,1] 
+      } else {
+        if(is.name(labels)|is.call(labels)){
+          obj[[i]]@data[,"labels_i"] <- eval(labels, obj[[i]]@data)
+        } else {
+          obj[[i]]@data[,"labels_i"] <- obj[[i]]@data[,deparse(labels)]      
+        }
+      }
+     
+      kml_layer.SpatialPolygons(obj[[i]], colour = colour, plot.labpt = plot.labpt, labels = labels_i, metadata = metadata, ...)
+    }
+  }
+    
+  if(all(sapply(obj, class)=="SpatialPixelsDataFrame")){
+    for(i in 1:length(obj)){
+      
+      ## subset to the bounding box if necessary:
+      bbn <- round(diff(obj[[i]]@bbox[1,])/obj[[i]]@grid@cellsize[1])*round(diff(obj[[i]]@bbox[2,])/obj[[i]]@grid@cellsize[2])
+      if(max(obj[[i]]@grid.index, na.rm=TRUE)>bbn){
+        x <- as.data.frame(obj[[i]])
+        suppressWarnings( gridded(x) <- ~x+y )
+        proj4string(x) = obj[[i]]@proj4string
+        obj[[i]] <- x
+      }
+      
+      raster_name_i <- paste(names(obj[[i]])[1], "_", i, ".png", sep="")     
+      kml_layer.SpatialPixels(obj[[i]], colour = colour, raster_name = raster_name_i, metadata = metadata, plot.legend=FALSE, ...)
+    }
+  }
+  
+  # close the file:
+  kml_close(file.name = file.name)
+  if (kmz == TRUE){
+      kml_compress(file.name = file.name)
+  }
+  # open KML file in the default browser:
+  kml_View(file.name)
+
+})
+
+
 # end of script;

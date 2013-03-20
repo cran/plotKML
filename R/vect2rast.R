@@ -45,7 +45,7 @@ vect2rast.SpatialPoints <- function(obj, fname = names(obj)[1], cell.size, bbox,
       }
       # rasterize - convert vector to a raster map:    
       obj <- obj[!is.na(obj@data[,1]),]
-      in.r <- rasterize(obj, r, field = names(obj)[1])
+      in.r <- rasterize(obj, r, field = names(obj)[1], ...)
       res <- as(in.r, "SpatialGridDataFrame")
       names(res) = names(obj)[1]
       attr(res@bbox, "dimnames") = attr(obj@bbox, "dimnames")
@@ -60,7 +60,6 @@ vect2rast.SpatialPoints <- function(obj, fname = names(obj)[1], cell.size, bbox,
     
     else{ 
     if(method=="SAGA"){   # SAGA GIS 2.0.8
-    require(RSAGA)
    
       if(!rsaga.env()[["cmd"]]=="NULL"){
       require(maptools)   
@@ -130,7 +129,7 @@ vect2rast.SpatialLines <- function(obj, fname = names(obj)[1], cell.size, bbox, 
       }
       # rasterize - convert vector to a raster map:    
       obj <- obj[!is.na(obj@data[,1]),]
-      in.r <- rasterize(obj, r, field = names(obj)[1])
+      in.r <- rasterize(obj, r, field = names(obj)[1], ...)
       res <- as(in.r, "SpatialGridDataFrame")
       names(res) = names(obj)[1]
       attr(res@bbox, "dimnames") = attr(obj@bbox, "dimnames")
@@ -145,7 +144,6 @@ vect2rast.SpatialLines <- function(obj, fname = names(obj)[1], cell.size, bbox, 
     
     else{ 
     if(method=="SAGA"){   # SAGA GIS 2.0.8
-    require(RSAGA)
    
       if(!rsaga.env()[["cmd"]]=="NULL"){
       require(maptools)   
@@ -213,7 +211,7 @@ vect2rast.SpatialPolygons <- function(obj, fname = names(obj)[1], cell.size, bbo
       }
       # rasterize - convert vector to a raster map:    
       obj <- obj[!is.na(obj@data[,1]),]
-      in.r <- rasterize(obj, r, field = names(obj)[1])
+      in.r <- rasterize(obj, r, field = names(obj)[1], ...)
       res <- as(in.r, "SpatialGridDataFrame")
       names(res) = names(obj)[1]
       attr(res@bbox, "dimnames") = attr(obj@bbox, "dimnames")
@@ -228,7 +226,6 @@ vect2rast.SpatialPolygons <- function(obj, fname = names(obj)[1], cell.size, bbo
     
     else{ 
     if(method=="SAGA"){   # SAGA GIS 2.0.8
-    require(RSAGA)
    
       if(!rsaga.env()[["cmd"]]=="NULL"){
       require(maptools)   

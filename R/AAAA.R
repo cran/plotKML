@@ -18,7 +18,6 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
 
      #  Try locating SAGA GIS (R default setting)...
      if(saga_cmd==""){
-     if(require(RSAGA)){
      if(suppressWarnings(!is.null(x <- rsaga.env()))){ 
      if(.Platform$OS.type == "windows") {
         saga_cmd <- shortPathName(normalizePath(paste(rsaga.env()$path, rsaga.env()$cmd, sep="/"))) 
@@ -31,7 +30,7 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
         }
      } else {
         saga.version <- ""
-     }}}
+     }}
      
      # Try locating path to ImageMagick (R default setting)...
      if(convert==""){
@@ -144,7 +143,6 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
        
       # 2nd chance to try to locate SAGA GIS (if not on a standard path):      
       if(saga_cmd==""){
-      if(require(RSAGA)){
         if(!nzchar(saga_cmd)&!nzchar(saga.version)){
         if(nzchar(prog <- Sys.getenv("ProgramFiles")) &&
           length(saga.dir <- list.files(prog, "^SAGA*"))>0 &&
@@ -173,7 +171,7 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
      else {
         if(show.paths){ message(paste("Located SAGA GIS ", saga.version, " from the 'Program Files' directory: \"", shortPathName(saga_cmd), "\"", sep="")) }
      }
-    }}
+    }
     }
     
     ## UNIX:

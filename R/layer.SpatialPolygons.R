@@ -42,7 +42,7 @@ kml_layer.SpatialPolygons <- function(
   balloon <- aes[["balloon"]]
 
   # Parse ATTRIBUTE TABLE (for each placemark):
-  if (balloon & ("data" %in% slotNames(obj))){
+  if((balloon==TRUE | class(balloon) %in% c('character','numeric')) & ("data" %in% slotNames(obj))){
       html.table <- .df2htmltable(obj@data)
   }
   

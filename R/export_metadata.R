@@ -30,9 +30,7 @@ metadata2SLD.SpatialPixels <- function(
     opacity = 1,
     ...
     ){
-    
-    require(RSAGA)
-    
+       
     l1 = newXMLNode("StyledLayerDescriptor", attrs=c(version="1.0.0"), namespaceDefinitions=c("xsi:schemaLocation"="http://www.opengis.net/sld StyledLayerDescriptor.xsd", "sld"="http://www.opengis.net/sld", "ogc"="http://www.opengis.net/ogc", "gml"="http://www.opengis.net/gml"))
     l2 <- newXMLNode("NamedLayer", parent = l1)
     l3 <- newXMLNode("Name", paste(Citation_title, "(", Format_Information_Content, ")"), parent = l2)
