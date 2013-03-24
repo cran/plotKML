@@ -32,7 +32,6 @@ kml_layer.SpatialPhotoOverlay <- function(
   ...
   ){
 
-  require(RSAGA)
   # get our invisible file connection from custom evnrionment
   kml.out <- get("kml.out", envir=plotKML.fileIO)
   

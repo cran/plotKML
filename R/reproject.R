@@ -183,7 +183,7 @@ reproject.RasterStack <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts
 reproject.RasterBrick <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts)) {
   r <- stack(obj)
   rs <- reproject.RasterStack(r, CRS = CRS)
-  return(rs)
+  return(brick(rs))
 }
 
 # connect all methods and classes:

@@ -19,7 +19,6 @@ grid2poly <- function(obj, var.name = names(obj)[1], reproject = TRUE, method = 
     
     else{
     if(method=="RSAGA"){
-      require(RSAGA)
       if(!rsaga.env()[["cmd"]]=="NULL"){
         
         if(tmp.file==TRUE){

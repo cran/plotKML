@@ -7,7 +7,7 @@
   \describe{
     \item{\code{variable}:}{object of class \code{"character"}; variable name}
     \item{\code{observed}:}{object of class \code{"SpatialPointsDataFrame"} (must be 2D); see \code{sp::SpatialPointsDataFrame} }
-    \item{\code{glm}:}{object of class \code{"glm"}; contains the summary of the regression model}
+    \item{\code{regModel.summary}:}{contains the summary of the regression model}
     \item{\code{vgmModel}:}{object of class \code{"data.frame"}; contains the variogram parameters passed from gstat}
     \item{\code{predicted}:}{object of class \code{"SpatialPixelsDataFrame"}; see \code{sp::SpatialPixelsDataFrame}}
     \item{\code{validation}:}{object of class \code{"SpatialPointsDataFrame"} containing results of validation}

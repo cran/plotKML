@@ -23,7 +23,7 @@ The \code{LST} data frame contains the following layers:
 \item MODIS products (\url{https://lpdaac.usgs.gov/lpdaac/products/modis_products_table/})
 }
 }
-\note{Time series of 46 day-time and night-time 8-day composite LST images (\href{https://lpdaac.usgs.gov/lpdaac/products/modis_products_table/land_surface_temperature_emissivity/8_day_l3_global_1km/mod11a2}{MOD11A2} product bands \code{1} and \code{5}) was obtained from the NASA's FTP server (\url{ftp://e4ftl01u.ecs.nasa.gov}). The original 8-day composite images were created by patching together images from a period of \enc{±}{+-}4 days, so that the proportion of clouds can be reduced to a minimum. The \code{"zvalue"} slot in the \code{"RasterBrick"} object can be used as the dateTime column expressed as:\cr 
+\note{Time series of 46 day-time and night-time 8-day composite LST images (\href{https://lpdaac.usgs.gov/lpdaac/products/modis_products_table/land_surface_temperature_emissivity/8_day_l3_global_1km/mod11a2}{MOD11A2} product bands \code{1} and \code{5}) was obtained from the NASA's FTP server (\url{ftp://e4ftl01.cr.usgs.gov}). The original 8-day composite images were created by patching together images from a period of \enc{±}{+-}4 days, so that the proportion of clouds can be reduced to a minimum. The \code{"zvalue"} slot in the \code{"RasterBrick"} object can be used as the dateTime column expressed as:\cr 
 
 \code{yyyy-mm-ddThh:mm:sszzzzzz}\cr
 

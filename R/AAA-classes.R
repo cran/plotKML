@@ -84,7 +84,7 @@ setClass("SpatialPhotoOverlay", representation(filename = "character", pixmap = 
 })
 
 ## A new class for SpatialPredictions:
-setClass("SpatialPredictions", representation(variable = "character", observed = "SpatialPointsDataFrame", glm = "list", vgmModel = "data.frame", predicted = "SpatialPixelsDataFrame", validation = "SpatialPointsDataFrame"), validity = function(object) {
+setClass("SpatialPredictions", representation(variable = "character", observed = "SpatialPointsDataFrame", regModel.summary = "ANY", vgmModel = "data.frame", predicted = "SpatialPixelsDataFrame", validation = "SpatialPointsDataFrame"), validity = function(object) {
     if(any(!(object@variable %in% names(object@observed@data))))
       return("Variable name not available in the 'data' slot")
     if(any(!(object@variable %in% names(object@predicted@data))))

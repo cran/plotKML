@@ -9,16 +9,16 @@ kml_layer.RasterBrick <- function(
   plot.legend = TRUE,  
   dtime = "", 
   tz = "GMT",
-  z.lim = c(min(obj@data@min, na.rm=TRUE), max(obj@data@max, na.rm=TRUE)),
+  z.lim = c(min(minValue(obj), na.rm=TRUE), max(maxValue(obj), na.rm=TRUE)),
   colour_scale = get("colour_scale_numeric", envir = plotKML.opts),
   home_url = get("home_url", envir = plotKML.opts),
   metadata = NULL,
   html.table = NULL,
+  altitudeMode = "clampToGround",
+  balloon = FALSE,
   ...
   ){
-  
-  require(RSAGA)
-  
+   
   if(!is.numeric(obj@data@values)){
     stop('Values of class "numeric" required.') 
   }
@@ -32,13 +32,6 @@ kml_layer.RasterBrick <- function(
   # Trying to reproject data if the check was not successful
   if (!prj.check) { obj <- reproject(obj) }
 
-  # Parsing the call for aesthetics
-  aes <- kml_aes(obj, ...)   
-
-  # Read the relevant aesthetics     
-  altitudeMode <- aes[["altitudeMode"]]
-  balloon <- aes[["balloon"]]
-
   # optional elevations:
   altitude <- charmatch("altitude", names(call))
   if(!is.na(altitude)){
@@ -51,12 +44,12 @@ kml_layer.RasterBrick <- function(
   # Format the time slot for writing to KML:
   if(!any(class(getZ(obj)) %in% "POSIXct")|!any(class(getZ(obj)) %in% "character")){
     if(any(getZ(obj)=="")|is.null(getZ(obj))){
-      obj <- setZ(obj, format(as.POSIXct(rev(as.Date(Sys.time())-1:ncol(obj@data@values))), "%Y-%m-%dT%H:%M:%SZ"))
+      obj <- setZ(obj, format(as.POSIXct(rev(as.Date(Sys.time())-1:nlayers(obj))), "%Y-%m-%dT%H:%M:%SZ"))
     }
-      DateTime <- getZ(obj)[1:ncol(obj@data@values)]
+      DateTime <- getZ(obj)[1:nlayers(obj)]
     }
     else { 
-      DateTime <- getZ(obj)[1:ncol(obj@data@values)] 
+      DateTime <- getZ(obj)[1:nlayers(obj)] 
    }
   
   if(all(dtime==0)) {  
@@ -99,7 +92,8 @@ kml_layer.RasterBrick <- function(
   for(j in 1:length(raster_name)){
     png(filename = raster_name[j], bg = "transparent", type="cairo-png")
     par(mar = c(0, 0, 0, 0), xaxs = "i", yaxs = "i")
-    image(raster(obj, j), col = colour_scale, zlim = z.lim, frame.plot = FALSE)
+    colour_scale_legend <- colorRampPalette(colour_scale)(50)
+    raster::image(raster(obj, j), col = colour_scale_legend, zlim = z.lim, frame.plot = FALSE, main="")
     dev.off()
   }
 

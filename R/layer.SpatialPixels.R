@@ -12,7 +12,6 @@ kml_layer.SpatialPixels <- function(
   ...
   ){
 
-  require(RSAGA)
   # get our invisible file connection from custom evnrionment
   kml.out <- get("kml.out", envir=plotKML.fileIO)
 
@@ -98,7 +97,7 @@ kml_layer.SpatialPixels <- function(
     r <- calc(r, fun=function(x){ x[x < z.lim[1]] <- z.lim[1]; return(x)}) 
     r <- calc(r, fun=function(x){ x[x > z.lim[2]] <- z.lim[2]; return(x)}) 
   }
-  image(r, col = colour_scale, frame.plot = FALSE)
+  raster::image(r, col = colour_scale, zlim = z.lim, frame.plot = FALSE, main="")
   dev.off()
 
   ## There is a bug in Google Earth that does not allow transparency of PNGs:
@@ -131,7 +130,7 @@ kml_layer.SpatialPixels <- function(
     }
   }
 
-  message("Parsing to KML...")
+  message("Writing to KML...")
   # Folder name
   pl1 = newXMLNode("Folder", parent=kml.out[["Document"]])
   pl2 <- newXMLNode("name", paste(class(obj)), parent = pl1)

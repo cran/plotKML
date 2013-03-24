@@ -5,14 +5,14 @@
 \description{Writes a series of images to PNGs and uses them to create ground overlays. Works only with \code{"RasterBrick"} class objects with time dimension specified via the \code{"@zvalue"}.}
 \usage{
 kml_layer.RasterBrick(obj, plot.legend = TRUE, dtime = "", tz = "GMT", 
-          z.lim = c(min(obj@data@min, na.rm = TRUE),
-          max(obj@data@max, na.rm = TRUE)), 
+          z.lim = c(min(minValue(obj), na.rm=TRUE), max(maxValue(obj), na.rm=TRUE)), 
           colour_scale = get("colour_scale_numeric", envir = plotKML.opts),
           home_url = get("home_url", envir = plotKML.opts),
-          metadata = NULL, html.table = NULL, \dots)
+          metadata = NULL, html.table = NULL,
+          altitudeMode = "clampToGround", balloon = FALSE, \dots)
 }
 \arguments{
-  \item{obj}{object of class \code{"RasterBrick"} (a time series of images)}
+  \item{obj}{object of class \code{"RasterBrick"} (e.g. a time series of images)}
   \item{plot.legend}{logical; specify whether a map legend should be generated automatically}
   \item{dtime}{temporal support (point or block) expressed in seconds}
   \item{tz}{referent time zone}
@@ -21,6 +21,8 @@ kml_layer.RasterBrick(obj, plot.legend = TRUE, dtime = "", tz = "GMT",
   \item{home_url}{(optional) URL directory / location of the images}
   \item{metadata}{(optional) the metadata object}
   \item{html.table}{(optional) the description block (html)}
+  \item{altitudeMode}{character; the default altitudeMode}
+  \item{balloon}{logical; specifies whether to display balloon for each element}
   \item{\dots}{additional arguments (see \code{aesthetics})}
 }
 \details{This method is recommended for visualization of numeric bands representing the same variable i.e. time series of images. To export a stack of images of different type see \code{\link{kml_layer.Raster}}. If the \code{"@zvalue"} slot is empty, dates will be added by subtracting days from the current day with 1--day increments.

@@ -28,9 +28,7 @@ spMetadata.Spatial <- function(
     validate.schema = FALSE
     )
     {
-    
-    require(RSAGA)
-        
+          
     # Use the first column for metadata: 
     if(missing(Target_variable)){ Target_variable <- names(obj)[1] }
     if(!("data" %in% slotNames(obj))){

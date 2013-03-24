@@ -18,6 +18,7 @@
 \alias{plotKML,SpatialMaxEntOutput-method}
 \alias{plotKML,RasterBrickTimeSeries-method}
 \alias{plotKML,SpatialSamplingPattern-method}
+\alias{plotKML,list-method}
 \title{Methods for plotting results of spatial analysis in Google Earth}
 \description{The method writes inputs and outputs of spatial analysis (a list of point, gridded and/or polygon data usually) to KML and opens the KML file in Google Earth (or any other default package used to view KML/KMZ files).}
 \usage{
@@ -100,6 +101,13 @@
       colour_scale_svar = get("colour_scale_svar", envir = plotKML.opts), 
       grid2poly = FALSE, obj.summary = TRUE, plot.svar = FALSE, 
       kmz = get("kmz", envir = plotKML.opts), \dots)
+\S4method{plotKML}{list}(obj, 
+      folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))),
+      file.name = paste(folder.name, ".kml", sep=""), 
+      size = NULL, colour, points_names = "",
+      shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png",
+      plot.labpt = TRUE, labels = "", metadata = NULL, 
+      kmz = get("kmz", envir = plotKML.opts), \dots)
 }
 \arguments{
   \item{obj}{input object of specific class; either some \href{http://cran.r-project.org/package=sp}{sp} or \href{http://cran.r-project.org/package=raster}{raster} package class object, or plotKML composite objects containing both inputs and outputs of analysis}
@@ -131,9 +139,9 @@
   \item{kmz}{logical; specifies whether to compress the output KML file}
   \item{\dots}{(optional) arguments passed to the lower level functions}
 }
-\details{This is a generic function to plot various R objects that contain both inputs and outputs of spatial analysis. The resulting plots (referred to as \emph{`views'}) are expected to be cartographically complete as they contain legends, and data and model descriptions. In principle, \code{plotKML} works with both simple spatial objects, and complex objects such as \code{"SpatialPredictions"}, \code{"SpatialVectorsSimulations"}, \code{"RasterBrickSimulations"}, \code{"RasterBrickTimeSeries"}, \code{"SpatialMaxEntOutput"} and similar. To further customize visualizations consider combining the lower level functions \code{\link{kml_open}}, \code{\link{kml_close}}, \code{\link{kml_compress}}, \code{\link{kml_screen}} into your own \code{plotKML()} method.
+\details{This is a generic function to plot various spatial and spatio-temporal R objects that contain both inputs and outputs of spatial analysis. The resulting plots (referred to as \emph{`views'}) are expected to be cartographically complete as they should contain legends, and data and model descriptions. In principle, \code{plotKML} works with both simple spatial objects, and complex objects such as \code{"SpatialPredictions"}, \code{"SpatialVectorsSimulations"}, \code{"RasterBrickSimulations"}, \code{"RasterBrickTimeSeries"}, \code{"SpatialMaxEntOutput"} and similar. To further customize visualizations consider combining the lower level functions \code{\link{kml_open}}, \code{\link{kml_close}}, \code{\link{kml_compress}}, \code{\link{kml_screen}} into your own \code{plotKML()} method.
 }
-\note{Writting large spatial objects via plotKML can be time consuming. Please refer to the package documentation for more information.
+\note{To prepare a list of objects of class \code{"SpatialPointsDataFrame"}, \code{"SpatialLinesDataFrame"}, \code{"SpatialPolygonsDataFrame"}, or \code{"SpatialPixelsDataFrame"} consider using the \code{GSIF::tile} function. Writting large spatial objects via plotKML can be time consuming. Please refer to the package manual for more information.
 }
 \seealso{ \code{\link{SpatialPredictions-class}}, \code{\link{SpatialVectorsSimulations-class}}, \code{\link{RasterBrickSimulations-class}}, \code{\link{RasterBrickTimeSeries-class}}, \code{\link{SpatialMaxEntOutput-class}}, \code{\link{SpatialSamplingPattern-class}}   
 }
@@ -343,8 +351,6 @@ if(urlExists){
   nl.rd <- getURL("http://spatialreference.org/ref/sr-org/6781/proj4/")
   proj4string(mySamplingPattern@sample) <- CRS(nl.rd) 
   # prepare spatial domain (polygons):
-  # EJP: deprecate as.SpatialPolygons.SpatialPixels
-  #sp.domain <- as.SpatialPolygons.SpatialPixels(myStratification@cells)
   sp.domain <- as(myStratification@cells, "SpatialPolygons")
   sp.domain <- SpatialPolygonsDataFrame(sp.domain, 
      data.frame(ID=as.factor(myStratification@stratumId)), match.ID = FALSE)
