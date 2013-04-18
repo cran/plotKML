@@ -13,8 +13,7 @@ kml_open <- function(
   use.Google_gx = FALSE,
   kml_xsd = get("kml_xsd", envir = plotKML.opts),
   xmlns = get("kml_url", envir = plotKML.opts),
-  xmlns_gx = get("kml_gx", envir = plotKML.opts),
-  ...
+  xmlns_gx = get("kml_gx", envir = plotKML.opts)
   ){
 
   if (file.exists(file.name) & overwrite==FALSE) {
@@ -43,7 +42,7 @@ kml_open <- function(
 }
 
 ## Closes the current KML canvas
-kml_close <- function(file.name, overwrite = FALSE, ...) {
+kml_close <- function(file.name, overwrite = FALSE) {
   
   # get our invisible file connection from custom evnrionment
   kml.out <- get("kml.out", envir=plotKML.fileIO)

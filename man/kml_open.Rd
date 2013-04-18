@@ -9,7 +9,7 @@ kml_open(file.name, folder.name = file.name, kml_open = TRUE,
           kml_visibility = TRUE, overwrite = TRUE, use.Google_gx = FALSE, 
           kml_xsd = get("kml_xsd", envir = plotKML.opts),
           xmlns = get("kml_url", envir = plotKML.opts), 
-          xmlns_gx = get("kml_gx", envir = plotKML.opts), \dots)
+          xmlns_gx = get("kml_gx", envir = plotKML.opts))
 }
 \arguments{
   \item{file.name}{KML file name}
