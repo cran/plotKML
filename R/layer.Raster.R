@@ -8,7 +8,9 @@ kml_layer.Raster <- function(
   obj,  
   plot.legend = TRUE,
   metadata = NULL,
-  raster_name, 
+  raster_name,
+  png.width = ncol(obj), 
+  png.height = nrow(obj),
   ...
   ){
 
@@ -99,14 +101,16 @@ kml_layer.Raster <- function(
   }
 
   # Plotting the image
-  png(filename = raster_name, bg = "transparent", type="cairo-png")
+  png(filename = raster_name, bg = "transparent", type="cairo-png", width=png.width, height=png.height)
   par(mar = c(0, 0, 0, 0), xaxs = "i", yaxs = "i")
   if(!is.na(charmatch("z.lim", names(call)))){ 
     z.lim <- eval(call[["z.lim"]])
     obj <- calc(obj, fun=function(x){ x[x < z.lim[1]] <- z.lim[1]; return(x)}) 
-    obj <- calc(obj, fun=function(x){ x[x > z.lim[2]] <- z.lim[2]; return(x)}) 
+    obj <- calc(obj, fun=function(x){ x[x > z.lim[2]] <- z.lim[2]; return(x)})
+    raster::image(obj, col = colour_scale, zlim = z.lim, frame.plot = FALSE, main="") 
+  } else {
+    raster::image(obj, col = colour_scale, frame.plot = FALSE, main="")
   }
-  raster::image(obj, col = colour_scale, zlim = z.lim, frame.plot = FALSE, main="")
   dev.off()
 
   ## There is a bug in Google Earth that does not allow transparency of PNGs:

@@ -1,6 +1,6 @@
 # Purpose        : Export of (spatial) metadata
 # Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); Pierre Roudier (pierre.roudier@landcare.nz); 
+# Contributions  : Michael Blaschek <blaschek@geographie.uni-kiel.de>; 
 # Dev Status     : Pre-Alpha
 # Note           : Based on the US gov sp metadata standards [http://www.fgdc.gov/metadata/csdgm/], which can be converted to "ISO 19139" XML schema;
 
@@ -31,7 +31,7 @@ metadata2SLD.SpatialPixels <- function(
     ...
     ){
        
-    l1 = newXMLNode("StyledLayerDescriptor", attrs=c(version="1.0.0"), namespaceDefinitions=c("xsi:schemaLocation"="http://www.opengis.net/sld StyledLayerDescriptor.xsd", "sld"="http://www.opengis.net/sld", "ogc"="http://www.opengis.net/ogc", "gml"="http://www.opengis.net/gml"))
+    l1 = newXMLNode("StyledLayerDescriptor", attrs=c("xsi:schemaLocation" = "http://www.opengis.net/sld StyledLayerDescriptor.xsd", version="1.0.0"), namespaceDefinitions=c("http://www.opengis.net/sld", "xsi" = "http://www.w3.org/2001/XMLSchema-instance", "ogc" = "http://www.opengis.net/ogc", "gml" = "http://www.opengis.net/gml"))
     l2 <- newXMLNode("NamedLayer", parent = l1)
     l3 <- newXMLNode("Name", paste(Citation_title, "(", Format_Information_Content, ")"), parent = l2)
     l3b <- newXMLNode("UserStyle", parent = l2)
@@ -40,7 +40,7 @@ metadata2SLD.SpatialPixels <- function(
     l5 <- newXMLNode("Rule", parent = l4b)
     l6 <- newXMLNode("RasterSymbolizer", parent = l5)
     l7 <- newXMLNode("ColorMap", attrs=c(type=ColorMap_type), parent = l6)
-    txt <- sprintf('<ColorMapEntry color="#%s" quantity="%.2f" label="%s" opacity="%.1f"/>', obj@palette@color, obj@palette@bounds[-1], obj@palette@names, rep(opacity, length(obj@palette@color)))
+    txt <- sprintf('<ColorMapEntry color="%s" quantity="%.2f" label="%s" opacity="%.1f"/>', obj@palette@color, obj@palette@bounds[-1], obj@palette@names, rep(opacity, length(obj@palette@color)))
     parseXMLAndAdd(txt, l7)
     saveXML(l1, sld.file)
 }

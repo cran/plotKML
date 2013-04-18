@@ -4,13 +4,16 @@
 \title{Writes raster objects to KML}
 \description{Writes rasters to PNG images and makes a KML code (ground overlays). Works with \code{"RasterLayer"} and \code{"RasterStack"} class objects. Target attributes can be specified using aesthetics arguments (e.g. \code{"colour"}).}
 \usage{
-kml_layer.Raster(obj, plot.legend = TRUE, metadata = NULL, raster_name, \dots)
+kml_layer.Raster(obj, plot.legend = TRUE, metadata = NULL, raster_name, 
+     png.width = ncol(obj), png.height = nrow(obj), \dots)
 }
 \arguments{
   \item{obj}{object of class \code{"RasterLayer"}, \code{"SpatialPixelsDataFrame"} or \code{"SpatialGridDataFrame"}}
   \item{plot.legend}{logical; specify whether a map legend should be generated automatically}
   \item{metadata}{(optional) specify the metadata object}
   \item{raster_name}{(optional) specify the output file name (PNG)}
+  \item{png.width}{(optional) width of the PNG file}
+  \item{png.height}{(optional) height of the PNG file}
   \item{\dots}{additional \code{\link{aesthetics}} arguments}
 }  
 \details{Google Earth does not properly handle a 24-bit PNG file which has a single transparent color (read more at \href{http://groups.google.com/group/earth-help/}{Google Earth Help}). To force transparency, plotKML will try to set it using the \code{-matte -transparent "\#FFFFFF"} option in the \href{http://www.imagemagick.org/Usage/masking/}{ImageMagick convert program} (ImageMagick needs to be installed separately and located using \code{plotKML.env()}).

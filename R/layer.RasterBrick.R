@@ -90,7 +90,7 @@ kml_layer.RasterBrick <- function(
 
   # Plotting the image
   for(j in 1:length(raster_name)){
-    png(filename = raster_name[j], bg = "transparent", type="cairo-png")
+    png(filename = raster_name[j], bg = "transparent", type="cairo-png", width=ncol(raster(obj, j)), height=nrow(raster(obj, j)))
     par(mar = c(0, 0, 0, 0), xaxs = "i", yaxs = "i")
     colour_scale_legend <- colorRampPalette(colour_scale)(50)
     raster::image(raster(obj, j), col = colour_scale_legend, zlim = z.lim, frame.plot = FALSE, main="")
