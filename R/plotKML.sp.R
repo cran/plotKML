@@ -36,7 +36,7 @@ setMethod("plotKML", "SpatialPointsDataFrame", function(obj, folder.name = norma
   }
     
   # open for writing:
-  kml_open(folder.name = folder.name, file.name = file.name, ...)
+  kml_open(folder.name = folder.name, file.name = file.name)
  
   # write layer:
   if(is.numeric(obj@data[,"colour"])){
@@ -59,7 +59,7 @@ setMethod("plotKML", "SpatialPointsDataFrame", function(obj, folder.name = norma
 setMethod("plotKML", "SpatialLinesDataFrame", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), metadata = NULL, kmz = get("kmz", envir = plotKML.opts), ...){
    
   # open for writing:
-  kml_open(folder.name = folder.name, file.name = file.name, ...)
+  kml_open(folder.name = folder.name, file.name = file.name)
  
   # write layer:
   kml_layer.SpatialLines(obj, metadata = metadata, ...)
@@ -100,7 +100,7 @@ setMethod("plotKML", "SpatialPolygonsDataFrame", function(obj, folder.name = nor
   if(missing(plot.labpt)){ plot.labpt <- TRUE }
     
   # open for writing:
-  kml_open(folder.name = folder.name, file.name = file.name, ...)
+  kml_open(folder.name = folder.name, file.name = file.name)
  
   # write layer:
   kml_layer.SpatialPolygons(obj, colour = colour, plot.labpt = plot.labpt, labels = labels, metadata = metadata,  ...)
@@ -139,7 +139,7 @@ setMethod("plotKML", "SpatialPolygonsDataFrame", function(obj, folder.name = nor
   }
    
   # open for writing:
-  kml_open(folder.name = folder.name, file.name = file.name, ...)
+  kml_open(folder.name = folder.name, file.name = file.name)
  
   # write layer:
   kml_layer.SpatialPixels(obj, colour = colour, raster_name = raster_name, metadata = metadata, ...)
@@ -187,7 +187,7 @@ setMethod("plotKML", "SoilProfileCollection", function(obj, folder.name = normal
   if(missing(var.name)){ var.name <- names(obj@horizons)[!(names(obj@horizons) %in% c(prof1@idcol, obj@depthcols))][1] }
     
   # open for writing:
-  kml_open(folder.name = folder.name, file.name = file.name, ...)
+  kml_open(folder.name = folder.name, file.name = file.name)
  
   # write layer:
   kml_layer.SoilProfileCollection(obj, var.name = var.name, balloon = TRUE, metadata = metadata, ...)
@@ -225,7 +225,7 @@ setMethod("plotKML", "STIDF", function(obj, folder.name = normalizeFilename(depa
   }
     
   # open for writing:
-  kml_open(folder.name = folder.name, file.name = file.name, ...)
+  kml_open(folder.name = folder.name, file.name = file.name)
  
   # write layer:
   kml_layer.STIDF(obj, shape = shape, colour = colour, points_names = points_names, ...)
@@ -256,7 +256,7 @@ setMethod("plotKML", "STTDF", function(obj, folder.name = normalizeFilename(depa
   }
     
   # open for writing:
-  kml_open(folder.name = folder.name, file.name = file.name, ...)
+  kml_open(folder.name = folder.name, file.name = file.name)
  
   # write layer:
   kml_layer.STTDF(obj, colour = colour, start.icon = start.icon, ...)
@@ -281,7 +281,7 @@ setMethod("plotKML", "list", function(obj, folder.name = normalizeFilename(depar
   }
     
   # open for writing:
-  kml_open(folder.name = folder.name, file.name = file.name, ...)
+  kml_open(folder.name = folder.name, file.name = file.name)
 
   ## target variable: 
   for(i in 1:length(obj)){    

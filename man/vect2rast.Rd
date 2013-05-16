@@ -10,12 +10,15 @@
 \title{Convert points, lines and/or polygons to rasters}
 \description{Converts any \code{"SpatialPoints*"}, \code{"SpatialLines*"}, or \code{"SpatialPolygons*"} object to a raster map, and (optional) writes it to an external file (GDAL-supported formats; writes to SAGA GIS format by default).}
 \usage{
-\S4method{vect2rast}{SpatialPoints}(obj, fname = names(obj)[1], cell.size, bbox, file.name, silent = FALSE, 
-      method = c("raster", "SAGA")[1], FIELD = 0, MULTIPLE = 1, LINE_TYPE = 0, GRID_TYPE = 2, \dots )
-\S4method{vect2rast}{SpatialLines}(obj, fname = names(obj)[1], cell.size, bbox, file.name, silent = FALSE, 
-      method = c("raster", "SAGA")[1], FIELD = 0, MULTIPLE = 1, LINE_TYPE = 1, GRID_TYPE = 2, \dots )
-\S4method{vect2rast}{SpatialPolygons}(obj, fname = names(obj)[1], cell.size, bbox, file.name, silent = FALSE, 
-      method = c("raster", "SAGA")[1], FIELD = 0, MULTIPLE = 0, LINE_TYPE = 1, GRID_TYPE = 2, \dots )
+\S4method{vect2rast}{SpatialPoints}(obj, fname = names(obj)[1], cell.size, bbox, 
+      file.name, silent = FALSE, method = c("raster", "SAGA")[1], 
+      FIELD = 0, MULTIPLE = 1, LINE_TYPE = 0, GRID_TYPE = 2, \dots )
+\S4method{vect2rast}{SpatialLines}(obj, fname = names(obj)[1], cell.size, bbox, 
+      file.name, silent = FALSE, method = c("raster", "SAGA")[1], 
+      FIELD = 0, MULTIPLE = 1, LINE_TYPE = 1, GRID_TYPE = 2, \dots )
+\S4method{vect2rast}{SpatialPolygons}(obj, fname = names(obj)[1], cell.size, bbox,
+      file.name, silent = FALSE, method = c("raster", "SAGA")[1], 
+      FIELD = 0, MULTIPLE = 0, LINE_TYPE = 1, GRID_TYPE = 2, \dots )
 }
 \arguments{
   \item{obj}{Spatial-PointsDataFrame,-LinesDataFrame or -PolygonsDataFrame object}

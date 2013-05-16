@@ -1,4 +1,4 @@
-ff903b27096f3fa87f417e539200032a *DESCRIPTION
+1acbef1d681691cbeccaf8ea4b0b8333 *DESCRIPTION
 2e9fb26692f9d616b872c8aec8270710 *NAMESPACE
 d41d8cd98f00b204e9800998ecf8427e *NEWS
 be7183a513c9d55b0e24d5017d24cb3b *R/AAA-classes.R
@@ -22,7 +22,7 @@ b100dca34abb3321b01bc8a19f32b655 *R/kml_compress.R
 56172aa61153c9a8ad68f26b24b896db *R/kml_open.R
 86b32e2680c18d61e148b84070f48967 *R/kml_screen.R
 241bf538a407d3f1dbf5af564b6d6074 *R/layer.Raster.R
-a4bb5b7f8fe1187990fcfd553eb573b5 *R/layer.RasterBrick.R
+91d9ce8297052b0b5459483074176d17 *R/layer.RasterBrick.R
 2ab9a8bc60775ed2b861b031ba807cd5 *R/layer.STIDF.R
 c7c5858e75f043570f5e281db8f90209 *R/layer.STTDF.R
 76aeb33b70ce582c03837ff72739a157 *R/layer.SoilProfileCollection.R
@@ -40,7 +40,7 @@ bde072e4ec667206f81a2cd90458b928 *R/plotKML.RasterBrickTimeSeries.R
 450cf365233a4d93951c6e8e795fb3f4 *R/plotKML.SpatialPredictions.R
 f8c0f1c5132f56fe939223ea8e139de7 *R/plotKML.SpatialSamplingPattern.R
 37aba1af0faf9db257fd51d50de3ce4c *R/plotKML.SpatialVectorsSimulations.R
-b0d62b24b3cd36ca48ec3f0ce39ffd6b *R/plotKML.sp.R
+3bf7c82d7a9949dc5ddf1142ad0edc06 *R/plotKML.sp.R
 7f2aa7a6fb993f4f5bf815bca0f138b6 *R/readGPX.R
 dc807f696ccf706ddf574a9eff723162 *R/readKML.GBIFdensity.R
 8dd3fbed9cf75f86a1be2a8eb5dce413 *R/reproject.R
@@ -97,7 +97,7 @@ f727ac3807c57022a9601b88facd0715 *man/baranja.Rd
 a1ad4294b6d1f615bfec5a3fa9981912 *man/geopath.rd
 b0bfb4036cf52b330a21f5ff1c39d266 *man/getCRS.Rd
 217ff7952b219f44d7740e830323d3cf *man/getWikimedia.Rd
-5c7822377d2aeef347f37240e20a26de *man/gpxbtour.Rd
+0012f4c8931b0ccc05b52819099bc95b *man/gpxbtour.Rd
 a728fa2a64a0b4bb6bec8cac0605c434 *man/grid2poly.Rd
 78acdc08551474bb476beb2797ed143b *man/kml.Rd
 8cb08e931d350f65a2667263a2df7220 *man/kml_compress.Rd
@@ -108,10 +108,10 @@ d5303eb2b21a793be8e30c2890a0c3d0 *man/kml_description.Rd
 4017103b4c048e1ab6902c3542ac4383 *man/kml_open.Rd
 d202d839ea71f8fe430aba599595c91f *man/kml_screen.Rd
 0a2e7c4d57245c4f72a6681cd12c06b8 *man/layer.Raster.Rd
-8e10456699f84b0783bbde6fd64c4962 *man/layer.RasterBrick.Rd
+8c99bdaa9f22337611c8b5ba147993c7 *man/layer.RasterBrick.Rd
 eacb9f25d992945a4be379db783b0a32 *man/layer.STIDF.Rd
-74d98506464dcf17b9d5ce99253c0587 *man/layer.STTDF.Rd
-961e1d7fe2f9bca2f2763932e81efa75 *man/layer.SoilProfileCollection.Rd
+0fe2551d16844c8317c9091ca9fecc9e *man/layer.STTDF.Rd
+732c719c3b1ab409a1ab77928f4fbc21 *man/layer.SoilProfileCollection.Rd
 6cd9f7c9db75f08e6d2d41cfe543d1e4 *man/layer.SpatialLines.Rd
 264607a394020b7da71e413c5940f2c7 *man/layer.SpatialPhotoOverlay.Rd
 1b38e52f54e0a5ebdb12c7b1087c18c6 *man/layer.SpatialPixels.Rd
@@ -123,16 +123,16 @@ dac02f6b63e58406d0d2ca79490d038d *man/metadata2SLD.Rd
 655f7d946869e359f4eb2dbcbfbb2a6a *man/metadata2SLD.SpatialPixels.Rd
 ca181c1fc1f593708f0f34ba89728a09 *man/normalizeFilename.Rd
 58d2d1701a126cf71a0752a13647e538 *man/plotKML-package.Rd
-fa4ad4b41ee4d0124448a2cfa34c558d *man/plotKML.Rd
+b37ca2243813f4d327d8f762c338528d *man/plotKML.Rd
 bdd9862e54b89adb048aca3f8f59e9f5 *man/plotKML.env.Rd
 7ffcaceb7db5064cb3ce190489be0fec *man/readGPX.Rd
 c6cd5a53b07506343c1a1691ca566f93 *man/readKML.GBIFdensity.Rd
-98ac2917281323b974ec0660ac185c22 *man/reproject.Rd
+e27d5933e807b45d618ff00f0f9270c9 *man/reproject.Rd
 95b5e9a455650e91a094fbd3f4f8056c *man/sp.palette.Rd
-7fa74080f3cdff8b5b3231fc4130e87c *man/spMetadata.Rd
+1dd2cfc1537ca8e6260400aee0725997 *man/spMetadata.Rd
 736f899a5ee37bd288d69a18aa28f0ee *man/spMetadata.Spatial.Rd
 6d5142f43f450bb55fcac48c0f7b9209 *man/spPhoto.Rd
-670cdb4a74be5dd87a57592f9978c240 *man/vect2rast.Rd
+92fc884d4bafb4f55880ebede7fa2f8b *man/vect2rast.Rd
 b10b332eee900a8fcba5e6e8442729b6 *man/vect2rast.SpatialPoints.Rd
 e1337bf48784762bc6e68fbc6500dbbc *man/whitening.Rd
 3d89171a52f08c1603884f10a6f2f774 *man/worldgrids_pal.Rd

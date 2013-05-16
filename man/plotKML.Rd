@@ -70,12 +70,14 @@
 \S4method{plotKML}{RasterBrickTimeSeries}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""),
-      pngwidth = 680, pngheight = 180, pngpointsize = 14, kmz = get("kmz", envir = plotKML.opts), \dots)
+      pngwidth = 680, pngheight = 180, pngpointsize = 14, 
+      kmz = get("kmz", envir = plotKML.opts), \dots)
 \S4method{plotKML}{RasterBrickSimulations}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), 
       obj.summary = TRUE,
-      pngwidth = 680, pngheight = 200, pngpointsize = 14, kmz = get("kmz", envir = plotKML.opts), \dots)
+      pngwidth = 680, pngheight = 200, pngpointsize = 14, 
+      kmz = get("kmz", envir = plotKML.opts), \dots)
 \S4method{plotKML}{SpatialMaxEntOutput}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), 
@@ -88,9 +90,10 @@
 \S4method{plotKML}{SpatialPredictions}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), 
-      colour_scale_svar = get("colour_scale_svar", envir = plotKML.opts), grid2poly = FALSE, 
-      obj.summary = TRUE, plot.svar = FALSE, pngwidth = 210, 
-      pngheight = 580, pngpointsize = 14, kmz = get("kmz", envir = plotKML.opts), \dots)
+      colour_scale_svar = get("colour_scale_svar", envir = plotKML.opts), 
+      grid2poly = FALSE, obj.summary = TRUE, plot.svar = FALSE, 
+      pngwidth = 210, pngheight = 580, pngpointsize = 14, 
+      kmz = get("kmz", envir = plotKML.opts), \dots)
 \S4method{plotKML}{SpatialSamplingPattern}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""),
