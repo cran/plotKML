@@ -13,12 +13,14 @@ kml_layer.SoilProfileCollection(obj,
      plot.points = TRUE, 
      LabelScale = get("LabelScale", envir = plotKML.opts) * 0.7,
      IconColor = "#ff0000ff", 
-     shape = paste(get("home_url", envir = plotKML.opts), "circlesquare.png", sep = ""), 
+     shape = paste(get("home_url", envir = plotKML.opts), 
+         "circlesquare.png", sep = ""), 
      outline = TRUE, visibility = TRUE, extrude = TRUE, tessellate = TRUE, 
      altitudeMode = "relativeToGround", camera.distance = 0.01, 
      tilt = 90, heading = 0, roll = 0, 
      metadata = NULL, html.table = NULL, plot.scalebar = TRUE,
-     scalebar = paste(get("home_url", envir = plotKML.opts), "soilprofile_scalebar.png", sep = ""), 
+     scalebar = paste(get("home_url", envir = plotKML.opts), 
+         "soilprofile_scalebar.png", sep = ""), 
      \dots )
 }
 \arguments{
@@ -63,26 +65,26 @@ kml_layer.SoilProfileCollection(obj,
 \author{Tomislav Hengl, Dylan Beaudette and Pierre Roudier}
 \seealso{ \code{\link{kml_layer.SpatialPhotoOverlay}}, \code{\link{plotKML-method}} }
 \examples{
-\dontrun{# install.packages("aqp", repos="http://R-Forge.R-project.org")
+\dontrun{## install.packages("aqp", repos="http://R-Forge.R-project.org")
 library(aqp)
 library(plyr)
 data(ca630)
-# Promote to SoilProfileCollection
+## Promote to SoilProfileCollection
 ca <- join(ca630$lab, ca630$site, type='inner')
 depths(ca) <- pedon_key ~ hzn_top + hzn_bot
-# extract site data
+## extract site data
 site(ca) <- ~ mlra + ssa + lon + lat + cntrl_depth_to_top + cntrl_depth_to_bot + sampled_taxon_name
 # generate SpatialPoints
 library(sp)
 coordinates(ca) <- ~ lon + lat
-# assign CRS data
+## assign CRS data
 proj4string(ca) <- "+proj=latlong +datum=NAD83"
-# plot changes in base saturation by sum of cations method (pH 8.2):
+## plot changes in base saturation by sum of cations method (pH 8.2):
 kml(ca, method = "depth_function", file.name = "ca_bs_8_2.kml", 
   var.name="bs_8.2", balloon = TRUE)
-# plot changes in cation exchange capacity by sum of cations method (pH 8.2):
+## plot changes in cation exchange capacity by sum of cations method (pH 8.2):
 kml(ca, file.name = "ca_CEC8_2.kml", var.name="CEC8.2", IconColor = "#ff009000")
-# plot soil profile as 'block':
+## plot soil profile as 'block':
 kml(ca, file.name = "ca_CEC8_2_block.kml", var.name="CEC8.2", balloon = TRUE)
 }
 }

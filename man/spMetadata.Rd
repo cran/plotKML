@@ -12,10 +12,12 @@ The \code{read.metadata} function can be used to read the formatted metadata (\c
 \usage{ 
 \S4method{spMetadata}{RasterLayer}(obj, Target_variable, bounds, color, \dots )
 \S4method{spMetadata}{Spatial}(obj, xml.file, generate.missing = TRUE, Citation_title,
-    Target_variable, Attribute_Measurement_Resolution = 1, Attribute_Units_of_Measure = "NA",
+    Target_variable, Attribute_Measurement_Resolution = 1, 
+    Attribute_Units_of_Measure = "NA",
     Indirect_Spatial_Reference = "", GoogleGeocode = FALSE, 
     Enduser_license_URL = get("license_url", envir = plotKML.opts),
-    signif.digit = 3, colour_scale, bounds, legend_names, icons, validate.schema = FALSE)
+    signif.digit = 3, colour_scale, bounds, legend_names, icons, 
+    validate.schema = FALSE)
 }
 \arguments{
   \item{obj}{some \code{"Spatial"} or \code{"Raster"} class object with \code{"data"} slot}
@@ -59,25 +61,25 @@ By default, plotKML uses the Creative Commons license, but this can be adjusted 
 \author{Tomislav Hengl}
 \seealso{ \code{\link{kml_metadata}}, \code{\link{SpatialMetadata-class}}, \code{\link{spMetadata.Spatial}}, \code{sp::Spatial}, \code{\link{kml_open}} }
 \examples{
-\dontrun{# read metadata from the system file:
+\dontrun{## read metadata from the system file:
 x <- read.metadata(system.file("FGDC.xml", package="plotKML"))
 str(x)
-# generate missing metadata
+## generate missing metadata
 data(eberg)
 coordinates(eberg) <- ~X+Y
 proj4string(eberg) <- CRS("+init=epsg:31467")
-# no metadata file specified:
+## no metadata file specified:
 eberg.md <- spMetadata(eberg, Target_variable="SNDMHT_A")
-# with localy prepared metadata file:
+## with localy prepared metadata file:
 eberg.md <- spMetadata(eberg, xml.file=system.file("eberg.xml", package="plotKML"), 
 Target_variable="SNDMHT_A")
-# print the results of validation (it needs to be able to connect to a URL with schema):
+## print the results of validation (it needs to be able to connect to a URL with schema):
 eberg.md <- spMetadata(eberg, Target_variable="SNDMHT_A", validate.schema = TRUE)
-# write the metadata to a file:
+## write the metadata to a file:
 saveXML(metadata(eberg.md), "eberg_SAND.xml")
-# export to SLD format:
+## export to SLD format:
 metadata2SLD(eberg.md, "eberg.sld")
-# plot the layer with the metadata:
+## plot the layer with the metadata:
 kml(eberg, file.name = "eberg_md.kml", colour = SNDMHT_A, metadata = eberg.md, kmz = TRUE)
 }
 }

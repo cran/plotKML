@@ -7,11 +7,13 @@
 }
 \usage{
 kml_layer.STTDF(obj, id.name = names(obj@data)[which(names(obj@data)== "burst")],
-       dtime = "", extrude = FALSE, 
-       start.icon = paste(get("home_url", envir = plotKML.opts), "3Dballyellow.png", sep = ""), 
-       end.icon = paste(get("home_url", envir = plotKML.opts), "golfhole.png", sep = ""), 
-       LabelScale = 0.8 * get("LabelScale", envir = plotKML.opts), z.scale = 1,
-       metadata = NULL, html.table = NULL, \dots )
+    dtime = "", extrude = FALSE, 
+    start.icon = paste(get("home_url", envir = plotKML.opts),
+         "3Dballyellow.png", sep = ""), 
+    end.icon = paste(get("home_url", envir = plotKML.opts), 
+          "golfhole.png", sep = ""), 
+    LabelScale = 0.8 * get("LabelScale", envir = plotKML.opts), z.scale = 1,
+    metadata = NULL, html.table = NULL, \dots )
 }
 \arguments{
   \item{obj}{space-time object of class \code{"STTDF"} (spatio-temporal irregular data.frames trajectory)}

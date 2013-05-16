@@ -21,9 +21,12 @@
 \S4method{reproject}{SpatialPoints}(obj, CRS, \dots)
 \S4method{reproject}{SpatialPolygons}(obj, CRS, \dots)
 \S4method{reproject}{SpatialLines}(obj, CRS, \dots)
-\S4method{reproject}{RasterLayer}(obj, CRS, program = "raster", tmp.file = TRUE, NAflag, show.output.on.console = FALSE, \dots)
-\S4method{reproject}{SpatialGridDataFrame}(obj, CRS, tmp.file = TRUE, program = "raster", NAflag, show.output.on.console = FALSE, \dots)
-\S4method{reproject}{SpatialPixelsDataFrame}(obj, CRS, tmp.file = TRUE, program = "raster", NAflag, show.output.on.console = FALSE, \dots)
+\S4method{reproject}{RasterLayer}(obj, CRS, program = "raster", tmp.file = TRUE, 
+      NAflag, show.output.on.console = FALSE, \dots)
+\S4method{reproject}{SpatialGridDataFrame}(obj, CRS, tmp.file = TRUE, program = "raster", 
+      NAflag, show.output.on.console = FALSE, \dots)
+\S4method{reproject}{SpatialPixelsDataFrame}(obj, CRS, tmp.file = TRUE, program = "raster", 
+      NAflag, show.output.on.console = FALSE, \dots)
 \S4method{reproject}{RasterBrick}(obj, CRS)
 \S4method{reproject}{RasterStack}(obj, CRS)
 }
@@ -49,22 +52,22 @@ In the case of raster and/or gridded maps, by selecting \code{program = "FWTools
 \section{Warning}{\code{obj} needs to have a proper proj4 string (CRS), otherwise \code{reproject} will not run.}
 \seealso{\code{\link{paths}}, \code{raster::projectRaster}, \code{rgdal::spTransform}, \code{rgdal::CRS-class}}
 \examples{
-\dontrun{# example with vector data:
+\dontrun{## example with vector data:
 data(eberg)
 library(sp)
 library(rgdal)
 coordinates(eberg) <- ~X+Y
 proj4string(eberg) <- CRS("+init=epsg:31467")
 eberg.geo <- reproject(eberg)
-# example with raster data:
+## example with raster data:
 data(eberg_grid25)
 gridded(eberg_grid25) <- ~x+y
 proj4string(eberg_grid25) <- CRS("+init=epsg:31467")
-# reproject to geographical coords (can take few minutes!):
+## reproject to geographical coords (can take few minutes!):
 eberg_grid_ll <- reproject(eberg_grid25)
-# much faster when using FWTools:
+## much faster when using FWTools:
 eberg_grid_ll2 <- reproject(eberg_grid25, program = "FWTools")
-# optional: compare processing times:
+## optional: compare processing times:
 system.time(eberg_grid_ll <- reproject(eberg_grid25[1]))
 system.time(eberg_grid_ll2 <- reproject(eberg_grid25[1], program="FWTools"))
 }
