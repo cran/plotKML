@@ -50,7 +50,7 @@ In the case of raster and/or gridded maps, by selecting \code{program = "FWTools
 }
 \author{Pierre Roudier, Tomislav Hengl and Dylan Beaudette}
 \section{Warning}{\code{obj} needs to have a proper proj4 string (CRS), otherwise \code{reproject} will not run.}
-\seealso{\code{\link{paths}}, \code{raster::projectRaster}, \code{rgdal::spTransform}, \code{rgdal::CRS-class}}
+\seealso{\link{paths}, \link[raster]{projectRaster}, \link[sp]{spTransform}, \link[sp]{CRS-class}}
 \examples{
 \dontrun{## example with vector data:
 data(eberg)

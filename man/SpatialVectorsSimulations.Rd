@@ -19,22 +19,23 @@
 \seealso{ \code{\link{RasterBrickSimulations-class}}, \code{\link{plotKML-method}}
 }
 \examples{ 
-# load a list of equiprobable streams:
+## load a list of equiprobable streams:
 data(barstr)
 data(bargrid)
 library(sp)
 coordinates(bargrid) <- ~ x+y
 gridded(bargrid) <- TRUE
-# output topology:
+## output topology:
 cell.size = bargrid@grid@cellsize[1]
 bbox = bargrid@bbox
 nrows = round(abs(diff(bbox[1,])/cell.size), 0) 
 ncols = round(abs(diff(bbox[2,])/cell.size), 0)
 gridT = GridTopology(cellcentre.offset=bbox[,1], cellsize=c(cell.size,cell.size), 
   cells.dim=c(nrows, ncols))
-\dontrun{# derive summaries (observed frequency and the entropy or error):
-bar_sum <- count(gridT, vectL=barstr[1:5]) # NOTE: this operation can be time consuming!
-# plot the whole project and open in Google Earth:
+\dontrun{## derive summaries (observed frequency and the entropy or error):
+bar_sum <- count.GridTopology(gridT, vectL=barstr[1:5]) 
+## NOTE: this operation can be time consuming!
+## plot the whole project and open in Google Earth:
 plotKML(bar_sum, grid2poly = TRUE)
 }
 }

@@ -4,12 +4,12 @@ importFrom("RColorBrewer", brewer.pal)
 importFrom("scales", rescale)
 importFrom("colorspace", coords, hex, mixcolor, HSV)
 importFrom("plotrix", color.legend)
-importFrom("raster", stack, brick, rotate, nlayers, shift, layerNames, projectRaster, extension, is.factor, as.factor, count, removeTmpFiles, rasterToPolygons, raster, projection, rasterize, writeRaster, extent, calc, getValues, "values<-", getZ, setZ, minValue, maxValue, image, ncol, nrow)
+importFrom("raster", stack, brick, rotate, nlayers, shift, projectRaster, extension, is.factor, as.factor, removeTmpFiles, rasterToPolygons, raster, projection, rasterize, writeRaster, extent, calc, getValues, "values<-", getZ, setZ, minValue, maxValue, image, ncol, nrow)
 importFrom("dismo", maxent)
 import(zoo)
 importFrom("xts", periodicity)
 importFrom("pixmap", pixmapIndexed, pixmapRGB)
-importFrom("sp", coordinates, over, bbox, spplot, is.projected, SpatialPixelsDataFrame, gridparameters)
+importFrom("sp", coordinates, over, bbox, spplot, is.projected, SpatialPixelsDataFrame, gridparameters, GridTopology)
 importFrom("plyr", aaply, laply, llply, ldply)
 importFrom("RSAGA", set.file.extension, rsaga.env, rsaga.get.version, rsaga.geoprocessor)
 
@@ -40,7 +40,6 @@ exportMethods(
 	spMetadata,
 	metadata2SLD,
 	plotKML,
-	vect2rast,
-	count)
+	vect2rast)
 export(check_projection, parse_proj4)
 exportPattern("^[^\\.]")

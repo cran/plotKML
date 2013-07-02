@@ -89,11 +89,11 @@
       TimeSpan.begin = obj@TimeSpan.begin, TimeSpan.end = obj@TimeSpan.end, \dots)
 \S4method{plotKML}{SpatialPredictions}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
-      file.name = paste(folder.name, ".kml", sep=""), 
-      colour_scale_svar = get("colour_scale_svar", envir = plotKML.opts), 
+      file.name = paste(folder.name, ".kml", sep=""), colour, 
+      scale_svar = get("colour_scale_svar", envir = plotKML.opts), 
       grid2poly = FALSE, obj.summary = TRUE, plot.svar = FALSE, 
       pngwidth = 210, pngheight = 580, pngpointsize = 14, 
-      kmz = get("kmz", envir = plotKML.opts), \dots)
+      metadata = NULL, kmz = get("kmz", envir = plotKML.opts), \dots)
 \S4method{plotKML}{SpatialSamplingPattern}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""),
@@ -101,7 +101,7 @@
 \S4method{plotKML}{SpatialVectorsSimulations}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), colour, 
-      colour_scale_svar = get("colour_scale_svar", envir = plotKML.opts), 
+      scale_svar = get("colour_scale_svar", envir = plotKML.opts), 
       grid2poly = FALSE, obj.summary = TRUE, plot.svar = FALSE, 
       kmz = get("kmz", envir = plotKML.opts), \dots)
 \S4method{plotKML}{list}(obj, 
@@ -132,10 +132,10 @@
   \item{iframe.height}{integer; height of the screen for iframe}
   \item{TimeSpan.begin}{object of class \code{"POSIXct"}; begin of the sampling period}
   \item{TimeSpan.end}{object of class \code{"POSIXct"}; end of the sampling period}
-  \item{pngwidth}{integer; width of the PNG plot}
-  \item{pngheight}{integer; height of the PNG plot}
-  \item{pngpointsize}{integer; text size in the PNG plot}
-  \item{colour_scale_svar}{colour palette for the model uncertainty (standard deviation)}
+  \item{pngwidth}{integer; width of the PNG plot (screen image)}
+  \item{pngheight}{integer; height of the PNG plot (screen image)}
+  \item{pngpointsize}{integer; text size in the PNG plot (screen image)}
+  \item{scale_svar}{colour palette for the model uncertainty (usually standardized prediction variance)}
   \item{grid2poly}{logical; specifies whether to convert gridded object to polygons}
   \item{obj.summary}{logical; specifies whether to print the object summary}
   \item{plot.svar}{logical; specifies whether to plot the model uncertainty}
@@ -198,7 +198,7 @@ plotKML(TWI, z.lim=c(12,20), colour_scale = SAGA_pal[[1]])
 eberg_grid$LNCCOR6 <- as.factor(paste(eberg_grid$LNCCOR6))
 levels(eberg_grid$LNCCOR6)
 data(worldgrids_pal)
-# attr(worldgrids_pal["corine2k"][[1]], "names")
+## attr(worldgrids_pal["corine2k"][[1]], "names")
 pal = as.character(worldgrids_pal["corine2k"][[1]][c(1,11,13,14,16,17,18)])
 LNCCOR6 <- reproject(eberg_grid["LNCCOR6"])
 \dontrun{
@@ -221,14 +221,14 @@ if(urlExists){
 ## -------------- SoilProfileCollection --------- ##
 library(aqp)
 library(plyr)
-# sample profile from Nigeria:
+## sample profile from Nigeria:
 lon = 3.90; lat = 7.50; id = "ISRIC:NG0017"; FAO1988 = "LXp" 
 top = c(0, 18, 36, 65, 87, 127) 
 bottom = c(18, 36, 65, 87, 127, 181)
 ORCDRC = c(18.4, 4.4, 3.6, 3.6, 3.2, 1.2)
 hue = c("7.5YR", "7.5YR", "2.5YR", "5YR", "5YR", "10YR")
 value = c(3, 4, 5, 5, 5, 7); chroma = c(2, 4, 6, 8, 4, 3)
-# prepare a SoilProfileCollection:
+## prepare a SoilProfileCollection:
 prof1 <- join(data.frame(id, top, bottom, ORCDRC, hue, value, chroma), 
    data.frame(id, lon, lat, FAO1988), type='inner')
 prof1$soil_color <- with(prof1, munsell2rgb(hue, value, chroma))
@@ -244,13 +244,13 @@ plotKML(prof1, var.name="ORCDRC", color.name="soil_color")
 ## -------------- STIDF --------- ##
 library(spacetime)
 data(HRtemp08)
-# format the time column:
+## format the time column:
 HRtemp08$ctime <- as.POSIXct(HRtemp08$DATE, format="\%Y-\%m-\%dT\%H:\%M:\%SZ")
-# create a STIDF object:
+## create a STIDF object:
 sp <- SpatialPoints(HRtemp08[,c("Lon","Lat")])
 proj4string(sp) <- CRS("+proj=longlat +datum=WGS84")
 HRtemp08.st <- STIDF(sp, time = HRtemp08$ctime, data = HRtemp08[,c("NAME","TEMP")])
-# subset to first 500 records:
+## subset to first 500 records:
 HRtemp08_jan <- HRtemp08.st[1:500]
 str(HRtemp08_jan)
 \dontrun{
@@ -263,7 +263,7 @@ library(fossil)
 library(spacetime)
 library(adehabitat)
 data(gpxbtour)
-# format the time column:
+## format the time column:
 gpxbtour$ctime <- as.POSIXct(gpxbtour$time, format="\%Y-\%m-\%dT\%H:\%M:\%SZ")
 coordinates(gpxbtour) <- ~lon+lat
 proj4string(gpxbtour) <- CRS("+proj=longlat +datum=WGS84")
@@ -271,7 +271,7 @@ xy <- as.list(data.frame(t(coordinates(gpxbtour))))
 gpxbtour$dist.km <- sapply(xy, function(x) { 
   deg.dist(long1=x[1], lat1=x[2], long2=xy[[1]][1], lat2=xy[[1]][2]) 
 } )
-# convert to a STTDF class:
+## convert to a STTDF class:
 gpx.ltraj <- as.ltraj(coordinates(gpxbtour), gpxbtour$ctime, id = "th")
 gpx.st <- as(gpx.ltraj, "STTDF")
 gpx.st$speed <- gpxbtour$speed
@@ -296,22 +296,22 @@ gridded(LST) <- ~lon+lat
 proj4string(LST) <- CRS("+proj=longlat +datum=WGS84")
 dates <- sapply(strsplit(names(LST), "LST"), function(x){x[[2]]})
 datesf <- format(as.Date(dates, "\%Y_\%m_\%d"), "\%Y-\%m-\%dT\%H:\%M:\%SZ")
-# begin / end dates +/- 4 days:
+## begin / end dates +/- 4 days:
 TimeSpan.begin = as.POSIXct(unclass(as.POSIXct(datesf))-4*24*60*60, origin="1970-01-01") 
 TimeSpan.end = as.POSIXct(unclass(as.POSIXct(datesf))+4*24*60*60, origin="1970-01-01")
-# pick climatic stations in the area:
+## pick climatic stations in the area:
 pnts <- HRtemp08[which(HRtemp08$NAME=="Pazin")[1],]
 pnts <- rbind(pnts, HRtemp08[which(HRtemp08$NAME=="Crni Lug - NP Risnjak")[1],])
 pnts <- rbind(pnts, HRtemp08[which(HRtemp08$NAME=="Cres")[1],])
 coordinates(pnts) <- ~Lon + Lat
 proj4string(pnts) <- CRS("+proj=longlat +datum=WGS84")
-# get the dates from the file names:
+## get the dates from the file names:
 LST_ll <- brick(LST[1:5])
 LST_ll@title = "Time series of MODIS Land Surface Temperature (8-day mosaics) images"
 LST.ts <- new("RasterBrickTimeSeries", variable = "LST", sampled = pnts, 
     rasters = LST_ll, TimeSpan.begin = TimeSpan.begin[1:5], TimeSpan.end = TimeSpan.end[1:5])
 data(SAGA_pal)
-# plot MODIS images in Google Earth:
+## plot MODIS images in Google Earth:
 plotKML(LST.ts, colour_scale=SAGA_pal[[1]])
 }
 
@@ -319,35 +319,40 @@ plotKML(LST.ts, colour_scale=SAGA_pal[[1]])
 \dontrun{
 library(sp)
 library(rgdal)
+library(gstat)
 data(meuse)
 coordinates(meuse) <- ~x+y
 proj4string(meuse) <- CRS("+init=epsg:28992")
-# load grids:
+## load grids:
 data(meuse.grid)
 gridded(meuse.grid) <- ~x+y
 proj4string(meuse.grid) <- CRS("+init=epsg:28992")
-# fit a model:
+## fit a model:
 library(GSIF)
 omm <- fit.gstatModel(observations = meuse, formulaString = om~dist, 
    family = gaussian(log), covariates = meuse.grid)
-# produce SpatialPredictions:
+## produce SpatialPredictions:
 om.rk <- predict(omm, predictionLocations = meuse.grid)
-# plot the whole geostatical mapping project in Google Earth:
-plotKML(om.rk)
+## plot the whole geostatical mapping project in Google Earth:
+plotKML(om.rk, colour_scale = SAGA_pal[[1]], 
+    png.width = gridparameters(meuse.grid)[1,"cells.dim"]*5, 
+    png.height = gridparameters(meuse.grid)[2,"cells.dim"]*5)
+## plot each cell as polygon:
+plotKML(om.rk, colour_scale = SAGA_pal[[1]], grid2poly = TRUE)
 }
 
 ## -------------- SpatialSamplingPattern --------- ##
 \dontrun{
 library(spcosa)
 library(sp)
-# read a polygon map:
+## read a polygon map:
 shpFarmsum <- readOGR(dsn = system.file("maps", package = "spcosa"), 
   layer = "farmsum")
-# stratify `Farmsum' into 50 strata
+## stratify `Farmsum' into 50 strata
 myStratification <- stratify(shpFarmsum, nStrata = 50)
-# sample two sampling units per stratum
+## sample two sampling units per stratum
 mySamplingPattern <- spsample(myStratification, n = 2)
-# attach the correct proj4 string:
+## attach the correct proj4 string:
 library(RCurl)
 urlExists = url.exists("http://spatialreference.org/ref/sr-org/6781/proj4/")
 if(urlExists){
@@ -373,7 +378,7 @@ if(urlExists){
 library(sp)
 library(gstat)
 data(barxyz)
-# define the projection system:
+## define the projection system:
 prj = "+proj=tmerc +lat_0=0 +lon_0=18 +k=0.9999 +x_0=6500000 +y_0=0 
   +ellps=bessel +units=m 
   +towgs84=550.499,164.116,475.142,5.80967,2.07902,-11.62386,0.99999445824"
@@ -383,19 +388,19 @@ data(bargrid)
 coordinates(bargrid) <- ~x+y
 gridded(bargrid) <- TRUE
 proj4string(bargrid) <- CRS(prj)
-# fit a variogram and generate simulations:
+## fit a variogram and generate simulations:
 Z.ovgm <- vgm(psill=1352, model="Mat", range=650, nugget=0, kappa=1.2)
 sel <- runif(length(barxyz$Z))<.2  
-# Note: this operation can be time consuming
+## Note: this operation can be time consuming
 sims <- krige(Z~1, barxyz[sel,], bargrid, model=Z.ovgm, nmax=20, 
    nsim=10, debug.level=-1)
-# specify the cross-section:
+## specify the cross-section:
 t1 <- Line(matrix(c(bargrid@bbox[1,1],bargrid@bbox[1,2],5073012,5073012), ncol=2))
 transect <- SpatialLines(list(Lines(list(t1), ID="t")), CRS(prj))
-# glue to a RasterBrickSimulations object:
+## glue to a RasterBrickSimulations object:
 bardem_sims <- new("RasterBrickSimulations", variable = "elevations", 
   sampled = transect, realizations = brick(sims))
-# plot the whole project and open in Google Earth:
+## plot the whole project and open in Google Earth:
 data(R_pal)
 plotKML(bardem_sims, colour_scale = R_pal[[4]])
 }
@@ -407,16 +412,16 @@ data(bargrid)
 library(sp)
 coordinates(bargrid) <- ~ x+y
 gridded(bargrid) <- TRUE
-# output topology:
+## output topology:
 cell.size = bargrid@grid@cellsize[1]
 bbox = bargrid@bbox
 nrows = round(abs(diff(bbox[1,])/cell.size), 0) 
 ncols = round(abs(diff(bbox[2,])/cell.size), 0)
 gridT = GridTopology(cellcentre.offset=bbox[,1], cellsize=c(cell.size,cell.size), 
   cells.dim=c(nrows, ncols))
-bar_sum <- count(gridT, vectL=barstr[1:5])
-# NOTE: this operation can be time consuming!
-# plot the whole project and open in Google Earth:
+bar_sum <- count.GridTopology(gridT, vectL=barstr[1:5])
+## NOTE: this operation can be time consuming!
+## plot the whole project and open in Google Earth:
 plotKML(bar_sum)
 }
 
@@ -437,10 +442,10 @@ coordinates(bigfoot) <- ~Lon+Lat
 proj4string(bigfoot) <- CRS("+proj=latlon +datum=WGS84")
 library(spatstat)
 bigfoot.aea <- as.ppp(spTransform(bigfoot, CRS(aea.prj)))
-# Load the covariates:
+## Load the covariates:
 sel.grids <- c("globedem","nlights03","sdroads","gcarb","twi","globcov")
 library(GSIF)
-# run MaxEnt analysis:
+## run MaxEnt analysis:
 jar <- paste(system.file(package="dismo"), "/java/maxent.jar", sep='')
 if(file.exists(jar)){
   bigfoot.smo <- MaxEnt(bigfoot.aea, USAWgrids[sel.grids])
