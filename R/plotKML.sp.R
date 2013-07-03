@@ -142,7 +142,7 @@ setMethod("plotKML", "SpatialPolygonsDataFrame", function(obj, folder.name = nor
   kml_open(folder.name = folder.name, file.name = file.name)
  
   # write layer:
-  kml_layer.SpatialPixels(obj, colour = colour, raster_name = raster_name, metadata = metadata, ...)
+  kml_layer(obj, colour = colour, raster_name = raster_name, metadata = metadata, ...)
 
   # close the file:
   kml_close(file.name = file.name)

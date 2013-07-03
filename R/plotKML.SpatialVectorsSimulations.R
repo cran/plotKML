@@ -11,7 +11,7 @@ setMethod("plotKML", "SpatialVectorsSimulations", function(
   folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))),
   file.name = paste(folder.name, ".kml", sep=""),
   colour,
-  colour_scale_svar = get("colour_scale_svar", envir = plotKML.opts),
+  scale_svar = get("colour_scale_svar", envir = plotKML.opts),
   grid2poly = FALSE,
   obj.summary = TRUE,
   plot.svar = FALSE,
@@ -64,7 +64,7 @@ setMethod("plotKML", "SpatialVectorsSimulations", function(
   }
 
   if(plot.svar==TRUE){
-    kml_layer(obj = obj@summaries, colour = colour.sd, colour_scale = colour_scale_svar, raster_name = paste(folder.name, "_observed.sd.png", sep=""), plot.legend = FALSE)  
+    kml_layer(obj = obj@summaries, colour = colour.sd, colour_scale = scale_svar, raster_name = paste(folder.name, "_observed.sd.png", sep=""), plot.legend = FALSE)  
   }
   
   # Realizations:

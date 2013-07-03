@@ -1,11 +1,9 @@
-\name{count-methods}
-\docType{methods}
-\alias{count}
-\alias{count,GridTopology-method}
-\title{Count the number of occurrences of a vector object over a GridTopology}
+\name{count.GridTopology}
+\alias{count.GridTopology}
+\title{Counts the number of occurrences of a list of vector object over a GridTopology}
 \description{Counts the number of occurrences of a vector object over a \code{"GridTopology"} for a list of vector objects (usually multiple realizations of the same process).}
 \usage{
-\S4method{count}{GridTopology}(x, vectL, \dots)
+count.GridTopology(x, vectL, \dots)
 }
 \arguments{
   \item{x}{object of type \code{"GridTopology"}}
@@ -16,4 +14,3 @@
 \seealso{ \code{SpatialVectorsSimulations-class}, \code{\link{vect2rast}}
 }
 \keyword{spatial}
-\keyword{methods}
