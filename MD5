@@ -1,8 +1,7 @@
-f96f139c677acae6620d2ab38761ac14 *DESCRIPTION
-7c852cd1a33471639e7e63bf59b4b5fa *NAMESPACE
-d41d8cd98f00b204e9800998ecf8427e *NEWS
-964540e46c3d457e14a929da92dfa852 *R/AAA-classes.R
-11bf8484341f085eebc24bd558a48c63 *R/AAAA.R
+4370e0cb17c1c469748df742bed99a1a *DESCRIPTION
+a35e3f0756b427704f4a91341aab8390 *NAMESPACE
+d162934289ae31676ee1cb4895821641 *R/AAA-classes.R
+547c84b7a3901106b90115f16d1b4de8 *R/AAAA.R
 efa8647d5b8ae1fbd0ddadf5c3f1aef6 *R/ZZZ.R
 7f34ed2c4537d86b5b3a84d1e6cc2d36 *R/aesthetics.R
 d70919effecb7d2a8737f386ce4593c6 *R/altitude.R
@@ -13,7 +12,7 @@ dafe47e663ed85bfae937bcc0b344675 *R/color_palettes.R
 76518b1af1e0e9e15db5c0638dcea90a *R/count.R
 d2418004605d03b27b8b5e5086cad283 *R/export_metadata.R
 cc7d5b40b30739fea1e42fcc517f377a *R/geopath.R
-f8c51cd91666f8c148eacd43abeb6032 *R/getWikiMedia.ImageInfo.R
+b8a1bf09f56da4d744cfd07ab1a00174 *R/getWikiMedia.ImageInfo.R
 c4850ec39c8da8c7ca68ece9dc1843bf *R/grid2poly.R
 512ad21b32429826c147d766f232f9de *R/kml.R
 b100dca34abb3321b01bc8a19f32b655 *R/kml_compress.R
@@ -25,7 +24,7 @@ b100dca34abb3321b01bc8a19f32b655 *R/kml_compress.R
 91d9ce8297052b0b5459483074176d17 *R/layer.RasterBrick.R
 2ab9a8bc60775ed2b861b031ba807cd5 *R/layer.STIDF.R
 c7c5858e75f043570f5e281db8f90209 *R/layer.STTDF.R
-76aeb33b70ce582c03837ff72739a157 *R/layer.SoilProfileCollection.R
+2d0a4e0e86e8ced66e3e247e6352f087 *R/layer.SoilProfileCollection.R
 552d756ba14052b9b6fe2d80d5abd20b *R/layer.SpatialLines.R
 75b9c1616a5e2ef98eebba82e10fe1d5 *R/layer.SpatialPhotoOverlay.R
 e3417b7dd4c9b1b7bf1c401927c35e0a *R/layer.SpatialPixels.R
@@ -34,13 +33,13 @@ b48007c54056c685fb2bfc3bf51cdc22 *R/layer.SpatialPolygons.R
 cd44a0497968f56c68e0dd2bd2430dd7 *R/legend.bar.R
 db2b61c2c6e89c49807b27a126d82fc0 *R/legend.whitening.R
 89aef1ed0fe4666bba179209cd89e6f4 *R/normalizeFilename.R
-ddc9aa514e450ebe2ff5351acb67a9c2 *R/plotKML.RasterBrickSimulations.R
+4384a1f5a100fd4750280b47b8514c3f *R/plotKML.RasterBrickSimulations.R
 bde072e4ec667206f81a2cd90458b928 *R/plotKML.RasterBrickTimeSeries.R
 9867cb1a0e8bd9859e1398bc768ecf70 *R/plotKML.SpatialMaxEntOutput.R
 1477de0e25b85eea7eed285ab178552f *R/plotKML.SpatialPredictions.R
 f8c0f1c5132f56fe939223ea8e139de7 *R/plotKML.SpatialSamplingPattern.R
 89ed0ce0b3c634b7939ea6741e80c5f1 *R/plotKML.SpatialVectorsSimulations.R
-5437723a740c6cdc0565da56bc54a51b *R/plotKML.sp.R
+4379d9d92e9431d9df965c5901a59562 *R/plotKML.sp.R
 7f2aa7a6fb993f4f5bf815bca0f138b6 *R/readGPX.R
 dc807f696ccf706ddf574a9eff723162 *R/readKML.GBIFdensity.R
 8dd3fbed9cf75f86a1be2a8eb5dce413 *R/reproject.R
@@ -69,7 +68,6 @@ e933b03f6f269719759c756f79b68c70 *data/eberg_zones.rda
 bc4f0691e7de86b5b80b0f7f2d539c00 *data/worldgrids_pal.rda
 0137723236f9485ac5f311e38984f379 *inst/FGDC.xml
 d41d8cd98f00b204e9800998ecf8427e *inst/NEWS
-8e02c6812893c3ab95d11777f68d7e1a *inst/atom-author-link.xsd
 566027f894784618559032b26a330af2 *inst/eberg.xml
 762124c8e05e5dbf332ec2acadb0af18 *inst/gpx.xsd
 1b8f9b7541bd2da351450dc9f763a28d *inst/mdnames.csv
@@ -111,7 +109,7 @@ d202d839ea71f8fe430aba599595c91f *man/kml_screen.Rd
 8c99bdaa9f22337611c8b5ba147993c7 *man/layer.RasterBrick.Rd
 eacb9f25d992945a4be379db783b0a32 *man/layer.STIDF.Rd
 0fe2551d16844c8317c9091ca9fecc9e *man/layer.STTDF.Rd
-732c719c3b1ab409a1ab77928f4fbc21 *man/layer.SoilProfileCollection.Rd
+95cc7eb6d219e2704ae1571be920c6e2 *man/layer.SoilProfileCollection.Rd
 6cd9f7c9db75f08e6d2d41cfe543d1e4 *man/layer.SpatialLines.Rd
 264607a394020b7da71e413c5940f2c7 *man/layer.SpatialPhotoOverlay.Rd
 1b38e52f54e0a5ebdb12c7b1087c18c6 *man/layer.SpatialPixels.Rd

@@ -184,7 +184,7 @@ setMethod("plotKML", "SpatialPhotoOverlay", function(obj, folder.name = normaliz
 
 setMethod("plotKML", "SoilProfileCollection", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), var.name, metadata = NULL, kmz = get("kmz", envir = plotKML.opts), ...){
   
-  if(missing(var.name)){ var.name <- names(obj@horizons)[!(names(obj@horizons) %in% c(prof1@idcol, obj@depthcols))][1] }
+  if(missing(var.name)){ var.name <- names(obj@horizons)[!(names(obj@horizons) %in% c(obj@idcol, obj@depthcols))][1] }
     
   # open for writing:
   kml_open(folder.name = folder.name, file.name = file.name)

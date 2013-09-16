@@ -18,19 +18,21 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
 
      #  Try locating SAGA GIS (R default setting)...
      if(saga_cmd==""){
-     if(suppressWarnings(!is.null(x <- rsaga.env()))){ 
-     if(.Platform$OS.type == "windows") {
-        saga_cmd <- shortPathName(normalizePath(paste(rsaga.env()$path, rsaga.env()$cmd, sep="/"))) 
-     }
-     else { 
-        saga_cmd <- paste(rsaga.env()$path, rsaga.env()$cmd, sep="/") 
-     } 
+      if(!inherits(try( suppressWarnings( x <- rsaga.env() ), silent = TRUE), "try-error")){
+        if(!is.null(x)){ 
+          if(.Platform$OS.type == "windows") {
+            saga_cmd <- shortPathName(normalizePath(paste(rsaga.env()$path, rsaga.env()$cmd, sep="/"))) 
+          } else { 
+            saga_cmd <- paste(rsaga.env()$path, rsaga.env()$cmd, sep="/") 
+          } 
         if(nzchar(saga_cmd)){
           saga.version <- rsaga.get.version()
         }
-     } else {
+      } else {
         saga.version <- ""
-     }}
+        }
+      }
+     }
      
      # Try locating path to ImageMagick (R default setting)...
      if(convert==""){

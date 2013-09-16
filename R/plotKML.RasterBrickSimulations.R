@@ -43,7 +43,7 @@ setMethod("plotKML", "RasterBrickSimulations", function(
   # parse the transect:
   kml_layer.SpatialLines(obj = tl, colours = rep(rgb(0,0,0), length(obj)), extrude = TRUE)
 
-  # plot the correlation graph and variogram:
+  # plot cross section:
   png(filename=paste(varname, "_cross_section.png", sep=""), width=pngwidth, height=pngheight, bg="white", pointsize=pngpointsize)
   par(mar=c(4.5,4.5,.8,.8))
   # extract values at the transect:
