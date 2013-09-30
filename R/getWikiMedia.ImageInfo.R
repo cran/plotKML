@@ -22,7 +22,7 @@ getWikiMedia.ImageInfo <- function(imagename, APIsource = "http://commons.wikime
     if(details[j]=="url"|details[j]=="metadata"|details[j]=="size"){
     xml.api = xmlParse(readLines(paste(APIsource, "?action=query&titles=File:", imagename, "&prop=", module, "&iiprop=", details[j], "&format=xml", sep="")))
     x <- xmlToList(xml.api[["//ii"]], addAttributes=TRUE)
-    if(names(x)=="metadata"){
+    if(any(names(x)=="metadata")){
       exif.info <- sapply(xml.api["//metadata[@value]"], xmlGetAttr, "value")
       names(exif.info) <- sapply(xml.api["//metadata[@name]"], xmlGetAttr, "name")
       xml.lst[[j]] <- as.list(data.frame(as.list(exif.info), stringsAsFactors=FALSE))
@@ -33,29 +33,44 @@ getWikiMedia.ImageInfo <- function(imagename, APIsource = "http://commons.wikime
     }
     else {
     if(details[j]=="extlinks"){
-    xml.api = xmlParse(readLines(paste(APIsource, "?action=query&titles=File:", imagename, "&prop=", details[j], "&format=xml", sep="")))    
-    geo.tag <- sapply(xml.api["//extlinks/el"], xmlValue)
-    geo.tag <- geo.tag[c(grep(geo.tag, pattern="http://toolserver.org/~geohack/"), grep(geo.tag, pattern="maps.google"))]
+      xml.api = xmlParse(readLines(paste(APIsource, "?action=query&titles=File:", imagename, "&prop=", details[j], "&format=xml", sep="")))    
+      geo.tag <- sapply(xml.api["//extlinks/el"], xmlValue)
     if(!length(geo.tag)==0){
-      x <- strsplit(strsplit(geo.tag[2], "ll=")[[1]][2], "&")[[1]][1]
-      names(geo.tag) <- c("toolserver.org", "maps.google.com")
+      geo.tag1 <- geo.tag[grep(geo.tag, pattern="maps.google")]
+        if(!length(geo.tag1)==0){
+          ll1 <- strsplit(strsplit(geo.tag1, "ll=")[[1]][2], "&")[[1]][1]
+          # manually enterred metadata:
+          Longitude <- strsplit(ll1, ",")[[1]][2]
+          Latitude <- strsplit(ll1, ",")[[1]][1]
+        } else {
+        geo.tag2 <- geo.tag[grep(geo.tag, pattern=glob2rx("*lat=*lon=*"))]
+        if(!length(geo.tag2)==0){
+          x <- unlist(strsplit(geo.tag2, "&"))
+          ll2 <- paste(unlist(strsplit(x[grep(x, pattern="lat=")], "lat="))[2], unlist(strsplit(x[grep(x, pattern="lat=")], "lat="))[2])
+          Longitude <- strsplit(ll2, ",")[[1]][2]
+          Latitude <- strsplit(ll2, ",")[[1]][1]          
+        } else {
+          Longitude <- NA
+          Latitude <- NA
+        }
+      }
       xml.lst[[j]] <- as.list(geo.tag)
-      # manually enterred metadata:
-      Longitude <- strsplit(x, ",")[[1]][2]
-      Latitude <- strsplit(x, ",")[[1]][1]
+      names(xml.lst[[j]]) <- paste("url", 1:length(geo.tag), sep="") 
+    } else {
+        xml.lst[[j]] <- NA
       }
     }
     else {
-    stop("Currently reads only 'url', 'metadata' and 'extlinks' information.")
+      stop("Currently reads only 'url', 'metadata' and 'extlinks' information.")
     }
     }
 
-    names(xml.lst)[j] <- details[j] 
+    names(xml.lst)[[j]] <- details[j] 
   }
 
+  # rewrite metadata with the Wikimedia specs (more reliable):
   xml.lst[["metadata"]]$GPSLongitude <- Longitude
   xml.lst[["metadata"]]$GPSLatitude <- Latitude
-  # rewrite metadata with the Wikimedia specs (more reliable):
   xml.lst[["metadata"]]$ImageWidth <- xml.lst[["size"]]$width
   xml.lst[["metadata"]]$ImageHeight <- xml.lst[["size"]]$height    
   

@@ -86,8 +86,9 @@ kml_layer.SoilProfileCollection <- function(
   prj.check <- check_projection(sp, control = TRUE) 
 
   # Trying to reproject data if the check was not successful
-  if (!prj.check)
+  if (!prj.check){
   	sp <- reproject(sp)
+ 	}
   
   # extract coordinates... for scale estimation
   LON <- as.vector(coordinates(sp)[,1])
@@ -96,14 +97,16 @@ kml_layer.SoilProfileCollection <- function(
   # convert meters to decimal degrees:
   new.ll <- new.lat.long(long = mean(LON), lat = mean(LAT), bearing = 90, distance = block.size/1000)
   block.size = new.ll[2] - mean(LON)
-  if(missing(x.min))
+  if(missing(x.min)){
   	x.min = block.size/100
+ 	}
 
   if(missing(var.scale)) {   # scaling factor in x direction (estimate automatically)
     var.range <- range(h[, var.name], na.rm = TRUE, finite = TRUE)
     var.scale <- 0.003/diff(var.range)
-  	if(missing(var.min))
+  	if(missing(var.min)){
   		var.min <- var.range[1] - (diff(var.range)/100)
+ 		}
   }
 
   # Parsing the call for aesthetics
@@ -137,35 +140,39 @@ kml_layer.SoilProfileCollection <- function(
   # ==========================  
 
   # for each site:
-  coords <- NULL
-  coords.pol <- NULL
-  coordsB <- NULL
-  points_names <- NULL
-  prof.na <- NULL
-  soil_color <- NULL
+  prof.na <- list(NULL)
+  coords <- as.list(rep("", length(obj)))
+  coords.pol <- as.list(rep("", length(obj)))
+  coordsB <- as.list(rep("", length(obj)))
+  points_names <- as.list(rep("", length(obj)))
+  soil_color <- as.list(rep("", length(obj)))
   
-for(i.site in 1:length(obj)) {
+  for(i.site in 1:length(obj)) {
   
   # select columns of interest / mask out NA horizons:
-  prof.na[[i.site]] <- which(h[[idname(obj)]] == site_names[i.site] & !is.na(h[, var.name]))
-  xval <- h[prof.na[[i.site]], var.name]
-  htop <- h[prof.na[[i.site]], horizonDepths(obj)[1]]
-  hbot <- h[prof.na[[i.site]], horizonDepths(obj)[2]]
+  prof.na[[i.site]] <- which(h[[idname(obj)]] == site_names[i.site])
+  if(is.integer(prof.na[[i.site]])){
+    xval <- h[prof.na[[i.site]], var.name]
+    htop <- h[prof.na[[i.site]], horizonDepths(obj)[1]]
+    hbot <- h[prof.na[[i.site]], horizonDepths(obj)[2]]
+    if(!(all(!is.na(htop))&all(!is.na(hbot))&!all(is.na(xval)))){
+      warning(paste("Site '", site_names[i.site], "' missing upper and/or lower limits for one of the horizons", sep=""), immediate.=TRUE)
+    }
   
-  if(plot.points==TRUE){
-  points_names[[i.site]] <- signif(xval, 3)
+    if(plot.points==TRUE){
+    points_names[[i.site]] <- signif(xval, 3)
   
-  # if no color is specified use standard colors:
-  if(missing(color.name)){
-    pal <- colorRampPalette(c("chocolate4", "darkgoldenrod1", "cornsilk")) 
-    soil_color[[i.site]] <- col2kml(pal(length(xval)))
-  } 
-  else { 
-    soil_color[[i.site]] <- col2kml(h[prof.na[[i.site]], color.name])
-  }
+    # if no color is specified use standard colors:
+    if(missing(color.name)){
+      pal <- colorRampPalette(c("chocolate4", "darkgoldenrod1", "cornsilk")) 
+      soil_color[[i.site]] <- col2kml(pal(length(xval)))
+    } 
+    else { 
+      soil_color[[i.site]] <- col2kml(h[prof.na[[i.site]], color.name])
+    }
   
-  # horizon centre:
-  Z <- max.depth - (htop+(hbot-htop)/2)
+    # horizon centre:
+    Z <- max.depth - (htop+(hbot-htop)/2)
     
     if(method=="soil_block"){   
     	X <- LON[i.site]
@@ -179,12 +186,12 @@ for(i.site in 1:length(obj)) {
     coords[[i.site]] <- paste(X, ',', Y, ',', z.scale*Z, collapse='\n ', sep = "")
   }
   
-  # horizon polygons:
-  if(method=="soil_block"){
-    Xp <- NULL
-    Yp <- NULL
-    Zp <- NULL
-    XYZp <- NULL
+    # horizon polygons:
+    if(method=="soil_block"){
+      Xp <- list(NULL)
+      Yp <- list(NULL)
+      Zp <- list(NULL)
+      XYZp <- list(NULL)
     
     if(length(xval)>0){
     for(i in 1:length(xval)){
@@ -193,30 +200,27 @@ for(i.site in 1:length(obj)) {
       Zp[[i]] <- c(max.depth-htop[i], max.depth-htop[i], max.depth-hbot[i], max.depth-hbot[i], max.depth-htop[i])
       XYZp[[i]] <-  paste(Xp[[i]], ',', Yp[[i]], ',', z.scale*Zp[[i]], collapse='\n ', sep = "")
     }
-  coords.pol[[i.site]] <- unlist(XYZp)
+    coords.pol[[i.site]] <- unlist(XYZp)
 
-  # skyscraper:
-  XB <- c(LON[i.site]-block.size/2, LON[i.site]+block.size/2, LON[i.site]+block.size/2, LON[i.site]-block.size/2, LON[i.site]-block.size/2)
-  YB <- c(LAT[i.site]-(block.size/2)*sqrt(2), LAT[i.site]-(block.size/2)*sqrt(2), LAT[i.site]+(block.size/2)*sqrt(2), LAT[i.site]+(block.size/2)*sqrt(2), LAT[i.site]-(block.size/2)*sqrt(2))
-  ZB <- rep(max.depth, 5)
-  coordsB[[i.site]] <- paste(XB, ',', YB, ',', z.scale*ZB, collapse='\n ', sep = "") 
-  }
-    else {
-      coords.pol[[i.site]] <- ""
-      coordsB[[i.site]] <- ""
+    # skyscraper:
+    XB <- c(LON[i.site]-block.size/2, LON[i.site]+block.size/2, LON[i.site]+block.size/2, LON[i.site]-block.size/2, LON[i.site]-block.size/2)
+    YB <- c(LAT[i.site]-(block.size/2)*sqrt(2), LAT[i.site]-(block.size/2)*sqrt(2), LAT[i.site]+(block.size/2)*sqrt(2), LAT[i.site]+(block.size/2)*sqrt(2), LAT[i.site]-(block.size/2)*sqrt(2))
+    ZB <- rep(max.depth, 5)
+    coordsB[[i.site]] <- paste(XB, ',', YB, ',', z.scale*ZB, collapse='\n ', sep = "") 
     }
   }
   
-    else {
-  Xp <- round(c(as.vector(t(matrix(rep(LON[i.site]+var.scale*(xval-var.min), 2), ncol=2))), rep(LON[i.site], 2), LON[i.site]+var.scale*(xval[1]-var.min)), 6)
-  Yp <- rep(LAT[i.site], length(Xp)+1)
-  Zp <- c(as.vector(t(matrix(c(max.depth-htop, max.depth-hbot), ncol=2))), max.depth-hbot[length(hbot)], max.depth-htop[1], max.depth-htop[1])
-  coords.pol[[i.site]] <- paste(Xp, ',', Yp, ',', z.scale*Zp, collapse='\n ', sep = "")
+  else {
+    Xp <- round(c(as.vector(t(matrix(rep(LON[i.site]+var.scale*(xval-var.min), 2), ncol=2))), rep(LON[i.site], 2), LON[i.site]+var.scale*(xval[1]-var.min)), 6)
+    Yp <- rep(LAT[i.site], length(Xp)+1)
+    Zp <- c(as.vector(t(matrix(c(max.depth-htop, max.depth-hbot), ncol=2))), max.depth-hbot[length(hbot)], max.depth-htop[1], max.depth-htop[1])
+    coords.pol[[i.site]] <- paste(Xp, ',', Yp, ',', z.scale*Zp, collapse='\n ', sep = "")
   }
 
-}
-
-  # Parse ATTRIBUTE TABLE (for each placemark):
+  } 
+ }
+  
+  ## Parse ATTRIBUTE TABLE (for each placemark):
   if ((balloon == TRUE | class(balloon) %in% c('character','numeric')) & ("horizons" %in% slotNames(obj))){
      html.table <- .df2htmltable(h[unlist(prof.na),]) 
   }
