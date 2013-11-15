@@ -3,7 +3,7 @@
 \title{Display a color palette}
 \description{Plots a color palette in a new window.}
 \usage{
-display.pal(pal, sel=1:10, names=FALSE)
+display.pal(pal, sel=1:length(pal), names=FALSE)
 }
 \arguments{
   \item{pal}{list; each palette a vector of HEX-formated colors}

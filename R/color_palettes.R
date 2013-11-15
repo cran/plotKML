@@ -6,7 +6,9 @@
 
 
 # Display default palettes:
-display.pal <- function(pal, sel=1:10, names=FALSE) {
+display.pal <- function(pal, sel=1:length(pal), names=FALSE) {
+  
+  if(length(pal)>10) { sel <- 1:10 }
   
   if(names==FALSE){ 
   dev.new(width=2.1, height=length(sel))
