@@ -90,17 +90,22 @@ setClass("SpatialPredictions", representation(variable = "character", observed =
     if(any(!(object@variable %in% names(object@predicted@data))))
       return("Variable name not available in the 'predicted' slot")
     if(length(object@validation) <50)
-      warning("Validation data critically small (<50) for reliable validation")  
+      warning("Validation data critically small (<50) for reliable validation") 
     require(sp)
-    object.ov <- over(object@predicted, object@observed)
-    if(length(object.ov)==0)
-      return("'Predicted' and 'observed' spatial objects do not overlap spatially")
+    if(length(object@observed)<5000){
+    object.ov <- over(x=object@observed, y=object@predicted)
+      if(length(object.ov)==0){
+        return("'Predicted' and 'observed' spatial objects do not overlap spatially")
+      }
+    } else {
+      warning("Large object (number of sampling locations > 5000). Skipping overlay test for grids and points...")
+    }
 })
 
 ## New classes for SpatialSimulations:
 setClass("SpatialVectorsSimulations", representation(realizations = "list", summaries = "SpatialGridDataFrame"), validity = function(object) {
    require(sp)
-   object.ov <- over(object@summaries, as(object@realizations[[1]], "SpatialPoints"))
+   object.ov <- over(y=object@summaries, x=as(object@realizations[[1]], "SpatialPoints"))
     if(length(object.ov)==0)
       return("'Realizations' and 'summaries' objects do not overlap spatially")
     if(length(names(object@summaries))<2)
@@ -117,7 +122,7 @@ setClass("RasterBrickSimulations", representation(variable = "character", sample
 
 ## A new class for SamplingPatterns:
 setClass("SpatialSamplingPattern", representation(method = "character", pattern = "SpatialPoints", sp.domain = "SpatialPolygonsDataFrame"), validity = function(object) {
-    ov <- over(object@sp.domain, object@pattern)
+    ov <- over(y=object@sp.domain, x=object@pattern)
     if(length(ov)==0)
       return("'Pattern' and 'sp.domain' do not overlap spatially")
 })
@@ -129,9 +134,14 @@ setClass("RasterBrickTimeSeries", representation(variable = "character", sampled
       return("'TimeSpan.begin' must indicate time before or equal to 'TimeSpan.end'")
     if(!(length(object@TimeSpan.begin)==length(object@TimeSpan.end)&length(object@TimeSpan.begin)==nlayers(object@rasters)))
       return("Length of the 'TimeSpan.begin' and 'TimeSpan.end' slots and the total number of rasters do not match")
-    ov <- extract(object@rasters, object@sampled)
-    if(!nrow(ov)==length(object@sampled))
-      return("Not all points can be overlaid using the data in the @rasters slot")
+    if(length(object@sampled)<5000){
+      ov <- extract(object@rasters, object@sampled)
+      if(!nrow(ov)==length(object@sampled)){
+        return("Not all points can be overlaid using the data in the @rasters slot")
+      }
+    } else {
+      warning("Large object (number of sampling locations > 5000). Skipping overlay test for grids and points...")
+    }
 })
 
 ### A new class for SpeciesDistributionMap:

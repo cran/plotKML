@@ -1,6 +1,6 @@
-4370e0cb17c1c469748df742bed99a1a *DESCRIPTION
+94fb8b94d8450cee1795ba9193562463 *DESCRIPTION
 a35e3f0756b427704f4a91341aab8390 *NAMESPACE
-d162934289ae31676ee1cb4895821641 *R/AAA-classes.R
+cf57526eba6e289514ec70bf05113c66 *R/AAA-classes.R
 547c84b7a3901106b90115f16d1b4de8 *R/AAAA.R
 efa8647d5b8ae1fbd0ddadf5c3f1aef6 *R/ZZZ.R
 7f34ed2c4537d86b5b3a84d1e6cc2d36 *R/aesthetics.R
@@ -8,7 +8,7 @@ d70919effecb7d2a8737f386ce4593c6 *R/altitude.R
 0a0d3789fe54eb03e3148c07b66ee58c *R/attributes.R
 3ccd57b9e69edb38653b1d03d98493ec *R/check_projection.R
 7071f44cada5e901e2e50a2928303b43 *R/col2kml.R
-dafe47e663ed85bfae937bcc0b344675 *R/color_palettes.R
+a0e9e0fd89a59887d0342e84342b2e09 *R/color_palettes.R
 76518b1af1e0e9e15db5c0638dcea90a *R/count.R
 d2418004605d03b27b8b5e5086cad283 *R/export_metadata.R
 cc7d5b40b30739fea1e42fcc517f377a *R/geopath.R
@@ -90,7 +90,7 @@ f727ac3807c57022a9601b88facd0715 *man/baranja.Rd
 e3b1ca364e72200fb2bf44cf7a2ecef6 *man/check_projection.Rd
 18c0d336ccd4efe6040a723cc7abcaa7 *man/col2kml.Rd
 1cafdb859f4ffcff810da94451d955fb *man/count.GridTopology.Rd
-91b2a2b08e62af5540b924b315b5e86d *man/display.pal.Rd
+4892e73b7225b5fdcc93c44c81da41b1 *man/display.pal.Rd
 0f30f99b8a1aaaab258885a94590a707 *man/eberg.Rd
 a1ad4294b6d1f615bfec5a3fa9981912 *man/geopath.rd
 b0bfb4036cf52b330a21f5ff1c39d266 *man/getCRS.Rd
