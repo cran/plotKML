@@ -88,7 +88,7 @@ kml_layer.SpatialPixels <- function(
 
   ## Creating the PNG file
   if(missing(raster_name)){
-    raster_name <- set.file.extension(as.character(call.lst[["colour"]]), ".png")
+    raster_name <- paste(normalizeFilename(as.character(call.lst[["colour"]])), ".png", sep="")
   }
 
   ## Plotting the image

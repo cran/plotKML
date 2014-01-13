@@ -88,7 +88,7 @@ kml_layer.RasterBrick <- function(
   }
 
   # Creating the PNG files using standard z.lim's:
-  raster_name <- set.file.extension(names(obj), ".png")
+  raster_name <- paste(normalizeFilename(names(obj)), ".png", sep="")
 
   # Plotting the image
   for(j in 1:length(raster_name)){
@@ -125,8 +125,8 @@ kml_layer.RasterBrick <- function(
   # Legend
   # ======================
   if(plot.legend == TRUE){
-  txtso <- sprintf('<ScreenOverlay><name>Legend</name><Icon><href>%s</href></Icon><overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/><screenXY x="0" y="1" xunits="fraction" yunits="fraction"/></ScreenOverlay>', legend_name)
-  parseXMLAndAdd(txtso, parent=kml.out[["Document"]])
+    txtso <- sprintf('<ScreenOverlay><name>Legend</name><Icon><href>%s</href></Icon><overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/><screenXY x="0" y="1" xunits="fraction" yunits="fraction"/></ScreenOverlay>', legend_name)
+    parseXMLAndAdd(txtso, parent=kml.out[["Document"]])
   }
   
   # save results: 

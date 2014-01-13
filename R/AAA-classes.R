@@ -85,20 +85,14 @@ setClass("SpatialPhotoOverlay", representation(filename = "character", pixmap = 
 
 ## A new class for SpatialPredictions:
 setClass("SpatialPredictions", representation(variable = "character", observed = "SpatialPointsDataFrame", regModel.summary = "ANY", vgmModel = "data.frame", predicted = "SpatialPixelsDataFrame", validation = "SpatialPointsDataFrame"), validity = function(object) {
-    if(any(!(object@variable %in% names(object@observed@data))))
+    if(any(!(object@variable %in% names(object@observed@data)))){
       return("Variable name not available in the 'data' slot")
-    if(any(!(object@variable %in% names(object@predicted@data))))
+    }
+    if(any(!(object@variable %in% names(object@predicted@data)))){
       return("Variable name not available in the 'predicted' slot")
-    if(length(object@validation) <50)
-      warning("Validation data critically small (<50) for reliable validation") 
-    require(sp)
-    if(length(object@observed)<5000){
-    object.ov <- over(x=object@observed, y=object@predicted)
-      if(length(object.ov)==0){
-        return("'Predicted' and 'observed' spatial objects do not overlap spatially")
-      }
-    } else {
-      warning("Large object (number of sampling locations > 5000). Skipping overlay test for grids and points...")
+    }
+    if(length(object@validation) <50){
+      return("Validation data critically small (<50) for reliable validation") 
     }
 })
 
@@ -134,13 +128,9 @@ setClass("RasterBrickTimeSeries", representation(variable = "character", sampled
       return("'TimeSpan.begin' must indicate time before or equal to 'TimeSpan.end'")
     if(!(length(object@TimeSpan.begin)==length(object@TimeSpan.end)&length(object@TimeSpan.begin)==nlayers(object@rasters)))
       return("Length of the 'TimeSpan.begin' and 'TimeSpan.end' slots and the total number of rasters do not match")
-    if(length(object@sampled)<5000){
-      ov <- extract(object@rasters, object@sampled)
-      if(!nrow(ov)==length(object@sampled)){
-        return("Not all points can be overlaid using the data in the @rasters slot")
-      }
-    } else {
-      warning("Large object (number of sampling locations > 5000). Skipping overlay test for grids and points...")
+    ov <- extract(object@rasters, object@sampled)
+    if(!nrow(ov)==length(object@sampled)){
+      return("Not all points can be overlaid using the data in the @rasters slot")
     }
 })
 
@@ -149,7 +139,7 @@ setClass("SpatialMaxEntOutput", representation(sciname = "character", occurrence
     if(object@TimeSpan.begin > object@TimeSpan.end)
       return("'TimeSpan.begin' must indicate time before or equal to 'TimeSpan.end'")    
     if(length(object@occurrences) <5)
-      warning("Occurences critically small (<5) for reliable validation")  
+      return("Occurences critically small (<5) for reliable validation")  
     object.ov <- extract(x=object@predicted, y=object@occurrences)
     if(length(object.ov)==0)
       return("'Occurences' and 'rasters' do not overlap spatially")
