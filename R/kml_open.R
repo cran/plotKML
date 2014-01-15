@@ -68,11 +68,15 @@ kml_View <- function(file.name){
 
   ## DB: this is untested on Mac OS X / UNIX!
   else {
-      if(.Platform$pkgType == "mac.binary.leopard"){
-        try(system(paste("open ", normalizePath(paste(getwd(), "/", file.name, sep="")), sep="")))
+      if(length(grep("mac.binary", .Platform$pkgType))>0){
+        if(inherits( try(system(paste("open ", normalizePath(paste(getwd(), "/", file.name, sep="")), sep="")), silent = TRUE), "try-error")){
+          warning(paste("'open' resulted in a try-error. Consider re-installing the default", ext, "browser."))
+         } 
         }
       else{
-        try(system(paste("gnome-open ", normalizePath(paste(getwd(), "/", file.name, sep="")), sep="")))
+        if(inherits( try(system(paste("gnome-open ", normalizePath(paste(getwd(), "/", file.name, sep="")), sep="")), silent = TRUE), "try-error")){
+          warning(paste("'gnome-open' resulted in a try-error. Consider re-installing the default", ext, "browser."))
+         } 
       }
   }
 }

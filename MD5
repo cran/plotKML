@@ -1,4 +1,4 @@
-c8802f29ebdf991543056eb3594fd0fc *DESCRIPTION
+dbb8e912830d9559a205bc7eec6885bc *DESCRIPTION
 bb2dfb58b34a2c7562fb5623fe7f4547 *NAMESPACE
 ef46f3b7055785aa464ab5b82911e5bb *R/AAA-classes.R
 547c84b7a3901106b90115f16d1b4de8 *R/AAAA.R
@@ -18,7 +18,7 @@ c4850ec39c8da8c7ca68ece9dc1843bf *R/grid2poly.R
 b100dca34abb3321b01bc8a19f32b655 *R/kml_compress.R
 22a6bde3d75b2d838fb0ca985f02dd9f *R/kml_description.R
 4a10c4b10e3274fadb85a722dbd1a6fe *R/kml_metadata.R
-56172aa61153c9a8ad68f26b24b896db *R/kml_open.R
+29a07ea07fe28e4d9fa0830a08805a58 *R/kml_open.R
 86b32e2680c18d61e148b84070f48967 *R/kml_screen.R
 58fabd95a379bd4e6e48c8b68aeba704 *R/layer.Raster.R
 6f3428a2e858418d55e3e1d5bc0a17c0 *R/layer.RasterBrick.R
@@ -67,6 +67,8 @@ a92978c15fd0ae9d9887aab747ce5911 *data/eberg.rda
 e933b03f6f269719759c756f79b68c70 *data/eberg_zones.rda
 602f5975f2584a9e3fc9d4211c8ff4d9 *data/gpxbtour.rda
 bc4f0691e7de86b5b80b0f7f2d539c00 *data/worldgrids_pal.rda
+80d6393cfbb9cecc294291f63177b712 *demo/00Index
+80b37ecdced300a1d27e4fd58a5128bc *demo/plotKML.R
 0137723236f9485ac5f311e38984f379 *inst/FGDC.xml
 d41d8cd98f00b204e9800998ecf8427e *inst/NEWS
 566027f894784618559032b26a330af2 *inst/eberg.xml
@@ -122,7 +124,7 @@ dac02f6b63e58406d0d2ca79490d038d *man/metadata2SLD.Rd
 7e3b8648810f2eec52f3bd7b9f8bffff *man/metadata2SLD.SpatialPixels.Rd
 ca181c1fc1f593708f0f34ba89728a09 *man/normalizeFilename.Rd
 58d2d1701a126cf71a0752a13647e538 *man/plotKML-package.Rd
-67dcb30b5bd3a60f4c52592ea747b164 *man/plotKML.Rd
+06e06a428a92f1444cf7c1bc62492dc7 *man/plotKML.Rd
 bdd9862e54b89adb048aca3f8f59e9f5 *man/plotKML.env.Rd
 7ffcaceb7db5064cb3ce190489be0fec *man/readGPX.Rd
 c6cd5a53b07506343c1a1691ca566f93 *man/readKML.GBIFdensity.Rd

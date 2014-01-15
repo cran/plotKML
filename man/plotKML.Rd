@@ -164,23 +164,27 @@ coordinates(eberg) <- ~X+Y
 proj4string(eberg) <- CRS("+init=epsg:31467")
 ## subset to 20 percent:
 eberg <- eberg[runif(nrow(eberg))<.1,]
-## bubble type plot:
+\dontrun{## bubble type plot:
 plotKML(eberg["CLYMHT_A"])
 plotKML(eberg["CLYMHT_A"], colour_scale=rep("#FFFF00", 2), points_names="")
-
+}
 
 ## -------------- SpatialLinesDataFrame --------- ##
 data(eberg_contours)
+\dontrun{
 plotKML(eberg_contours)
 ## plot contour lines with actual altitudes:
 plotKML(eberg_contours, colour=Z, altitude=Z)
+}
 
 ## -------------- SpatialPolygonsDataFrame --------- ##
 data(eberg_zones)
+\dontrun{
 plotKML(eberg_zones["ZONES"])
 ## add altitude:
 zmin = 230
 plotKML(eberg_zones["ZONES"], altitude=zmin+runif(length(eberg_zones))*500)
+}
 
 ## -------------- SpatialPixelsDataFrame --------- ##
 library(rgdal)
@@ -190,8 +194,8 @@ gridded(eberg_grid) <- ~x+y
 proj4string(eberg_grid) <- CRS("+init=epsg:31467")
 TWI <- reproject(eberg_grid["TWISRT6"])
 data(SAGA_pal)
-plotKML(TWI, colour_scale = SAGA_pal[[1]])
 \dontrun{## set limits manually (increase resolution):
+plotKML(TWI, colour_scale = SAGA_pal[[1]])
 plotKML(TWI, z.lim=c(12,20), colour_scale = SAGA_pal[[1]],
   png.width = gridparameters(TWI)[1,"cells.dim"]*5, 
   png.height = gridparameters(TWI)[2,"cells.dim"]*5)
@@ -203,7 +207,9 @@ data(worldgrids_pal)
 ## attr(worldgrids_pal["corine2k"][[1]], "names")
 pal = as.character(worldgrids_pal["corine2k"][[1]][c(1,11,13,14,16,17,18)])
 LNCCOR6 <- reproject(eberg_grid["LNCCOR6"])
+\dontrun{
 plotKML(LNCCOR6, colour_scale=pal)
+}
 
 ## -------------- SpatialPhotoOverlay --------- ##
 \dontrun{
@@ -237,7 +243,9 @@ site(prof1) <- ~ lon + lat + FAO1988
 coordinates(prof1) <- ~ lon + lat
 proj4string(prof1) <- CRS("+proj=longlat +datum=WGS84")
 prof1
+\dontrun{
 plotKML(prof1, var.name="ORCDRC", color.name="soil_color")
+}
 
 ## -------------- STIDF --------- ##
 library(spacetime)
@@ -252,7 +260,9 @@ HRtemp08.st <- STIDF(sp, time = HRtemp08$ctime, data = HRtemp08[,c("NAME","TEMP"
 ## subset to first 500 records:
 HRtemp08_jan <- HRtemp08.st[1:500]
 str(HRtemp08_jan)
+\dontrun{
 plotKML(HRtemp08_jan[,,"TEMP"], dtime = 24*3600, LabelScale = .4)
+}
 
 ## foot-and-mouth disease data:
 library(stpp)
@@ -265,7 +275,9 @@ dates <- as.Date("2001-02-18")+fmd0$ReportedDay
 library(spacetime)
 fmd_ST <- STIDF(fmd_sp, dates, data.frame(ReportedDay=fmd0$ReportedDay))
 data(SAGA_pal)
+\dontrun{
 plotKML(fmd_ST, colour_scale=SAGA_pal[[1]])
+}
 
 ## -------------- STFDF --------- ##
 
@@ -298,11 +310,13 @@ stplot(DE_kriged)
 png.width = DE_kriged@sp@grid@cells.dim[1]*20
 png.height = DE_kriged@sp@grid@cells.dim[2]*20
 z.lim = range(DE_kriged@data, na.rm=TRUE)
+\dontrun{
 plotKML(DE_kriged, png.width=png.width, 
         png.height=png.height, z.lim=z.lim)
 ## add observations points:
 rr.sti <- as(rr, "STIDF")
 plotKML(rr.sti, z.lim=z.lim)
+}
 
 ## -------------- STTDF --------- ##
 \dontrun{
@@ -358,11 +372,11 @@ LST.ts <- new("RasterBrickTimeSeries", variable = "LST", sampled = pnts,
     rasters = LST_ll, TimeSpan.begin = TimeSpan.begin[1:5], 
     TimeSpan.end = TimeSpan.end[1:5])
 data(SAGA_pal)
-## plot MODIS images in Google Earth:
+\dontrun{## plot MODIS images in Google Earth:
 plotKML(LST.ts, colour_scale=SAGA_pal[[1]])
+}
 
 ## -------------- Spatial Predictions --------- ##
-\dontrun{
 library(sp)
 library(rgdal)
 library(gstat)
@@ -373,7 +387,7 @@ proj4string(meuse) <- CRS("+init=epsg:28992")
 data(meuse.grid)
 gridded(meuse.grid) <- ~x+y
 proj4string(meuse.grid) <- CRS("+init=epsg:28992")
-## fit a model:
+\dontrun{## fit a model:
 library(GSIF)
 omm <- fit.gstatModel(observations = meuse, formulaString = om~dist, 
    family = gaussian(log), covariates = meuse.grid)
