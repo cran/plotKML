@@ -5,19 +5,24 @@
 # Note           : Based on the US gov sp metadata standards [http://www.fgdc.gov/metadata/csdgm/];
 
 ## summary for an object of type "SpatialMetadata":
-.summary.metadata <- function(object, sel, fix.enc = TRUE, full.names = "", delim.sign = "_"){
+.summary.metadata <- function(object, sel, fix.enc = TRUE, full.names = "", delim.sign){
     
     if(full.names == ""){     
-      full.names = read.table(system.file("mdnames.csv", package="plotKML"), sep=";")     
+      full.names = read.csv(system.file("mdnames.csv", package="plotKML"))     
     }
     
-    nx <- unlist(xmlToList(object@xml, addAttributes=FALSE))
-    # convert to a table:
-    met <- data.frame(metadata=gsub("\\.", delim.sign, attr(nx, "names")), value=paste(nx), stringsAsFactors = FALSE)
-    # add more friendly names:
+    nx <- unlist(xmlToList(object@xml))
+    ## convert to a table:
+    if(!missing(delim.sign)){
+      nxn <- gsub("\\.", delim.sign, attr(nx, "names"))
+    } else {
+      nxn <- attr(nx, "names")
+    }
+    met <- data.frame(metadata=nxn, value=paste(nx), stringsAsFactors = FALSE)
+    ## add more friendly names:
     metm <- merge(x=met, y=full.names[,c("metadata","field.names")], by="metadata", all.x=TRUE)
           
-    # selected columns:
+    ## selected columns:
     if(missing(sel)) {
       sel = get("metadata_sel", envir = plotKML.opts)
     }
@@ -25,7 +30,7 @@
     md <- merge(selm, metm, by="metadata", all.x=TRUE)
     md <- md[order(md$order.no),] 
     
-    # fix encoding:
+    ## fix encoding:
     if(fix.enc==TRUE){
       md <- data.frame(lapply(md, iconv, to = "UTF8"))
     }

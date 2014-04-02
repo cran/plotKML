@@ -242,12 +242,12 @@ plotKML.env <- function(
     kml_gx,
     gpx_xsd,
     fgdc_xsd,
+    inspire_xsd,
     convert,
     gdalwarp,
     gdal_translate,
     python,
     home_url,
-    googleAPIkey,
     show.env = TRUE,
     silent = TRUE
     ){
@@ -267,13 +267,14 @@ plotKML.env <- function(
     if(missing(LabelScale)) { LabelScale <- .5 }
     if(missing(size_range)) { size_range <- c(0.25, 2.5) }
     if(missing(license_url)) { license_url <- "http://creativecommons.org/licenses/by/3.0/" }
-    if(missing(metadata_sel)) { metadata_sel <- c("idinfo_citation_citeinfo_title", "idinfo_descript_abstract", "spdoinfo_ptvctinf_sdtsterm_ptvctcnt", "idinfo_timeperd_timeinfo_rngdates_begdate", "idinfo_timeperd_timeinfo_rngdates_enddate", "distinfo_stdorder_digform_digtopt_onlinopt_computer_networka_networkr", "idinfo_citation_citeinfo_othercit", "idinfo_citation_citeinfo_onlink", "idinfo_datacred", "distinfo_distrib_cntinfo_cntorgp_cntorg", "distinfo_stdorder_digform_digtinfo_formcont", "idinfo_native") }
+    if(missing(metadata_sel)) { metadata_sel <- c("idinfo.citation.citeinfo.title", "idinfo.descript.abstract", "spdoinfo.ptvctinf.sdtsterm.ptvctcnt", "idinfo.timeperd.timeinfo.rngdates.begdate", "idinfo.timeperd.timeinfo.rngdates.enddate", "distinfo.stdorder.digform.digtopt.onlinopt.computer.networka.networkr", "idinfo.citation.citeinfo.othercit", "idinfo.citation.citeinfo.onlink", "idinfo.datacred", "distinfo.distrib.cntinfo.cntorgp.cntorg", "distinfo.stdorder.digform.digtinfo.formcont", "idinfo.native") }   
     if(missing(kmz)) { kmz <- FALSE }
     if(missing(kml_xsd)) { kml_xsd <- "http://schemas.opengis.net/kml/2.2.0/ogckml22.xsd" }
     if(missing(kml_url)) { kml_url <- "http://www.opengis.net/kml/2.2/" }
     if(missing(kml_gx)) { kml_gx <- "http://www.google.com/kml/ext/2.2" }
     if(missing(gpx_xsd)) { gpx_xsd <- "http://www.topografix.com/GPX/1/1/gpx.xsd" }
     if(missing(fgdc_xsd)) { fgdc_xsd <- "http://fgdcxml.sourceforge.net/schema/fgdc-std-012-2002/fgdc-std-012-2002.xsd" }
+    if(missing(inspire_xsd)) { inspire_xsd <- "http://inspire.ec.europa.eu/schemas/common/1.0/common.xsd" }
     
     if(silent == FALSE){
       pts <- paths(show.paths = TRUE)
@@ -287,39 +288,40 @@ plotKML.env <- function(
     if(missing(gdal_translate)) { gdal_translate <- pts$gdal_translate[[1]] }
     if(missing(python)) { python <- pts$python[[1]] }
     if(missing(home_url)) { home_url <- "http://plotkml.r-forge.r-project.org/" }
-    if(missing(googleAPIkey)) { googleAPIkey <- "ABQIAAAAqHzabFRj8QwDECupLUR4-hT53Nvo2rq6JtI9-sNzq2yJTiKUYBRN5VP8pfrIcMaRo0pNDvBhWJUQCA" }
  
-    assign("colour_scale_numeric", colour_scale_numeric, envir=plotKML.opts)
-    assign("colour_scale_factor", colour_scale_factor, envir=plotKML.opts)
-    assign("colour_scale_svar", colour_scale_svar, envir=plotKML.opts)
-    assign("ref_CRS", ref_CRS, envir=plotKML.opts)
-    assign("NAflag", NAflag, envir=plotKML.opts)
-    assign("icon", icon, envir=plotKML.opts)
-    assign("LabelScale", LabelScale, envir=plotKML.opts)
-    assign("size_range", size_range, envir=plotKML.opts)
-    assign("license_url", license_url, envir=plotKML.opts)
-    assign("metadata_sel", metadata_sel, envir=plotKML.opts)
-    assign("kmz", kmz, envir=plotKML.opts)
-    assign("kml_xsd", kml_xsd, envir=plotKML.opts)
-    assign("kml_url", kml_url, envir=plotKML.opts)
-    assign("kml_gx", kml_gx, envir=plotKML.opts)
-    assign("gpx_xsd", gpx_xsd, envir=plotKML.opts)
-    assign("fgdc_xsd", fgdc_xsd, envir=plotKML.opts)
-    assign("convert", convert, envir=plotKML.opts)
-    assign("gdalwarp", gdalwarp, envir=plotKML.opts)
-    assign("gdal_translate", gdal_translate, envir=plotKML.opts)
-    assign("python", python, envir=plotKML.opts)
-    assign("home_url", home_url, envir=plotKML.opts)
-    assign("googleAPIkey", googleAPIkey, envir=plotKML.opts)
-    
-    plotKML.opts <- list(colour_scale_numeric, colour_scale_factor, colour_scale_svar, ref_CRS, NAflag, icon, LabelScale, size_range, license_url, metadata_sel, kmz, kml_xsd, kml_url, kml_gx, gpx_xsd, fgdc_xsd, convert, gdalwarp, gdal_translate, python, home_url, googleAPIkey)
-    names(plotKML.opts) <- c("colour scale for numeric variables", "colour scale for factor variables", "colour scale for the standardized prediction error", "referent CRS", "NA flag value", "default icon", "default label size", "default size ranges", "default license url", "print metadata", "compress to kmz", "kml xsd URL", "kml URL", "kml gx URL", "gpx xsd URL", "fgdc xsd URL", "location of convert program", "location of gdalwarp program", "location of gdal_translate program", "location of python program", "data repository URL", "google API key")
-    
-    if(show.env){  return(plotKML.opts)  }
+    ## Create a list and assing it to plotKML.env:
+    pl.lst <- list(
+      colour_scale_numeric = colour_scale_numeric,
+      colour_scale_factor = colour_scale_factor,
+      colour_scale_svar = colour_scale_svar,
+      ref_CRS = ref_CRS,
+      NAflag = NAflag,
+      icon = icon,
+      LabelScale = LabelScale,
+      size_range = size_range,
+      license_url = license_url,
+      metadata_sel = metadata_sel,
+      kmz = kmz,
+      kml_xsd = kml_xsd,
+      kml_url = kml_url,
+      kml_gx = kml_gx,
+      gpx_xsd = gpx_xsd,
+      fgdc_xsd = fgdc_xsd,
+      inspire_xsd = inspire_xsd,
+      convert = convert,
+      gdalwarp = gdalwarp,
+      gdal_translate = gdal_translate,
+      python = python,
+      home_url = home_url
+    )
+ 
+    x <- lapply(names(pl.lst), function(x){ assign(x, pl.lst[[x]], envir=plotKML.opts) })
+     
+    if(show.env){  return(pl.lst)  }
  
 }
 
-# generate all environmental settings:
+## generate all environmental settings:
 plotKML.env(show.env = FALSE)
 
 # end of script;

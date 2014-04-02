@@ -98,7 +98,7 @@ kml_layer.RasterBrick <- function(
     png(filename = raster_name[j], bg = "transparent", type="cairo-png", width = png.width, height = png.height)
     par(mar = c(0, 0, 0, 0), xaxs = "i", yaxs = "i")
     colour_scale_legend <- colorRampPalette(colour_scale)(50)
-    raster::image(raster(obj, j), col = colour_scale_legend, zlim = z.lim, frame.plot = FALSE, main="")
+    raster::image(raster(obj, j), col = colour_scale_legend, zlim = z.lim, frame.plot = FALSE, main="", maxpixels=ncell(raster(obj, j)))
     dev.off()
   }
 

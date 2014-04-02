@@ -17,16 +17,15 @@ setClass("sp.palette", representation(type = 'character', bounds = 'vector', col
 
 ## A new class for SpatialMetadata:
 setClass("SpatialMetadata", representation(xml = "XMLInternalDocument", field.names = "character", palette = "sp.palette", sp = "Spatial"), validity = function(object) {
-    if(!xmlName(xmlRoot(object@xml))=="metadata")
-      return("XML file tagged 'metadata' not found")
-    # check the metadata names:
-    ny <- unlist(xmlToList(object@xml, addAttributes=FALSE))
-    met <- data.frame(metadata=gsub("\\.", "_", names(ny)), value=paste(ny))
-    # add friendly names:
-    mdnames <- read.table(system.file("mdnames.csv", package="plotKML"), sep=";")
+    if(!(xmlName(xmlRoot(object@xml))=="metadata"|xmlName(xmlRoot(object@xml))=="MD_Metadata"))
+      return("XML file tagged 'metadata' or 'MD_Metadata' not found")
+    ## check the metadata names:
+    ny <- unlist(xmlToList(object@xml))
+    met <- data.frame(metadata=names(ny), value=paste(ny))
+    mdnames <- read.csv(system.file("mdnames.csv", package="plotKML"))
     field_names <- merge(met, mdnames[,c("metadata","field.names")], by="metadata", all.x=TRUE, all.y=FALSE)[,"field.names"]    
     if(!any(field_names %in% object@field.names))
-      return("Field names does not match the column names in the xml slot")
+      return("Field names do not match the column names in the xml slot")
     if(!class(object@field.names)=="character")
       return("Field names as character vector required")      
 })

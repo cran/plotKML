@@ -21,7 +21,7 @@ getWikiMedia.ImageInfo <- function(imagename, APIsource = "http://commons.wikime
   for(j in 1:length(details)){
     if(details[j]=="url"|details[j]=="metadata"|details[j]=="size"){
     xml.api = xmlParse(readLines(paste(APIsource, "?action=query&titles=File:", imagename, "&prop=", module, "&iiprop=", details[j], "&format=xml", sep="")))
-    x <- xmlToList(xml.api[["//ii"]], addAttributes=TRUE)
+    x <- xmlToList(xml.api[["//ii"]])
     if(any(names(x)=="metadata")){
       exif.info <- sapply(xml.api["//metadata[@value]"], xmlGetAttr, "value")
       names(exif.info) <- sapply(xml.api["//metadata[@name]"], xmlGetAttr, "name")

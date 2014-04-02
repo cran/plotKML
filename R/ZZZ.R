@@ -15,6 +15,7 @@
 
   ## create env variables:
   plotKML.env(show.env = FALSE, silent = TRUE)
+  metadata.env()
   
   packageStartupMessage(paste("URL:", get("home_url", envir = plotKML.opts)))
 

@@ -7,7 +7,7 @@
 }
 \usage{
 kml_layer.STTDF(obj, id.name = names(obj@data)[which(names(obj@data)== "burst")],
-    dtime = "", extrude = FALSE, 
+    dtime, extrude = FALSE, 
     start.icon = paste(get("home_url", envir = plotKML.opts),
          "3Dballyellow.png", sep = ""), 
     end.icon = paste(get("home_url", envir = plotKML.opts), 
@@ -32,7 +32,7 @@ kml_layer.STTDF(obj, id.name = names(obj@data)[which(names(obj@data)== "burst")]
 
 \code{<TimeStamp><begin> </begin><end> </end></TimeStamp>} \cr
 
-tags will be inserted. Temporal support (\eqn{\Delta t}{dt}) is estimated using the \code{xts::periodicity} function (median time between observations). The begin time is then derived as \eqn{t_1 = t - .5\cdot \Delta t}{t1 = t - .5 d t}.
+tags will be inserted. Temporal support for any spacetime class, if not specified by the user, is determined as a difference between the \code{"time"} (indicating begin time) and \code{"endTime"} slots.
 }
 \references{
 \itemize{

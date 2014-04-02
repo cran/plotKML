@@ -1,6 +1,6 @@
 Package: plotKML
-Version: 0.4-2
-Date: 2013-01-15
+Version: 0.4-3
+Date: 2013-03-31
 Title: Visualization of spatial and spatio-temporal objects in Google
         Earth
 Authors@R: c(person("Tomislav", "Hengl", role = c("cre", "aut"),
@@ -8,24 +8,27 @@ Authors@R: c(person("Tomislav", "Hengl", role = c("cre", "aut"),
     person("Pierre", "Roudier", role = "ctb"),
     person("Dylan", "Beaudette", role = "ctb"),
 	person("Edzer", "Pebesma", role = "ctb"),
-  person("Michael", "Blaschek", role = "ctb"))
+  person("Michael", "Blaschek", role = "ctb"),
+  person("Benedikt", "Graeler", role = "ctb"))
 Maintainer: Tomislav Hengl <tom.hengl@wur.nl>
 Depends: R (>= 2.13.0)
 Imports: methods, XML, sp, raster, rgdal, spacetime, colorspace,
         plotrix, dismo, aqp, pixmap, plyr, stringr, colorRamps, scales,
-        gstat, zoo, xts, RColorBrewer, RSAGA, classInt
-Suggests: utils, adehabitat, maptools, fossil, spcosa, rjson,
-        animation, spatstat, RCurl, rgbif, Hmisc, GSIF, stpp
-Description: Writes sp-class, spacetime-class, raster-class and similar spatial and spatio-temporal objects to KML following some basic cartographic rules. Suitable for visualization of complete analysis outputs.
+        gstat, zoo, RColorBrewer, RSAGA, classInt
+Suggests: utils, adehabitat, maptools, fossil, spcosa, rjson, RJSONIO,
+        animation, spatstat, RCurl, rgbif, Hmisc, GSIF, stpp, uuid,
+        intervals, reshape
+Description: Writes sp-class, spacetime-class, raster-class and similar spatial and spatio-temporal objects to KML following some basic cartographic rules.
 License: GPL
 URL: http://plotkml.r-forge.r-project.org/
 LazyLoad: yes
-Packaged: 2014-01-15 11:06:05 UTC; hengl001
+Packaged: 2014-04-02 07:16:22 UTC; hengl001
 Author: Tomislav Hengl [cre, aut],
   Pierre Roudier [ctb],
   Dylan Beaudette [ctb],
   Edzer Pebesma [ctb],
-  Michael Blaschek [ctb]
+  Michael Blaschek [ctb],
+  Benedikt Graeler [ctb]
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2014-01-15 17:56:01
+Date/Publication: 2014-04-02 10:09:44

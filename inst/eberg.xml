@@ -1,174 +1,119 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-<idinfo>
-<citation>
-<citeinfo>
-<origin>Gehrt, E., Bohner, J., and Hengl, T.</origin>
-<pubdate>2001</pubdate>
-<title>Ebergoetzen data set</title>
-<othercit>Gehrt, E., Bohner, J., (2001) Vom punkt zur flache - probleme des "upscaling" in der bodenkartierung. In: Diskussionsforum Bodenwissenschaften: Vom Bohrstock zum Bildschirm. FH, Osnabruck, pp. 17-34.</othercit>
-<onlink>http://www.worldcat.org/oclc/613721298</onlink>
-</citeinfo>
-</citation>
-<descript>
-<abstract>The table contains 2937 observations (augers) of soil textures and soil types. Ebergotzen is 10 by 10 km study area in the vicinity of the city of Gottingen in Central Germany.</abstract>
-<purpose>This area has been extensively surveyed over the years, mainly for the purposes of developing operational digital soil mapping techniques (Gehrt and Bohner, 2001).</purpose>
-</descript>
-<timeperd>
-<timeinfo>
-<rngdates>
-<begdate>2000</begdate>
-<enddate>2001</enddate>
-</rngdates>
-</timeinfo>
-<current>publication date</current>
-</timeperd>
-<status>
-<progress>Complete</progress>
-<update>Not maintained any more</update>
-</status>
-<spdom>
-<bounding>
-<westbc>3569328.0</westbc>
-<eastbc>3580992.0</eastbc>
-<northbc>5718874.0</northbc>
-<southbc>5707620.0</southbc>
-</bounding>
-</spdom>
-<keywords>
-<theme>
-<themekt></themekt>
-<themekey>Digital Soil Mapping, SAGA GIS</themekey>
-</theme>
-</keywords>
-<accconst>None</accconst>
-<useconst>Please credit the original data provider</useconst>
-<ptcontac>
-<cntinfo>
-<cntperp>
-<cntper>Gehrt Ernst</cntper>
-<cntorg>The State Authority for Mining, Energy and Geology, Hannover, Germany</cntorg>
-</cntperp>
-<cntpos>author</cntpos>
-<cntemail>Ernst.Gehrt@niedersachsen.de</cntemail>
-</cntinfo>
-</ptcontac>
-<datacred>Gehrt Ernst</datacred>
-</idinfo>
-<dataqual>
-<attracc>
-<qattracc>
-<attracce>Texture by hand method (Ad-hoc-AG Boden, 2005) can be used to determine the content of soil earth fractions only to an accuracy of +-5-10% (Skaggs et al. 2001). A surveyor distinguishes to which of the 32 texture classes a soil samples belongs to, and then estimates the content of fractions. E.g. texture class St2 has 10% clay, 25% silt and 65% sand.</attracce>
-</qattracc>
-</attracc>
-<posacc>
-<horizpa>
-<qhorizpa>
-<horizpav>50 m</horizpav>
-</qhorizpa>
-</horizpa>
-</posacc>
-<lineage>
-<srcinfo>
-<srccite>
-<citeinfo>
-<onlink>http://plotkml.r-forge.r-project.org/</onlink>
-</citeinfo>
-</srccite>
-</srcinfo>
-</lineage>
-</dataqual>
-<spref>
-<horizsys>
-<planar>
-<mapproj>
-<transmer>
-<sfctrmer>1</sfctrmer>
-<longcm>9</longcm>
-<latprjo>0</latprjo>
-<feast>3500000</feast>
-<fnorth>0</fnorth>
-</transmer>
-</mapproj>
-</planar>
-<geodetic>
-<horizdn>Potsdam</horizdn>
-<ellips>Bessel</ellips>
-</geodetic>
-</horizsys>
-</spref>
-<eainfo>
-<detailed>
-<attr>
-<attrlabl>SNDMHT_A</attrlabl>
-<attrdef>topsoil silt content estimated by hand in %</attrdef>
-<attrvai>
-<attrva>7.5</attrva>
-</attrvai>
-</attr>
-<attr>
-<attrlabl>SLTMHT_A</attrlabl>
-<attrdef>topsoil sand content estimated by hand in %</attrdef>
-<attrvai>
-<attrva>7.5</attrva>
-</attrvai>
-</attr>
-<attr>
-<attrlabl>CLYMHT_A</attrlabl>
-<attrdef>topsoil clay content estimated by hand in %</attrdef>
-<attrvai>
-<attrva>7.5</attrva>
-</attrvai>
-</attr>
-<attr>
-<attrlabl>SOILTYPE</attrlabl>
-<attrdef>soil classes according to the German soil classification system (13 classes in this data set)</attrdef>
-</attr>
-</detailed>
-</eainfo>
-<distinfo>
-<distrib>
-<cntinfo>
-<cntorgp>
-<cntorg>The State Authority for Mining, Energy and Geology, Hannover, Germany</cntorg>
-</cntorgp>
-</cntinfo>
-</distrib>
-<stdorder>
-<digform>
-<digtopt>
-<onlinopt>
-<computer>
-<networka>
-<networkr>http://geomorphometry.org/content/ebergotzen</networkr>
-</networka>
-</computer>
-</onlinopt>
-</digtopt>
-</digform>
-<ordering>Ordering_Instructions</ordering>
-</stdorder>
-</distinfo>
-<metainfo>
-<metd>2011-08-24</metd>
-<metc>
-<cntinfo>
-<cntperp>
-<cntper>Tomislav Hengl</cntper>
-<cntorg>ISRIC - World Soil Information</cntorg>
-</cntperp>
-<cntaddr>
-<address>Droevendaalsesteeg 3</address>
-<city>WAGENINGEN</city>
-<state></state>
-<postal>6708PB</postal>
-<country>The Netherlands</country>
-</cntaddr>
-<cntemail>tom.hengl@wur.nl</cntemail>
-</cntinfo>
-</metc>
-<metstdn>FGDC Content Standards for Digital Geospatial Metadata</metstdn>
-<metstdv>FGDC-STD-001-1998</metstdv>
-<metalang>English</metalang>
-</metainfo>
+	<idinfo>
+		<citation>
+			<citeinfo>
+				<origin>Gehrt, E., Bohner, J., and Hengl, T.</origin>
+				<pubdate>2001</pubdate>
+				<title>Ebergoetzen data set</title>
+				<geoform>tabular digital data</geoform>
+				<pubinfo>
+					<pubplace>Hannover, Germany</pubplace>
+					<publish>The State Authority for Mining, Energy and Geology</publish>
+				</pubinfo>
+				<onlink>http://www.worldcat.org/oclc/613721298</onlink>
+			</citeinfo>
+		</citation>
+		<descript>
+			<abstract>The table contains 2937 observations (augers) of soil textures and soil types. Ebergotzen
+is 10 by 10 km study area in the vicinity of the city of Gottingen in Central Germany.</abstract>
+			<purpose>This area has been extensively surveyed over the years, mainly for the purposes of
+developing operational digital soil mapping techniques (Gehrt and Bohner, 2001).</purpose>
+			<supplinf>Texture by hand method (Ad-hoc-AG Boden, 2005) can be used to determine the content of soil earth fractions only to an accuracy of +-5-10% (Skaggs et al. 2001). A surveyor distinguishes to which of the 32 texture classes a soil samples belongs to, and then estimates the content of fractions. E.g. texture class St2 has 10% clay, 25% silt and 65% sand.</supplinf>
+		</descript>
+		<timeperd>
+			<timeinfo>
+				<rngdates>
+					<begdate>2000</begdate>
+					<enddate>2001</enddate>
+				</rngdates>
+			</timeinfo>
+			<current>ground condition</current>
+		</timeperd>
+		<status>
+			<progress>Complete</progress>
+			<update>None planned</update>
+		</status>
+		<spdom>
+			<bounding>
+				<westbc>3569328.0</westbc>
+                <eastbc>3580992.0</eastbc>
+                <northbc>5718874.0</northbc>
+                <southbc>5707620.0</southbc>
+			</bounding>
+		</spdom>
+		<keywords>
+			<theme>
+				<themekt>None</themekt>
+				<themekey>SAMPLE</themekey>
+			</theme>
+			<theme>
+				<themekt>ISO 19115 Topic Category</themekt>
+				<themekey>soil</themekey>
+			</theme>
+		</keywords>
+		<accconst>None.</accconst>
+		<useconst>None.</useconst>
+		<ptcontac>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>The State Authority for Mining, Energy and Geology, Hannover, Germany</cntorg>
+					<cntper>Gehrt Ernst</cntper>
+				</cntorgp>
+				<cntaddr>
+					<addrtype>mailing and physical</addrtype>
+					<city>Hannover</city>
+					<country>GERMANY</country>
+                    <cntemail>Ernst.Gehrt@niedersachsen.de</cntemail>
+				</cntaddr>
+			</cntinfo>
+		</ptcontac>
+	</idinfo>
+	<distinfo>
+		<resdesc>Downloadable Data</resdesc>
+		<distliab>None.</distliab>
+		<stdorder>
+			<digform>
+				<digtinfo>
+					<formname>table</formname>
+				</digtinfo>
+				<digtopt>
+					<onlinopt>
+						<computer>
+							<networka>
+								<networkr>http://geomorphometry.org/content/ebergotzen</networkr>
+							</networka>
+						</computer>
+						<accinstr>None.</accinstr>
+					</onlinopt>
+				</digtopt>
+			</digform>
+			<fees>None.</fees>
+		</stdorder>
+	</distinfo>
+	<metainfo>
+		<metd>20110608</metd>
+		<metc>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>Esri</cntorg>
+				</cntorgp>
+				<cntpos>SDI Solutions</cntpos>
+				<cntaddr>
+					<addrtype>mailing and physical</addrtype>
+					<city>Hannover</city>
+					<country>GERMANY</country>
+				</cntaddr>
+				<cntvoice>909-793-2853</cntvoice>
+			</cntinfo>
+		</metc>
+		<metstdn>FGDC Content Standard for Digital Geospatial Metadata</metstdn>
+		<metstdv>FGDC-STD-001-1998</metstdv>
+		<metac>None</metac>
+		<metuc>None</metuc>
+		<metsi>
+			<metscs>None</metscs>
+			<metsc>Unclassified</metsc>
+			<metshd>None</metshd>
+		</metsi>
+	</metainfo>
 </metadata>

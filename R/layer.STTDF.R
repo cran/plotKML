@@ -8,7 +8,7 @@ kml_layer.STTDF <- function(
   obj,
   id.name = names(obj@data)[which(names(obj@data)=="burst")],   # trajectory ID column 
   ## TH: Normally we should be able to pass the ID column via "labels"
-  dtime = "", # time support
+  dtime, # time support
   extrude = FALSE,
   # tessellate = FALSE,
   start.icon = paste(get("home_url", envir = plotKML.opts), "3Dballyellow.png", sep=""),
@@ -42,23 +42,19 @@ kml_layer.STTDF <- function(
   # object ID names:
   lv <- levels(as.factor(obj@data[,id.name]))
   line.colours <- hex2kml(brewer.pal(n=2+length(lv), name = "Set1"))
-  # names of the coordinate columns:
+  ## names of the coordinate columns:
   nc <- lapply(obj@traj, FUN=function(x){attr(x@sp@coords, "dimname")[[2]]})
-  # strip times:
+  ## strip times:
   xt <- as.POSIXct(unlist(lapply(lapply(obj@traj, slot, "time"), time)), origin="1970-01-01")
-   
-  # Format the time slot for writing to KML:
-  if(all(dtime==0)) {  
+  
+  ## Format the time slot for writing to KML:
+  if(missing(dtime)) {
     when <- format(xt, "%Y-%m-%dT%H:%M:%SZ")
-  }
-  else {
-    if(length(obj@time)>1&!nzchar(dtime)){
-      period <- periodicity(xt) # estimate the time support (if not indicated)
-      dtime <- period$frequency
-  }
-    
-    TimeSpan.begin <- format(as.POSIXct(unclass(xt) - dtime/2, origin="1970-01-01"), "%Y-%m-%dT%H:%M:%SZ")
-    TimeSpan.end <- format(as.POSIXct(unclass(xt) + dtime/2, origin="1970-01-01"), "%Y-%m-%dT%H:%M:%SZ")
+    dtime = 0
+  } else {
+    ## Begin end times:
+    TimeSpan.begin <- format(xt, "%Y-%m-%dT%H:%M:%SZ")
+    TimeSpan.end <- format(as.POSIXct(unclass(xt) + dtime, origin="1970-01-01"), "%Y-%m-%dT%H:%M:%SZ")
   }
 
   # Parse ATTRIBUTE TABLE (for each placemark):

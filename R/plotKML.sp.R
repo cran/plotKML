@@ -247,7 +247,8 @@ setMethod("plotKML", "SoilProfileCollection", function(obj, folder.name = normal
 }
 
 setMethod("plotKML", "STIDF", .plotKML.ST)
-setMethod("plotKML", "STFDF", .plotKML.ST)
+setMethod("plotKML", "STFDF", function(obj, ...) .plotKML.ST(as(obj, "STIDF"), ...))
+setMethod("plotKML", "STSDF", function(obj, ...) .plotKML.ST(as(obj, "STIDF"), ...))
 
 
 ## Trajectories:

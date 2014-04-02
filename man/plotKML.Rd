@@ -12,6 +12,7 @@
 \alias{plotKML,SpatialPhotoOverlay-method}
 \alias{plotKML,STIDF-method}
 \alias{plotKML,STFDF-method}
+\alias{plotKML,STSDF-method}
 \alias{plotKML,STTDF-method}
 \alias{plotKML,SpatialPredictions-method}
 \alias{plotKML,RasterBrickSimulations-method}
@@ -63,11 +64,8 @@
       file.name = paste(folder.name, ".kml", sep=""), 
       colour, shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", 
       points_names, kmz = get("kmz", envir = plotKML.opts), \dots)
-\S4method{plotKML}{STFDF}(obj, 
-      folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
-      file.name = paste(folder.name, ".kml", sep=""), 
-      colour, shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", 
-      points_names, kmz = get("kmz", envir = plotKML.opts), \dots)
+\S4method{plotKML}{STFDF}(obj, \dots)
+\S4method{plotKML}{STSDF}(obj, \dots)
 \S4method{plotKML}{STTDF}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), 
@@ -119,7 +117,7 @@
       kmz = get("kmz", envir = plotKML.opts), \dots)
 }
 \arguments{
-  \item{obj}{input object of specific class; either some \href{http://cran.r-project.org/package=sp}{sp} or \href{http://cran.r-project.org/package=raster}{raster} package class object, or plotKML composite objects containing both inputs and outputs of analysis}
+  \item{obj}{input object of specific class; either some \href{http://cran.r-project.org/package=sp}{sp}, or \href{http://cran.r-project.org/package=raster}{raster} or \href{http://cran.r-project.org/package=spacetime}{spacetime} package class object, or plotKML composite objects containing both inputs and outputs of analysis}
   \item{folder.name}{character; folder name in the KML file}
   \item{file.name}{character; output KML file name}
   \item{size}{for point objects for plotting (see \link{aesthetics})}
@@ -149,6 +147,8 @@
   \item{\dots}{(optional) arguments passed to the lower level functions}
 }
 \details{This is a generic function to plot various spatial and spatio-temporal R objects that contain both inputs and outputs of spatial analysis. The resulting plots (referred to as \emph{`views'}) are expected to be cartographically complete as they should contain legends, and data and model descriptions. In principle, \code{plotKML} works with both simple spatial objects, and complex objects such as \code{"SpatialPredictions"}, \code{"SpatialVectorsSimulations"}, \code{"RasterBrickSimulations"}, \code{"RasterBrickTimeSeries"}, \code{"SpatialMaxEntOutput"} and similar. To further customize visualizations consider combining the lower level functions \code{\link{kml_open}}, \code{\link{kml_close}}, \code{\link{kml_compress}}, \code{\link{kml_screen}} into your own \code{plotKML()} method.
+
+All ST-classes are coerced to the STIDF format and hence use the plotKML method for STIDFs.
 }
 \note{To prepare a list of objects of class \code{"SpatialPointsDataFrame"}, \code{"SpatialLinesDataFrame"}, \code{"SpatialPolygonsDataFrame"}, or \code{"SpatialPixelsDataFrame"} consider using the \code{GSIF::tile} function. Writting large spatial objects via plotKML can be time consuming. Please refer to the package manual for more information.
 }
@@ -248,6 +248,7 @@ plotKML(prof1, var.name="ORCDRC", color.name="soil_color")
 }
 
 ## -------------- STIDF --------- ##
+library(sp)
 library(spacetime)
 ## daily temperatures for Croatia:
 data(HRtemp08)
@@ -261,7 +262,7 @@ HRtemp08.st <- STIDF(sp, time = HRtemp08$ctime, data = HRtemp08[,c("NAME","TEMP"
 HRtemp08_jan <- HRtemp08.st[1:500]
 str(HRtemp08_jan)
 \dontrun{
-plotKML(HRtemp08_jan[,,"TEMP"], dtime = 24*3600, LabelScale = .4)
+plotKML(HRtemp08_jan[,,"TEMP"], LabelScale = .4)
 }
 
 ## foot-and-mouth disease data:
@@ -314,8 +315,7 @@ z.lim = range(DE_kriged@data, na.rm=TRUE)
 plotKML(DE_kriged, png.width=png.width, 
         png.height=png.height, z.lim=z.lim)
 ## add observations points:
-rr.sti <- as(rr, "STIDF")
-plotKML(rr.sti, z.lim=z.lim)
+plotKML(rr, z.lim=z.lim)
 }
 
 ## -------------- STTDF --------- ##

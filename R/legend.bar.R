@@ -49,7 +49,7 @@ kml_legend.bar <- function(x, width, height, pointsize = 14, legend.file, legend
     }
   
    dev.off()
-}
+  }
 
   ### Numeric-type variables:
   else {
@@ -65,12 +65,11 @@ kml_legend.bar <- function(x, width, height, pointsize = 14, legend.file, legend
     color.legend(xl=0, yb=0, xr=5, yt=5, legend=col.labels, rect.col=legend.pal, gradient="y", align="rb", cex=1.4, col=rgb(0.99,0.99,0.99))
   
     dev.off()
+  } 
+    else { 
+      stop("Vector of type 'numeric' or 'factor' expected") 
+    }
   }
-  
-  else { 
-    stop("Vector of type 'numeric' or 'factor' expected") 
-  }
-}
 }
 
 # end of script;

@@ -107,9 +107,9 @@ kml_layer.Raster <- function(
     z.lim <- eval(call[["z.lim"]])
     obj <- calc(obj, fun=function(x){ x[x < z.lim[1]] <- z.lim[1]; return(x)}) 
     obj <- calc(obj, fun=function(x){ x[x > z.lim[2]] <- z.lim[2]; return(x)})
-    raster::image(obj, col = colour_scale, zlim = z.lim, frame.plot = FALSE, main="") 
+    raster::image(obj, col = colour_scale, zlim = z.lim, frame.plot = FALSE, main="", maxpixels=ncell(obj)) 
   } else {
-    raster::image(obj, col = colour_scale, frame.plot = FALSE, main="")
+    raster::image(obj, col = colour_scale, frame.plot = FALSE, main="", maxpixels=ncell(obj))
   }
   dev.off()
 

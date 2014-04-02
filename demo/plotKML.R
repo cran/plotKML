@@ -1,6 +1,5 @@
 ## Complete tutorial available at: [http://gsif.isric.org/doku.php?id=wiki:tutorial_plotkml]
 
-
 plotKML.env(silent = FALSE, kmz = FALSE)
 ## -------------- SpatialPointsDataFrame --------- ##
 library(sp)
@@ -13,7 +12,6 @@ eberg <- eberg[runif(nrow(eberg))<.1,]
 ## bubble type plot:
 plotKML(eberg["CLYMHT_A"])
 plotKML(eberg["CLYMHT_A"], colour_scale=rep("#FFFF00", 2), points_names="")
-
 
 ## -------------- SpatialLinesDataFrame --------- ##
 data(eberg_contours)
@@ -37,12 +35,11 @@ proj4string(eberg_grid) <- CRS("+init=epsg:31467")
 TWI <- reproject(eberg_grid["TWISRT6"])
 data(SAGA_pal)
 plotKML(TWI, colour_scale = SAGA_pal[[1]])
-## Not run: ## set limits manually (increase resolution):
+## set limits manually (increase resolution):
 plotKML(TWI, z.lim=c(12,20), colour_scale = SAGA_pal[[1]],
   png.width = gridparameters(TWI)[1,"cells.dim"]*5, 
   png.height = gridparameters(TWI)[2,"cells.dim"]*5)
 
-## End(Not run)
 ## categorical data:
 eberg_grid$LNCCOR6 <- as.factor(paste(eberg_grid$LNCCOR6))
 levels(eberg_grid$LNCCOR6)
@@ -53,7 +50,6 @@ LNCCOR6 <- reproject(eberg_grid["LNCCOR6"])
 plotKML(LNCCOR6, colour_scale=pal)
 
 ## -------------- SpatialPhotoOverlay --------- ##
-## Not run: 
 library(RCurl)
 imagename = "Soil_monolith.jpg"
 urlExists = url.exists("http://commons.wikimedia.org")
@@ -63,8 +59,6 @@ if(urlExists){
   # str(sm)
   plotKML(sm)
 }
-
-## End(Not run)
 
 ## -------------- SoilProfileCollection --------- ##
 library(aqp)
@@ -149,11 +143,9 @@ z.lim = range(DE_kriged@data, na.rm=TRUE)
 plotKML(DE_kriged, png.width=png.width, 
         png.height=png.height, z.lim=z.lim)
 ## add observations points:
-rr.sti <- as(rr, "STIDF")
-plotKML(rr.sti, z.lim=z.lim)
+plotKML(rr, z.lim=z.lim)
 
 ## -------------- STTDF --------- ##
-## Not run: 
 library(fossil)
 library(spacetime)
 library(adehabitat)
@@ -174,15 +166,16 @@ gpx.st@sp@proj4string <- CRS("+proj=longlat +datum=WGS84")
 str(gpx.st)
 plotKML(gpx.st, colour="speed")
 
-## End(Not run)
-
 ## -------------- Spatial Metadata --------- ##
-## Not run: 
-eberg.md <- spMetadata(eberg, xml.file=system.file("eberg.xml", package="plotKML"),
-  Target_variable="SNDMHT_A", Citation_title="Ebergotzen profiles")
-plotKML(eberg[1:100,"CLYMHT_A"], metadata=eberg.md)
-
-## End(Not run)
+data(eberg)
+coordinates(eberg) <- ~X+Y
+proj4string(eberg) <- CRS("+init=epsg:31467")
+## subset to 20 percent:
+eberg <- eberg[runif(nrow(eberg))<.1,]
+eberg.md <- spMetadata(eberg["SNDMHT_A"], 
+  Citation_title = 'Ebergotzen data set',
+  Citation_URL = 'http://geomorphometry.org/content/ebergotzen')
+plotKML(eberg["CLYMHT_A"], metadata=eberg.md)
 
 ## -------------- RasterBrickTimeSeries --------- ##
 library(raster)
@@ -212,7 +205,6 @@ data(SAGA_pal)
 plotKML(LST.ts, colour_scale=SAGA_pal[[1]])
 
 ## -------------- Spatial Predictions --------- ##
-## Not run: 
 library(sp)
 library(rgdal)
 library(gstat)
@@ -236,10 +228,7 @@ plotKML(om.rk, colour_scale = SAGA_pal[[1]],
 ## plot each cell as polygon:
 plotKML(om.rk, colour_scale = SAGA_pal[[1]], grid2poly = TRUE)
 
-## End(Not run)
-
 ## -------------- SpatialSamplingPattern --------- ##
-## Not run: 
 library(spcosa)
 library(sp)
 ## read a polygon map:
@@ -269,10 +258,7 @@ if(urlExists){
   plotKML(mySamplingPattern.ssp, shape = shape)
 }
 
-## End(Not run)
-
 ## -------------- RasterBrickSimulations --------- ##
-## Not run: 
 library(sp)
 library(gstat)
 data(barxyz)
@@ -303,10 +289,8 @@ bardem_sims <- new("RasterBrickSimulations", variable = "elevations",
 data(R_pal)
 plotKML(bardem_sims, colour_scale = R_pal[[4]])
 
-## End(Not run)
 
 ## -------------- SpatialVectorsSimulations --------- ##
-## Not run: 
 data(barstr)
 data(bargrid)
 library(sp)
@@ -327,10 +311,7 @@ plotKML(bar_sum,
     png.width = gridparameters(bargrid)[1,"cells.dim"]*5, 
     png.height = gridparameters(bargrid)[2,"cells.dim"]*5)
 
-## End(Not run)
-
 ## -------------- SpatialMaxEntOutput --------- ##
-## Not run: 
 library(maptools)
 library(rgdal)
 data(bigfoot)

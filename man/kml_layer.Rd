@@ -12,6 +12,7 @@
 \alias{kml_layer,RasterStack-method}
 \alias{kml_layer,STIDF-method}
 \alias{kml_layer,STFDF-method}
+\alias{kml_layer,STSDF-method}
 \alias{kml_layer,STTDF-method}
 \alias{kml_layer,SoilProfileCollection-method}
 \alias{kml_layer,SpatialGrid-method}
@@ -22,7 +23,7 @@
 \alias{kml_layer,SpatialPolygons-method}
 \title{Write objects to a KML connection}
 \description{
-Writes any \code{Spatial*} object (from the sp package) or \code{Raster*} object (from the raster package) to a KML file (connection) as a separate layer. Various \emph{aesthetics}, i.e. ways to represent target variables, can be set via colour, transparency, size, width, shape arguments. Their availability depends on the class of the object to plot.
+Writes any \code{Spatial*} object (from the sp package), spatio-temporal object (from the \code{\link[spacetime]{ST-class}} package) or \code{Raster*} object (from the raster package) to a KML file (connection) as a separate layer. Various \emph{aesthetics}, i.e. ways to represent target variables, can be set via colour, transparency, size, width, shape arguments. Their availability depends on the class of the object to plot.
 }
 \usage{
 kml_layer(obj, \dots)
