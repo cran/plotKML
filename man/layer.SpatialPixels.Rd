@@ -6,7 +6,8 @@
 \usage{
 kml_layer.SpatialPixels(obj, raster_name, plot.legend = TRUE, metadata = NULL, 
      png.width = gridparameters(obj)[1,"cells.dim"], 
-     png.height = gridparameters(obj)[2,"cells.dim"], \dots)
+     png.height = gridparameters(obj)[2,"cells.dim"], 
+     min.png.width = 800, \dots)
 }
 \arguments{
   \item{obj}{object of class \code{"RasterLayer"}, \code{"SpatialPixelsDataFrame"} or \code{"SpatialGridDataFrame"}}
@@ -15,6 +16,7 @@ kml_layer.SpatialPixels(obj, raster_name, plot.legend = TRUE, metadata = NULL,
   \item{raster_name}{(optional) specify the output file name (PNG)}
   \item{png.width}{(optional) width of the PNG file}
   \item{png.height}{(optional) height of the PNG file}
+  \item{min.png.width}{(optional) minimum width of the PNG file}
   \item{\dots}{additional \code{\link{aesthetics}} arguments}
 }  
 \details{Google Earth does not properly handle a 24-bit PNG file which has a single transparent color (read more at \href{http://groups.google.com/group/earth-help/}{Google Earth Help}). To force transparency, plotKML will try to set it using the \code{-matte -transparent "\#FFFFFF"} option in the \href{http://www.imagemagick.org/Usage/masking/}{ImageMagick convert program} (ImageMagick needs to be installed separately and located using \code{plotKML.env()}). The PNG export uses the 'cairographics', which will never use a palette and normally creates a larger 32-bit ARGB file, but then always allows transparancy.

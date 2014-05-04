@@ -10,7 +10,7 @@ kml_layer.RasterBrick(obj, plot.legend = TRUE, dtime = "", tz = "GMT",
           home_url = get("home_url", envir = plotKML.opts),
           metadata = NULL, html.table = NULL,
           altitudeMode = "clampToGround", balloon = FALSE,
-          png.width, png.height, \dots)
+          png.width, png.height, min.png.width = 800, \dots)
 }
 \arguments{
   \item{obj}{object of class \code{"RasterBrick"} (e.g. a time series of images)}
@@ -26,6 +26,7 @@ kml_layer.RasterBrick(obj, plot.legend = TRUE, dtime = "", tz = "GMT",
   \item{balloon}{logical; specifies whether to display balloon for each element}
   \item{png.width}{(optional) width of the PNG files}
   \item{png.height}{(optional) height of the PNG files}
+  \item{min.png.width}{(optional) minimum width of the PNG file}
   \item{\dots}{additional arguments (see \code{aesthetics})}
 }
 \details{This method is recommended for visualization of numeric bands representing the same variable i.e. time series of images. To export a stack of images of different type see \code{\link{kml_layer.Raster}}. If the \code{"@zvalue"} slot is empty, dates will be added by subtracting days from the current day with 1--day increments.

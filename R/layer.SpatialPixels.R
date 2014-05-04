@@ -10,7 +10,8 @@ kml_layer.SpatialPixels <- function(
   plot.legend = TRUE,
   metadata = NULL,
   png.width = gridparameters(obj)[1,"cells.dim"], 
-  png.height = gridparameters(obj)[2,"cells.dim"],  
+  png.height = gridparameters(obj)[2,"cells.dim"],
+  min.png.width = 800,
   ...
   ){
 
@@ -92,6 +93,10 @@ kml_layer.SpatialPixels <- function(
   }
 
   ## Plotting the image
+  if(png.width<min.png.width){
+     png.height <- round(min.png.width*png.height/png.width)
+     png.width <- min.png.width  
+  }
   png(filename = raster_name, bg = "transparent", type = "cairo-png", width = png.width, height = png.height)
   par(mar = c(0, 0, 0, 0), xaxs = "i", yaxs = "i")
   if(!is.na(charmatch("z.lim", names(call.lst)))){ 

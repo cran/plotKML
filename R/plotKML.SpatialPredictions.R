@@ -101,6 +101,7 @@ setMethod("plotKML", "SpatialPredictions", function(
     vve <- variogram(residual ~ 1, obj@validation["residual"]) # validation residuals
     plot(x=vvres$dist, y=vvres$gamma, pch="+", col = "green", xlab='distance', cex=1.4, ylab='gamma', ylim = c(0, max(vv$gamma)))
     points(x=vve$dist, y=vve$gamma, pch="+", col = "red", cex=1.4)
+    require(gstat)
     vline <- variogramLine(vgmmodel, maxdist=max(vvres$dist), n=length(vvres$dist))
     lines(x=vline$dist, y=vline$gamma, col = "green", lwd=2)
     dev.off()

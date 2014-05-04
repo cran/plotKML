@@ -18,7 +18,7 @@ kml_layer.STIDF(obj, dtime, \dots)
 
 \code{yyyy-mm-ddThh:mm:sszzzzzz}\cr
 
-where \code{T} is the separator between the date and the time, and the time zone is either \code{Z} (for UTC) or \code{zzzzzz}, which represents \enc{±}{+-}hh:mm in relation to UTC. For more info on how Time Stamps work see \url{http://kml-samples.googlecode.com}. If the time is measured at block support, then:\cr 
+where \code{T} is the separator between the date and the time, and the time zone is either \code{Z} (for UTC) or \code{zzzzzz}, which represents \enc{?}{+-}hh:mm in relation to UTC. For more info on how Time Stamps work see \url{http://kml-samples.googlecode.com}. If the time is measured at block support, then:\cr 
 
 \code{<TimeStamp><begin> </begin><end> </end></TimeStamp>}\cr
 
@@ -30,7 +30,7 @@ tags will be inserted. Temporal support for any spacetime class, if not specifie
 \item spacetime package (\url{http://CRAN.R-project.org/package=spacetime})
 }
 }
-\author{Tomislav Hengl and Benedikt \enc{Gräler}{Graeler}}
+\author{Tomislav Hengl and Benedikt Graeler}
 \seealso{ \code{\link{kml_layer.STTDF}}, \code{\link{plotKML-method}} }
 \examples{
 \dontrun{

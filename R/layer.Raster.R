@@ -11,6 +11,7 @@ kml_layer.Raster <- function(
   raster_name,
   png.width = ncol(obj), 
   png.height = nrow(obj),
+  min.png.width = 800,
   ...
   ){
 
@@ -89,18 +90,22 @@ kml_layer.Raster <- function(
   # Transparency
   alpha <- charmatch("alpha", names(call))
   if (!is.na(alpha)) {
-    # - constant transparency
-    # - raster index if a Stack
-    # - name of a layer if a Stack
+    ## - constant transparency
+    ## - raster index if a Stack
+    ## - name of a layer if a Stack
     colour_scale <- kml_alpha(obj, alpha = eval(call[["alpha"]], obj@data), colours = colour_scale, RGBA = TRUE)
   }
 
-  # Creating the PNG file
+  ## Creating the PNG file
   if(missing(raster_name)){
     raster_name <- paste(normalizeFilename(as.character(call[["colour"]])), ".png", sep="")
   }
 
-  # Plotting the image
+  ## Plotting the image
+  if(png.width<min.png.width){
+     png.height <- round(min.png.width*png.height/png.width)
+     png.width <- min.png.width  
+  }
   png(filename = raster_name, bg = "transparent", type="cairo-png", width=png.width, height=png.height)
   par(mar = c(0, 0, 0, 0), xaxs = "i", yaxs = "i")
   if(!is.na(charmatch("z.lim", names(call)))){ 
@@ -129,7 +134,7 @@ kml_layer.Raster <- function(
     }
   }
 
-  # plot the legend (PNG)
+  ## plot the legend (PNG)
   if(plot.legend == TRUE){
     if(missing(raster_name)){
       legend_name <- paste(as.character(call[["colour"]]), "legend.png", sep="_")
@@ -154,21 +159,21 @@ kml_layer.Raster <- function(
   }
 
   message("Writing to KML...")
-  # Folder name
+  ## Folder name
   pl1 = newXMLNode("Folder", parent=kml.out[["Document"]])
   pl2 <- newXMLNode("name", paste(class(obj)), parent = pl1)
 
-  # Insert metadata:
+  ## Insert metadata:
   if(!is.null(metadata)){
     md.txt <- kml_metadata(metadata, asText = TRUE)
     txt <- sprintf('<description><![CDATA[%s]]></description>', md.txt)
     parseXMLAndAdd(txt, parent=pl1)
   }
 
-  # Ground overlay
-  # =====================
+  ## Ground overlay
+  ## =====================
   pl2b <- newXMLNode("GroundOverlay", parent = pl1)
-  # Creating a SpatialPixelsDataFrame object to be plotted
+  ## Creating a SpatialPixelsDataFrame object to be plotted
   pl3 <- newXMLNode("name", deparse(call[["colour"]]), parent = pl2b)
   pl3b <- newXMLNode("altitude", signif(altitude, 4), parent = pl2b)
   pl3b <- newXMLNode("altitudeMode", altitudeMode, parent = pl2b)
@@ -180,14 +185,14 @@ kml_layer.Raster <- function(
   pl4d <- newXMLNode("east", bbox(extent(obj))[1, 2], parent = pl3d)
   pl4e <- newXMLNode("west", bbox(extent(obj))[1, 1], parent = pl3d)
   
-  # Legend
-  # ======================
+  ## Legend
+  ## ======================
   if(plot.legend == TRUE){
     txtso <- sprintf('<ScreenOverlay><name>Legend</name><Icon><href>%s</href></Icon><overlayXY x="0" y="1" xunits="fraction" yunits="fraction"/><screenXY x="0" y="1" xunits="fraction" yunits="fraction"/></ScreenOverlay>', legend_name)
     parseXMLAndAdd(txtso, parent=kml.out[["Document"]])
   }
   
-  # save results: 
+  ## save results: 
   assign("kml.out", kml.out, envir=plotKML.fileIO)
   
 }

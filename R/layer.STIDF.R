@@ -28,8 +28,8 @@ kml_layer.STIDF <- function(
     r <- setZ(r, as.character(unique(index(obj@time))))
     if(missing(dtime)){
       dtime <- unique(index(obj@time)) - unique(as.Date(obj@endTime))
+      units(dtime) <- "secs"
     }
-    units(dtime) <- "secs"
     kml_layer.RasterBrick(obj = r, dtime=as.numeric(dtime), ...)
   } else {
     if(is(obj@sp, "SpatialPoints")) {

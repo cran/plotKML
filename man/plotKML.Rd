@@ -196,9 +196,7 @@ TWI <- reproject(eberg_grid["TWISRT6"])
 data(SAGA_pal)
 \dontrun{## set limits manually (increase resolution):
 plotKML(TWI, colour_scale = SAGA_pal[[1]])
-plotKML(TWI, z.lim=c(12,20), colour_scale = SAGA_pal[[1]],
-  png.width = gridparameters(TWI)[1,"cells.dim"]*5, 
-  png.height = gridparameters(TWI)[2,"cells.dim"]*5)
+plotKML(TWI, z.lim=c(12,20), colour_scale = SAGA_pal[[1]])
 }
 ## categorical data:
 eberg_grid$LNCCOR6 <- as.factor(paste(eberg_grid$LNCCOR6))
@@ -308,12 +306,9 @@ DE_kriged <- krigeST(PM10~1, data=rr, newdata=DE_pred,
 gridded(DE_kriged@sp) <- TRUE
 stplot(DE_kriged)
 ## plot in Google Earth:
-png.width = DE_kriged@sp@grid@cells.dim[1]*20
-png.height = DE_kriged@sp@grid@cells.dim[2]*20
 z.lim = range(DE_kriged@data, na.rm=TRUE)
 \dontrun{
-plotKML(DE_kriged, png.width=png.width, 
-        png.height=png.height, z.lim=z.lim)
+plotKML(DE_kriged, z.lim=z.lim)
 ## add observations points:
 plotKML(rr, z.lim=z.lim)
 }
@@ -394,9 +389,7 @@ omm <- fit.gstatModel(observations = meuse, formulaString = om~dist,
 ## produce SpatialPredictions:
 om.rk <- predict(omm, predictionLocations = meuse.grid)
 ## plot the whole geostatical mapping project in Google Earth:
-plotKML(om.rk, colour_scale = SAGA_pal[[1]], 
-    png.width = gridparameters(meuse.grid)[1,"cells.dim"]*5, 
-    png.height = gridparameters(meuse.grid)[2,"cells.dim"]*5)
+plotKML(om.rk, colour_scale = SAGA_pal[[1]])
 ## plot each cell as polygon:
 plotKML(om.rk, colour_scale = SAGA_pal[[1]], grid2poly = TRUE)
 }
@@ -484,9 +477,7 @@ gridT = GridTopology(cellcentre.offset=bbox[,1],
 bar_sum <- count.GridTopology(gridT, vectL=barstr[1:5])
 ## NOTE: this operation can be time consuming!
 ## plot the whole project and open in Google Earth:
-plotKML(bar_sum,
-    png.width = gridparameters(bargrid)[1,"cells.dim"]*5, 
-    png.height = gridparameters(bargrid)[2,"cells.dim"]*5)
+plotKML(bar_sum)
 }
 
 ## -------------- SpatialMaxEntOutput --------- ##
@@ -517,10 +508,7 @@ if(file.exists(jar)){
   bigfoot.smo <- MaxEnt(bigfoot.aea, USAWgrids[sel.grids])
   icon = "http://plotkml.r-forge.r-project.org/bigfoot.png"
   data(R_pal)
-  plotKML(bigfoot.smo, colour_scale = R_pal[["bpy_colors"]], 
-    png.width = gridparameters(USAWgrids)[1,"cells.dim"]*5, 
-    png.height = gridparameters(USAWgrids)[2,"cells.dim"]*5,
-    shape = icon)
+  plotKML(bigfoot.smo, colour_scale = R_pal[["bpy_colors"]], shape = icon)
 }
 }
 }

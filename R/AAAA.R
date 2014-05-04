@@ -137,10 +137,7 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
         }
       } 
            
-      else {
-        warning("Could not locate Python! Install program and add it to the Windows registry. See http://python.org for more info.")
-        python = ""
-      }}
+      }
       }
        
       # 2nd chance to try to locate SAGA GIS (if not on a standard path):      

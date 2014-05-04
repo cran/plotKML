@@ -18,6 +18,7 @@ kml_layer.RasterBrick <- function(
   balloon = FALSE,
   png.width, 
   png.height,
+  min.png.width = 800,
   ...
   ){
    
@@ -94,6 +95,11 @@ kml_layer.RasterBrick <- function(
   for(j in 1:length(raster_name)){
     if(missing(png.width)|missing(png.height)){
       png.width = ncol(raster(obj, j)); png.height = nrow(raster(obj, j))
+    }
+    ## minimum size of the images
+    if(png.width<min.png.width){
+      png.height <- round(min.png.width*png.height/png.width)
+      png.width <- min.png.width 
     }
     png(filename = raster_name[j], bg = "transparent", type="cairo-png", width = png.width, height = png.height)
     par(mar = c(0, 0, 0, 0), xaxs = "i", yaxs = "i")
