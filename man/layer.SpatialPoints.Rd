@@ -51,6 +51,19 @@ kml(eberg, shape = shape, size = CLYMHT_A, colour = SLTMHT_A, labels = "")
 kml(eberg, shape = shape, altitude = CLYMHT_A*10, extrude = TRUE, 
   colour = CLYMHT_A, labels = CLYMHT_A, kmz = TRUE)
 }
+
+## example of how plotKML is programmed:
+data(HRtemp08)
+HRtemp08[1,]
+library(XML)
+p1 = newXMLNode("Placemark")
+begin <- format(HRtemp08[1,"DATE"]-.5, "\%Y-\%m-\%dT\%H:\%M:\%SZ")
+end <- format(HRtemp08[1,"DATE"]+.5, "\%Y-\%m-\%dT\%H:\%M:\%SZ")
+txt <- sprintf('<name>\%s</name><TimeStamp><begin>\%s</begin><end>\%s</end></TimeStamp>
+    <Point><coordinates>\%.4f,\%.4f,\%.0f</coordinates></Point>', HRtemp08[1,"NAME"], 
+    begin, end, HRtemp08[1,"Lon"], HRtemp08[1,"Lat"], 0)
+parseXMLAndAdd(txt, parent=p1)
+p1
 }
 \keyword{spatial}
 

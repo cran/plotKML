@@ -55,7 +55,7 @@ kml_layer.SpatialPoints <- function(
     txt <- sprintf('<description><![CDATA[%s]]></description>', md.txt)
     parseXMLAndAdd(txt, parent=pl1)
   }
-  message("Parsing to KML...")
+  message("Writing to KML...")
   
   # Writing points styles
   # =====================

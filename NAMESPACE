@@ -6,7 +6,7 @@ importFrom("colorspace", coords, hex, mixcolor, HSV)
 importFrom("classInt", classIntervals, findColours)
 importFrom("plotrix", color.legend)
 importFrom("dismo", maxent)
-importFrom("gstat", variogram)
+importFrom("gstat", variogram, variogramLine)
 import(zoo)
 importFrom("pixmap", pixmapIndexed, pixmapRGB)
 importFrom("plyr", aaply, laply, llply, ldply)
@@ -41,6 +41,8 @@ exportMethods(
 	spMetadata,
 	metadata2SLD,
 	plotKML,
-	vect2rast)
+	vect2rast,
+  summary, 
+  plot)
 export(check_projection, parse_proj4)
 exportPattern("^[^\\.]")

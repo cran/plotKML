@@ -53,7 +53,7 @@ kml_legend.bar <- function(x, width, height, pointsize = 14, legend.file, legend
 
   ### Numeric-type variables:
   else {
-    if(class(x) == "numeric") {
+    if(is.numeric(x)) {
   
     if(missing(width)) { width <- 120 } 
     if(missing(height)) { height <- 240 } 

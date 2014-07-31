@@ -40,7 +40,7 @@ kml_layer.SpatialLines <- function(
       html.table <- .df2htmltable(obj@data)
   }
   
-  message("Parsing to KML...")
+  message("Writing to KML...")
   # Folder name / name of the points folder
   pl1 = newXMLNode("Folder", parent=kml.out[["Document"]])
   pl2 <- newXMLNode("name", paste(class(obj)), parent = pl1)

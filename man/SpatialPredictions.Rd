@@ -1,6 +1,8 @@
 \name{SpatialPredictions-class}
 \docType{class}
 \alias{SpatialPredictions-class}
+\alias{plot.SpatialPredictions}
+\alias{plot,SpatialPredictions,ANY-method}
 \title{A class for spatial predictions produced using \code{gstat} package}
 \description{A class containing input and output maps generated through the process of geostatistical mapping. Object of this class can be directly visualized in Google Earth by using the \code{\link{plotKML-method}}.}
 \section{Slots}{
@@ -15,6 +17,7 @@
 }
 \section{Methods}{
   \describe{
+  \item{plot}{\code{signature(x = "SpatialPredictions")}: spatial predictions, regression model (observed vs predicted), original variogram and variogram for residuals}
 	\item{plotKML}{\code{signature(obj = "SpatialPredictions")}: plots all objects in Google Earth}
 	\item{summary}{\code{signature(obj = "SpatialPredictions")}: summarize object by showing the mapping accuracy (cross-validation) and the amount of variation explained by the model }
   }

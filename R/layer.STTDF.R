@@ -97,7 +97,7 @@ kml_layer.STTDF <- function(
 
   # Styles - lines:
   # ======
-  message("Parsing to KML...")
+  message("Writing to KML...")
   txts <- sprintf('<Style id="line_%s"><LineStyle><color>%s</color><width>%.1f</width></LineStyle><BalloonStyle><text>$[description]</text></BalloonStyle></Style>', 1:length(lv), line.colours[1:length(lv)], width[1:length(lv)])
   parseXMLAndAdd(txts, parent=pl1)
   

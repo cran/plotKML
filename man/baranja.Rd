@@ -48,11 +48,12 @@ pnt = list("sp.points", barxyz, col="black", pch="+")
 spplot(bargrid[1], sp.layout=pnt, col.regions = R_pal[["blue_grey_red"]])
 # Deriving stream networks using geostatistical simulations:
 Z.ovgm <- vgm(psill=1831, model="Mat", range=1051, nugget=0, kappa=1.2)
-vt.gt <- gstat(id=c("Z"), formula=Z~1, data=barxyz, model=Z.ovgm, nmax=30)
-# geostatistical simulations:
+sel <- runif(length(barxyz$Z))<.2
 N.sim <- 10
-DEM.sim <- predict.gstat(vt.gt, bargrid, nsim=N.sim, debug.level=-1)
-fullgrid(DEM.sim) <- TRUE
+## Note: this operation can be time consuming
+# geostatistical simulations:
+DEM.sim <- krige(Z~1, barxyz[sel,], bargrid, model=Z.ovgm, nmax=20, 
+   nsim=N.sim, debug.level=-1)
 stream.list <- list(rep(NA, N.sim))
 # derive stream networks in SAGA GIS 2.0.8:
 for (i in 1:N.sim) {
@@ -68,7 +69,7 @@ for (i in 1:N.sim) {
   proj4string(stream.list[[i]]) <- barxyz@proj4string
 }
 # plot all derived streams at top of each other:
-stream.plot <- as.list(rep(NA, N.sim))
+streams.plot <- as.list(rep(NA, N.sim))
 for(i in 1:N.sim){
   streams.plot[[i]] <- list("sp.lines", stream.list[[i]])
 }
