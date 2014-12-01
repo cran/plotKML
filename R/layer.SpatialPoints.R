@@ -7,6 +7,7 @@
 
 kml_layer.SpatialPoints <- function(
   obj,
+  subfolder.name = paste(class(obj)),
   extrude = TRUE,
   z.scale = 1,
   LabelScale = get("LabelScale", envir = plotKML.opts),
@@ -47,7 +48,7 @@ kml_layer.SpatialPoints <- function(
 
   # Folder and name of the points folder
   pl1 = newXMLNode("Folder", parent=kml.out[["Document"]])
-  pl2 <- newXMLNode("name", paste(class(obj)), parent = pl1)
+  pl2 <- newXMLNode("name", subfolder.name, parent = pl1)
 
   # Insert metadata:
   if(!is.null(metadata)){

@@ -5,13 +5,17 @@
 # Note           : Rasters can also be written as polygons; see "?grid2poly";
 
 kml_layer.Raster <- function(
-  obj,  
+  obj,
+  subfolder.name = paste(class(obj)),  
   plot.legend = TRUE,
   metadata = NULL,
   raster_name,
   png.width = ncol(obj), 
   png.height = nrow(obj),
   min.png.width = 800,
+  TimeSpan.begin,
+  TimeSpan.end,
+  layer.name,
   ...
   ){
 
@@ -22,46 +26,49 @@ kml_layer.Raster <- function(
   prj.check <- check_projection(obj, control = TRUE)
 
   # Parsing the call:
-  call <- substitute(list(...))
-  call <- as.list(call)[-1]
+  call.lst <- substitute(list(...))
+  call.lst <- as.list(call.lst)[-1]
 
   # Check if any attribute has been selected:
-  if (is.na(charmatch("colour", names(call)))){
+  if (is.na(charmatch("colour", names(call.lst)))){
     stop("No attribute selected. Please use the colour = ... option.")
   }
+  if(missing(layer.name)){
+    layer.name = deparse(call.lst[["colour"]])
+  }
 
-  if(is.call(call[["colour"]])|is.name(call[["colour"]])){
+  if(is.call(call.lst[["colour"]])|is.name(call.lst[["colour"]])){
     x <- data.frame(getValues(obj))
     names(x) <- names(obj)
-    x <- eval(call[["colour"]], x)
+    x <- eval(call.lst[["colour"]], x)
     obj <- raster(obj)
     values(obj) <- x
   } else { 
-  if(is.numeric(call[["colour"]])) {
-    i_layer <- call[["colour"]]
+  if(is.numeric(call.lst[["colour"]])) {
+    i_layer <- call.lst[["colour"]]
     if (nlayers(obj) > 1) {
       obj <- raster(obj, layer = i_layer)
     }
   } else { 
-  if(is.character(call[["colour"]])) {
-    i_layer <- which(names(obj) == call[["colour"]])
+  if(is.character(call.lst[["colour"]])) {
+    i_layer <- which(names(obj) == call.lst[["colour"]])
     if (nlayers(obj) > 1) {
       obj <- raster(obj, layer = i_layer)
     }
   }}}
 
   # TH: this needs to be fixed
-  altitude <- charmatch("altitude", names(call))
+  altitude <- charmatch("altitude", names(call.lst))
   if(!is.na(altitude)){
-    altitude <- eval(call[["altitude"]], nlayers(obj))
+    altitude <- eval(call.lst[["altitude"]], nlayers(obj))
   } else {
     altitude <- rep(.all_kml_aesthetics[["altitude"]], length.out = nlayers(obj))
   }
   altitudeMode <- kml_altitude_mode(altitude, GroundOverlay=TRUE) 
 
   # prepare the palette:
-  if (!is.na(charmatch("colour_scale", names(call)))){
-    pal <- eval(call[["colour_scale"]])
+  if (!is.na(charmatch("colour_scale", names(call.lst)))){
+    pal <- eval(call.lst[["colour_scale"]])
   } else {
   ## default colour palettes
     if (!is.factor(obj@data[,1])){
@@ -88,17 +95,17 @@ kml_layer.Raster <- function(
   }
 
   # Transparency
-  alpha <- charmatch("alpha", names(call))
+  alpha <- charmatch("alpha", names(call.lst))
   if (!is.na(alpha)) {
     ## - constant transparency
     ## - raster index if a Stack
     ## - name of a layer if a Stack
-    colour_scale <- kml_alpha(obj, alpha = eval(call[["alpha"]], obj@data), colours = colour_scale, RGBA = TRUE)
+    colour_scale <- kml_alpha(obj, alpha = eval(call.lst[["alpha"]], obj@data), colours = colour_scale, RGBA = TRUE)
   }
 
   ## Creating the PNG file
   if(missing(raster_name)){
-    raster_name <- paste(normalizeFilename(as.character(call[["colour"]])), ".png", sep="")
+    raster_name <- paste(normalizeFilename(as.character(call.lst[["colour"]])), ".png", sep="")
   }
 
   ## Plotting the image
@@ -108,8 +115,8 @@ kml_layer.Raster <- function(
   }
   png(filename = raster_name, bg = "transparent", type="cairo-png", width=png.width, height=png.height)
   par(mar = c(0, 0, 0, 0), xaxs = "i", yaxs = "i")
-  if(!is.na(charmatch("z.lim", names(call)))){ 
-    z.lim <- eval(call[["z.lim"]])
+  if(!is.na(charmatch("z.lim", names(call.lst)))){ 
+    z.lim <- eval(call.lst[["z.lim"]])
     obj <- calc(obj, fun=function(x){ x[x < z.lim[1]] <- z.lim[1]; return(x)}) 
     obj <- calc(obj, fun=function(x){ x[x > z.lim[2]] <- z.lim[2]; return(x)})
     raster::image(obj, col = colour_scale, zlim = z.lim, frame.plot = FALSE, main="", maxpixels=ncell(obj)) 
@@ -137,7 +144,7 @@ kml_layer.Raster <- function(
   ## plot the legend (PNG)
   if(plot.legend == TRUE){
     if(missing(raster_name)){
-      legend_name <- paste(as.character(call[["colour"]]), "legend.png", sep="_")
+      legend_name <- paste(as.character(call.lst[["colour"]]), "legend.png", sep="_")
     } else {
       legend_name <- paste(strsplit(raster_name, "\\.")[[1]][1], "legend.png", sep="_")      
     }
@@ -150,8 +157,8 @@ kml_layer.Raster <- function(
       }      
       kml_legend.bar(x = x, legend.file = legend_name, legend.pal = colour_scale)
     } else {
-      if(!is.na(charmatch("z.lim", names(call)))){
-        kml_legend.bar(x = getValues(obj), legend.file = legend_name, legend.pal = colour_scale, z.lim = eval(call[["z.lim"]]))
+      if(!is.na(charmatch("z.lim", names(call.lst)))){
+        kml_legend.bar(x = getValues(obj), legend.file = legend_name, legend.pal = colour_scale, z.lim = eval(call.lst[["z.lim"]]))
        } else {
         kml_legend.bar(x = getValues(obj), legend.file = legend_name, legend.pal = colour_scale)
        } 
@@ -161,7 +168,16 @@ kml_layer.Raster <- function(
   message("Writing to KML...")
   ## Folder name
   pl1 = newXMLNode("Folder", parent=kml.out[["Document"]])
-  pl2 <- newXMLNode("name", paste(class(obj)), parent = pl1)
+  pl2 <- newXMLNode("name", subfolder.name, parent = pl1)
+
+  ## Add time stamp if available:
+  if(!missing(TimeSpan.begin)&!missing(TimeSpan.end)){
+    if(TimeSpan.end<TimeSpan.begin){
+      stop("Missing or invalid 'TimeSpan.begin' and/or 'TimeSpan.end'. See also 'kml_layer.STIDF'")
+    } 
+    TimeSpan.begin = format(TimeSpan.begin, "%Y-%m-%dT%H:%M:%SZ")
+    TimeSpan.end = format(TimeSpan.end, "%Y-%m-%dT%H:%M:%SZ")
+  }
 
   ## Insert metadata:
   if(!is.null(metadata)){
@@ -174,7 +190,12 @@ kml_layer.Raster <- function(
   ## =====================
   pl2b <- newXMLNode("GroundOverlay", parent = pl1)
   ## Creating a SpatialPixelsDataFrame object to be plotted
-  pl3 <- newXMLNode("name", deparse(call[["colour"]]), parent = pl2b)
+  pl3 <- newXMLNode("name", layer.name, parent = pl2b)
+  if(!missing(TimeSpan.begin)&!missing(TimeSpan.end)){
+    pl3a <- newXMLNode("TimeSpan", parent = pl2b)
+    pl3a1 <- newXMLNode("begin", TimeSpan.begin, parent = pl3a)
+    pl3a2 <- newXMLNode("end", TimeSpan.end, parent = pl3a)
+  }
   pl3b <- newXMLNode("altitude", signif(altitude, 4), parent = pl2b)
   pl3b <- newXMLNode("altitudeMode", altitudeMode, parent = pl2b)
   pl3c <- newXMLNode("Icon", parent = pl2b)

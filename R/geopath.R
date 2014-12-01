@@ -11,15 +11,15 @@ geopath <- function(lon1, lon2, lat1, lat2, ID, n.points, print.geo = FALSE) {
 
     p.1 <- matrix(c(lon1, lat1), ncol=2, dimnames=list(1,c("lon","lat")))  # source
     p.2 <- matrix(c(lon2, lat2), ncol=2, dimnames=list(1,c("lon","lat")))  # destination
-    distc <- deg.dist(lat1=p.1[,2], long1=p.1[,1], lat2=p.2[,2], long2=p.2[,1])  # in km
-    bearingc <- earth.bear(lat1=p.1[,2], long1=p.1[,1], lat2=p.2[,2], long2=p.2[,1])  # bearing in degrees from north
+    distc <- fossil::deg.dist(lat1=p.1[,2], long1=p.1[,1], lat2=p.2[,2], long2=p.2[,1])  # in km
+    bearingc <- fossil::earth.bear(lat1=p.1[,2], long1=p.1[,1], lat2=p.2[,2], long2=p.2[,1])  # bearing in degrees from north
     # estimate the number of points based on the distance (the higher the distance, less points we need): 
     if(missing(ID)) { ID <- paste(ifelse(lon1<0, "W", "E"), abs(round(lon1,0)), ifelse(lat1<0, "S", "N"), abs(round(lat1,0)), ifelse(lon2<0, "W", "E"), abs(round(lon2,0)), ifelse(lat2<0, "S", "N"), abs(round(lat2,0)), sep="") }
     if(missing(n.points)) {
         n.points <- round(sqrt(distc)/sqrt(2), 0)
         }
     if(!is.nan(n.points)) { if(n.points>0) {
-     pnts <- t(sapply(1:n.points/(n.points+1)*distc, FUN=new.lat.long, lat=p.1[,2], lon=p.1[,1], bearing=bearingc))[,c(2,1)] # intermediate points
+     pnts <- t(sapply(1:n.points/(n.points+1)*distc, FUN=fossil::new.lat.long, lat=p.1[,2], lon=p.1[,1], bearing=bearingc))[,c(2,1)] # intermediate points
     # some lines are crossing the whole globe (>180 or <-180 longitudes) and need to be split in two:
     if(is.matrix(pnts)){ if(max(LineLength(pnts, sum=FALSE))>100) {  
     breakp <- which.max(abs(pnts[,1]-c(pnts[-1,1], pnts[length(pnts[,1]),1])))

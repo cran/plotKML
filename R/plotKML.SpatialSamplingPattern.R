@@ -11,6 +11,7 @@ setMethod("plotKML", "SpatialSamplingPattern", function(
   file.name = paste(folder.name, ".kml", sep=""),
   colour,
   kmz = get("kmz", envir = plotKML.opts),
+  open.kml = TRUE,
   ...
 ){
  
@@ -45,7 +46,11 @@ setMethod("plotKML", "SpatialSamplingPattern", function(
       kml_compress(file.name = file.name)
   }
   # open KML file in the default browser:
-  kml_View(file.name)
+  if(open.kml==TRUE){
+    kml_View(file.name)
+  } else {
+    message(paste("Object written to:", file.name))
+  }
 })
 
 # end of script;

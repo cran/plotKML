@@ -300,7 +300,7 @@ setMethod("GetPalette", "SpatialMetadata", function(obj){obj@palette})
       if(Indirect_Spatial_Reference=="" & GoogleGeocode == TRUE){
         require(rjson)
         googleurl <- url(paste("http://maps.googleapis.com/maps/api/geocode/json?latlng=",  round(mean(obj.ll@bbox[2,]),3), ",", round(mean(obj.ll@bbox[1,]),3), "&sensor=false", sep=""))
-        try(Indirect_Spatial_Reference <- fromJSON(file=googleurl)[["results"]][[1]][["formatted_address"]])
+        try(Indirect_Spatial_Reference <- rjson::fromJSON(file=googleurl)[["results"]][[1]][["formatted_address"]])
         close(googleurl)
       }
 

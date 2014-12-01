@@ -4,13 +4,15 @@
 \title{Writes spatial points to KML}
 \description{Writes object of class \code{"SpatialPoints*"} to KML with a possibility to parse attribute variables using several aesthetics arguments. }
 \usage{
-kml_layer.SpatialPoints(obj, extrude = TRUE, z.scale = 1, 
+kml_layer.SpatialPoints(obj, subfolder.name = paste(class(obj)), 
+        extrude = TRUE, z.scale = 1, 
         LabelScale = get("LabelScale", envir = plotKML.opts), 
         metadata = NULL, html.table = NULL, TimeSpan.begin = "",
         TimeSpan.end = "", points_names, \dots)
 }
 \arguments{
   \item{obj}{object of class \code{"SpatialPoints*"}}
+  \item{subfolder.name}{character; optional subfolder name}
   \item{extrude}{logical; specifies whether to connect the point to the ground with a line}
   \item{z.scale}{numeric; exaggeration in vertical dimension}
   \item{LabelScale}{numeric; scale factor for size of labels}

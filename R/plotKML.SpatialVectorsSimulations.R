@@ -16,6 +16,7 @@ setMethod("plotKML", "SpatialVectorsSimulations", function(
   obj.summary = TRUE,
   plot.svar = FALSE,
   kmz = get("kmz", envir = plotKML.opts),
+  open.kml = TRUE,
   ...
 ){
   
@@ -79,7 +80,11 @@ setMethod("plotKML", "SpatialVectorsSimulations", function(
       kml_compress(file.name = file.name)
   }
   # open KML file in the default browser:
-  kml_View(file.name)
+  if(open.kml==TRUE){
+    kml_View(file.name)
+  } else {
+    message(paste("Object written to:", file.name))
+  }
     
 })
 

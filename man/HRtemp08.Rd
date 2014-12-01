@@ -16,7 +16,7 @@ The \code{HRtemp08} data frames contain the following columns:
 	\item{\code{TEMP}}{daily temperature measurements in degree C}
   }
 }
-\author{ Tomislav Hengl, Benedikt \enc{Gräler}{Graeler} and Melita Percec Tadic }
+\author{ Tomislav Hengl, Melita Percec Tadic and Benedikt \enc{Gräler}{Graeler}}
 \references{
 \itemize{
 \item Hengl, T., Heuvelink, G.B.M., Percec Tadic, M., Pebesma, E., (2011) \href{http://dx.doi.org/10.1007/s00704-011-0464-2}{Spatio-temporal prediction of daily temperatures using time-series of MODIS LST images}. Theoretical and Applied Climatology, 107(1-2): 265-277.

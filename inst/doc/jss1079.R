@@ -25,22 +25,21 @@ plotKML.env(show.env = FALSE)
 
 
 ###################################################
-### code chunk number 4: jss1079.Rnw:183-191
+### code chunk number 4: jss1079.Rnw:185-192
 ###################################################
-library(sp)
+library("sp")
 lat = 37.423156
 lon = -122.084917
 name = "Google headquarters"
 pnt = data.frame(name, lat, lon)
 coordinates(pnt) <- ~lon+lat
 proj4string(pnt) <- CRS("+proj=longlat +datum=WGS84")
-pnt
 
 
 ###################################################
-### code chunk number 5: jss1079.Rnw:196-206
+### code chunk number 5: jss1079.Rnw:213-223
 ###################################################
-library(XML)
+library("XML")
 pnt.kml <- newXMLNode("kml")
 h2 <- newXMLNode("Document", parent = pnt.kml)
 h3 <- newXMLNode("name", "Google headquarters", parent = h2)
@@ -53,35 +52,36 @@ pnt.kml
 
 
 ###################################################
-### code chunk number 6: jss1079.Rnw:238-242
+### code chunk number 6: jss1079.Rnw:255-260
 ###################################################
-data(eberg)
+library("plotKML")
+data("eberg")
 eberg <- eberg[runif(nrow(eberg))<.2,]
 coordinates(eberg) <- ~X+Y
 proj4string(eberg) <- CRS("+init=epsg:31467")
 
 
 ###################################################
-### code chunk number 7: jss1079.Rnw:247-248
+### code chunk number 7: jss1079.Rnw:265-266
 ###################################################
 eberg.ll <- reproject(eberg)
 
 
 ###################################################
-### code chunk number 8: jss1079.Rnw:253-254
+### code chunk number 8: jss1079.Rnw:271-272
 ###################################################
 kml(eberg.ll["CLYMHT_A"], colour=CLYMHT_A)
 
 
 ###################################################
-### code chunk number 9: jss1079.Rnw:271-273
+### code chunk number 9: jss1079.Rnw:289-291
 ###################################################
 spplot(eberg.ll["CLYMHT_A"], edge.col="black",
   alpha=0.8, cex=seq(.3,3,length=5))
 
 
 ###################################################
-### code chunk number 10: jss1079.Rnw:308-311
+### code chunk number 10: jss1079.Rnw:326-329
 ###################################################
 shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png"
 kml(eberg.ll, shape = shape, colour = CLYMHT_A, labels = SNDMHT_A,
@@ -89,16 +89,16 @@ kml(eberg.ll, shape = shape, colour = CLYMHT_A, labels = SNDMHT_A,
 
 
 ###################################################
-### code chunk number 11: jss1079.Rnw:348-352
+### code chunk number 11: jss1079.Rnw:366-370
 ###################################################
-data(eberg_grid)
+data("eberg_grid")
 coordinates(eberg_grid) <- ~x+y
 gridded(eberg_grid) <- TRUE
 proj4string(eberg_grid) <- CRS("+init=epsg:31467")
 
 
 ###################################################
-### code chunk number 12: jss1079.Rnw:357-361
+### code chunk number 12: jss1079.Rnw:375-379
 ###################################################
 kml_open("eberg.kml")
 kml_layer(eberg_grid, colour=TWISRT6)
@@ -107,44 +107,42 @@ kml_close("eberg.kml")
 
 
 ###################################################
-### code chunk number 13: jss1079.Rnw:400-402
+### code chunk number 13: jss1079.Rnw:418-420
 ###################################################
-library(sp)
+library("sp")
 demo(meuse, echo=FALSE)
 
 
 ###################################################
-### code chunk number 14: jss1079.Rnw:407-411
+### code chunk number 14: jss1079.Rnw:425-429
 ###################################################
-library(GSIF)
+library("GSIF")
 omm <- fit.gstatModel(meuse, om~dist+ffreq, meuse.grid,
    family = gaussian(log))
 om.rk <- predict(omm, meuse.grid)
 
 
 ###################################################
-### code chunk number 15: jss1079.Rnw:447-463
+### code chunk number 15: jss1079.Rnw:475-489
 ###################################################
-library(stpp)
-data(fmd)
-fmd0  <- data.frame(fmd)
+library("stpp")
+data("fmd")
+fmd0 <- data.frame(fmd)
 coordinates(fmd0) <- c("X", "Y")
 proj4string(fmd0) <- CRS("+init=epsg:27700")
 fmd_sp <- as(fmd0, "SpatialPoints")
 dates <- as.Date("2001-02-18")+fmd0$ReportedDay
-library(spacetime)
+library("spacetime")
 fmd_ST <- STIDF(fmd_sp, dates, data.frame(ReportedDay=fmd0$ReportedDay))
-data(northcumbria)
+data("northcumbria")
 ln <- Line(northcumbria)
 NC <- SpatialLines(list(Lines(list(ln), ID="NC")))
 proj4string(NC)  <- CRS("+init=epsg:27700")
-library(plotKML)
-data(SAGA_pal)
 stplot(fmd_ST, sp.layout=list("sp.lines", NC), col.regions=SAGA_pal[[1]])
 
 
 ###################################################
-### code chunk number 16: jss1079.Rnw:480-481
+### code chunk number 16: jss1079.Rnw:496-497
 ###################################################
 kml(fmd_ST, colour=ReportedDay, colour_scale=SAGA_pal[[1]])
 

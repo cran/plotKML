@@ -5,7 +5,7 @@
 # Note           : these functions can be further customized;
 
 
-setMethod("plotKML", "SpatialPointsDataFrame", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), size, colour, points_names, shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", metadata = NULL, kmz = get("kmz", envir = plotKML.opts), ...){
+setMethod("plotKML", "SpatialPointsDataFrame", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), size, colour, points_names, shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", metadata = NULL, kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, ...){
 
   # Guess aesthetics if missing:
   if(missing(size)){ 
@@ -51,12 +51,16 @@ setMethod("plotKML", "SpatialPointsDataFrame", function(obj, folder.name = norma
       kml_compress(file.name = file.name)
   }
   # open KML file in the default browser:
-  kml_View(file.name)
+  if(open.kml==TRUE){
+    kml_View(file.name)
+  } else {
+    message(paste("Object written to:", file.name))
+  }
 
 })
 
 
-setMethod("plotKML", "SpatialLinesDataFrame", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), metadata = NULL, kmz = get("kmz", envir = plotKML.opts), ...){
+setMethod("plotKML", "SpatialLinesDataFrame", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), metadata = NULL, kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, ...){
    
   # open for writing:
   kml_open(folder.name = folder.name, file.name = file.name)
@@ -70,12 +74,16 @@ setMethod("plotKML", "SpatialLinesDataFrame", function(obj, folder.name = normal
       kml_compress(file.name = file.name)
   }
   # open KML file in the default browser:
-  kml_View(file.name)
+  if(open.kml==TRUE){
+    kml_View(file.name)
+  } else {
+    message(paste("Object written to:", file.name))
+  }
 
 })
 
 
-setMethod("plotKML", "SpatialPolygonsDataFrame", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), colour, plot.labpt, labels, metadata = NULL, kmz = get("kmz", envir = plotKML.opts), ...){
+setMethod("plotKML", "SpatialPolygonsDataFrame", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), colour, plot.labpt, labels, metadata = NULL, kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, ...){
 
   # Guess aesthetics if missing:
   if(missing(labels)){ 
@@ -111,12 +119,16 @@ setMethod("plotKML", "SpatialPolygonsDataFrame", function(obj, folder.name = nor
       kml_compress(file.name = file.name)
   }
   # open KML file in the default browser:
-  kml_View(file.name)
+  if(open.kml==TRUE){
+    kml_View(file.name)
+  } else {
+    message(paste("Object written to:", file.name))
+  }
 
 })
 
 ## Pixels Grids Raster
-.plotKML.SpatialPixels <- function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), colour, raster_name, metadata = NULL, kmz = FALSE, ...){
+.plotKML.SpatialPixels <- function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), colour, raster_name, metadata = NULL, kmz = FALSE, open.kml = TRUE, ...){
 
   # the kml_layer.Raster works only with "Spatial" class:
   if(class(obj)=="RasterLayer"){
@@ -150,7 +162,11 @@ setMethod("plotKML", "SpatialPolygonsDataFrame", function(obj, folder.name = nor
       kml_compress(file.name = file.name)
   }
   # open KML file in the default browser:
-  kml_View(file.name)
+  if(open.kml==TRUE){
+    kml_View(file.name)
+  } else {
+    message(paste("Object written to:", file.name))
+  }
 
 }
 
@@ -159,7 +175,7 @@ setMethod("plotKML", "SpatialGridDataFrame", .plotKML.SpatialPixels)
 setMethod("plotKML", "RasterLayer", .plotKML.SpatialPixels)
 
 
-setMethod("plotKML", "SpatialPhotoOverlay", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), dae.name, kmz = get("kmz", envir = plotKML.opts), ...){
+setMethod("plotKML", "SpatialPhotoOverlay", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), dae.name, kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, ...){
   
   x <- strsplit(obj@filename, "/")[[1]]
   image.id <- x[length(x)]
@@ -177,12 +193,16 @@ setMethod("plotKML", "SpatialPhotoOverlay", function(obj, folder.name = normaliz
       kml_compress(file.name = file.name, files=dae.name)
   }
   # open KML file in the default browser:
-  kml_View(file.name)
+  if(open.kml==TRUE){
+    kml_View(file.name)
+  } else {
+    message(paste("Object written to:", file.name))
+  }
 
 })
 
 
-setMethod("plotKML", "SoilProfileCollection", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), var.name, metadata = NULL, kmz = get("kmz", envir = plotKML.opts), ...){
+setMethod("plotKML", "SoilProfileCollection", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), var.name, metadata = NULL, kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, ...){
   
   if(missing(var.name)){ var.name <- names(obj@horizons)[!(names(obj@horizons) %in% c(obj@idcol, obj@depthcols))][1] }
     
@@ -198,12 +218,16 @@ setMethod("plotKML", "SoilProfileCollection", function(obj, folder.name = normal
       kml_compress(file.name = file.name)
   }
   # open KML file in the default browser:
-  kml_View(file.name)
+  if(open.kml==TRUE){
+    kml_View(file.name)
+  } else {
+    message(paste("Object written to:", file.name))
+  }
 
 })
 
 ## spacetime irregular vectors / spacetime full data frames...
-.plotKML.ST <- function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), colour, shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", points_names, kmz = get("kmz", envir = plotKML.opts), ...){
+.plotKML.ST <- function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), colour, shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", points_names, kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, ...){
 
   # Guess aesthetics if missing:
   if(missing(colour)){ 
@@ -242,7 +266,11 @@ setMethod("plotKML", "SoilProfileCollection", function(obj, folder.name = normal
       kml_compress(file.name = file.name)
   }
   # open KML file in the default browser:
-  kml_View(file.name)
+  if(open.kml==TRUE){
+    kml_View(file.name)
+  } else {
+    message(paste("Object written to:", file.name))
+  }
 
 }
 
@@ -252,7 +280,7 @@ setMethod("plotKML", "STSDF", function(obj, ...) .plotKML.ST(as(obj, "STIDF"), .
 
 
 ## Trajectories:
-setMethod("plotKML", "STTDF", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), colour, start.icon = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", kmz = get("kmz", envir = plotKML.opts), ...){
+setMethod("plotKML", "STTDF", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), colour, start.icon = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, ...){
                             
   # Guess aesthetics if missing:
   if(missing(colour)){ 
@@ -278,13 +306,17 @@ setMethod("plotKML", "STTDF", function(obj, folder.name = normalizeFilename(depa
       kml_compress(file.name = file.name)
   }
   # open KML file in the default browser:
-  kml_View(file.name)
+  if(open.kml==TRUE){
+    kml_View(file.name)
+  } else {
+    message(paste("Object written to:", file.name))
+  }
 
 })
 
 
 ## List of objects of type "sp"
-setMethod("plotKML", "list", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), size = NULL, colour, points_names = "", shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", plot.labpt = TRUE, labels = "", metadata = NULL, kmz = get("kmz", envir = plotKML.opts), ...){
+setMethod("plotKML", "list", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), size = NULL, colour, points_names = "", shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", plot.labpt = TRUE, labels = "", metadata = NULL, kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, ...){
    
   # check class of object:
   if(any(!(sapply(obj, class)=="SpatialPointsDataFrame"|sapply(obj, class)=="SpatialLinesDataFrame"|sapply(obj, class)=="SpatialPolygonsDataFrame"|sapply(obj, class)=="SpatialPixelsDataFrame"))){
@@ -372,7 +404,11 @@ setMethod("plotKML", "list", function(obj, folder.name = normalizeFilename(depar
       kml_compress(file.name = file.name)
   }
   # open KML file in the default browser:
-  kml_View(file.name)
+  if(open.kml==TRUE){
+    kml_View(file.name)
+  } else {
+    message(paste("Object written to:", file.name))
+  }
 
 })
 

@@ -1,6 +1,6 @@
 Package: plotKML
-Version: 0.4-5
-Date: 2014-07-30
+Version: 0.4-7
+Date: 2014-11-29
 Title: Visualization of spatial and spatio-temporal objects in Google
         Earth
 Authors@R: c(person("Tomislav", "Hengl", role = c("cre", "aut"),
@@ -16,12 +16,12 @@ Imports: methods, XML, sp, raster, rgdal, spacetime, colorspace,
         gstat, zoo, RColorBrewer, RSAGA, classInt
 Suggests: utils, adehabitat, maptools, fossil, spcosa, rjson,
         animation, spatstat, RCurl, rgbif, Hmisc, GSIF, stpp, uuid,
-        intervals, reshape
+        intervals, reshape, gdalUtils
 Description: Writes sp-class, spacetime-class, raster-class and similar spatial and spatio-temporal objects to KML following some basic cartographic rules.
 License: GPL
 URL: http://plotkml.r-forge.r-project.org/
 LazyLoad: yes
-Packaged: 2014-07-31 08:54:21 UTC; hengl001
+Packaged: 2014-12-01 09:59:41 UTC; ripley
 Author: Tomislav Hengl [cre, aut],
   Pierre Roudier [ctb],
   Dylan Beaudette [ctb],
@@ -29,4 +29,4 @@ Author: Tomislav Hengl [cre, aut],
   Michael Blaschek [ctb]
 NeedsCompilation: no
 Repository: CRAN
-Date/Publication: 2014-07-31 11:20:42
+Date/Publication: 2014-12-01 11:04:16

@@ -29,59 +29,60 @@
       file.name = paste(folder.name, ".kml", sep=""), 
       size, colour, points_names, 
       shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", 
-      metadata = NULL, kmz = get("kmz", envir = plotKML.opts), \dots)
+      metadata = NULL, kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, \dots)
 \S4method{plotKML}{SpatialLinesDataFrame}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""),
-      metadata = NULL, kmz = get("kmz", envir = plotKML.opts), \dots)
+      metadata = NULL, kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, \dots)
 \S4method{plotKML}{SpatialPolygonsDataFrame}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), 
       colour, plot.labpt, labels, metadata = NULL, 
-      kmz = get("kmz", envir = plotKML.opts), \dots)
+      kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, \dots)
 \S4method{plotKML}{SpatialPixelsDataFrame}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), 
-      colour, raster_name, metadata = NULL, kmz = FALSE, \dots)
+      colour, raster_name, metadata = NULL, kmz = FALSE, open.kml = TRUE, \dots)
 \S4method{plotKML}{SpatialGridDataFrame}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), 
-      colour, raster_name, metadata = NULL, kmz = FALSE, \dots)
+      colour, raster_name, metadata = NULL, kmz = FALSE, open.kml = TRUE, \dots)
 \S4method{plotKML}{RasterLayer}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), 
-      colour, raster_name, metadata = NULL, kmz = FALSE, \dots)
+      colour, raster_name, metadata = NULL, kmz = FALSE, open.kml = TRUE, \dots)
 \S4method{plotKML}{SpatialPhotoOverlay}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), 
-      dae.name, kmz = get("kmz", envir = plotKML.opts), \dots)
+      dae.name, kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, \dots)
 \S4method{plotKML}{SoilProfileCollection}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), 
-      var.name, metadata = NULL, kmz = get("kmz", envir = plotKML.opts), \dots)
+      var.name, metadata = NULL, kmz = get("kmz", envir = plotKML.opts), 
+      open.kml = TRUE, \dots)
 \S4method{plotKML}{STIDF}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), 
       colour, shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", 
-      points_names, kmz = get("kmz", envir = plotKML.opts), \dots)
+      points_names, kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, \dots)
 \S4method{plotKML}{STFDF}(obj, \dots)
 \S4method{plotKML}{STSDF}(obj, \dots)
 \S4method{plotKML}{STTDF}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), 
       colour, start.icon = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", 
-      kmz = get("kmz", envir = plotKML.opts), \dots)
+      kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, \dots)
 \S4method{plotKML}{RasterBrickTimeSeries}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""),
       pngwidth = 680, pngheight = 180, pngpointsize = 14, 
-      kmz = get("kmz", envir = plotKML.opts), \dots)
+      kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, \dots)
 \S4method{plotKML}{RasterBrickSimulations}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), 
       obj.summary = TRUE,
       pngwidth = 680, pngheight = 200, pngpointsize = 14, 
-      kmz = get("kmz", envir = plotKML.opts), \dots)
+      kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, \dots)
 \S4method{plotKML}{SpatialMaxEntOutput}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), 
@@ -89,7 +90,7 @@
       iframe.width = 800, iframe.height = 800, pngwidth = 280, 
       pngheight = 280, pngpointsize = 14, colour, 
       shape = "http://plotkml.r-forge.r-project.org/icon17.png", 
-      kmz = get("kmz", envir = plotKML.opts), 
+      kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, 
       TimeSpan.begin = obj@TimeSpan.begin, TimeSpan.end = obj@TimeSpan.end, \dots)
 \S4method{plotKML}{SpatialPredictions}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
@@ -97,24 +98,24 @@
       scale_svar = get("colour_scale_svar", envir = plotKML.opts), 
       grid2poly = FALSE, obj.summary = TRUE, plot.svar = FALSE, 
       pngwidth = 210, pngheight = 580, pngpointsize = 14, 
-      metadata = NULL, kmz = get("kmz", envir = plotKML.opts), \dots)
+      metadata = NULL, kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, \dots)
 \S4method{plotKML}{SpatialSamplingPattern}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""),
-      colour, kmz = get("kmz", envir = plotKML.opts), \dots)
+      colour, kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, \dots)
 \S4method{plotKML}{SpatialVectorsSimulations}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), colour, 
       scale_svar = get("colour_scale_svar", envir = plotKML.opts), 
       grid2poly = FALSE, obj.summary = TRUE, plot.svar = FALSE, 
-      kmz = get("kmz", envir = plotKML.opts), \dots)
+      kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, \dots)
 \S4method{plotKML}{list}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))),
       file.name = paste(folder.name, ".kml", sep=""), 
       size = NULL, colour, points_names = "",
       shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png",
       plot.labpt = TRUE, labels = "", metadata = NULL, 
-      kmz = get("kmz", envir = plotKML.opts), \dots)
+      kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, \dots)
 }
 \arguments{
   \item{obj}{input object of specific class; either some \href{http://cran.r-project.org/package=sp}{sp}, or \href{http://cran.r-project.org/package=raster}{raster} or \href{http://cran.r-project.org/package=spacetime}{spacetime} package class object, or plotKML composite objects containing both inputs and outputs of analysis}
@@ -144,6 +145,7 @@
   \item{obj.summary}{logical; specifies whether to print the object summary}
   \item{plot.svar}{logical; specifies whether to plot the model uncertainty}
   \item{kmz}{logical; specifies whether to compress the output KML file}
+  \item{open.kml}{logical; specifies whether to directly open the output KML file (i.e. in Google Earth)}
   \item{\dots}{(optional) arguments passed to the lower level functions}
 }
 \details{This is a generic function to plot various spatial and spatio-temporal R objects that contain both inputs and outputs of spatial analysis. The resulting plots (referred to as \emph{`views'}) are expected to be cartographically complete as they should contain legends, and data and model descriptions. In principle, \code{plotKML} works with both simple spatial objects, and complex objects such as \code{"SpatialPredictions"}, \code{"SpatialVectorsSimulations"}, \code{"RasterBrickSimulations"}, \code{"RasterBrickTimeSeries"}, \code{"SpatialMaxEntOutput"} and similar. To further customize visualizations consider combining the lower level functions \code{\link{kml_open}}, \code{\link{kml_close}}, \code{\link{kml_compress}}, \code{\link{kml_screen}} into your own \code{plotKML()} method.

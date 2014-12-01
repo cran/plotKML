@@ -19,6 +19,7 @@ setMethod("plotKML", "SpatialPredictions", function(
   pngpointsize = 14,
   metadata = NULL,
   kmz = get("kmz", envir = plotKML.opts),
+  open.kml = TRUE,
   ...
 ){
 
@@ -96,7 +97,11 @@ setMethod("plotKML", "SpatialPredictions", function(
       kml_compress(file.name = file.name)
   }
   ## open KML file in the default browser:
-  kml_View(file.name)
+  if(open.kml==TRUE){
+    kml_View(file.name)
+  } else {
+    message(paste("Object written to:", file.name))
+  }
 })
 
 

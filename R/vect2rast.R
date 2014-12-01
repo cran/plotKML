@@ -28,7 +28,7 @@ vect2rast.SpatialPoints <- function(obj, fname = names(obj)[1], cell.size, bbox,
     
       require(spatstat)
       x <- as(obj, "ppp")
-      nd <- nndist(x$x, x$y)
+      nd <- spatstat::nndist(x$x, x$y)
       ndb <- boxplot(nd, plot=FALSE)
       cell.size <- signif(ndb$stats[3]/2, 2)
       if(cell.size==0){ stop("Estimated cell size is 0, consider removing duplicate points") }
@@ -65,7 +65,7 @@ vect2rast.SpatialPoints <- function(obj, fname = names(obj)[1], cell.size, bbox,
       require(maptools)   
       
       tf <- set.file.extension(tempfile(), ".shp")
-      writePointsShape(obj, tf)
+      maptools::writePointsShape(obj, tf)
       if(missing(file.name)){
         file.name <- set.file.extension(tempfile(), ".sgrd")
       }
@@ -110,9 +110,8 @@ vect2rast.SpatialLines <- function(obj, fname = names(obj)[1], cell.size, bbox, 
     }
     
       require(spatstat)
-      require(spatstat)
       x <- as(as(obj, "SpatialLines"), "psp")
-      nd <- nndist.psp(x)  # this can be time consuming!
+      nd <- spatstat::nndist.psp(x)  # this can be time consuming!
       ndb <- boxplot(nd, plot=FALSE)
       cell.size <- signif(ndb$stats[3]/2, 2)
       if(cell.size==0){ stop("Estimated cell size is 0, consider removing duplicate points") }
@@ -149,7 +148,7 @@ vect2rast.SpatialLines <- function(obj, fname = names(obj)[1], cell.size, bbox, 
       require(maptools)   
       
       tf <- set.file.extension(tempfile(), ".shp")
-      writeLinesShape(obj, tf)
+      maptools::writeLinesShape(obj, tf)
       if(missing(file.name)){
         file.name <- set.file.extension(tempfile(), ".sgrd")
       }
@@ -231,7 +230,7 @@ vect2rast.SpatialPolygons <- function(obj, fname = names(obj)[1], cell.size, bbo
       require(maptools)   
       
       tf <- set.file.extension(tempfile(), ".shp")
-      writePolyShape(obj, tf)
+      maptools::writePolyShape(obj, tf)
       if(missing(file.name)){
         file.name <- set.file.extension(tempfile(), ".sgrd")
       }

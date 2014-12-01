@@ -17,6 +17,7 @@ setMethod("plotKML", "SpatialMaxEntOutput", function(
   colour,
   shape = "http://plotkml.r-forge.r-project.org/icon17.png",
   kmz = get("kmz", envir = plotKML.opts),
+  open.kml = TRUE,
   TimeSpan.begin = obj@TimeSpan.begin,
   TimeSpan.end = obj@TimeSpan.end,
   ...
@@ -68,7 +69,11 @@ setMethod("plotKML", "SpatialMaxEntOutput", function(
       kml_compress(file.name = file.name)
   }
   # open KML file in the default browser:
-  kml_View(file.name)
+  if(open.kml==TRUE){
+    kml_View(file.name)
+  } else {
+    message(paste("Object written to:", file.name))
+  }
   
 })
 

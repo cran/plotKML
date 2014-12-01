@@ -6,6 +6,7 @@
 
 kml_layer.SpatialLines <- function(
   obj,
+  subfolder.name = paste(class(obj)),
   extrude = FALSE,
   z.scale = 1,
   metadata = NULL,
@@ -43,7 +44,7 @@ kml_layer.SpatialLines <- function(
   message("Writing to KML...")
   # Folder name / name of the points folder
   pl1 = newXMLNode("Folder", parent=kml.out[["Document"]])
-  pl2 <- newXMLNode("name", paste(class(obj)), parent = pl1)
+  pl2 <- newXMLNode("name", subfolder.name, parent = pl1)
 
   # Insert metadata:
   if(!is.null(metadata)){

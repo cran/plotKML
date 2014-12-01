@@ -6,12 +6,16 @@
 
 kml_layer.SpatialPixels <- function(  
   obj,
+  subfolder.name = paste(class(obj)),
   raster_name,
   plot.legend = TRUE,
   metadata = NULL,
   png.width = gridparameters(obj)[1,"cells.dim"], 
   png.height = gridparameters(obj)[2,"cells.dim"],
   min.png.width = 800,
+  TimeSpan.begin,
+  TimeSpan.end,
+  layer.name,
   ...
   ){
 
@@ -28,6 +32,9 @@ kml_layer.SpatialPixels <- function(
   ## Check if any attribute has been selected:
   if (is.na(charmatch("colour", names(call.lst)))){
     stop("No attribute selected. Please use the colour = ... option.")
+  }
+  if(missing(layer.name)){
+    layer.name = deparse(call.lst[["colour"]])
   }
 
   if(is.call(call.lst[["colour"]])|is.name(call.lst[["colour"]])){
@@ -142,7 +149,16 @@ kml_layer.SpatialPixels <- function(
   message("Writing to KML...")
   ## Folder name
   pl1 = newXMLNode("Folder", parent=kml.out[["Document"]])
-  pl2 <- newXMLNode("name", paste(class(obj)), parent = pl1)
+  pl2 <- newXMLNode("name", subfolder.name, parent = pl1)
+
+  ## Add time stamp if available:
+  if(!missing(TimeSpan.begin)&!missing(TimeSpan.end)){
+    if(TimeSpan.end<TimeSpan.begin){
+      stop("Missing or invalid 'TimeSpan.begin' and/or 'TimeSpan.end'. See also 'kml_layer.STIDF'")
+    } 
+    TimeSpan.begin = format(TimeSpan.begin, "%Y-%m-%dT%H:%M:%SZ")
+    TimeSpan.end = format(TimeSpan.end, "%Y-%m-%dT%H:%M:%SZ")
+  }
 
   ## Insert metadata:
   if(!is.null(metadata)){
@@ -155,7 +171,12 @@ kml_layer.SpatialPixels <- function(
   ## =====================
   pl2b <- newXMLNode("GroundOverlay", parent = pl1)
   ## Creating a SpatialPixelsDataFrame object to be plotted
-  pl3 <- newXMLNode("name", deparse(call.lst[["colour"]]), parent = pl2b)
+  pl3 <- newXMLNode("name", layer.name, parent = pl2b)
+  if(!missing(TimeSpan.begin)&!missing(TimeSpan.end)){
+    pl3a <- newXMLNode("TimeSpan", parent = pl2b)
+    pl3a1 <- newXMLNode("begin", TimeSpan.begin, parent = pl3a)
+    pl3a2 <- newXMLNode("end", TimeSpan.end, parent = pl3a)
+  }
   pl3b <- newXMLNode("altitude", signif(altitude, 4), parent = pl2b)
   pl3b <- newXMLNode("altitudeMode", altitudeMode, parent = pl2b)
   pl3c <- newXMLNode("Icon", parent = pl2b)

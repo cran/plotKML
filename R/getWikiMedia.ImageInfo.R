@@ -9,7 +9,7 @@ getWikiMedia.ImageInfo <- function(imagename, APIsource = "http://commons.wikime
   
   if(testURL == TRUE){
     require(RCurl)
-    z <- getURI(paste("http://commons.wikimedia.org/wiki/File:", imagename, sep=""), .opts=curlOptions(header=TRUE, nobody=TRUE, transfertext=TRUE, failonerror=FALSE))
+    z <- RCurl::getURI(paste("http://commons.wikimedia.org/wiki/File:", imagename, sep=""), .opts=RCurl::curlOptions(header=TRUE, nobody=TRUE, transfertext=TRUE, failonerror=FALSE))
       if(!length(x <- grep(z, pattern="404 Not Found"))==0){
       stop(paste("File", imagename, "could not be located at http://commons.wikimedia.org"))
       }

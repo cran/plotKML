@@ -95,7 +95,7 @@ kml_layer.SoilProfileCollection <- function(
   LAT <- as.vector(coordinates(sp)[,2])
 
   # convert meters to decimal degrees:
-  new.ll <- new.lat.long(long = mean(LON), lat = mean(LAT), bearing = 90, distance = block.size/1000)
+  new.ll <- fossil::new.lat.long(long = mean(LON), lat = mean(LAT), bearing = 90, distance = block.size/1000)
   block.size = new.ll[2] - mean(LON)
   if(missing(x.min)){
   	x.min = block.size/100

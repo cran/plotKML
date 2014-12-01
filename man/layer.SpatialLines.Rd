@@ -4,11 +4,13 @@
 \title{Writes spatial lines to KML}
 \description{Writes object of class \code{"SpatialLines*"} to KML with a possibility to parse attribute variables using several aesthetics arguments. }
 \usage{
-kml_layer.SpatialLines(obj, extrude = FALSE, z.scale = 1, metadata = NULL, 
+kml_layer.SpatialLines(obj, subfolder.name = paste(class(obj)), 
+  extrude = FALSE, z.scale = 1, metadata = NULL, 
   html.table = NULL, TimeSpan.begin = "", TimeSpan.end = "", \dots)
 }
 \arguments{
   \item{obj}{object of class \code{"SpatialLines*"}}
+  \item{subfolder.name}{character; optional subfolder name}
   \item{extrude}{logical; specifies whether to connect the LinearRing to the ground}
   \item{z.scale}{vertical exaggeration}  
   \item{metadata}{(optional) specify the metadata object}

@@ -29,20 +29,20 @@
   \item{fgdc_xsd}{the default metadata scheme URL}
   \item{inspire_xsd}{the default metadata scheme URL}
   \item{convert}{a path to ImageMagick convert program}
-  \item{gdalwarp}{a path to FWTools gdalwarp program}
-  \item{gdal_translate}{a path to FWTools gdalwarp program}
+  \item{gdalwarp}{a path to gdalwarp program}
+  \item{gdal_translate}{a path to gdalwarp program}
   \item{python}{a path to Python program}
   \item{home_url}{the default location of all icons and auxiliary files}
   \item{show.env}{logical; specify whether to print all environmental parameters}
   \item{silent}{logical; specify whether to search for paths for external software}
 }
 \details{ The function will try to locate external software tools under either Windows or Unix platform and then save the results to the \code{plotKML.opts} environment. \link{plotKML-package} does not look automatically for software paths (unless you specify this manually in your \code{"Rprofile.site"}). \cr 
-The external software tools are not required by default and most of operations in \link{plotKML-package} can be run without using them. FWTools, SAGA GIS and Python are highly recommended, however, for processing large data sets. The function \code{paths} looks for FWTools, ImageMagick, Python, SAGA GIS, in the Windows Registry Hive, the Program Files directory or the usr/bin installation (Unix).
+The external software tools are not required by default and most of operations in \link{plotKML-package} can be run without using them. GDAL, SAGA GIS and Python are highly recommended, however, for processing large data sets. The function \code{paths} looks for GDAL, ImageMagick, Python, SAGA GIS, in the Windows Registry Hive, the Program Files directory or the usr/bin installation (Unix).
 }
 \references{
 \itemize{
 \item ImageMagick (\url{http://imagemagick.org})
-\item FWTools (\url{http://fwtools.maptools.org})
+\item GDAL (\url{http://gdal.org})
 \item SAGA GIS (\url{http://www.saga-gis.org})
 \item Python (\url{http://python.org})
 }
@@ -63,7 +63,7 @@ plotKML.env(silent = FALSE)
 gdalwarp <- get("gdalwarp", envir = plotKML.opts)
 ## if missing you need to install it!
 system(paste(gdalwarp, "--help-general")) 
-gdal.formats <- system(paste(gdalwarp, "--formats"), intern = TRUE)
+system(paste(gdalwarp, "--formats"), intern = TRUE)
 }
 plotKML.env(show.env = FALSE)
 get("home_url", envir = plotKML.opts)

@@ -1,0 +1,16 @@
+citHeader("To cite package 'plotKML' in publications use:")
+
+citEntry(entry="article",
+         title = "plotKML: Scientific Visualization of Spatio-temporal Data",
+         author = personList(as.person("Tomislav Hengl"),
+                             as.person("Pierre Roudier"),
+                             as.person("Dylan Beaudette"),
+                             as.person("Edzer Pebesma")),
+         year = 2014,
+         note = "Special volume 50 on Spatial Statistics, Editors: Edzer Pebesma, Roger Bivand, Paulo Justiniano Ribeiro",
+         volume = "50",
+         journal = "Journal of Statistical Software",
+
+         textVersion =
+         paste("Tomislav Hengl, Pierre Roudier, Dylan Beaudette, Edzer Pebesma (2014) plotKML: Scientific Visualization of Spatio-temporal Data. Journal of Statistical Software, 50(??), http://www.jstatsoft.org/??")
+)
