@@ -6,6 +6,7 @@
 
 kml_layer.SpatialPolygons <- function(
   obj,
+  subfolder.name = paste(class(obj)),
   extrude = TRUE,
   tessellate = FALSE,
   outline = TRUE,
@@ -48,7 +49,7 @@ kml_layer.SpatialPolygons <- function(
   
   # Folder and name of the points folder
   pl1 = newXMLNode("Folder", parent=kml.out[["Document"]])
-  pl2 <- newXMLNode("name", paste(class(obj)), parent = pl1)
+  pl2 <- newXMLNode("name", subfolder.name, parent = pl1)
 
   if(plot.labpt==TRUE){
     pl1b = newXMLNode("Folder", parent=kml.out[["Document"]])

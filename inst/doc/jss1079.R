@@ -123,9 +123,8 @@ om.rk <- predict(omm, meuse.grid)
 
 
 ###################################################
-### code chunk number 15: jss1079.Rnw:475-489
+### code chunk number 15: jss1079.Rnw:475-488
 ###################################################
-library("stpp")
 data("fmd")
 fmd0 <- data.frame(fmd)
 coordinates(fmd0) <- c("X", "Y")
@@ -142,7 +141,7 @@ stplot(fmd_ST, sp.layout=list("sp.lines", NC), col.regions=SAGA_pal[[1]])
 
 
 ###################################################
-### code chunk number 16: jss1079.Rnw:496-497
+### code chunk number 16: jss1079.Rnw:495-496
 ###################################################
 kml(fmd_ST, colour=ReportedDay, colour_scale=SAGA_pal[[1]])
 

@@ -40,7 +40,7 @@
   \item{\dots}{arguments evaluated in the context of function \code{projectRaster} from the raster package}
 }
 \details{
-In the case of raster and/or gridded maps, by selecting \code{program = "GDAL"} \code{gdalwarp} functionality will be initiated (otherwise it tries to reproject via the package raster). This requires that \href{http://gdal.org}{GDAL} are installed and located from R via \code{paths()}. GDAL includes OpenEV, GDAL, MapServer, PROJ.4 and OGDI, and can be installed on Windows and Unix-type operating systems.
+In the case of raster and/or gridded maps, by selecting \code{program = "GDAL"} \code{gdalwarp} functionality will be initiated (otherwise it tries to reproject via the package raster). This requires that \href{http://gdal.org}{GDAL} are installed and located from R via \code{paths()}.
 }
 \references{
 \itemize{

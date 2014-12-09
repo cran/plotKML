@@ -455,7 +455,7 @@ From 2012, there are several implementations of spatio-temporal classes in \prog
 \begin{figure*}[!htb]
 \begin{center}
 \includegraphics[width=.8\textwidth]{Fig_fmd_stplot.pdf}
-\caption{Spatio-temporal plot of point pattern in time: foot-and-mouth epidemic data from north Cumbria (UK), available via the \pkg{stpp} package \citep{stpp}.}
+\caption{Spatio-temporal plot of point pattern in time: foot-and-mouth epidemic data from north Cumbria (UK) \citep{diggle2005point}.}
 \label{Fig:fmd_stplot}
 \end{center}
 \end{figure*}
@@ -470,10 +470,9 @@ From 2012, there are several implementations of spatio-temporal classes in \prog
 \end{center}
 \end{figure*}
 
-Consider for example the foot-and-mouth epidemic data from north Cumbria (UK), available via the \pkg{stpp} package \citep{diggle2005point}. This is a spatio-temporal point pattern represented with a matrix containing ($x,y,t$) coordinates of the 648 observations. To visualize this data in \proglang{R} (\pkg{spacetime} package) we would run:
+Consider for example the foot-and-mouth epidemic data from north Cumbria (UK) \citep{diggle2005point}. This is a spatio-temporal point pattern represented with a matrix containing ($x,y,t$) coordinates of the 648 observations. To visualize this data in \proglang{R} (\pkg{spacetime} package) we would run:
 
 <<>>=
-library("stpp")
 data("fmd")
 fmd0 <- data.frame(fmd)
 coordinates(fmd0) <- c("X", "Y")

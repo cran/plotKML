@@ -4,7 +4,8 @@
 \title{Writes spatial polygons to KML}
 \description{Writes object of class \code{"SpatialPolygons*"} to KML with a possibility to parse attribute variables using several aesthetics arguments. }
 \usage{
-kml_layer.SpatialPolygons(obj, extrude = TRUE, tessellate = FALSE, 
+kml_layer.SpatialPolygons(obj, subfolder.name = paste(class(obj)),
+        extrude = TRUE, tessellate = FALSE, 
         outline = TRUE, plot.labpt = FALSE, z.scale = 1, 
         LabelScale = get("LabelScale", envir = plotKML.opts), 
         metadata =  NULL, html.table = NULL, TimeSpan.begin = "", 
@@ -12,6 +13,7 @@ kml_layer.SpatialPolygons(obj, extrude = TRUE, tessellate = FALSE,
 }
 \arguments{
   \item{obj}{object of class \code{"SpatialPolygons*"}}
+  \item{subfolder.name}{character; optional subfolder name}
   \item{extrude}{logical; specifies whether to connect the point to the ground with a line}
   \item{tessellate}{logical; specifies whether to connect the LinearRing to the ground}
   \item{outline}{logical; specifies whether to outline the polygon}

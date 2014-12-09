@@ -266,7 +266,6 @@ plotKML(HRtemp08_jan[,,"TEMP"], LabelScale = .4)
 }
 
 ## foot-and-mouth disease data:
-library(stpp)
 data(fmd)
 fmd0  <- data.frame(fmd)
 coordinates(fmd0) <- c("X", "Y")
