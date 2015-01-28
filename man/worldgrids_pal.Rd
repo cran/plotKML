@@ -27,12 +27,12 @@ data(worldgrids_pal)
 \author{Tomislav Hengl }
 \references{
 \itemize{
-\item Bicheron, P. et al. (2008) \href{http://ionia1.esrin.esa.int}{GLOBCOVER: Products Description and Validation Report}. MEDIAS France, Toulouse, 47 p.
-\item \enc{Büttner}{Buttner}, G. et al. (2002) \href{http://terrestrial.eionet.europa.eu/CLC2000}{Corine Land Cover update 2000, Technical guidelines}. EEA (European Environment Agency), Kopenhagen. 
-\item Ellis, E.C., Ramankutty, N. (2008) \href{http://www.eoearth.org/article/Anthropogenic_biome_maps}{Putting people in the map: anthropogenic biomes of the world}. Frontiers in Ecology and the Environment, Vol. 6, No. 8, pp. 439-447.
-\item Fritz, S. et al. (2003) \href{http://bioval.jrc.ec.europa.eu/products/glc2000/glc2000.php}{Harmonisation, mosaicing and production of the Global Land Cover 2000 database}. JRC report EUR 20849 EN, Luxembourg, 41 p.
+\item Bicheron, P. et al. (2008) GLOBCOVER: Products Description and Validation Report. MEDIAS France, Toulouse, 47 p.
+\item \enc{Büttner}{Buttner}, G. et al. (2002) Corine Land Cover update 2000, Technical guidelines. EEA (European Environment Agency), Kopenhagen. 
+\item Ellis, E.C., Ramankutty, N. (2008) Putting people in the map: anthropogenic biomes of the world. Frontiers in Ecology and the Environment, Vol. 6, No. 8, pp. 439-447.
+\item Fritz, S. et al. (2003) Harmonisation, mosaicing and production of the Global Land Cover 2000 database. JRC report EUR 20849 EN, Luxembourg, 41 p.
 \item Gaast, J.W.J. van der, H.R.J. Vroon en M. Pleijter, (2006) De grondwaterdynamiek in het waterschap Regge en Dinkel. Wageningen, Alterra-rapport 1335.
-\item Hazeu, G.W., (2005) Landelijk Grondgebruiksbestand Nederland (LGN5). Vervaardiging, nauwkeurigheid en gebruik. Wageningen, Alterra. Alterra-report 1213, 92 pp. \url{http://lgn.nl}
+\item Hazeu, G.W., (2005) Landelijk Grondgebruiksbestand Nederland (LGN5). Vervaardiging, nauwkeurigheid en gebruik. Wageningen, Alterra. Alterra-report 1213, 92 pp.
 \item Puijenbroek, P. van; Clement, J., (2008) Het oppervlaktewater getypeerd: de eerste Nederlandse watertypenkaart. Agro informatica 21(3): 21-25.
 }
 }

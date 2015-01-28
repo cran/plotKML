@@ -67,6 +67,7 @@ kml_layer.SoilProfileCollection(obj,
 \examples{
 \dontrun{## install.packages("aqp", repos="http://R-Forge.R-project.org")
 library(aqp)
+library(fossil)
 library(plyr)
 data(ca630)
 ## Promote to SoilProfileCollection

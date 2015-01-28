@@ -7,9 +7,7 @@
 
 ## POINTS
 vect2rast.SpatialPoints <- function(obj, fname = names(obj)[1], cell.size, bbox, file.name, silent = FALSE, method = c("raster", "SAGA")[1], FIELD = 0, MULTIPLE = 1, LINE_TYPE = 0, GRID_TYPE = 2, ...){
-
-    require(maptools)
-    
+  
     # add indicator value if missing data frame:
     if(!any(slotNames(obj) %in% "data")){
        obj <- SpatialPointsDataFrame(obj, data=data.frame(x=rep(1, length(obj))))
@@ -20,19 +18,20 @@ vect2rast.SpatialPoints <- function(obj, fname = names(obj)[1], cell.size, bbox,
     
     if(missing(bbox)) { bbox <- obj@bbox }
     # make an empty raster based on extent:
-    if(missing(cell.size)) { 
+    if(missing(cell.size)){ 
     # print warning:
     if(length(obj)>10000){
     warning("Automated derivation of suitable cell size can be time consuming and can lead to artifacts.", immediate. = TRUE)
     }
     
-      require(spatstat)
-      x <- as(obj, "ppp")
-      nd <- spatstat::nndist(x$x, x$y)
-      ndb <- boxplot(nd, plot=FALSE)
-      cell.size <- signif(ndb$stats[3]/2, 2)
-      if(cell.size==0){ stop("Estimated cell size is 0, consider removing duplicate points") }
-    if(silent==FALSE){message(paste("Estimated nearest neighbour distance (point pattern):", cell.size*2))}
+      if(requireNamespace("spatstat", quietly = TRUE)){
+        x <- as(obj, "ppp")
+        nd <- spatstat::nndist(x$x, x$y)
+        ndb <- boxplot(nd, plot=FALSE)
+        cell.size <- signif(ndb$stats[3]/2, 2)
+        if(cell.size==0){ stop("Estimated cell size is 0, consider removing duplicate points") }
+      if(silent==FALSE){message(paste("Estimated nearest neighbour distance (point pattern):", cell.size*2))}
+      }
     }
 
     if(method=="raster"){
@@ -62,10 +61,15 @@ vect2rast.SpatialPoints <- function(obj, fname = names(obj)[1], cell.size, bbox,
     if(method=="SAGA"){   # SAGA GIS 2.0.8
    
       if(!rsaga.env()[["cmd"]]=="NULL"){
-      require(maptools)   
       
-      tf <- set.file.extension(tempfile(), ".shp")
-      maptools::writePointsShape(obj, tf)
+      tmf <- tempfile()
+      tf <- set.file.extension(tmf, ".shp")
+      if(requireNamespace("maptools", quietly = TRUE)){
+        maptools::writePointsShape(obj, tf)
+      } else {
+        writeOGR(obj, tf, tmf, driver="ESRI Shapefile")
+      }
+      
       if(missing(file.name)){
         file.name <- set.file.extension(tempfile(), ".sgrd")
       }
@@ -91,8 +95,6 @@ vect2rast.SpatialPoints <- function(obj, fname = names(obj)[1], cell.size, bbox,
 ## LINES 
 vect2rast.SpatialLines <- function(obj, fname = names(obj)[1], cell.size, bbox, file.name, silent = FALSE, method = c("raster", "SAGA")[1], FIELD = 0, MULTIPLE = 1, LINE_TYPE = 1, GRID_TYPE = 2, ...){
 
-    require(maptools)
-
     # add indicator value if missing data frame:
     if(!any(slotNames(obj) %in% "data")){
        obj <- SpatialLinesDataFrame(obj, data=data.frame(x=rep(1, length(obj))))
@@ -109,13 +111,14 @@ vect2rast.SpatialLines <- function(obj, fname = names(obj)[1], cell.size, bbox, 
     warning("Automated derivation of suitable cell size can be time consuming and can lead to artifacts.", immediate. = TRUE)
     }
     
-      require(spatstat)
-      x <- as(as(obj, "SpatialLines"), "psp")
-      nd <- spatstat::nndist.psp(x)  # this can be time consuming!
-      ndb <- boxplot(nd, plot=FALSE)
-      cell.size <- signif(ndb$stats[3]/2, 2)
-      if(cell.size==0){ stop("Estimated cell size is 0, consider removing duplicate points") }
-    if(silent==FALSE){message(paste("Estimated nearest neighbour distance (line segments):", cell.size*2))}
+      if(requireNamespace("spatstat", quietly = TRUE)){
+        x <- as(as(obj, "SpatialLines"), "psp")
+        nd <- spatstat::nndist.psp(x)  # this can be time consuming!
+        ndb <- boxplot(nd, plot=FALSE)
+        cell.size <- signif(ndb$stats[3]/2, 2)
+        if(cell.size==0){ stop("Estimated cell size is 0, consider removing duplicate points") }
+      if(silent==FALSE){message(paste("Estimated nearest neighbour distance (line segments):", cell.size*2))}
+      }
     }
 
     if(method=="raster"){
@@ -145,10 +148,15 @@ vect2rast.SpatialLines <- function(obj, fname = names(obj)[1], cell.size, bbox, 
     if(method=="SAGA"){   # SAGA GIS 2.0.8
    
       if(!rsaga.env()[["cmd"]]=="NULL"){
-      require(maptools)   
       
-      tf <- set.file.extension(tempfile(), ".shp")
-      maptools::writeLinesShape(obj, tf)
+      tmf <- tempfile()
+      tf <- set.file.extension(tmf, ".shp")
+      if(requireNamespace("maptools", quietly = TRUE)){
+        maptools::writeLinesShape(obj, tf)
+      } else {
+        writeOGR(obj, tf, tmf, driver="ESRI Shapefile")
+      }
+
       if(missing(file.name)){
         file.name <- set.file.extension(tempfile(), ".sgrd")
       }
@@ -173,9 +181,7 @@ vect2rast.SpatialLines <- function(obj, fname = names(obj)[1], cell.size, bbox, 
 
 ## POLYGONS 
 vect2rast.SpatialPolygons <- function(obj, fname = names(obj)[1], cell.size, bbox, file.name, silent = FALSE, method = c("raster", "SAGA")[1], FIELD = 0, MULTIPLE = 0, LINE_TYPE = 1, GRID_TYPE = 2, ...){
-
-    require(maptools)
-    
+  
     # add indicator value if missing data frame:
     if(!any(slotNames(obj) %in% "data")){
        obj <- SpatialPolygonsDataFrame(obj, data=data.frame(x=rep(1, length(obj))))
@@ -192,12 +198,12 @@ vect2rast.SpatialPolygons <- function(obj, fname = names(obj)[1], cell.size, bbo
     warning("Automated derivation of suitable cell size can be time consuming and can lead to artifacts.", immediate. = TRUE)
     }
     
-      require(spatstat)
-      require(spatstat)
-      x <- sapply(obj@polygons, slot, "area")
-      cell.size <- signif(sqrt(median(x))/2, 2)
-      if(cell.size==0){ stop("Estimated cell size is 0, consider removing duplicate points") }
-      if(silent==FALSE){message(paste("Estimated median polygon size:", cell.size*2))}
+      if(requireNamespace("spatstat", quietly = TRUE)){
+        x <- sapply(obj@polygons, slot, "area")
+        cell.size <- signif(sqrt(median(x))/2, 2)
+        if(cell.size==0){ stop("Estimated cell size is 0, consider removing duplicate points") }
+        if(silent==FALSE){message(paste("Estimated median polygon size:", cell.size*2))}
+      }
     }
 
     if(method=="raster"){
@@ -219,7 +225,7 @@ vect2rast.SpatialPolygons <- function(obj, fname = names(obj)[1], cell.size, bbo
       attr(res@grid@cells.dim, "names") <- attr(obj@bbox, "dimnames")[[1]]
     
       if(!missing(file.name)){
-      writeRaster(in.r, filename=file.name, overwrite=TRUE)
+        writeRaster(in.r, filename=file.name, overwrite=TRUE)
       }
     }
     
@@ -227,10 +233,15 @@ vect2rast.SpatialPolygons <- function(obj, fname = names(obj)[1], cell.size, bbo
     if(method=="SAGA"){   # SAGA GIS 2.0.8
    
       if(!rsaga.env()[["cmd"]]=="NULL"){
-      require(maptools)   
       
-      tf <- set.file.extension(tempfile(), ".shp")
-      maptools::writePolyShape(obj, tf)
+      tmf <- tempfile()
+      tf <- set.file.extension(tmf, ".shp")
+      if(requireNamespace("maptools", quietly = TRUE)){
+        maptools::writePolyShape(obj, tf)
+      } else {
+        writeOGR(obj, tf, tmf, driver="ESRI Shapefile")
+      }   
+      
       if(missing(file.name)){
         file.name <- set.file.extension(tempfile(), ".sgrd")
       }

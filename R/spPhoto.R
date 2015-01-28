@@ -41,15 +41,16 @@ spPhoto <- function(
       }
     }
     else{
-    require(RCurl)
-    z <- RCurl::getURI(filename, .opts=RCurl::curlOptions(header=TRUE, nobody=TRUE, transfertext=TRUE, failonerror=FALSE))
-      if(!length(x <- grep(z, pattern="404 Not Found"))==0){
-        stop(paste("File", filename, "could not be located."))
+    if(requireNamespace("RCurl", quietly = TRUE)){
+      z <- RCurl::getURI(filename, .opts=RCurl::curlOptions(header=TRUE, nobody=TRUE, transfertext=TRUE, failonerror=FALSE))
+        if(!length(x <- grep(z, pattern="404 Not Found"))==0){
+          stop(paste("File", filename, "could not be located."))
+        }
+        else{
+          pixmap <- pixmapRGB(bands, ImageHeight, ImageWidth, bbox = bbox) 
+        }
       }
-      else{
-        pixmap <- pixmapRGB(bands, ImageHeight, ImageWidth, bbox = bbox) 
-      }
-    }    
+    } 
   }
     
   # Local copy or in memory

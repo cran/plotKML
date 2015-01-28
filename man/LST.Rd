@@ -20,10 +20,10 @@ The \code{LST} data frame contains the following layers:
 \references{
 \itemize{
 \item Hengl, T., Heuvelink, G.B.M., Percec Tadic, M., Pebesma, E., (2011) \href{http://dx.doi.org/10.1007/s00704-011-0464-2}{Spatio-temporal prediction of daily temperatures using time-series of MODIS LST images}. Theoretical and Applied Climatology, 107(1-2): 265-277.
-\item MODIS products (\url{https://lpdaac.usgs.gov/lpdaac/products/modis_products_table/})
+\item MODIS products (\url{https://lpdaac.usgs.gov/products/modis_products_table})
 }
 }
-\note{Time series of 46 day-time and night-time 8-day composite LST images (\href{https://lpdaac.usgs.gov/lpdaac/products/modis_products_table/land_surface_temperature_emissivity/8_day_l3_global_1km/mod11a2}{MOD11A2} product bands \code{1} and \code{5}) was obtained from the NASA's FTP server (\url{ftp://e4ftl01.cr.usgs.gov}). The original 8-day composite images were created by patching together images from a period of \enc{±}{+-}4 days, so that the proportion of clouds can be reduced to a minimum. The \code{"zvalue"} slot in the \code{"RasterBrick"} object can be used as the dateTime column expressed as:\cr 
+\note{Time series of 46 day-time and night-time 8-day composite LST images (\href{https://lpdaac.usgs.gov/products/modis_products_table/mod11a2}{MOD11A2} product bands \code{1} and \code{5}) was obtained from the NASA's FTP server (\url{ftp://ladsftp.nascom.nasa.gov}). The original 8-day composite images were created by patching together images from a period of \enc{±}{+-}4 days, so that the proportion of clouds can be reduced to a minimum. The \code{"zvalue"} slot in the \code{"RasterBrick"} object can be used as the dateTime column expressed as:\cr 
 
 \code{yyyy-mm-ddThh:mm:sszzzzzz}\cr
 

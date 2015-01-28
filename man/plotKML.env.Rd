@@ -57,6 +57,7 @@ in your \code{"/etc/Rprofile.site"}.
 }
 \examples{
 \dontrun{## look for paths:
+library(gdalUtils)
 pts <- paths()
 pts
 plotKML.env(silent = FALSE)

@@ -12,17 +12,17 @@ reproject.SpatialPoints <- function(obj, CRS = get("ref_CRS", envir = plotKML.op
 }
 
 
-reproject.RasterLayer <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts), program = "raster", tmp.file = TRUE, NAflag = get("NAflag", envir = plotKML.opts), show.output.on.console = FALSE, ...) {
+reproject.RasterLayer <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts), program = "raster", tmp.file = TRUE, NAflag = get("NAflag", envir = plotKML.opts), show.output.on.console = FALSE, method, ...) {
 
   if(raster::is.factor(obj)){  
     method <- "ngb" 
   } else {  
-    method <- "bilinear" 
+    if(missing(method)){ method <- "bilinear" }
   }
   
   if(program=="raster"){
     message(paste("Reprojecting to", CRS, "..."))
-    res <- raster::projectRaster(obj, crs = CRS, method = method, progress='text', ...)
+    res <- raster::projectRaster(obj, crs = CRS, method = method, progress='text')
     names(res) <- names(obj)
   } else {
   
@@ -92,7 +92,7 @@ reproject.SpatialGrid <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts
         message(paste("Reprojecting to", CRS, "..."))
         res <- as(raster::projectRaster(r, crs = CRS, method = "ngb"), "SpatialGridDataFrame")
       } else {
-        res <- as(reproject(r, CRS = CRS, ...), "SpatialGridDataFrame")
+        res <- as(reproject(r, CRS = CRS), "SpatialGridDataFrame")
       }
       
       names(res) <- names(obj)

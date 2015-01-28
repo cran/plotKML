@@ -22,7 +22,7 @@
 \S4method{reproject}{SpatialPolygons}(obj, CRS, \dots)
 \S4method{reproject}{SpatialLines}(obj, CRS, \dots)
 \S4method{reproject}{RasterLayer}(obj, CRS, program = "raster", tmp.file = TRUE, 
-      NAflag, show.output.on.console = FALSE, \dots)
+      NAflag, show.output.on.console = FALSE, method, \dots)
 \S4method{reproject}{SpatialGridDataFrame}(obj, CRS, tmp.file = TRUE, program = "raster", 
       NAflag, show.output.on.console = FALSE, \dots)
 \S4method{reproject}{SpatialPixelsDataFrame}(obj, CRS, tmp.file = TRUE, program = "raster", 
@@ -37,6 +37,7 @@
   \item{tmp.file}{logical; specifies whether to create a temporary file or not}
   \item{NAflag}{character; missing value flag}
   \item{show.output.on.console}{logical; specifies whether to print the progress}
+  \item{method}{character; resampling method e.g.\code{"bilinear"}}
   \item{\dots}{arguments evaluated in the context of function \code{projectRaster} from the raster package}
 }
 \details{

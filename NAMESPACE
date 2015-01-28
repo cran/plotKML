@@ -44,5 +44,6 @@ exportMethods(
 	vect2rast,
   summary, 
   plot)
+S3method(plot, SpatialPredictions)
 export(check_projection, parse_proj4)
 exportPattern("^[^\\.]")

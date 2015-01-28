@@ -112,7 +112,12 @@ kml_layer.SpatialPixels <- function(
     r <- calc(r, fun=function(x){ x[x > z.lim[2]] <- z.lim[2]; return(x)})
     raster::image(r, col = colour_scale, zlim = z.lim, frame.plot = FALSE, main="", maxpixels=ncell(r))
   } else {
-    raster::image(r, col = colour_scale, frame.plot = FALSE, main="", maxpixels=ncell(r))
+    if(is.factor(obj@data[,1])){ 
+      f.breaks <- seq(0.5, length(levels(obj@data[,1]))+0.5)
+      raster::image(r, col = colour_scale, breaks=f.breaks, frame.plot = FALSE, main="", maxpixels=ncell(r))
+    } else {
+      raster::image(r, col = colour_scale, frame.plot = FALSE, main="", maxpixels=ncell(r))
+    }
   }
   dev.off()
 

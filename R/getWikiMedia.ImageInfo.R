@@ -8,11 +8,12 @@
 getWikiMedia.ImageInfo <- function(imagename, APIsource = "http://commons.wikimedia.org/w/api.php", module = "imageinfo", details = c("url", "metadata", "size", "extlinks"), testURL = TRUE){ 
   
   if(testURL == TRUE){
-    require(RCurl)
-    z <- RCurl::getURI(paste("http://commons.wikimedia.org/wiki/File:", imagename, sep=""), .opts=RCurl::curlOptions(header=TRUE, nobody=TRUE, transfertext=TRUE, failonerror=FALSE))
+    if(requireNamespace("RCurl", quietly = TRUE)){
+      z <- RCurl::getURI(paste("http://commons.wikimedia.org/wiki/File:", imagename, sep=""), .opts=RCurl::curlOptions(header=TRUE, nobody=TRUE, transfertext=TRUE, failonerror=FALSE))
       if(!length(x <- grep(z, pattern="404 Not Found"))==0){
-      stop(paste("File", imagename, "could not be located at http://commons.wikimedia.org"))
+        stop(paste("File", imagename, "could not be located at http://commons.wikimedia.org"))
       }
+    }
   }
   
   options(warn = -1)

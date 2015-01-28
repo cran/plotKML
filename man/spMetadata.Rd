@@ -66,8 +66,11 @@ By default, plotKML uses the Creative Commons license, but this can be adjusted 
 \author{Tomislav Hengl and Michael Blaschek}
 \seealso{ \code{\link{kml_metadata}}, \code{\link{SpatialMetadata-class}}, \code{sp::Spatial}, \code{\link{kml_open}} }
 \examples{
-\dontrun{## read metadata from the system file:
+\dontrun{
 library(sp)
+library(uuid)
+library(rjson)
+## read metadata from the system file:
 x <- read.metadata(system.file("FGDC.xml", package="plotKML"))
 str(x)
 ## generate missing metadata

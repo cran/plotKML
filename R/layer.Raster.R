@@ -71,7 +71,7 @@ kml_layer.Raster <- function(
     pal <- eval(call.lst[["colour_scale"]])
   } else {
   ## default colour palettes
-    if (!is.factor(obj@data[,1])){
+    if (!is.factor(obj)){
       pal <- get("colour_scale_numeric", envir = plotKML.opts)
     } else {
       pal <- get("colour_scale_factor", envir = plotKML.opts)
@@ -121,7 +121,12 @@ kml_layer.Raster <- function(
     obj <- calc(obj, fun=function(x){ x[x > z.lim[2]] <- z.lim[2]; return(x)})
     raster::image(obj, col = colour_scale, zlim = z.lim, frame.plot = FALSE, main="", maxpixels=ncell(obj)) 
   } else {
-    raster::image(obj, col = colour_scale, frame.plot = FALSE, main="", maxpixels=ncell(obj))
+    if(is.factor(obj)&!length(levels(obj))==0){ 
+        f.breaks <- seq(0.5, length(levels(obj))+0.5)
+        raster::image(obj, col = colour_scale, breaks=f.breaks, frame.plot = FALSE, main="", maxpixels=ncell(obj))
+      } else {
+        raster::image(obj, col = colour_scale, frame.plot = FALSE, main="", maxpixels=ncell(obj))
+      }
   }
   dev.off()
 

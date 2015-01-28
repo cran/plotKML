@@ -20,8 +20,6 @@ grid2poly <- function(obj, var.name = names(obj)[1], reproject = TRUE, method = 
     else{
     if(method=="RSAGA"){
       if(!rsaga.env()[["cmd"]]=="NULL"){
-        require(maptools)
-        
         if(tmp.file==TRUE){
           tf <- tempfile() 
         } else { 
@@ -34,7 +32,11 @@ grid2poly <- function(obj, var.name = names(obj)[1], reproject = TRUE, method = 
         # saga_lib name and saga_module might change in the future versions of SAGA!
         # SAGA GIS 2.0.8
         rsaga.geoprocessor(lib=saga_lib, module=saga_module, param=list(GRIDS=paste(tf, ".sgrd", sep=""), SHAPES=paste(tf, ".shp", sep=""), NODATA=TRUE, TYPE=1), show.output.on.console = silent)
-        pol <- maptools::readShapePoly(paste(tf, ".shp", sep=""), proj4string=obj@proj4string)
+        if(requireNamespace("maptools", quietly = TRUE)){
+          pol <- maptools::readShapePoly(paste(tf, ".shp", sep=""), proj4string=obj@proj4string)
+        } else {
+          pol <- readOGR(paste(tf, ".shp", sep=""))
+        }
       }
         
         else { stop("SAGA GIS path could not be located. See 'rsaga.env()' for more info.") }

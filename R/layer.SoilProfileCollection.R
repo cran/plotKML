@@ -65,9 +65,6 @@ kml_layer.SoilProfileCollection <- function(
   plot.scalebar = TRUE,
   scalebar = paste(get("home_url", envir = plotKML.opts), "soilprofile_scalebar.png", sep=""),
   ...) {
-
-	# library to estimate scaling factor
-  require(fossil)
   
   # deconstruct object
   h <- horizons(obj)
@@ -94,9 +91,12 @@ kml_layer.SoilProfileCollection <- function(
   LON <- as.vector(coordinates(sp)[,1])
   LAT <- as.vector(coordinates(sp)[,2])
 
-  # convert meters to decimal degrees:
-  new.ll <- fossil::new.lat.long(long = mean(LON), lat = mean(LAT), bearing = 90, distance = block.size/1000)
-  block.size = new.ll[2] - mean(LON)
+	# library to estimate scaling factor
+  if(requireNamespace("fossil", quietly = TRUE)){
+    # convert meters to decimal degrees:
+    new.ll <- fossil::new.lat.long(long = mean(LON), lat = mean(LAT), bearing = 90, distance = block.size/1000)
+    block.size = new.ll[2] - mean(LON)
+  }
   if(missing(x.min)){
   	x.min = block.size/100
  	}

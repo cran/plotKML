@@ -10,7 +10,7 @@
   \item{silent}{logical; species whether the progress bar should be printed}
 }
 \details{This document contains data shared through the GBIF Network --- see \url{http://data.gbif.org} for more information. GBIF records are constantly updated and every map derived refers to a certain date indicated in the \code{@zname} \emph{Last update} slot.\cr 
-All usage of these data must be in accordance with the GBIF Data Use Agreement: \url{http://www.gbif.org/DataProviders/Agreements/DUA}.}
+All usage of these data must be in accordance with the GBIF Data Use Agreement: \url{http://www.gbif.org/disclaimer/datause}.}
 \references{
 \itemize{
 \item GBIF cell density description (\url{http://data.gbif.org/ws/rest/density})

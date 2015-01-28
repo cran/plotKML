@@ -51,6 +51,8 @@ This function basically extends the \code{\link{rasterize}} function available i
 \dontrun{
 data(eberg)
 library(sp)
+library(maptools)
+library(spatstat)
 coordinates(eberg) <- ~X+Y
 data(eberg_zones)
 # point map:

@@ -20,6 +20,7 @@ Tomislav Hengl (\email{tom.hengl@wur.nl}), Pierre Roudier (\email{pierre.roudier
 \itemize{
 \item KML documentation (\url{http://code.google.com/apis/kml/documentation/})
 \item \strong{Google Earth Outreach} project (\url{http://earth.google.com/outreach/tutorials.html})
+\item Hengl, T., Roudier, P., Beaudette, D. and Pebesma, E. (2015) \href{http://www.jstatsoft.org/v63/i05/}{plotKML: Scientific Visualization of Spatio-Temporal Data}. Journal of Statistical Software, 63(5): 1--25.
 }
 }
 \note{This package has been developed as a part of the \href{http://isric.org/projects/global-soil-information-facilities-gsif}{\strong{Global Soil Information Facilities}} project, which is run jointly by the ISRIC Institute and collaborators. ISRIC is a non-profit organization with a mandate to serve the international community as custodian of global soil information and to increase awareness and understanding of the role of soils in major global issues.}

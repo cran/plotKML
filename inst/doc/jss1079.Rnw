@@ -23,10 +23,10 @@
 
 %% publication information
 %% NOTE: Typically, this can be left commented and will be filled out by the technical editor
-\Volume{in press}
-%% \Issue{9}
-\Month{July}
-\Year{2014}
+\Volume{63}
+\Issue{5}
+\Month{February}
+\Year{2015}
 \Submitdate{2013-01-22}
 \Acceptdate{2014-07-08}
 

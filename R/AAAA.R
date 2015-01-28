@@ -37,9 +37,9 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
      
      ## Try locating path to ImageMagick (R default setting)...
      if(convert==""){
-     if(require(animation)){
-        convert <- animation::ani.options("convert")
-     }
+       if(requireNamespace("animation", quietly = TRUE)){
+          convert <- animation::ani.options("convert")
+       }
 
      ## If it does not work, try getting the path from the OS:     
      if(is.null(convert)){
@@ -99,13 +99,13 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
     ## try to locate GDAL / Patyhon:
     if(.Platform$OS.type == "windows") {
       if(gdalwarp==""|gdal_translate==""){
-        require(gdalUtils)
-        gdalUtils::gdal_setInstallation(search_path=gdal.dir, rescan=TRUE)
-        x <- getOption("gdalUtils_gdalPath")
-        if(!is.null(x[[1]]$path)){
-          gdalwarp = shQuote(shortPathName(normalizePath(file.path(x[[1]]$path, "gdalwarp.exe"))))
-          gdal_translate = shQuote(shortPathName(normalizePath(file.path(x[[1]]$path, "gdal_translate.exe"))))
-        } else {
+        if(requireNamespace("gdalUtils", quietly = TRUE)){
+          gdalUtils::gdal_setInstallation(search_path=gdal.dir, rescan=TRUE)
+          x <- getOption("gdalUtils_gdalPath")
+          if(!is.null(x[[1]]$path)){
+            gdalwarp = shQuote(shortPathName(normalizePath(file.path(x[[1]]$path, "gdalwarp.exe"))))
+            gdal_translate = shQuote(shortPathName(normalizePath(file.path(x[[1]]$path, "gdal_translate.exe"))))
+        }} else {
           warning("Could not locate GDAL! Install program and add it to the Windows registry. See http://www.gdal.org/ for more info.")
           gdalwarp = ""
           gdal_translate = ""    

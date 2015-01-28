@@ -150,8 +150,9 @@ setMethod("GetPalette", "SpatialMetadata", function(obj){obj@palette})
       ## Generate UUID:
       UUID <- get("UUID", envir = metadata)
       if(UUID==""){
-        require(uuid)
-        xmlValue(ml[["fileIdentifier"]][[1]]) <- uuid::UUIDgenerate(use.time = FALSE)
+        if(requireNamespace("uuid", quietly = TRUE)){
+          xmlValue(ml[["fileIdentifier"]][[1]]) <- uuid::UUIDgenerate(use.time = FALSE)
+        }
       }
       CI_RS_identifier <- get("CI_RS_identifier", envir = metadata)
       if(CI_RS_identifier==""){
@@ -298,10 +299,11 @@ setMethod("GetPalette", "SpatialMetadata", function(obj){obj@palette})
       ## Location name:
       Indirect_Spatial_Reference <- get("Indirect_Spatial_Reference", envir = metadata)
       if(Indirect_Spatial_Reference=="" & GoogleGeocode == TRUE){
-        require(rjson)
-        googleurl <- url(paste("http://maps.googleapis.com/maps/api/geocode/json?latlng=",  round(mean(obj.ll@bbox[2,]),3), ",", round(mean(obj.ll@bbox[1,]),3), "&sensor=false", sep=""))
-        try(Indirect_Spatial_Reference <- rjson::fromJSON(file=googleurl)[["results"]][[1]][["formatted_address"]])
-        close(googleurl)
+        if(requireNamespace("rjson", quietly = TRUE)){
+          googleurl <- url(paste("http://maps.googleapis.com/maps/api/geocode/json?latlng=",  round(mean(obj.ll@bbox[2,]),3), ",", round(mean(obj.ll@bbox[1,]),3), "&sensor=false", sep=""))
+          try(Indirect_Spatial_Reference <- rjson::fromJSON(file=googleurl)[["results"]][[1]][["formatted_address"]])
+          close(googleurl)
+        }
       }
 
       ## Citation title:
