@@ -26,6 +26,7 @@ metadata.env <- function(
    MD_Abstract = "",
    MD_Organisation_name = paste(Sys.getenv(c("COMPUTERNAME"))[[1]], "(computer name) at", Sys.getenv(c("USERDNSDOMAIN"))[[1]], "(domain)"),
    MD_Electronic_mail_address = "",
+   MD_contact_URL = "",
    MD_Role = "author",
    MD_Keyword = "",
    MD_Thesaurus_name = "GEMET - INSPIRE themes, version 1.0",
@@ -52,6 +53,8 @@ metadata.env <- function(
    DQ_Conformance_result = "",
    DQ_Conformance_result_pass = "",
    DQ_Lineage_statement = "",
+   MD_ReferenceSystem_Identifier = "",
+   MD_ReferenceSystem_type = "",
     ## FGDC:
     Attribute_accuracy_report = '',
     Completeness_Report = '',
@@ -198,6 +201,7 @@ metadata.env <- function(
     MD_Abstract = MD_Abstract,
     MD_Organisation_name = MD_Organisation_name,
     MD_Electronic_mail_address = MD_Electronic_mail_address,
+    MD_contact_URL = MD_contact_URL,
     MD_Role = MD_Role,
     MD_Keyword = MD_Keyword,
     MD_Thesaurus_name = MD_Thesaurus_name,
@@ -224,6 +228,8 @@ metadata.env <- function(
     DQ_Conformance_result = DQ_Conformance_result,
     DQ_Conformance_result_pass = DQ_Conformance_result_pass,
     DQ_Lineage_statement = DQ_Lineage_statement,
+    MD_ReferenceSystem_Identifier = MD_ReferenceSystem_Identifier,
+    MD_ReferenceSystem_type = MD_ReferenceSystem_type,
     ##FGDC
     Attribute_accuracy_report = Attribute_accuracy_report,
     Completeness_Report = Completeness_Report,

@@ -4,8 +4,9 @@
 \description{Write tiled objects to KML. Suitable for plotting large rasters i.e. large spatial data sets.}
 \usage{
 plotKML.GDALobj(obj, file.name, block.x, tiles=NULL, 
-   tiles.sel=NULL, altitude=0, colour_scale, z.lim=NULL, breaks.lst=NULL, 
-   kml.logo, overwrite=TRUE, cpus, home.url=".", desc=NULL, open.kml=TRUE)
+   tiles.sel=NULL, altitude=0, altitudeMode="relativeToGround", colour_scale, 
+   z.lim=NULL, breaks.lst=NULL, kml.logo, overwrite=TRUE, cpus, 
+   home.url=".", desc=NULL, open.kml=TRUE)
 }
 \arguments{
   \item{obj}{\code{"GDALobj"} object i.e. a pointer to a spatial layer}
@@ -14,6 +15,7 @@ plotKML.GDALobj(obj, file.name, block.x, tiles=NULL,
   \item{tiles}{data.frame; tiling definition generated using \code{GSIF::tile}}
   \item{tiles.sel}{integer; selection of tiles to be plotted}
   \item{altitude}{numeric; altitude of the ground overlay}
+  \item{altitudeMode}{character; either \code{"absolute"}, \code{"relativeToGround"} or \code{"clampToGround"}}
   \item{colour_scale}{character; color palette}
   \item{z.lim}{numeric; upper lower boundaries}  
   \item{breaks.lst}{numeric; optional break lines (must be of size \code{length(colour_scale)+1)}}
@@ -25,9 +27,9 @@ plotKML.GDALobj(obj, file.name, block.x, tiles=NULL,
   \item{open.kml}{logical; specifies whether to open the KML file after writing}
 }
 \value{Returns a list of KML files.}
-\note{This operation can be time-consuming for processing very large rasters e.g. more than 10,000 by 10,000 pixels. To speed up writing of KMLs install and load snowfall package.}
+\note{This operation can be time-consuming for processing very large rasters e.g. more than 10,000 by 10,000 pixels. To speed up writing of KMLs, use the snowfall package.}
 \author{Tomislav Hengl }
-\seealso{\code{\link{plotKML}}}
+\seealso{\code{\link{plotKML}}, \code{\link{kml.tiles}}}
 \examples{
 \dontrun{
 library(sp)
@@ -42,7 +44,7 @@ tiles <- getSpatialTiles(obj, block.x=5000,
 ## plot using tiles:
 plotKML.GDALobj(obj, tiles=tiles, z.lim=c(0,185))
 ## Even better ideas is to first reproject 
-## the large grid using 'gdalwarp', then tile...
+## the large grid using 'gdalUtils::gdalwarp', then tile...
 }
 }
 \keyword{spatial}

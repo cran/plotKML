@@ -38,7 +38,6 @@ kml_aes <- function(obj, ...) {
 
   # Parse the current call
   called_aes <- .parse_call_for_aes(parent_call)
-
   aes <- list()
 
   # Names
@@ -225,7 +224,7 @@ kml_aes <- function(obj, ...) {
   pal <- colorRamp(colour_scale, space = "rgb", interpolate = "linear")
 
   if (is.numeric(data)) {
-    if(missing(z.lim)) { z.lim = range(data, na.rm = TRUE, finite = TRUE) }
+    if(missing(z.lim)) { z.lim <- range(data, na.rm = TRUE, finite = TRUE) }
     data <- scales::rescale(data, from=z.lim)
     data <- ifelse(data<0, 0, ifelse(data>1, 1, data))
     cols <- rep("#FFFFFF", length(data))

@@ -57,7 +57,7 @@ kml_legend.bar <- function(x, width, height, pointsize = 14, legend.file, legend
   
     if(missing(width)) { width <- 120 } 
     if(missing(height)) { height <- 240 } 
-    png(filename=legend.file, width=120, height=240, bg="transparent", pointsize=pointsize)
+    png(filename=legend.file, width=width, height=height, bg="transparent", pointsize=pointsize)
     par(mar=c(.5,0,.5,4))
     plot(x=0:5, y=0:5, asp=3, type="n", axes=FALSE, xlab='', ylab='')
     # get the 2-4 significant digits

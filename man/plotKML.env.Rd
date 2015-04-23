@@ -5,10 +5,10 @@
 \title{plotKML specific environmental variables / paths}
 \description{Sets the environmental, package specific parameters and settings (URLs, names, default color palettes and similar) that can be later on passed to other functions.}
 \usage{plotKML.env(colour_scale_numeric = "", colour_scale_factor = "",
-              colour_scale_svar = "", ref_CRS, NAflag, icon, LabelScale, size_range, 
-              license_url, metadata_sel, kmz, kml_xsd, kml_url, kml_gx, gpx_xsd,
-              fgdc_xsd, inspire_xsd, convert, gdalwarp, gdal_translate, python,
-              home_url, show.env = TRUE, silent = TRUE)
+        colour_scale_svar = "", ref_CRS, NAflag, icon, LabelScale, size_range, 
+        license_url, metadata_sel, kmz, kml_xsd, kml_url, kml_gx, gpx_xsd,
+        fgdc_xsd, inspire_xsd, convert, gdalwarp, gdal_translate, python,
+        home_url, show.env = TRUE, silent = TRUE)
 }
 \arguments{
   \item{colour_scale_numeric}{default colour scheme for numeric variables}
@@ -52,8 +52,8 @@ The external software tools are not required by default and most of operations i
 \code{library(plotKML); plotKML.env(..., show.env = FALSE)}\cr 
 in your \code{"/etc/Rprofile.site"}.
 }
-\section{Warning}{Under Linux OS make sure you add path to executable program by using e.g.:\cr 
-\code{export PATH=INSTALL_DIRECTORY/FWTools-2.*.*/bin_safe:$PATH}
+\section{Warning}{Under Linux OS you need to install GDAL binaries by using:\cr 
+\code{sudo apt-get install gdal-bin}
 }
 \examples{
 \dontrun{## look for paths:

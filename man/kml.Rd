@@ -46,7 +46,9 @@ proj4string(eberg) <- CRS("+init=epsg:31467")
 \dontrun{# Simple plot
 kml(eberg, file = "eberg-0.kml")
 # Plot using aesthetics
-kml(eberg, colour = SNDMHT_A, size = CLYMHT_A, alpha = 0.75, file = "eberg-1.kml")
+shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png"
+kml(eberg, colour = SNDMHT_A, size = CLYMHT_A, 
+   alpha = 0.75, file = "eberg-1.kml", shape=shape)
 }
 }
 \keyword{spatial}

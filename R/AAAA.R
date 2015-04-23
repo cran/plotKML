@@ -45,7 +45,7 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
      if(is.null(convert)){
         im.dir <- NULL
         if(.Platform$OS.type == "windows") {
-        # get paths and check for ImageMagick
+        ## get paths and check for ImageMagick
         paths <- strsplit(Sys.getenv('PATH')[[1]], ";")[[1]]
         x <- grep(paths, pattern="Magick", ignore.case = TRUE)
         
@@ -100,7 +100,7 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
     if(.Platform$OS.type == "windows") {
       if(gdalwarp==""|gdal_translate==""){
         if(requireNamespace("gdalUtils", quietly = TRUE)){
-          gdalUtils::gdal_setInstallation(search_path=gdal.dir, rescan=TRUE)
+          gdalUtils::gdal_setInstallation(search_path=gdal.dir, rescan=FALSE)
           x <- getOption("gdalUtils_gdalPath")
           if(!is.null(x[[1]]$path)){
             gdalwarp = shQuote(shortPathName(normalizePath(file.path(x[[1]]$path, "gdalwarp.exe"))))
@@ -185,12 +185,12 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
     else {
     
     if(gdalwarp==""|gdal_translate==""){
-    if(!length(x <- grep(paths <- strsplit(Sys.getenv('PATH')[[1]], ":")[[1]], pattern="FWTools", ignore.case=TRUE))==0) {
-    fw.dir <- paths[grep(paths, pattern="FWTools", ignore.case=TRUE)[1]]
+    if(!length(x <- grep(paths <- strsplit(Sys.getenv('PATH')[[1]], ":")[[1]], pattern="GDAL", ignore.case=TRUE))==0) {
+    gdal.dir <- paths[grep(paths, pattern="GDAL", ignore.case=TRUE)[1]]
     gdalwarp = "gdalwarp"
     gdal_translate = "gdal_translate"
     if(show.paths){ 
-      message(paste("Located GDAL from the path: \"", fw.dir, "\"", sep="")) 
+      message(paste("Located GDAL from the path: \"", gdal.dir, "\"", sep=""))
     }
     }
     else { 

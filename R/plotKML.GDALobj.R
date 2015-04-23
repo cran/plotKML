@@ -5,7 +5,7 @@
 # Note           : Implemented for parallel processing. SuperOverlay file (https://developers.google.com/kml/documentation/kml_21tutorial?csw=1#superoverlays);
 
 
-plotKML.GDALobj <- function(obj, file.name, block.x, tiles=NULL, tiles.sel=NULL, altitude=0, colour_scale, z.lim=NULL, breaks.lst=NULL, kml.logo, overwrite=TRUE, cpus, home.url=".", desc=NULL, open.kml=TRUE){
+plotKML.GDALobj <- function(obj, file.name, block.x, tiles=NULL, tiles.sel=NULL, altitude=0, altitudeMode="relativeToGround", colour_scale, z.lim=NULL, breaks.lst=NULL, kml.logo, overwrite=TRUE, cpus, home.url=".", desc=NULL, open.kml=TRUE){
 
   if(!class(obj)=="GDALobj"){
     stop("Object of class \"GDALobj\" required.")
@@ -17,8 +17,11 @@ plotKML.GDALobj <- function(obj, file.name, block.x, tiles=NULL, tiles.sel=NULL,
     try( z.lim <- c(attr(obj, "df")$Bmin, attr(obj, "df")$Bmax) )
     if(!is.numeric(z.lim)&length(z.lim)==2){ stop("Please specify 'z.lim' argument") }
   }
+  if(!is.null(breaks.lst)&length(breaks.lst)<15){
+    stop("'breaks.lst' must contain at least 15 elements")
+  }
 
-  if(!length(colour_scale)==(length(breaks.lst)-1)&!is.null(breaks.lst)){ stop("'colour_scale' and 'breaks.lst' of equal length required") }
+  if(!length(colour_scale)==(length(breaks.lst)-1)&!is.null(breaks.lst)){ stop("'length(colour_scale)' and 'length(breaks.lst)-1' of equal length required") }
   GDALobj.file <- attr(obj, "file")
   if(is.null(tiles)){
     if(requireNamespace("GSIF", quietly = TRUE)){
@@ -35,20 +38,20 @@ plotKML.GDALobj <- function(obj, file.name, block.x, tiles=NULL, tiles.sel=NULL,
   if(requireNamespace("snowfall", quietly = TRUE)&requireNamespace("parallel", quietly = TRUE)){  
     if(missing(cpus)){ cpus <- parallel::detectCores(all.tests = FALSE, logical = FALSE) }
     snowfall::sfInit(parallel=TRUE, cpus=cpus)
-    snowfall::sfExport("GDALobj.file", "tiles", "tiles.sel", "breaks.lst", "altitude", "colour_scale", "z.lim", "overwrite")
+    snowfall::sfExport("GDALobj.file", "tiles", "tiles.sel", "breaks.lst", "altitude", "altitudeMode", "colour_scale", "z.lim", "overwrite")
     snowfall::sfLibrary(package="rgdal", character.only=TRUE)
     snowfall::sfLibrary(package="sp", character.only=TRUE)
     snowfall::sfLibrary(package="plotKML", character.only=TRUE)
     snowfall::sfLibrary(package="XML", character.only=TRUE)
     snowfall::sfLibrary(package="RSAGA", character.only=TRUE)
     snowfall::sfLibrary(package="raster", character.only=TRUE)
-    lst <- snowfall::sfLapply(tiles.sel, .kml_SpatialGrid_tile, GDALobj.file=GDALobj.file, tiles=tiles, altitude=altitude, colour_scale=colour_scale, breaks.lst=breaks.lst, z.lim=z.lim, overwrite=overwrite)
+    lst <- snowfall::sfLapply(tiles.sel, .kml_SpatialGrid_tile, GDALobj.file=GDALobj.file, tiles=tiles, altitude=altitude, altitudeMode=altitudeMode, colour_scale=colour_scale, breaks.lst=breaks.lst, z.lim=z.lim, overwrite=overwrite)
     snowfall::sfStop()
     lst <- do.call(rbind, lst)
   } else {
     lst <- list(NULL)
     for(i in 1:length(tiles.sel)){
-      lst[[i]] <- .kml_SpatialGrid_tile(i, GDALobj.file=GDALobj.file, tiles=tiles, altitude=altitude, colour_scale=colour_scale, breaks.lst=breaks.lst, z.lim=z.lim, overwrite=overwrite)
+      lst[[i]] <- .kml_SpatialGrid_tile(i, GDALobj.file=GDALobj.file, tiles=tiles, altitude=altitude, altitudeMode=altitudeMode, colour_scale=colour_scale, breaks.lst=breaks.lst, z.lim=z.lim, overwrite=overwrite)
     }
   }
   
@@ -86,10 +89,10 @@ plotKML.GDALobj <- function(obj, file.name, block.x, tiles=NULL, tiles.sel=NULL,
   ## add logo and a legend:
   kml.legend <- paste0(strsplit(file.name, ".kml")[[1]][1], "_legend.png")
   if(is.null(breaks.lst)){
-    kml_legend.bar(x=seq(z.lim[1], z.lim[2], length.out=25), legend.file=kml.legend, legend.pal=colour_scale)
+    kml_legend.bar(x=signif(seq(z.lim[1], z.lim[2], length.out=25), 3), legend.file=kml.legend, legend.pal=colour_scale)
   } else {
-    breaks.s <- seq(1:length(breaks.lst), length.out=15)
-    kml_legend.bar(x=as.factor(breaks.lst[breaks.s]), legend.file=kml.legend, legend.pal=colour_scale[breaks.s[-length(breaks.s)]])
+    breaks.s <- seq(1, length(breaks.lst), length.out=15)
+    kml_legend.bar(x=as.factor(signif(breaks.lst[breaks.s], 2)), legend.file=kml.legend, legend.pal=colour_scale[breaks.s])
   }
   kml_screen(image.file = kml.legend, position = "UL", sname = "legend")
   if(!missing(kml.logo)){ kml_screen(image.file = kml.logo, position = "UR", sname = "logo") }
@@ -102,7 +105,7 @@ plotKML.GDALobj <- function(obj, file.name, block.x, tiles=NULL, tiles.sel=NULL,
 }
 
 ## auxiliary function:
-.kml_SpatialGrid_tile <- function(i, GDALobj.file, colour, tiles, breaks.lst, colour_scale, altitude, z.lim, N.min=4, overwrite){
+.kml_SpatialGrid_tile <- function(i, GDALobj.file, colour, tiles, breaks.lst, colour_scale, altitude, altitudeMode, z.lim, N.min=4, overwrite){
   if(any(!c("offset.x", "offset.y", "region.dim.x", "region.dim.y") %in% names(tiles))){ stop("Missing columns in the 'tiles' object. See ?GSIF::tile") }
   kml.tile <- set.file.extension(paste0(strsplit(basename(GDALobj.file), "\\.")[[1]][1], "_T", i), ".kml")
   raster_name = set.file.extension(paste0(strsplit(basename(GDALobj.file), "\\.")[[1]][1], "_T", i), ".png")
@@ -128,9 +131,9 @@ plotKML.GDALobj <- function(obj, file.name, block.x, tiles=NULL, tiles.sel=NULL,
       if(!(overwrite==FALSE&file.exists(raster_name))){
         kml_open(kml.tile)
         if(!is.null(z.lim)){
-          suppressMessages( kml_layer(r, colour=colour, colour_scale=colour_scale, altitude=altitude, raster_name=raster_name, plot.legend=FALSE, png.width=pw, png.height=ph, z.lim=z.lim) )
+          suppressMessages( kml_layer(r, colour=colour, colour_scale=colour_scale, altitude=altitude, altitudeMode=altitudeMode, raster_name=raster_name, plot.legend=FALSE, png.width=pw, png.height=ph, z.lim=z.lim) )
         } else {
-          suppressMessages( kml_layer(r, colour=colour, colour_scale=colour_scale, altitude=altitude, raster_name=raster_name, plot.legend=FALSE, png.width=pw, png.height=ph) )
+          suppressMessages( kml_layer(r, colour=colour, colour_scale=colour_scale, altitude=altitude, altitudeMode=altitudeMode, raster_name=raster_name, plot.legend=FALSE, png.width=pw, png.height=ph) )
         }
         kml_close(kml.tile)
       }

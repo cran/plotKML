@@ -88,6 +88,13 @@
 									</gmd:electronicMailAddress>
 								</gmd:CI_Address>
 							</gmd:address>
+              <gmd:onlineResource>
+						<gmd:CI_OnlineResource>
+							<gmd:linkage>
+								<gco:CharacterString>http://url</gco:CharacterString>
+							</gmd:linkage>
+						</gmd:CI_OnlineResource>
+					</gmd:onlineResource> 
 						</gmd:CI_Contact>
 					</gmd:contactInfo>
 					<gmd:role>
@@ -191,7 +198,21 @@
 				</gmd:EX_Extent>
 			</gmd:extent>
 		</gmd:MD_DataIdentification>
-	</gmd:identificationInfo>
+	</gmd:identificationInfo>  
+  <gmd:referenceSystemInfo>
+  <gmd:MD_ReferenceSystem>
+    <gmd:referenceSystemIdentifier>
+      <gmd:RS_Identifier>
+        <gmd:code>
+          <gco:CharacterString>http://www.opengis.net/def/crs/EPSG/0/4326</gco:CharacterString>
+        </gmd:code>
+        <gmd:codeSpace>
+          <gco:CharacterString>urn:ogc:def:crs:EPSG</gco:CharacterString>
+        </gmd:codeSpace>
+      </gmd:RS_Identifier>
+    </gmd:referenceSystemIdentifier>
+  </gmd:MD_ReferenceSystem>
+  </gmd:referenceSystemInfo>
 	<gmd:distributionInfo>
 		<gmd:MD_Distribution>
 			<gmd:transferOptions>

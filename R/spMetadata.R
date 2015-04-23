@@ -163,6 +163,10 @@ setMethod("GetPalette", "SpatialMetadata", function(obj){obj@palette})
       MD_Electronic_mail_address <- get("MD_Electronic_mail_address", envir = metadata) 
       if(!MD_Electronic_mail_address==""){
         xmlValue(ml[["identificationInfo"]][["MD_DataIdentification"]][["pointOfContact"]][["CI_ResponsibleParty"]][["contactInfo"]][["CI_Contact"]][["address"]][["CI_Address"]][["electronicMailAddress"]][[1]]) <- MD_Electronic_mail_address
+      }
+      MD_contact_URL <- get("MD_contact_URL", envir = metadata) 
+      if(!MD_contact_URL==""){
+        xmlValue(ml[["identificationInfo"]][["MD_DataIdentification"]][["pointOfContact"]][["CI_ResponsibleParty"]][["contactInfo"]][["CI_Contact"]][["onlineResource"]][["CI_OnlineResource"]][["linkage"]][[1]]) <- MD_contact_URL
       } 
       ## Citation title:
       CI_Citation_title <- get("CI_Citation_title", envir = metadata)
@@ -201,6 +205,16 @@ setMethod("GetPalette", "SpatialMetadata", function(obj){obj@palette})
         xmlValue(ml[["identificationInfo"]][["MD_DataIdentification"]][[xx[2]]][["MD_Resolution"]][["distance"]][["Distance"]]) <- MD_Resolution
         xmlAttrs(ml[["identificationInfo"]][["MD_DataIdentification"]][[xx[2]]][["MD_Resolution"]][["distance"]][["Distance"]])[[1]] <- "#m"
       }
+      ## Coordinate system:
+      MD_ReferenceSystem_Identifier <- get("MD_ReferenceSystem_Identifier", envir = metadata)
+      if(MD_ReferenceSystem_Identifier==""){  
+        xmlValue(ml[["referenceSystemInfo"]][["MD_ReferenceSystem"]][["referenceSystemIdentifier"]][["RS_Identifier"]][["code"]][[1]]) <- proj4string(obj)
+        xmlValue(ml[["referenceSystemInfo"]][["MD_ReferenceSystem"]][["referenceSystemIdentifier"]][["RS_Identifier"]][["codeSpace"]][[1]]) <- "proj4"
+      } else {
+        xmlValue(ml[["referenceSystemInfo"]][["MD_ReferenceSystem"]][["referenceSystemIdentifier"]][["RS_Identifier"]][["code"]][[1]]) <- MD_ReferenceSystem_Identifier
+        xmlValue(ml[["referenceSystemInfo"]][["MD_ReferenceSystem"]][["referenceSystemIdentifier"]][["RS_Identifier"]][["codeSpace"]][[1]]) <- get("MD_ReferenceSystem_type", envir = metadata)
+      }
+      
       ## Contact organization:
       xmlValue(ml[["contact"]][["CI_ResponsibleParty"]][["organisationName"]][[1]]) <- get("CI_Organisation_name", envir = metadata)
       xmlValue(ml[["contact"]][["CI_ResponsibleParty"]][["role"]][["CI_RoleCode"]][[1]]) <- get("CI_Role", envir = metadata)
