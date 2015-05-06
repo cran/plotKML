@@ -1,5 +1,5 @@
 #import(Hmisc)
-import(stats, utils, methods)
+import(stats, utils, methods, tools)
 importFrom("RColorBrewer", brewer.pal)
 importFrom("scales", rescale)
 importFrom("colorspace", coords, hex, mixcolor, HSV)
@@ -12,9 +12,10 @@ importFrom("pixmap", pixmapIndexed, pixmapRGB)
 importFrom("plyr", aaply, laply, llply, ldply)
 importFrom("RSAGA", set.file.extension, rsaga.env, rsaga.get.version, rsaga.geoprocessor)
 importFrom("raster", extract, stack, brick, rotate, nlayers, shift, projectRaster, extension, is.factor, as.factor, removeTmpFiles, rasterToPolygons, raster, projection, rasterize, writeRaster, extent, calc, getValues, "values<-", getZ, setZ, minValue, maxValue, image, ncol, nrow, ncell)
-import("sp")
+importFrom("XML", xmlValue, "xmlValue<-", xmlAttrs, "xmlAttrs<-", xmlNode, xmlSize, xmlParse, xmlTreeParse, xmlInternalTreeParse, xmlGetAttr, xmlName, xmlToList, newXMLDoc, newXMLNode, parseXMLAndAdd, xmlChildren, saveXML, xmlRoot, xpathApply, compareXMLDocs, append.XMLNode, xmlSchemaValidate, xmlSApply)
+importClassFrom(XML, XMLInternalDocument, XMLAbstractNode, XMLNode, HTMLInternalDocument)
 
-import(XML)
+import("sp")
 import(rgdal)
 import(stringr)
 import(colorRamps)
@@ -42,7 +43,7 @@ exportMethods(
 	metadata2SLD,
 	plotKML,
 	vect2rast,
-  summary, 
+  summary,
   plot)
 S3method(plot, SpatialPredictions)
 export(check_projection, parse_proj4)

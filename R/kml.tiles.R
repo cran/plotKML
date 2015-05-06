@@ -19,14 +19,6 @@ kml.tiles <- function(obj,
   if(missing(folder.name)){ folder.name <- normalizeFilename(deparse(substitute(obj))) }
   if(missing(file.name)){ file.name <- paste(normalizeFilename(deparse(substitute(obj))), ".kml", sep="") }
   
-  ## parsed elements:
-  parent_call <- as.list(substitute(list(...)))[-1]
-  if(any(names(parent_call) %in% "z.lim")){ 
-    z.lim <- eval(parent_call[['z.lim']])
-  } else {
-    z.lim <- range(eval(parent_call[['colour']], obj@data), na.rm=TRUE)
-  }
-  
   ## check class of object:
   if(any(!(class(obj)=="SpatialPointsDataFrame"|class(obj)=="SpatialLinesDataFrame"|class(obj)=="SpatialPolygonsDataFrame"))){
     stop("Object of class SpatialPoints*, SpatialLines*, SpatialPolygons* expected")

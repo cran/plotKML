@@ -1,5 +1,5 @@
-3e0dd8280618f8ba060e19247a90e8ac *DESCRIPTION
-408da2d70d9a0a6033de717d2a1e7ebf *NAMESPACE
+51de893ec1b5ae814772acb0cd1d8998 *DESCRIPTION
+a3dc627229a0fac56e793ed7febfbcfc *NAMESPACE
 6fecfa4c8923c389076de1208ca076c1 *R/AAA-classes.R
 b6c2a2b782f06f072cce201506e333e6 *R/AAA-md.R
 bf60055ac0f66e67f1bb79b49129991b *R/AAAA.R
@@ -16,8 +16,8 @@ a46afa9120c697cfdbb4cb01817d9544 *R/geopath.R
 33914f1f7c313ec7885b9af2f8fed599 *R/getWikiMedia.ImageInfo.R
 5d4e361067d826eba99bf95ecc568cf1 *R/grid2poly.R
 512ad21b32429826c147d766f232f9de *R/kml.R
-5f321761eeda5fee09463cc38e0c9c22 *R/kml.tiles.R
-b100dca34abb3321b01bc8a19f32b655 *R/kml_compress.R
+c20c9eb17b18b961d2ece96876f2e9e9 *R/kml.tiles.R
+b25729ee7e25c340affee284c2eb8cda *R/kml_compress.R
 22a6bde3d75b2d838fb0ca985f02dd9f *R/kml_description.R
 17a4b038b0df8abc8ca00a48f8c2a3ca *R/kml_metadata.R
 29a07ea07fe28e4d9fa0830a08805a58 *R/kml_open.R
@@ -81,7 +81,7 @@ cd540f046ef463f7aef867e19213b991 *inst/INSPIRE_ISO19139.xml
 d41d8cd98f00b204e9800998ecf8427e *inst/NEWS
 52489fc4bbffc35a73c93fdc6c74abda *inst/doc/jss1079.R
 f231fc62841c0f1bc4f2714d2914601e *inst/doc/jss1079.Rnw
-f0c4b97f07e22e950cc83b23dc7597f0 *inst/doc/jss1079.pdf
+cf0d8d2f1b814e67a36f958e99c2d2d5 *inst/doc/jss1079.pdf
 c4c84fc61344519d27e5b9ee06f4845e *inst/eberg.xml
 762124c8e05e5dbf332ec2acadb0af18 *inst/gpx.xsd
 28da50b2a17e0848877f44470a66db5b *inst/mdnames.csv
@@ -145,7 +145,7 @@ a8b855f44ed2e0c9d35a8d314b2c11b7 *man/plotKML.GDALobj.Rd
 cca62d3193f2a1ccebd89e21e4687865 *man/readKML.GBIFdensity.Rd
 c98b2048da547cc8b8fb0e960e68fd21 *man/reproject.Rd
 95b5e9a455650e91a094fbd3f4f8056c *man/sp.palette.Rd
-365d639adf603e4011f1202dbf772b88 *man/spMetadata.Rd
+4f276545f0f6101e61d4d57d216a2b58 *man/spMetadata.Rd
 6d5142f43f450bb55fcac48c0f7b9209 *man/spPhoto.Rd
 6ceadaef90cdee97418505d2175529d6 *man/vect2rast.Rd
 b10b332eee900a8fcba5e6e8442729b6 *man/vect2rast.SpatialPoints.Rd

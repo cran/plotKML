@@ -1,32 +1,32 @@
 Package: plotKML
-Version: 0.5-1
-Date: 2015-03-09
-Title: Visualization of Spatial and Spatio-temporal Objects in Google
+Version: 0.5-2
+Date: 2015-05-06
+Title: Visualization of Spatial and Spatio-Temporal Objects in Google
         Earth
 Authors@R: c(person("Tomislav", "Hengl", role = c("cre", "aut"),
-        email = "tom.hengl@wur.nl"),
+        email = "tom.hengl@isric.org"),
     person("Pierre", "Roudier", role = "ctb"),
     person("Dylan", "Beaudette", role = "ctb"),
 	person("Edzer", "Pebesma", role = "ctb"),
   person("Michael", "Blaschek", role = "ctb"))
-Maintainer: Tomislav Hengl <tom.hengl@wur.nl>
+Maintainer: Tomislav Hengl <tom.hengl@isric.org>
 Depends: R (>= 2.13.0)
-Imports: methods, XML, sp, raster, rgdal, spacetime, colorspace,
-        plotrix, dismo, aqp, pixmap, plyr, stringr, colorRamps, scales,
-        gstat, zoo, RColorBrewer, RSAGA, classInt
-Suggests: utils, adehabitat, maptools, fossil, spcosa, rjson,
-        animation, spatstat, RCurl, rgbif, Hmisc, GSIF, uuid,
-        intervals, reshape, gdalUtils, snowfall, parallel
+Imports: methods, tools, utils, XML, sp, raster, rgdal, spacetime,
+        colorspace, plotrix, dismo, aqp, pixmap, plyr, stringr,
+        colorRamps, scales, gstat, zoo, RColorBrewer, RSAGA, classInt
+Suggests: adehabitat, maptools, fossil, spcosa, rjson, animation,
+        spatstat, RCurl, rgbif, Hmisc, GSIF, uuid, intervals, reshape,
+        gdalUtils, snowfall, parallel
 Description: Writes sp-class, spacetime-class, raster-class and similar spatial and spatio-temporal objects to KML following some basic cartographic rules.
 License: GPL
 URL: http://plotkml.r-forge.r-project.org/
 LazyLoad: yes
 NeedsCompilation: no
-Packaged: 2015-04-23 12:21:26 UTC; ripley
+Packaged: 2015-05-06 15:18:05 UTC; hengl001
 Author: Tomislav Hengl [cre, aut],
   Pierre Roudier [ctb],
   Dylan Beaudette [ctb],
   Edzer Pebesma [ctb],
   Michael Blaschek [ctb]
 Repository: CRAN
-Date/Publication: 2015-04-23 14:24:28
+Date/Publication: 2015-05-06 17:31:25

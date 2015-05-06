@@ -8,8 +8,8 @@
 kml_compress <- function(file.name, zip = Sys.getenv("R_ZIPCMD", "zip"), files = "", rm = FALSE, ...){
 
   # Changing the extension to KMZ
-  extension <- str_extract(file.name, pattern="*\\..*$")
-  kmz <- str_replace(file.name, extension, ".kmz") # switch the extension to kmz
+  extension <- file_ext(file.name)
+  kmz <- str_replace(file.name, extension, "kmz") # switch the extension to kmz
 	
   # use R's zip wrapper
   try(x <- zip(zipfile=paste(getwd(), kmz, sep='/'), files=paste(getwd(), file.name, sep='/'), zip=zip))
