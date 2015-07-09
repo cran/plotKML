@@ -95,7 +95,10 @@ kml_layer.SoilProfileCollection <- function(
   if(requireNamespace("fossil", quietly = TRUE)){
     # convert meters to decimal degrees:
     new.ll <- fossil::new.lat.long(long = mean(LON), lat = mean(LAT), bearing = 90, distance = block.size/1000)
-    block.size = new.ll[2] - mean(LON)
+    block.size <- new.ll[2] - mean(LON)
+  } else {
+    block.size <- 1/240
+    warning("Failed estimating 'block.size'. Install and load package 'fossil'")
   }
   if(missing(x.min)){
   	x.min = block.size/100

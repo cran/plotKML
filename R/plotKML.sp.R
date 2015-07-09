@@ -368,12 +368,12 @@ setMethod("plotKML", "list", function(obj, folder.name = normalizeFilename(depar
     for(i in 1:length(obj)){
       # Guess aesthetics if missing:
       if(labels == ""){ 
-        obj[[i]]@data[,"labels_i"] <- obj[[i]]@data[,1] 
+        labels_i <- obj[[i]]@data[,1] 
       } else {
         if(is.name(labels)|is.call(labels)){
-          obj[[i]]@data[,"labels_i"] <- eval(labels, obj[[i]]@data)
+          labels_i <- eval(labels, obj[[i]]@data)
         } else {
-          obj[[i]]@data[,"labels_i"] <- obj[[i]]@data[,deparse(labels)]      
+          labels_i <- obj[[i]]@data[,deparse(labels)]      
         }
       }
      

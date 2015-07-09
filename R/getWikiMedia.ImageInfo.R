@@ -5,14 +5,16 @@
 # Note           : The URLs might change in the near future;
 
 
-getWikiMedia.ImageInfo <- function(imagename, APIsource = "http://commons.wikimedia.org/w/api.php", module = "imageinfo", details = c("url", "metadata", "size", "extlinks"), testURL = TRUE){ 
+getWikiMedia.ImageInfo <- function(imagename, APIsource = "https://commons.wikimedia.org/w/api.php", module = "imageinfo", details = c("url", "metadata", "size", "extlinks"), testURL = TRUE){ 
+  
+  if(!requireNamespace("RCurl", quietly = TRUE)){
+    stop('package "RCurl" required but missing')
+  }
   
   if(testURL == TRUE){
-    if(requireNamespace("RCurl", quietly = TRUE)){
-      z <- RCurl::getURI(paste("http://commons.wikimedia.org/wiki/File:", imagename, sep=""), .opts=RCurl::curlOptions(header=TRUE, nobody=TRUE, transfertext=TRUE, failonerror=FALSE))
-      if(!length(x <- grep(z, pattern="404 Not Found"))==0){
-        stop(paste("File", imagename, "could not be located at http://commons.wikimedia.org"))
-      }
+    z <- RCurl::getURI(paste("http://commons.wikimedia.org/wiki/File:", imagename, sep=""), .opts=RCurl::curlOptions(header=TRUE, nobody=TRUE, transfertext=TRUE, failonerror=FALSE, ssl.verifypeer = FALSE))
+    if(!length(x <- grep(z, pattern="404 Not Found"))==0){
+      stop(paste("File", imagename, "could not be located at http://commons.wikimedia.org"))
     }
   }
   
@@ -21,35 +23,34 @@ getWikiMedia.ImageInfo <- function(imagename, APIsource = "http://commons.wikime
   xml.lst <- NULL
   for(j in 1:length(details)){
     if(details[j]=="url"|details[j]=="metadata"|details[j]=="size"){
-    xml.api = xmlParse(readLines(paste(APIsource, "?action=query&titles=File:", imagename, "&prop=", module, "&iiprop=", details[j], "&format=xml", sep="")))
-    x <- xmlToList(xml.api[["//ii"]])
-    if(any(names(x)=="metadata")){
-      exif.info <- sapply(xml.api["//metadata[@value]"], xmlGetAttr, "value")
-      names(exif.info) <- sapply(xml.api["//metadata[@name]"], xmlGetAttr, "name")
-      xml.lst[[j]] <- as.list(data.frame(as.list(exif.info), stringsAsFactors=FALSE))
-      }
-      else {
-      xml.lst[[j]] <- as.list(x)
+      xml.api <- xmlParse(RCurl::getURL(paste0(APIsource, "?action=query&titles=File:", imagename, "&prop=", module, "&iiprop=", details[j], "&format=xml"), ssl.verifypeer = FALSE))
+      x <- xmlToList(xml.api[["//ii"]])
+      if(any(names(x)=="metadata")){
+        exif.info <- sapply(xml.api["//metadata[@value]"], xmlGetAttr, "value")
+        names(exif.info) <- sapply(xml.api["//metadata[@name]"], xmlGetAttr, "name")
+        xml.lst[[j]] <- as.list(data.frame(as.list(exif.info), stringsAsFactors=FALSE))
+      } else {
+        xml.lst[[j]] <- as.list(x)
       }
     }
     else {
     if(details[j]=="extlinks"){
-      xml.api = xmlParse(readLines(paste(APIsource, "?action=query&titles=File:", imagename, "&prop=", details[j], "&format=xml", sep="")))    
+      xml.api <- xmlParse(RCurl::getURL(paste0(APIsource, "?action=query&titles=File:", imagename, "&prop=", details[j], "&format=xml"), ssl.verifypeer = FALSE))
       geo.tag <- sapply(xml.api["//extlinks/el"], xmlValue)
     if(!length(geo.tag)==0){
+      ## Try to determine coordinates from google maps URL:
       geo.tag1 <- geo.tag[grep(geo.tag, pattern="maps.google")]
         if(!length(geo.tag1)==0){
           ll1 <- strsplit(strsplit(geo.tag1, "ll=")[[1]][2], "&")[[1]][1]
-          # manually enterred metadata:
+          ## manually enterred coordinates:
           Longitude <- strsplit(ll1, ",")[[1]][2]
           Latitude <- strsplit(ll1, ",")[[1]][1]
         } else {
         geo.tag2 <- geo.tag[grep(geo.tag, pattern=glob2rx("*lat=*lon=*"))]
         if(!length(geo.tag2)==0){
           x <- unlist(strsplit(geo.tag2, "&"))
-          ll2 <- paste(unlist(strsplit(x[grep(x, pattern="lat=")], "lat="))[2], unlist(strsplit(x[grep(x, pattern="lat=")], "lat="))[2])
-          Longitude <- strsplit(ll2, ",")[[1]][2]
-          Latitude <- strsplit(ll2, ",")[[1]][1]          
+          Longitude <- as.numeric(unlist(strsplit(x[grep(x, pattern="lon=")], "lon="))[2])
+          Latitude <- as.numeric(unlist(strsplit(x[grep(x, pattern="lat=")], "lat="))[2])
         } else {
           Longitude <- NA
           Latitude <- NA
@@ -65,7 +66,7 @@ getWikiMedia.ImageInfo <- function(imagename, APIsource = "http://commons.wikime
       stop("Currently reads only 'url', 'metadata' and 'extlinks' information.")
     }
     }
-
+    
     names(xml.lst)[[j]] <- details[j] 
   }
 

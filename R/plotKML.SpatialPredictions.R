@@ -10,7 +10,6 @@ setMethod("plotKML", "SpatialPredictions", function(
   folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))),
   file.name = paste(folder.name, ".kml", sep=""),
   colour,
-  scale_svar = get("colour_scale_svar", envir = plotKML.opts),
   grid2poly = FALSE,
   obj.summary = TRUE,
   plot.svar = FALSE,
@@ -36,12 +35,6 @@ setMethod("plotKML", "SpatialPredictions", function(
   }
   pred <- obj@predicted["colour"]
   
-  ## plot the prediction variance?
-  if(plot.svar == TRUE){
-    svarname <- paste(obj@variable, ".", "svar", sep="")
-    svar <- obj@predicted[svarname]
-    names(svar) = "variance"
-  }
   ## sampling locations:
   locs <- obj@observed
   labs <- paste(signif(locs@data[,varname], 3))
@@ -67,17 +60,20 @@ setMethod("plotKML", "SpatialPredictions", function(
     parseXMLAndAdd(description_txt, parent=kml.out[["Document"]])  
     assign('kml.out', kml.out, envir=plotKML.fileIO)
   }
-   
+  
   if(grid2poly == TRUE){ 
     kml_layer(pol, colour = colour, ...)
-  }
-  else {
+  } else {
     kml_layer(pred, colour = colour, raster_name = paste(varname, "_predicted.png", sep=""), metadata = metadata, ...)
   }
-
+  
   if(plot.svar==TRUE){
-    kml_layer(obj = svar, colour = variance, colour_scale = colour_scale_svar, raster_name = paste(svarname, "_svar.png", sep=""), plot.legend = FALSE)  
-  }
+  ## plot the prediction variance?
+    svarname <- paste(obj@variable, ".", "svar", sep="")
+    svar <- obj@predicted[svarname]
+    names(svar) <- "colour"
+    kml_layer(svar, colour = colour, colour_scale = get("colour_scale_svar", envir = plotKML.opts), raster_name = paste(svarname, "_svar.png", sep=""), plot.legend = FALSE)
+  } 
   
   kml_layer(obj = locs, points_names = labs)  
 

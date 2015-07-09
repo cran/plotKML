@@ -5,7 +5,7 @@
 \code{getWikiMedia.ImageInfo} function fetches the EXIF (Exchangeable image file format) data via the \href{http://www.mediawiki.org/wiki/API}{Wikimedia API} for any donated image. The resulting EXIF data (named list) can then be further used to construct an object of class \code{"SpatialPhotoOverlay"}, which can be parsed to KML.
 }
 \usage{getWikiMedia.ImageInfo(imagename, 
-     APIsource = "http://commons.wikimedia.org/w/api.php", 
+     APIsource = "https://commons.wikimedia.org/w/api.php", 
      module = "imageinfo", 
      details = c("url", "metadata", "size", "extlinks"), testURL = TRUE)
 }

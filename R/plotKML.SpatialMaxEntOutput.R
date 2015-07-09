@@ -36,7 +36,8 @@ setMethod("plotKML", "SpatialMaxEntOutput", function(
 
   # objects:
   spname <- obj@sciname
-  pr <- as(obj@predicted, "SpatialPixelsDataFrame")
+  pr <- as(obj@predicted[1], "SpatialPixelsDataFrame")
+  names(pr) = "layer"
 
   # start writing the object:
   kml_open(folder.name = folder.name, file.name = file.name)
@@ -53,7 +54,7 @@ setMethod("plotKML", "SpatialMaxEntOutput", function(
   # spatial domain (green colour):
   kml_layer(obj = obj@sp.domain, colour = colour, colour_scale = rgb(t(col2rgb(c("white", rep("dark green", 5))))/255), plot.legend = FALSE)
   # predicted values:
-  kml_layer.SpatialPixels(obj = pr, colour = layer, ...)
+  kml_layer.SpatialPixels(obj = pr, colour = "layer", ...)
 
   # plot the contributions to the model:
   png(filename=paste(spname, "_var_contribution.png", sep=""), width=pngwidth, height=pngheight, bg="white", pointsize=pngpointsize)

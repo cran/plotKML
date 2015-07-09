@@ -33,42 +33,39 @@ spPhoto <- function(
    test.filename = TRUE
    ){
 
-  if(test.filename==TRUE){
-    try(con.file <- file(filename))
-    if(!any(class(con.file) %in% "url")){   
-      if(is.na(file.info(filename)$size)){
-        stop(paste("File", filename, "could not be located."))      
-      }
-    }
-    else{
-    if(requireNamespace("RCurl", quietly = TRUE)){
-      z <- RCurl::getURI(filename, .opts=RCurl::curlOptions(header=TRUE, nobody=TRUE, transfertext=TRUE, failonerror=FALSE))
-        if(!length(x <- grep(z, pattern="404 Not Found"))==0){
-          stop(paste("File", filename, "could not be located."))
-        }
-        else{
-          pixmap <- pixmapRGB(bands, ImageHeight, ImageWidth, bbox = bbox) 
-        }
-      }
-    } 
-  }
+   if(test.filename==TRUE){
+     if(!file.exists(filename)){
+       if(requireNamespace("RCurl", quietly = TRUE)){
+          z <- RCurl::getURI(filename, .opts=RCurl::curlOptions(header=TRUE, nobody=TRUE, transfertext=TRUE, failonerror=FALSE, ssl.verifypeer = FALSE))
+          if(!length(x <- grep(z, pattern="404 Not Found"))==0){
+            stop(paste("File", filename, "could not be located."))
+          } else {
+            pixmap <- pixmapRGB(bands, ImageHeight, ImageWidth, bbox = bbox) 
+          }
+       } else {
+         stop('package "RCurl" required but missing')
+       }
+     } else {
+       stop(paste("File", filename, "could not be located."))
+     }
+   }
     
   # Local copy or in memory
   if(!missing(pixmap)&missing(filename)){
     filename = ""
   }
 
-  # if missing the coordinate system assume latlon:
+  ## if missing the coordinate system assume latlon:
   if(!missing(obj)){
     if(is.na(proj4string(obj))) { proj4string(obj) <- CRS(get("ref_CRS", envir = plotKML.opts)) }
   }
 
-  # if missing EXIF data:
+  ## if missing EXIF data:
   if(is.null(exif.info)){
     exif.info <- as.list(data.frame(DateTime, ExposureTime, FocalLength, Flash))
   }
   else{ 
-    # try to guess coordinates from EXIF data:
+    ## try to guess coordinates from EXIF data:
     if(missing(obj)&any(names(exif.info) %in% "GPSLongitude")){
       if(any(names(exif.info) %in% "GPSAltitude")){
         x <- as.numeric(strsplit(exif.info$GPSAltitude, "/")[[1]])
@@ -87,17 +84,17 @@ spPhoto <- function(
       stop("GPS Longitude/Latitude tags not available from the exif.info object.")
     } 
     
-    # correct the ViewVolume:
+    ## correct the ViewVolume:
     exif.info$ImageWidth <- as.numeric(exif.info$ImageWidth)
     exif.info$ImageHeight <- as.numeric(exif.info$ImageHeight)
     asp = exif.info$ImageWidth / exif.info$ImageHeight
     leftFov = leftFov * asp
     rightFov = rightFov * asp
     
-    # format the DateTime field:
+    ## format the DateTime field:
     exif.info$DateTime <- format(as.POSIXct(exif.info$DateTime, format="%Y:%m:%d %H:%M:%S", tz="GMT"), "%Y-%m-%dT%H:%M:%SZ")
     
-    # add missing columns:
+    ## add missing columns:
     if(!any(names(exif.info) %in% "ExposureTime")){
        exif.info$ExposureTime <- ExposureTime
     }
@@ -110,17 +107,17 @@ spPhoto <- function(
     
   }
   
-  # Get the heading (if available):
+  ## Get the heading (if available):
   if(any(names(exif.info) %in% "GPSImgDirection")){
       x <- as.numeric(strsplit(exif.info$GPSImgDirection, "/")[[1]])
       try(exif.info$GPSImgDirection <- ifelse(length(x)>1, x[1]/x[2], x))
       heading = exif.info$GPSImgDirection
   }
   
-  # Photo geometry:
+  ## Photo geometry:
   PhotoOverlay <- as.list(data.frame(rotation, leftFov, rightFov, bottomFov, topFov, near, shape, range, tilt, heading, roll))
   
-  # make a SpatialPhotoOverlay object:
+  ## make a SpatialPhotoOverlay object:
   spPh <- new("SpatialPhotoOverlay", filename = filename, pixmap = pixmap, exif.info = exif.info, PhotoOverlay = PhotoOverlay, sp = obj) 
   return(spPh)    
 }

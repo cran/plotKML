@@ -16,8 +16,8 @@ data(R_pal)
 \item Conrad, O., (2007). \href{http://webdoc.sub.gwdg.de/diss/2007/conrad/conrad.pdf}{SAGA --- Entwurf, Funktionsumfang und Anwendung eines Systems für Automatisierte Geowissenschaftliche Analysen}. Electronic doctoral dissertation, University of \enc{Göttingen}{Goettingen}.
 \item Rogowitz, B.E., Treinish, L.A., (1998, December). \href{http://dx.doi.org/10.1109/6.736450}{Data visualization: the end of the rainbow}. Spectrum, IEEE, 35(12):52-59 
 \item Borland, D. and Russell, M. T. II, (2007). \href{http://dx.doi.org/10.1109/MCG.2007.323435}{Rainbow Color Map (Still) Considered Harmful}. Computer Graphics and Applications, IEEE, 27(2):14-17.
-\item \url{http://cran.r-project.org/web/packages/RColorBrewer/}
-\item \url{http://cran.r-project.org/web/packages/colorspace/}
+\item \url{http://cran.r-project.org/package=RColorBrewer}
+\item \url{http://cran.r-project.org/package=colorspace}
 }
 }
 \note{\code{rainbow_75}, \code{heat colors}, \code{terrain_colors}, \code{topo_colors}, and \code{bpy_colors} are the standard color palettes used in R to visualize numeric/continuous variables. \code{soc_pal}, \code{pH_pal}, \code{tex_pal}, \code{BS_pal} and \code{CEC_pal} palettes are suitable for visualization of soil variables (soil organic carbon, pH, soil texture fractions, Base Saturation and Cation Exchange Capacity). \code{blue_grey_red} palette is recommended for visualization of binary variables (values in the range 0-1), and \code{grey_black} is a white-to-black type color palette that contains no white color (hence it will not confuse low values with NA values in the PNG/GIF files).\cr 

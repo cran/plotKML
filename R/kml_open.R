@@ -58,7 +58,7 @@ kml_View <- function(file.name){
       x <- NULL # set default value for error checking
       if(!inherits(try({ x <- utils::readRegistry(ext, hive="HCR") }, silent = TRUE), "try-error")){
         if(! is.null(x[which(names(x) %in% c('Content Type', '(Default)'))])){
-          system(paste("open ", shortPathName(normalizePath(paste(getwd(), "/", file.name, sep=""))), sep=""))
+          system(paste("open ", utils::shortPathName(normalizePath(paste(getwd(), "/", file.name, sep=""))), sep=""))
         }
       }
       else{

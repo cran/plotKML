@@ -88,7 +88,7 @@ reproject.SpatialGrid <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts
     else {
       r <- raster(obj)
       if(is.factor(obj@data[,1])){
-        if(!is.raster(r)){ r <- raster::as.factor(r) }
+        r <- raster::as.factor(r)
         message(paste("Reprojecting to", CRS, "..."))
         res <- as(raster::projectRaster(r, crs = CRS, method = "ngb"), "SpatialGridDataFrame")
       } else {

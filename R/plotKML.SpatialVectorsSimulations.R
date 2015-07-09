@@ -11,7 +11,6 @@ setMethod("plotKML", "SpatialVectorsSimulations", function(
   folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))),
   file.name = paste(folder.name, ".kml", sep=""),
   colour,
-  scale_svar = get("colour_scale_svar", envir = plotKML.opts),
   grid2poly = FALSE,
   obj.summary = TRUE,
   plot.svar = FALSE,
@@ -33,7 +32,7 @@ setMethod("plotKML", "SpatialVectorsSimulations", function(
   }
   
   # error map (this assumes that it is always the 2nd on the list):
-  names(obj@summaries)[2] = "colour.sd"
+  colour.sd <- obj@summaries@data[,2]
   # mask out 0 pixels
   obj@summaries@data[,"colour"] <- ifelse(obj@summaries@data[,"colour"]==0, NA, obj@summaries@data[,"colour"])
   N.r <- length(obj@realizations)
@@ -65,7 +64,7 @@ setMethod("plotKML", "SpatialVectorsSimulations", function(
   }
 
   if(plot.svar==TRUE){
-    kml_layer(obj = obj@summaries, colour = colour.sd, colour_scale = scale_svar, raster_name = paste(folder.name, "_observed.sd.png", sep=""), plot.legend = FALSE)  
+    kml_layer(obj = obj@summaries, colour = colour.sd, colour_scale = get("colour_scale_svar", envir = plotKML.opts), raster_name = paste(folder.name, "_observed.sd.png", sep=""), plot.legend = FALSE)  
   }
   
   # Realizations:
@@ -87,7 +86,6 @@ setMethod("plotKML", "SpatialVectorsSimulations", function(
   }
     
 })
-
 
 
 # end of script;

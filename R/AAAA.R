@@ -14,7 +14,7 @@ plotKML.fileIO <- new.env(hash=TRUE, parent = parent.frame())
 plotKML.opts <- new.env(hash=TRUE, parent = parent.frame())
 
 ## Find paths to external packages:
-paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "", python = "", gdal.dir = shortPathName("C:\\Program Files\\GDAL"), show.paths = TRUE){ 
+paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "", python = "", gdal.dir = utils::shortPathName("C:\\Program Files\\GDAL"), show.paths = TRUE){ 
 
      ## Try locating SAGA GIS (R default setting)...
      if(saga_cmd==""){
@@ -22,7 +22,7 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
       if(!inherits(try( suppressWarnings( x <- rsaga.env() ), silent = TRUE), "try-error")){
         if(!is.null(x)){ 
           if(.Platform$OS.type == "windows") {
-            saga_cmd <- shortPathName(normalizePath(paste(rsaga.env()$path, rsaga.env()$cmd, sep="/"))) 
+            saga_cmd <- utils::shortPathName(normalizePath(paste(rsaga.env()$path, rsaga.env()$cmd, sep="/"))) 
           } else { 
             saga_cmd <- paste(rsaga.env()$path, rsaga.env()$cmd, sep="/") 
           } 
@@ -45,22 +45,22 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
      if(is.null(convert)){
         im.dir <- NULL
         if(.Platform$OS.type == "windows") {
-        ## get paths and check for ImageMagick
-        paths <- strsplit(Sys.getenv('PATH')[[1]], ";")[[1]]
-        x <- grep(paths, pattern="Magick", ignore.case = TRUE)
-        
-        ## if present
-        if(!length(x) == 0) {
-          im.dir <- paths[grep(paths, pattern="Magick", ignore.case = TRUE)[1]]
-          convert = shQuote(shortPathName(normalizePath(file.path(im.dir, "convert.exe"))))
-          if(show.paths&file.exists(convert)){ 
-            try( om <- system(convert,  show.output.on.console = FALSE, intern = TRUE)[1] )
-            if(!class(.Last.value)[1]=="try-error"){
-              message( paste(om) ) 
-            } else {
-              convert <- NULL
+          ## get paths and check for ImageMagick
+          paths <- strsplit(Sys.getenv('PATH')[[1]], ";")[[1]]
+          x <- grep(paths, pattern="Magick", ignore.case = TRUE)
+          
+          ## if present
+          if(!length(x) == 0) {
+            im.dir <- paths[grep(paths, pattern="Magick", ignore.case = TRUE)[1]]
+            convert = shQuote(utils::shortPathName(normalizePath(file.path(im.dir, "convert.exe"))))
+            if(show.paths&file.exists(convert)){ 
+              try( om <- system(convert,  show.output.on.console = FALSE, intern = TRUE)[1] )
+              if(!class(.Last.value)[1]=="try-error"){
+                message( paste(om) ) 
+              } else {
+                convert <- NULL
+              }
             }
-          }
           }
         } ## end checking for Imagemagick on Windows
         
@@ -77,6 +77,8 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
                 convert <- NULL
               } 
             }
+          } else {
+            im.dir <- NULL
           }
         }
     
@@ -103,8 +105,8 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
           gdalUtils::gdal_setInstallation(search_path=gdal.dir, rescan=FALSE)
           x <- getOption("gdalUtils_gdalPath")
           if(!is.null(x[[1]]$path)){
-            gdalwarp = shQuote(shortPathName(normalizePath(file.path(x[[1]]$path, "gdalwarp.exe"))))
-            gdal_translate = shQuote(shortPathName(normalizePath(file.path(x[[1]]$path, "gdal_translate.exe"))))
+            gdalwarp = shQuote(utils::shortPathName(normalizePath(file.path(x[[1]]$path, "gdalwarp.exe"))))
+            gdal_translate = shQuote(utils::shortPathName(normalizePath(file.path(x[[1]]$path, "gdal_translate.exe"))))
         }} else {
           warning("Could not locate GDAL! Install program and add it to the Windows registry. See http://www.gdal.org/ for more info.")
           gdalwarp = ""
@@ -121,9 +123,9 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
           py.path = utils::readRegistry(paste("SOFTWARE", reg.paths[x], "Python", names(py.paths), names(py.paths[[1]]), "InstallPath", sep="\\"))[[1]] 
           }, silent = TRUE), "try-error")) {
             if (nzchar(py.path))  { 
-              python = shQuote(shortPathName(normalizePath(file.path(py.path, "python.exe"))))
+              python = shQuote(utils::shortPathName(normalizePath(file.path(py.path, "python.exe"))))
               if(show.paths){ 
-                message(paste("Located Python from the Registry Hive: \"", shortPathName(py.path), "\"", sep="")) 
+                message(paste("Located Python from the Registry Hive: \"", utils::shortPathName(py.path), "\"", sep="")) 
               }
             } 
         } else { 
@@ -132,9 +134,9 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
           py.path = utils::readRegistry(paste("SOFTWARE", "Python", names(py.paths), names(py.paths[[1]])[1], "InstallPath", sep="\\"))[[1]] 
           }, silent = TRUE), "try-error")) {
           if (nzchar(py.path))  { 
-            python = shQuote(shortPathName(normalizePath(file.path(py.path, "python.exe"))))
+            python = shQuote(utils::shortPathName(normalizePath(file.path(py.path, "python.exe"))))
             if(show.paths){ 
-              message(paste("Located Python from the Registry Hive: \"", shortPathName(py.path), "\"", sep="")) 
+              message(paste("Located Python from the Registry Hive: \"", utils::shortPathName(py.path), "\"", sep="")) 
             }
           }
         } 
@@ -150,20 +152,20 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
             length(saga_cmd <- list.files(file.path(prog, saga.dir), pattern = "^saga_cmd\\.exe$", full.names = TRUE, recursive = TRUE))>0  
             ){
           if(suppressWarnings(!is.null(myenv <- rsaga.env(path=shQuote(normalizePath(saga.dir[1])))))){ 
-            saga_cmd <- shortPathName(normalizePath(paste(myenv$path, myenv$cmd, sep="/")))
+            saga_cmd <- utils::shortPathName(normalizePath(paste(myenv$path, myenv$cmd, sep="/")))
             saga.version <- myenv$version 
             if(show.paths){ 
-              message(paste("Located SAGA GIS ", saga.version, " from the 'Program Files' directory: \"", shortPathName(saga_cmd), "\"", sep="")) 
+              message(paste("Located SAGA GIS ", saga.version, " from the 'Program Files' directory: \"", utils::shortPathName(saga_cmd), "\"", sep="")) 
             }
        }} else{ if(nzchar(prog <- Sys.getenv("ProgramFiles(x86)")) &&
             length(saga.dir <- list.files(prog, "^SAGA*"))>0 &&
             length(saga_cmd <- list.files(file.path(prog, saga.dir), pattern = "^saga_cmd\\.exe$", full.names = TRUE, recursive = TRUE))>0   
             ) {
           if(suppressWarnings(!is.null(myenv <- rsaga.env(path=shQuote(normalizePath(saga.dir[1])))))){ 
-            saga_cmd <- shortPathName(normalizePath(paste(myenv$path, myenv$cmd, sep="/")))
+            saga_cmd <- utils::shortPathName(normalizePath(paste(myenv$path, myenv$cmd, sep="/")))
             saga.version <- myenv$version 
             if(show.paths){ 
-              message(paste("Located SAGA GIS ", saga.version, " from the 'Program Files' directory: \"", shortPathName(saga_cmd), "\"", sep="")) 
+              message(paste("Located SAGA GIS ", saga.version, " from the 'Program Files' directory: \"", utils::shortPathName(saga_cmd), "\"", sep="")) 
             }
        }}
        }
@@ -175,7 +177,7 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
        }
        else {
           if(show.paths){ 
-            message(paste("Located SAGA GIS ", saga.version, " from the 'Program Files' directory: \"", shortPathName(saga_cmd), "\"", sep="")) 
+            message(paste("Located SAGA GIS ", saga.version, " from the 'Program Files' directory: \"", utils::shortPathName(saga_cmd), "\"", sep="")) 
           }
        }
       }

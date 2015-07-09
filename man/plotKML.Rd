@@ -95,7 +95,6 @@
 \S4method{plotKML}{SpatialPredictions}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), colour, 
-      scale_svar = get("colour_scale_svar", envir = plotKML.opts), 
       grid2poly = FALSE, obj.summary = TRUE, plot.svar = FALSE, 
       pngwidth = 210, pngheight = 580, pngpointsize = 14, 
       metadata = NULL, kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, \dots)
@@ -106,7 +105,6 @@
 \S4method{plotKML}{SpatialVectorsSimulations}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), colour, 
-      scale_svar = get("colour_scale_svar", envir = plotKML.opts), 
       grid2poly = FALSE, obj.summary = TRUE, plot.svar = FALSE, 
       kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, \dots)
 \S4method{plotKML}{list}(obj, 
@@ -140,7 +138,6 @@
   \item{pngwidth}{integer; width of the PNG plot (screen image)}
   \item{pngheight}{integer; height of the PNG plot (screen image)}
   \item{pngpointsize}{integer; text size in the PNG plot (screen image)}
-  \item{scale_svar}{colour palette for the model uncertainty (usually standardized prediction variance)}
   \item{grid2poly}{logical; specifies whether to convert gridded object to polygons}
   \item{obj.summary}{logical; specifies whether to print the object summary}
   \item{plot.svar}{logical; specifies whether to plot the model uncertainty}
