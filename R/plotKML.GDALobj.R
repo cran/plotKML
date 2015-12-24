@@ -35,7 +35,7 @@ plotKML.GDALobj <- function(obj, file.name, block.x, tiles=NULL, tiles.sel=NULL,
   }
   if(min(tiles.sel)<1|max(tiles.sel)>nrow(tiles)|!is.integer(tiles.sel)){ stop("'tiles.sel' must be: integer within the range of tile numbers (see ?getSpatialTiles)") }
   ## write all tiles:
-  if(requireNamespace("snowfall", quietly = TRUE)&requireNamespace("parallel", quietly = TRUE)){  
+  if(requireNamespace("parallel", quietly = TRUE)&requireNamespace("snowfall", quietly = TRUE)){  
     if(missing(cpus)){ cpus <- parallel::detectCores(all.tests = FALSE, logical = FALSE) }
     snowfall::sfInit(parallel=TRUE, cpus=cpus)
     snowfall::sfExport("GDALobj.file", "tiles", "tiles.sel", "breaks.lst", "altitude", "altitudeMode", "colour_scale", "z.lim", "overwrite")
@@ -49,6 +49,7 @@ plotKML.GDALobj <- function(obj, file.name, block.x, tiles=NULL, tiles.sel=NULL,
     snowfall::sfStop()
     lst <- do.call(rbind, lst)
   } else {
+    warning("To speed up writing of tiles install and load package 'snowfall'")
     lst <- list(NULL)
     for(i in 1:length(tiles.sel)){
       lst[[i]] <- .kml_SpatialGrid_tile(i, GDALobj.file=GDALobj.file, tiles=tiles, altitude=altitude, altitudeMode=altitudeMode, colour_scale=colour_scale, breaks.lst=breaks.lst, z.lim=z.lim, overwrite=overwrite)

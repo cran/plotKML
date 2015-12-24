@@ -65,7 +65,7 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
         } ## end checking for Imagemagick on Windows
         
         ## check for all other OS:
-        else{
+        else {
           if(!length(x <- grep(paths <- strsplit(Sys.getenv('PATH')[[1]], ":")[[1]], pattern="Magick", ignore.case = TRUE))==0) {
             im.dir <- paths[grep(paths, pattern="Magick", ignore.case = TRUE)[1]]
             convert = "convert"
@@ -215,6 +215,7 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
     }
     
     if(convert==""){
+    im.dir <- paths[grep(paths, pattern="Magick", ignore.case=TRUE)[1]]
     if(is.null(im.dir)){ 
         warning("Install ImageMagick and add to PATH. See http://imagemagick.org for more info.")
         convert = ""

@@ -19,6 +19,7 @@ kml_layer.RasterBrick <- function(
   png.width, 
   png.height,
   min.png.width = 800,
+  png.type = "cairo-png",
   ...
   ){
    
@@ -101,7 +102,7 @@ kml_layer.RasterBrick <- function(
       png.height <- round(min.png.width*png.height/png.width)
       png.width <- min.png.width 
     }
-    png(filename = raster_name[j], bg = "transparent", type="cairo-png", width = png.width, height = png.height)
+    png(filename = raster_name[j], bg = "transparent", type=png.type, width = png.width, height = png.height)
     par(mar = c(0, 0, 0, 0), xaxs = "i", yaxs = "i")
     colour_scale_legend <- colorRampPalette(colour_scale)(50)
     raster::image(raster(obj, j), col = colour_scale_legend, zlim = z.lim, frame.plot = FALSE, main="", maxpixels=ncell(raster(obj, j)))

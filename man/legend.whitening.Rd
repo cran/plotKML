@@ -6,7 +6,7 @@
 kml_legend.whitening(legend.res = 0.01, width = 120, height = 300, pointsize = 14, 
                  x.lim, e.lim, leg.asp = 0.3 *  width/height, 
                  legend.file = "whitening_legend.png",
-                 matte = FALSE)
+                 matte = FALSE, png.type = "cairo-png")
 }
 \arguments{
   \item{legend.res}{numeric; resolution on a 0-1 scale}
@@ -18,6 +18,7 @@ kml_legend.whitening(legend.res = 0.01, width = 120, height = 300, pointsize = 1
   \item{leg.asp}{numeric; legend aspect}
   \item{legend.file}{character; output PNG file name}
   \item{matte}{logical; specify whether to fix transparency using ImageMagick}
+  \item{png.type}{character; PNG type}
 }
 \details{The output PNG file shows a 2D legend with values on the vertical axis and uncertainty on the horizontal axis. Whitening is only valid with Hue-Saturation-Intensity system where Hue's are used to represent values of the target variable, so that the amount of white color can be linearly used to represent uncertainty (i.e. whitening can not be used with different color palettes; or at least we do not recommend this).}
 \note{Google Earth does not properly handle a 24-bit PNG file which has a single transparent color. In order to force transparency in the output PNG, the function with try using ImageMagick convert function. ImageMagick needs to be installed separately and located using \code{plotKML.env()}.}
