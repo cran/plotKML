@@ -300,6 +300,7 @@ sumMetricVgm <- vgmST("sumMetric",
                       stAni=51.7)
 ## example from the gstat package:
 data(air)
+rural = STFDF(stations, dates, data.frame(PM10 = as.vector(air)))
 rr <- rural[,"2005-06-01/2005-06-03"]
 rr <- as(rr,"STSDF")
 x1 <- seq(from=6,to=15,by=1)

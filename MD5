@@ -1,4 +1,4 @@
-dc8ac5a84222add2c6f6c3a5a5f25d32 *DESCRIPTION
+4d5a1b946642cdba969a776978993766 *DESCRIPTION
 022e76f1864c4f0f6acb3e4b37d3ddb9 *NAMESPACE
 6fecfa4c8923c389076de1208ca076c1 *R/AAA-classes.R
 b6c2a2b782f06f072cce201506e333e6 *R/AAA-md.R
@@ -74,14 +74,14 @@ b1ba3820cca7175ef48406658569892c *data/fmd.rda
 e1ff1d118f2673d37f72ee014fd1b046 *data/northcumbria.rda
 bc4f0691e7de86b5b80b0f7f2d539c00 *data/worldgrids_pal.rda
 80d6393cfbb9cecc294291f63177b712 *demo/00Index
-bc23eb489d194a6208a0fda28b44280c *demo/plotKML.R
+0151826f1d09d6600bd3670113ca2d7f *demo/plotKML.R
 019df2dab449e35ebc97a078639e1c2f *inst/CITATION
 4e57d54acb8d3d76b983cf8ac2d2ce1a *inst/FGDC.xml
 cd540f046ef463f7aef867e19213b991 *inst/INSPIRE_ISO19139.xml
 d41d8cd98f00b204e9800998ecf8427e *inst/NEWS
 52489fc4bbffc35a73c93fdc6c74abda *inst/doc/jss1079.R
 f231fc62841c0f1bc4f2714d2914601e *inst/doc/jss1079.Rnw
-240df791db354274676faa1870ce4ff9 *inst/doc/jss1079.pdf
+154b2bd412a02a55428df7e49acc97e3 *inst/doc/jss1079.pdf
 c4c84fc61344519d27e5b9ee06f4845e *inst/eberg.xml
 762124c8e05e5dbf332ec2acadb0af18 *inst/gpx.xsd
 28da50b2a17e0848877f44470a66db5b *inst/mdnames.csv
@@ -139,7 +139,7 @@ ca181c1fc1f593708f0f34ba89728a09 *man/normalizeFilename.Rd
 ce9659fd3cb5a860c275b52639dfa7d7 *man/northcumbria.Rd
 0145cbf5e3070c43798fa47c37d35f75 *man/plotKML-package.Rd
 a8b855f44ed2e0c9d35a8d314b2c11b7 *man/plotKML.GDALobj.Rd
-7265576c808ef8d2705da74682fab7d5 *man/plotKML.Rd
+3b739f9c007b0cc5b8b5a300e7c64209 *man/plotKML.Rd
 03cee90bc9311d2578dcf0eaa97dbffd *man/plotKML.env.Rd
 7ffcaceb7db5064cb3ce190489be0fec *man/readGPX.Rd
 cca62d3193f2a1ccebd89e21e4687865 *man/readKML.GBIFdensity.Rd
