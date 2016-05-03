@@ -5,7 +5,7 @@
 # Note           : Implemented for parallel processing. SuperOverlay file (https://developers.google.com/kml/documentation/kml_21tutorial?csw=1#superoverlays);
 
 
-plotKML.GDALobj <- function(obj, file.name, block.x, tiles=NULL, tiles.sel=NULL, altitude=0, altitudeMode="relativeToGround", colour_scale, z.lim=NULL, breaks.lst=NULL, kml.logo, overwrite=TRUE, cpus, home.url=".", desc=NULL, open.kml=TRUE){
+plotKML.GDALobj <- function(obj, file.name, block.x, tiles=NULL, tiles.sel=NULL, altitude=0, altitudeMode="relativeToGround", colour_scale, z.lim=NULL, breaks.lst=NULL, kml.logo, overwrite=TRUE, cpus, home.url=".", desc=NULL, open.kml=TRUE, CRS=attr(obj, "projection"), plot.legend=TRUE){
 
   if(!class(obj)=="GDALobj"){
     stop("Object of class \"GDALobj\" required.")
@@ -19,6 +19,9 @@ plotKML.GDALobj <- function(obj, file.name, block.x, tiles=NULL, tiles.sel=NULL,
   }
   if(!is.null(breaks.lst)&length(breaks.lst)<15){
     stop("'breaks.lst' must contain at least 15 elements")
+  }
+  if(is.na(CRS)){
+    stop("'projection' missing or 'NA'")
   }
 
   if(!length(colour_scale)==(length(breaks.lst)-1)&!is.null(breaks.lst)){ stop("'length(colour_scale)' and 'length(breaks.lst)-1' of equal length required") }
@@ -38,14 +41,14 @@ plotKML.GDALobj <- function(obj, file.name, block.x, tiles=NULL, tiles.sel=NULL,
   if(requireNamespace("parallel", quietly = TRUE)&requireNamespace("snowfall", quietly = TRUE)){  
     if(missing(cpus)){ cpus <- parallel::detectCores(all.tests = FALSE, logical = FALSE) }
     snowfall::sfInit(parallel=TRUE, cpus=cpus)
-    snowfall::sfExport("GDALobj.file", "tiles", "tiles.sel", "breaks.lst", "altitude", "altitudeMode", "colour_scale", "z.lim", "overwrite")
+    snowfall::sfExport("GDALobj.file", "tiles", "tiles.sel", "breaks.lst", "altitude", "altitudeMode", "colour_scale", "z.lim", "overwrite", "CRS")
     snowfall::sfLibrary(package="rgdal", character.only=TRUE)
     snowfall::sfLibrary(package="sp", character.only=TRUE)
     snowfall::sfLibrary(package="plotKML", character.only=TRUE)
     snowfall::sfLibrary(package="XML", character.only=TRUE)
     snowfall::sfLibrary(package="RSAGA", character.only=TRUE)
     snowfall::sfLibrary(package="raster", character.only=TRUE)
-    lst <- snowfall::sfLapply(tiles.sel, .kml_SpatialGrid_tile, GDALobj.file=GDALobj.file, tiles=tiles, altitude=altitude, altitudeMode=altitudeMode, colour_scale=colour_scale, breaks.lst=breaks.lst, z.lim=z.lim, overwrite=overwrite)
+    lst <- snowfall::sfLapply(tiles.sel, .kml_SpatialGrid_tile, GDALobj.file=GDALobj.file, tiles=tiles, altitude=altitude, altitudeMode=altitudeMode, colour_scale=colour_scale, breaks.lst=breaks.lst, z.lim=z.lim, overwrite=overwrite, CRS=CRS)
     snowfall::sfStop()
     lst <- do.call(rbind, lst)
   } else {
@@ -87,15 +90,17 @@ plotKML.GDALobj <- function(obj, file.name, block.x, tiles=NULL, tiles.sel=NULL,
       </NetworkLink>', unlist(lst[["kml.tile"]]), unlist(lst[["north"]]), unlist(lst[["south"]]), unlist(lst[["east"]]), unlist(lst[["west"]]), paste(home.url, unlist(lst[["kml.tile"]]), sep="/"))   
   parseXMLAndAdd(network_txt, parent=kml.out[["Document"]])
   assign('kml.out', kml.out, envir=plotKML.fileIO)
-  ## add logo and a legend:
-  kml.legend <- paste0(strsplit(file.name, ".kml")[[1]][1], "_legend.png")
-  if(is.null(breaks.lst)){
-    kml_legend.bar(x=signif(seq(z.lim[1], z.lim[2], length.out=25), 3), legend.file=kml.legend, legend.pal=colour_scale)
-  } else {
-    breaks.s <- seq(1, length(breaks.lst), length.out=15)
-    kml_legend.bar(x=as.factor(signif(breaks.lst[breaks.s], 2)), legend.file=kml.legend, legend.pal=colour_scale[breaks.s])
+  ## add legend and/or logo:
+  if(plot.legend==TRUE){
+    kml.legend <- paste0(strsplit(file.name, ".kml")[[1]][1], "_legend.png")
+    if(is.null(breaks.lst)){
+      kml_legend.bar(x=signif(seq(z.lim[1], z.lim[2], length.out=25), 3), legend.file=kml.legend, legend.pal=colour_scale)
+    } else {
+      breaks.s <- seq(1, length(breaks.lst), length.out=15)
+      kml_legend.bar(x=as.factor(signif(breaks.lst[breaks.s], 2)), legend.file=kml.legend, legend.pal=colour_scale[breaks.s])
+    }
+    kml_screen(image.file = kml.legend, position = "UL", sname = "legend")
   }
-  kml_screen(image.file = kml.legend, position = "UL", sname = "legend")
   if(!missing(kml.logo)){ kml_screen(image.file = kml.logo, position = "UR", sname = "logo") }
   kml_close(file.name)
   if(open.kml==TRUE){
@@ -106,11 +111,12 @@ plotKML.GDALobj <- function(obj, file.name, block.x, tiles=NULL, tiles.sel=NULL,
 }
 
 ## auxiliary function:
-.kml_SpatialGrid_tile <- function(i, GDALobj.file, colour, tiles, breaks.lst, colour_scale, altitude, altitudeMode, z.lim, N.min=4, overwrite){
+.kml_SpatialGrid_tile <- function(i, GDALobj.file, colour, tiles, breaks.lst, colour_scale, altitude, altitudeMode, z.lim, N.min=4, overwrite, CRS){
   if(any(!c("offset.x", "offset.y", "region.dim.x", "region.dim.y") %in% names(tiles))){ stop("Missing columns in the 'tiles' object. See ?GSIF::tile") }
   kml.tile <- set.file.extension(paste0(strsplit(basename(GDALobj.file), "\\.")[[1]][1], "_T", i), ".kml")
   raster_name = set.file.extension(paste0(strsplit(basename(GDALobj.file), "\\.")[[1]][1], "_T", i), ".png")
   r <- readGDAL(GDALobj.file, offset=c(tiles$offset.y[i], tiles$offset.x[i]), region.dim=c(tiles$region.dim.y[i], tiles$region.dim.x[i]), silent=TRUE)
+  proj4string(r) = CRS
   if(sum(!is.na(r@data[,1]))>N.min){
     prj.check <- check_projection(r, control = TRUE)
     if(!prj.check) { suppressMessages( r <- reproject(r) ) }

@@ -18,7 +18,7 @@
 \references{
 \itemize{
 \item GPX data format (\url{http://www.topografix.com/gpx.asp})
-\item XML tutorial (\url{http://www.omegahat.org/RSXML/Tour.pdf})
+\item XML tutorial (\url{https://github.com/omegahat/XML})
 }
 }
 \author{Tomislav Hengl }

@@ -6,7 +6,8 @@
 plotKML.GDALobj(obj, file.name, block.x, tiles=NULL, 
    tiles.sel=NULL, altitude=0, altitudeMode="relativeToGround", colour_scale, 
    z.lim=NULL, breaks.lst=NULL, kml.logo, overwrite=TRUE, cpus, 
-   home.url=".", desc=NULL, open.kml=TRUE)
+   home.url=".", desc=NULL, open.kml=TRUE, CRS=attr(obj, "projection"), 
+   plot.legend=TRUE)
 }
 \arguments{
   \item{obj}{\code{"GDALobj"} object i.e. a pointer to a spatial layer}
@@ -25,6 +26,8 @@ plotKML.GDALobj(obj, file.name, block.x, tiles=NULL,
   \item{home.url}{character; optional web-directory where the PNGs will be stored}
   \item{desc}{character; optional layer description}
   \item{open.kml}{logical; specifies whether to open the KML file after writing}
+  \item{CRS}{character; projection string (if missing)}
+  \item{plot.legend}{logical; indicate whether to plot summary legend}
 }
 \value{Returns a list of KML files.}
 \note{This operation can be time-consuming for processing very large rasters e.g. more than 10,000 by 10,000 pixels. To speed up writing of KMLs, use the snowfall package.}

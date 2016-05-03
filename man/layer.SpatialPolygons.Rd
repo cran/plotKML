@@ -40,10 +40,10 @@ library(rgdal)
 library(sp)
 data(eberg_zones)
 names(eberg_zones)
-\dontrun{# visualize zones using random colors:
+## visualize zones using random colors:
 kml(eberg_zones, colorMode = "random")
-# with labels:
-kml(eberg_zones, colour = ZONES, plot.labpt = TRUE, labels = ZONES, kmz = TRUE)
-}
+## with labels:
+kml(eberg_zones, colour = ZONES, plot.labpt = TRUE, 
+   labels = ZONES, kmz = TRUE, balloon=TRUE)
 }
 \keyword{spatial}

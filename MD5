@@ -1,4 +1,4 @@
-4d5a1b946642cdba969a776978993766 *DESCRIPTION
+8dff4209d9f0e12eda8dfa1615f6069c *DESCRIPTION
 022e76f1864c4f0f6acb3e4b37d3ddb9 *NAMESPACE
 6fecfa4c8923c389076de1208ca076c1 *R/AAA-classes.R
 b6c2a2b782f06f072cce201506e333e6 *R/AAA-md.R
@@ -31,12 +31,12 @@ b9dbe890ec9a9d87b08e8748d0671a96 *R/layer.Raster.R
 75b9c1616a5e2ef98eebba82e10fe1d5 *R/layer.SpatialPhotoOverlay.R
 089e2126393f406ddc136fe20b1dd923 *R/layer.SpatialPixels.R
 b3a0d81d553bd806f14eca109fabcaf6 *R/layer.SpatialPoints.R
-c25f6581e9c210a3b485cbb067ac8bf6 *R/layer.SpatialPolygons.R
-eabaf6db8056e161f83321b8cad06423 *R/legend.bar.R
+df4703baa31b87943d69fedd887babbf *R/layer.SpatialPolygons.R
+bb24604989ce540ef3902266a327883f *R/legend.bar.R
 34a328e9b91844e33beadc506697bfef *R/legend.whitening.R
 b473017c4be29900e1e70ed3d7a36598 *R/normalizeFilename.R
 bf72e0121dcfaca5a1ea08d91e35ac8c *R/plot.SpatialPredictions.R
-958284c563360fd4458f3522a765c939 *R/plotKML.GDALobj.R
+78213e2733b84f335abc4e1675019599 *R/plotKML.GDALobj.R
 aa7a9065385240f6bef35237350ec635 *R/plotKML.RasterBrickSimulations.R
 5bb9cd98e143fc20234f853f27b56258 *R/plotKML.RasterBrickTimeSeries.R
 32077a2f23b710fbbbdec13969c3ed50 *R/plotKML.SpatialMaxEntOutput.R
@@ -52,7 +52,7 @@ d2f358102c7ece20e8fe455ca2485e3c *R/spPhoto.R
 0948a41ebb52fc91b1eb39f7a468265e *R/vect2rast.R
 fd0b4f5656c15bae85cc1b76d0575787 *R/whitening.R
 d41d8cd98f00b204e9800998ecf8427e *TODO
-fd733e875865f3bb00d26f924174011c *build/vignette.rds
+c4b93a6c368c9bff1f5495bd3873cc57 *build/vignette.rds
 9060c942e52ce8a1939e2f36d145cbd4 *data/HRprec08.rda
 33060527d47b9b9095e5d2e0551d8b80 *data/HRtemp08.rda
 9b21818fdf75dca5813a4e17cf540ce5 *data/LST.rda
@@ -81,7 +81,7 @@ cd540f046ef463f7aef867e19213b991 *inst/INSPIRE_ISO19139.xml
 d41d8cd98f00b204e9800998ecf8427e *inst/NEWS
 52489fc4bbffc35a73c93fdc6c74abda *inst/doc/jss1079.R
 f231fc62841c0f1bc4f2714d2914601e *inst/doc/jss1079.Rnw
-154b2bd412a02a55428df7e49acc97e3 *inst/doc/jss1079.pdf
+fb18d969a71b135b81dd43f2a34134c2 *inst/doc/jss1079.pdf
 c4c84fc61344519d27e5b9ee06f4845e *inst/eberg.xml
 762124c8e05e5dbf332ec2acadb0af18 *inst/gpx.xsd
 28da50b2a17e0848877f44470a66db5b *inst/mdnames.csv
@@ -117,7 +117,7 @@ fd0c3692112a3069f8b848f38c5e5ba1 *man/kml.tiles.Rd
 8cb08e931d350f65a2667263a2df7220 *man/kml_compress.Rd
 d5303eb2b21a793be8e30c2890a0c3d0 *man/kml_description.Rd
 9a636172d39a8da22750a3c64839ad1f *man/kml_layer.Rd
-0b7a065e595da3a0d46160595e51eb33 *man/kml_legend.bar.Rd
+95e0f1de8029e6eb4d9a083f28ec3e4f *man/kml_legend.bar.Rd
 26e699d6651b4a7acc0c5351aedd96d2 *man/kml_metadata.Rd
 4017103b4c048e1ab6902c3542ac4383 *man/kml_open.Rd
 d202d839ea71f8fe430aba599595c91f *man/kml_screen.Rd
@@ -130,7 +130,7 @@ ddb0af4d3d2cec35f37e59e547ab1b81 *man/layer.SoilProfileCollection.Rd
 264607a394020b7da71e413c5940f2c7 *man/layer.SpatialPhotoOverlay.Rd
 0fec1aabe6c9f48cea4116f8ab1bb37b *man/layer.SpatialPixels.Rd
 0082fbe6988d8535b8204f12e7c65150 *man/layer.SpatialPoints.Rd
-854127d4437b6690407cc39f25c8a712 *man/layer.SpatialPolygons.Rd
+f4149a8945c1b624132250ac918124cd *man/layer.SpatialPolygons.Rd
 396ba7d0b002f5ea6c8bc54662285f6b *man/legend.whitening.Rd
 439119d540e5b186ba72d6e3ae9760e9 *man/makeCOLLADA.Rd
 dac02f6b63e58406d0d2ca79490d038d *man/metadata2SLD.Rd
@@ -138,15 +138,15 @@ dac02f6b63e58406d0d2ca79490d038d *man/metadata2SLD.Rd
 ca181c1fc1f593708f0f34ba89728a09 *man/normalizeFilename.Rd
 ce9659fd3cb5a860c275b52639dfa7d7 *man/northcumbria.Rd
 0145cbf5e3070c43798fa47c37d35f75 *man/plotKML-package.Rd
-a8b855f44ed2e0c9d35a8d314b2c11b7 *man/plotKML.GDALobj.Rd
+c14783facc4673c990dcb6db6c214ae5 *man/plotKML.GDALobj.Rd
 3b739f9c007b0cc5b8b5a300e7c64209 *man/plotKML.Rd
 03cee90bc9311d2578dcf0eaa97dbffd *man/plotKML.env.Rd
-7ffcaceb7db5064cb3ce190489be0fec *man/readGPX.Rd
-cca62d3193f2a1ccebd89e21e4687865 *man/readKML.GBIFdensity.Rd
+8c4443c0c9b49eb974b19708d1874d50 *man/readGPX.Rd
+cbab17ed45e9d18a77c48031a0928cc4 *man/readKML.GBIFdensity.Rd
 c98b2048da547cc8b8fb0e960e68fd21 *man/reproject.Rd
 95b5e9a455650e91a094fbd3f4f8056c *man/sp.palette.Rd
 4f276545f0f6101e61d4d57d216a2b58 *man/spMetadata.Rd
-6d5142f43f450bb55fcac48c0f7b9209 *man/spPhoto.Rd
+ffa58c7d00b056fe1ecdc75903c2e396 *man/spPhoto.Rd
 6ceadaef90cdee97418505d2175529d6 *man/vect2rast.Rd
 b10b332eee900a8fcba5e6e8442729b6 *man/vect2rast.SpatialPoints.Rd
 e1337bf48784762bc6e68fbc6500dbbc *man/whitening.Rd

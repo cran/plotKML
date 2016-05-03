@@ -5,7 +5,7 @@
 # Note           : 1D legend with min max and avg values;
  
 
-kml_legend.bar <- function(x, width, height, pointsize = 14, legend.file, legend.pal, z.lim = range(x, na.rm = TRUE, finite = TRUE), factor.labels){
+kml_legend.bar <- function(x, width, height, pointsize = 14, legend.file, legend.pal, z.lim = range(x, na.rm = TRUE, finite = TRUE), factor.labels, png.type = "cairo-png"){
 
   ## Factor-type variables:
   if(class(x) == "factor" | class(x) == "character") {
@@ -37,7 +37,7 @@ kml_legend.bar <- function(x, width, height, pointsize = 14, legend.file, legend
       } # 20 pix per class
     }
  
-    png(filename=legend.file, width=width, height=height, bg="transparent", pointsize=pointsize)
+    png(filename=legend.file, width=width, height=height, bg="transparent", pointsize=pointsize, type=png.type)
     # c(bottom, left, top, right)
     par(mar=c(.5,0,.5,1))
     plot(x=rep(1, col.no), y=1:col.no, axes=FALSE, xlab='', ylab='', pch=15, cex=4, col=legend.pal, xlim=c(0,.6*width))
