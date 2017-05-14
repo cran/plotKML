@@ -91,6 +91,3 @@ setMethod("plotKML", "SpatialMaxEntOutput", function(
 		}
 		dotchart(r, main=main, xlab=xlab)
 }
-
-
-# end of script;

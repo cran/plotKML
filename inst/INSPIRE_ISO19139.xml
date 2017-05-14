@@ -87,14 +87,7 @@
 										<gco:CharacterString>user@domain.org</gco:CharacterString>
 									</gmd:electronicMailAddress>
 								</gmd:CI_Address>
-							</gmd:address>
-              <gmd:onlineResource>
-						<gmd:CI_OnlineResource>
-							<gmd:linkage>
-								<gco:CharacterString>http://url</gco:CharacterString>
-							</gmd:linkage>
-						</gmd:CI_OnlineResource>
-					</gmd:onlineResource> 
+							</gmd:address> 
 						</gmd:CI_Contact>
 					</gmd:contactInfo>
 					<gmd:role>
@@ -105,8 +98,15 @@
 			<gmd:descriptiveKeywords>
 				<gmd:MD_Keywords>
 					<gmd:keyword>
-						<gco:CharacterString>Administrative units</gco:CharacterString>
+						<gco:CharacterString>Administrative</gco:CharacterString>
 					</gmd:keyword>
+          <gmd:keyword>
+						<gco:CharacterString>GIS</gco:CharacterString>
+					</gmd:keyword>
+          <gmd:keyword>
+						<gco:CharacterString>polygons</gco:CharacterString>
+					</gmd:keyword>
+        </gmd:MD_Keywords>
 				<gmd:thesaurusName>
 					<gmd:CI_Citation>
 						<gmd:title>
@@ -124,7 +124,6 @@
 						</gmd:date>
 					</gmd:CI_Citation>
 				</gmd:thesaurusName>
-				</gmd:MD_Keywords>
 			</gmd:descriptiveKeywords>
 			<gmd:resourceConstraints>
 				<gmd:MD_Constraints>
@@ -213,21 +212,6 @@
     </gmd:referenceSystemIdentifier>
   </gmd:MD_ReferenceSystem>
   </gmd:referenceSystemInfo>
-	<gmd:distributionInfo>
-		<gmd:MD_Distribution>
-			<gmd:transferOptions>
-				<gmd:MD_DigitalTransferOptions>
-					<gmd:onLine>
-						<gmd:CI_OnlineResource>
-							<gmd:linkage>
-								<gmd:URL>http://***</gmd:URL>
-							</gmd:linkage>
-						</gmd:CI_OnlineResource>
-					</gmd:onLine>
-				</gmd:MD_DigitalTransferOptions>
-			</gmd:transferOptions>
-		</gmd:MD_Distribution>
-	</gmd:distributionInfo>
 	<gmd:dataQualityInfo>
 		<gmd:DQ_DataQuality>
 			<gmd:scope>

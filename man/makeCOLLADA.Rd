@@ -24,7 +24,7 @@ makeCOLLADA.rectangle(coords, filename, href, DateTime,
 }
 \references{
 \itemize{
-\item COLLADA Schema (\url{http://collada.org/mediawiki/})
+\item COLLADA Schema (\url{https://www.khronos.org/collada/})
 }
 }
 \author{Tomislav Hengl }

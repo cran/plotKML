@@ -45,7 +45,7 @@ kml_layer.SpatialPhotoOverlay(obj, method = c("PhotoOverlay", "monolith")[1],
 \references{
 \itemize{
 \item KML Reference (\url{http://code.google.com/apis/kml/documentation/kmlreference.html})
-\item COLLADA Reference (\url{http://collada.org/mediawiki/})
+\item COLLADA Reference (\url{https://www.khronos.org/collada/})
 }
 }
 \author{Tomislav Hengl }

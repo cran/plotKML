@@ -14,7 +14,7 @@
 \arguments{
   \item{obj}{object of type \code{"Spatial"} or \code{"Raster"}}
 }
-\details{For more details about the PROJ.4 parameters refer to the \href{http://trac.osgeo.org/proj/wiki/GenParms}{http://trac.osgeo.org}.}
+\details{For more details about the PROJ.4 parameters refer to the \href{http://proj4.org/parameters.html}{http://proj4.org}.}
 \author{ Tomislav Hengl and Pierre Roudier}
 \seealso{ \code{sp::CRS}, \code{raster::raster}, \code{\link{check_projection}}
 }

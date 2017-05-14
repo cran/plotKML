@@ -24,7 +24,7 @@ kml_layer.SoilProfileCollection(obj,
      \dots )
 }
 \arguments{
-  \item{obj}{object of class \code{"SoilProfileCollection"} (package \href{http://CRAN.R-project.org/package=aqp}{aqp})}
+  \item{obj}{object of class \code{"SoilProfileCollection"} (package \href{https://CRAN.R-project.org/package=aqp}{aqp})}
   \item{var.name}{target column name in the \code{horizons} slot}
   \item{var.min}{smallest value}
   \item{var.scale}{exaggeration in vertical dimension}
@@ -59,7 +59,7 @@ kml_layer.SoilProfileCollection(obj,
 }
 \references{
 \itemize{
-\item Algorithms for Quantitative Pedology (\url{http://CRAN.r-project.org/package=aqp})
+\item Algorithms for Quantitative Pedology (\url{https://CRAN.r-project.org/package=aqp})
 }
 }
 \author{Tomislav Hengl, Dylan Beaudette and Pierre Roudier}

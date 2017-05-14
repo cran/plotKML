@@ -41,7 +41,7 @@ This function basically extends the \code{\link{rasterize}} function available i
 \references{
 \itemize{
 \item Hengl T., (2006) \href{http://dx.doi.org/10.1016/j.cageo.2005.11.008}{Finding the right pixel size}. Computers and Geosciences, 32(9): 1283-1298.
-\item Raster package (\url{http://CRAN.R-project.org/package=raster})
+\item Raster package (\url{https://CRAN.R-project.org/package=raster})
 \item SpatStat package (\url{http://www.spatstat.org})
 }
 }

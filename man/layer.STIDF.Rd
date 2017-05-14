@@ -27,10 +27,10 @@ tags will be inserted. Temporal support for any spacetime class, if not specifie
 \references{
 \itemize{
 \item Pebesma, E. (2012) \href{http://www.jstatsoft.org/v51/i07}{Classes and Methods for Spatio-Temporal Data in R}. Journal of Statistical Software. 51(7): 1-30.
-\item spacetime package (\url{http://CRAN.R-project.org/package=spacetime})
+\item spacetime package (\url{https://CRAN.R-project.org/package=spacetime})
 }
 }
-\author{Tomislav Hengl and Benedikt \enc{Gräler}{Graeler}}
+\author{Tomislav Hengl and Benedikt \enc{Gr?ler}{Graeler}}
 \seealso{ \code{\link{kml_layer.STTDF}}, \code{\link{plotKML-method}} }
 \examples{
 \dontrun{

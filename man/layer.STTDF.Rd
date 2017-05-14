@@ -28,7 +28,7 @@ kml_layer.STTDF(obj, id.name = names(obj@data)[which(names(obj@data)== "burst")]
   \item{html.table}{optional description block (html) for each GPS point (vertices)}
   \item{\dots}{other optional arguments}
 }
-\details{The dateTime is defined as \code{yyyy-mm-ddThh:mm:sszzzzzz}, where \code{T} is the separator between the date and the time, and the time zone is either \code{Z} (for UTC) or \code{zzzzzz}, which represents \enc{±}{+-}hh:mm in relation to UTC. For more info on how Time Stamps work see \url{http://kml-samples.googlecode.com}. If the time is measured at block support, then:\cr 
+\details{The dateTime is defined as \code{yyyy-mm-ddThh:mm:sszzzzzz}, where \code{T} is the separator between the date and the time, and the time zone is either \code{Z} (for UTC) or \code{zzzzzz}, which represents \enc{?}{+-}hh:mm in relation to UTC. For more info on how Time Stamps work see \url{http://kml-samples.googlecode.com}. If the time is measured at block support, then:\cr 
 
 \code{<TimeStamp><begin> </begin><end> </end></TimeStamp>} \cr
 
@@ -37,7 +37,7 @@ tags will be inserted. Temporal support for any spacetime class, if not specifie
 \references{
 \itemize{
 \item \item Pebesma, E. (2012) \href{http://www.jstatsoft.org/v51/i07}{Classes and Methods for Spatio-Temporal Data in R}. Journal of Statistical Software. 51(7): 1-30.
-\item spacetime package (\url{http://CRAN.R-project.org/package=spacetime})
+\item spacetime package (\url{https://CRAN.R-project.org/package=spacetime})
 }
 }
 \author{Tomislav Hengl }

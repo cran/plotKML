@@ -22,7 +22,7 @@ where \code{distc} is the Great Circle Distance.}
 \value{Bearing is expressed in degrees from north. Distance is expressed in kilometers (Great Circle Distance).}
 \references{
 \itemize{
-\item fossil package (\url{http://CRAN.R-project.org/package=fossil})
+\item fossil package (\url{https://CRAN.R-project.org/package=fossil})
 \item Haversine formula from Math Forums (\url{http://mathforum.org/dr.math/})
 }
 }

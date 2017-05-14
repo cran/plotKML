@@ -116,7 +116,7 @@
       kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, \dots)
 }
 \arguments{
-  \item{obj}{input object of specific class; either some \href{http://cran.r-project.org/package=sp}{sp}, or \href{http://cran.r-project.org/package=raster}{raster} or \href{http://cran.r-project.org/package=spacetime}{spacetime} package class object, or plotKML composite objects containing both inputs and outputs of analysis}
+  \item{obj}{input object of specific class; either some \href{https://cran.r-project.org/package=sp}{sp}, or \href{https://cran.r-project.org/package=raster}{raster} or \href{https://cran.r-project.org/package=spacetime}{spacetime} package class object, or plotKML composite objects containing both inputs and outputs of analysis}
   \item{folder.name}{character; folder name in the KML file}
   \item{file.name}{character; output KML file name}
   \item{size}{for point objects for plotting (see \link{aesthetics})}

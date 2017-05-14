@@ -66,7 +66,6 @@ kml_View <- function(file.name){
       }
   } 
 
-  ## DB: this is untested on Mac OS X / UNIX!
   else {
       if(length(grep("mac.binary", .Platform$pkgType))>0){
         if(inherits( try(system(paste("open ", normalizePath(paste(getwd(), "/", file.name, sep="")), sep="")), silent = TRUE), "try-error")){
@@ -74,8 +73,9 @@ kml_View <- function(file.name){
          } 
         }
       else{
-        if(inherits( try(system(paste("gnome-open ", normalizePath(paste(getwd(), "/", file.name, sep="")), sep="")), silent = TRUE), "try-error")){
-          warning(paste("'gnome-open' resulted in a try-error. Consider re-installing the default", ext, "browser."))
+        ## http://askubuntu.com/questions/101965/what-is-the-replacement-for-gnome-open-in-gnome
+        if(inherits( try(system(paste("xdg-open ", normalizePath(paste(getwd(), "/", file.name, sep="")), sep="")), silent = TRUE), "try-error")){
+          warning(paste("'xdg-open' resulted in a try-error. Consider re-installing the default", ext, "browser."))
          } 
       }
   }

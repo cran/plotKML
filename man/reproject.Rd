@@ -45,7 +45,7 @@ In the case of raster and/or gridded maps, by selecting \code{program = "GDAL"} 
 }
 \references{
 \itemize{
-\item Raster package (\url{http://CRAN.R-project.org/package=raster})
+\item Raster package (\url{https://CRAN.R-project.org/package=raster})
 \item GDAL (\url{http://GDAL.org})
 }
 }

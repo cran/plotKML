@@ -2,7 +2,7 @@
 # Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
 # Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); Pierre Roudier (pierre.roudier@landcare.nz); 
 # Status         : working version
-# Note           : in future version one should be able to import the complete GPX file; 
+# Note           : corrections in the code by: Berry Boessenkool (berryboessenkool@hotmail.com)
 
 readGPX <- function(
     gpx.file,
@@ -14,8 +14,9 @@ readGPX <- function(
     )
 
     {    
-    options(warn = -1)    
-
+    opt <- options(warn=-1)    
+    if(!file.exists(gpx.file)) stop("The file '", gpx.file, "'\n  does not exist in ", getwd() )
+  
     if(metadata==TRUE) { metadata <- .readGPX.element(gpx.file, "name") }    
     if(bounds==TRUE) { bounds <- .readGPX.element(gpx.file, "bounds") }    
     if(waypoints==TRUE) { waypoints <- .readGPX.element(gpx.file, "wpt") }
@@ -24,6 +25,7 @@ readGPX <- function(
         
     gpx <- list(metadata=metadata, bounds=bounds, waypoints=waypoints, tracks=tracks, routes=routes)
     return(gpx)
+    on.exit(options(opt))
 }
 
 ## Read various elements from a *.gpx file:
@@ -130,5 +132,3 @@ readGPX <- function(
 
     return(ret)
 }
-
-# enf of script;

@@ -14,7 +14,7 @@ plotKML.fileIO <- new.env(hash=TRUE, parent = parent.frame())
 plotKML.opts <- new.env(hash=TRUE, parent = parent.frame())
 
 ## Find paths to external packages:
-paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "", python = "", gdal.dir = utils::shortPathName("C:\\Program Files\\GDAL"), show.paths = TRUE){ 
+paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "", python = "", gdal.dir = utils::shortPathName("C:\\Program Files\\GDAL"), show.paths = TRUE, silent = TRUE){ 
 
      ## Try locating SAGA GIS (R default setting)...
      if(saga_cmd==""){
@@ -22,12 +22,12 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
       if(!inherits(try( suppressWarnings( x <- rsaga.env() ), silent = TRUE), "try-error")){
         if(!is.null(x)){ 
           if(.Platform$OS.type == "windows") {
-            saga_cmd <- utils::shortPathName(normalizePath(paste(rsaga.env()$path, rsaga.env()$cmd, sep="/"))) 
+            suppressWarnings( saga_cmd <- utils::shortPathName(normalizePath(paste(rsaga.env()$path, rsaga.env()$cmd, sep="/"))) )
           } else { 
-            saga_cmd <- paste(rsaga.env()$path, rsaga.env()$cmd, sep="/") 
+            suppressWarnings( saga_cmd <- paste(rsaga.env()$path, rsaga.env()$cmd, sep="/") )
           } 
         if(nzchar(saga_cmd)){
-          saga.version <- rsaga.get.version()
+          suppressWarnings( saga.version <- rsaga.get.version() )
         }
       } else {
         saga.version <- ""
@@ -83,7 +83,9 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
         }
     
         if(is.null(im.dir)){ 
-          warning("Install ImageMagick and add to PATH. See http://imagemagick.org for more info.")
+          if(silent==FALSE){
+            warning("Install ImageMagick and add to PATH. See http://imagemagick.org for more info.")
+          }
         convert = ""
         }
      } else { 
@@ -108,7 +110,9 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
             gdalwarp = shQuote(utils::shortPathName(normalizePath(file.path(x[[1]]$path, "gdalwarp.exe"))))
             gdal_translate = shQuote(utils::shortPathName(normalizePath(file.path(x[[1]]$path, "gdal_translate.exe"))))
         }} else {
-          warning("Could not locate GDAL! Install program and add it to the Windows registry. See http://www.gdal.org/ for more info.")
+          if(silent==FALSE){
+            warning("Could not locate GDAL! Install program and add it to the Windows registry. See http://www.gdal.org/ for more info.")
+          }
           gdalwarp = ""
           gdal_translate = ""    
         } 
@@ -171,7 +175,9 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
        }
         
        if(!nzchar(saga_cmd)){
-          warning("Could not locate SAGA GIS! Install program and add it to the Windows registry. See http://www.saga-gis.org/en/ for more info.")
+         if(silent==FALSE){
+            warning("Could not locate SAGA GIS! Install program and add it to the Windows registry. See http://www.saga-gis.org/en/ for more info.")
+         }
           saga_vc = "" 
         }   
        }
@@ -196,7 +202,9 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
     }
     }
     else { 
+      if(silent==FALSE){  
         warning("Install GDAL and add to PATH. See http://www.gdal.org/ for more info.")
+      }
       gdalwarp = ""
       gdal_translate = ""
     }
@@ -209,23 +217,29 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
     if(show.paths){ message(paste("Located Python from the path: \"", py.dir, "\"", sep="")) }
       }
     else { 
+      if(silent==FALSE){
         warning("Install Python and add to PATH. See http://python.org for more info.")
-        python = ""
+      }
+      python = ""
     }
     }
     
     if(convert==""){
     im.dir <- paths[grep(paths, pattern="Magick", ignore.case=TRUE)[1]]
     if(is.null(im.dir)){ 
-        warning("Install ImageMagick and add to PATH. See http://imagemagick.org for more info.")
+        if(silent==FALSE){
+          warning("Install ImageMagick and add to PATH. See http://imagemagick.org for more info.")
+        }
         convert = ""
     }
     }
 
     if(saga_cmd==""){
     if(!nzchar(saga_cmd)){
+      if(silent==FALSE){  
         warning("Install SAGA GIS and add to PATH. See http://www.saga-gis.org for more info.")
-        } 
+       }
+      }
     }
     }
 
