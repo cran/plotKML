@@ -1,8 +1,4 @@
-# Purpose        : Clean up / closing settings;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : ; 
-# Status         : pre-alpha
-# Note           : for more info see [http://cran.r-project.org/doc/manuals/R-exts.html];
+# Note: for more info see [http://cran.r-project.org/doc/manuals/R-exts.html];
 
 .onLoad <- function(libname, pkgname) {
   data("SAGA_pal", "R_pal", package=pkgname, envir=parent.env(environment()))

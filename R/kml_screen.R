@@ -1,9 +1,4 @@
-# Purpose        : Adds different types of screen overlays to KML;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : Pierre Roudier (pierre.roudier@landcare.nz); Dylan Beaudette (debeaudette@ucdavis.edu); 
-# Status         : pre-alpha
-# Note           : for more info see [http://code.google.com/apis/kml/documentation/kmlreference.html#screenoverlay];
- 
+# Note: for more info see [http://code.google.com/apis/kml/documentation/kmlreference.html#screenoverlay];
  
 kml_screen <- function(
   image.file,

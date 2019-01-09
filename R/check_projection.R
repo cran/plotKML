@@ -1,8 +1,4 @@
-# Purpose        : Extracts PROJ4 parameters and checks if they are compatible with ref_CRS
-# Maintainer     : Pierre Roudier (pierre.roudier@landcare.nz);
-# Contributions  : Tomislav Hengl (tom.hengl@wur.nl); Dylan Beaudette (debeaudette@ucdavis.edu);  
-# Dev Status     : Alpha
-# Note           : p4s_parameters list of proj4 parameter/value strings; Uses the string parsing functionality from the 'plyr' package;
+# Note: p4s_parameters list of proj4 parameter/value strings; Uses the string parsing functionality from the 'plyr' package;
 
 extractProjValue <- function(p4s_parameters, param){
   

@@ -1,9 +1,3 @@
-# Purpose        : Plot a legend bar for numeric or factor variable;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : Pierre Roudier (pierre.roudier@landcare.nz); Dylan Beaudette (debeaudette@ucdavis.edu); 
-# Status         : pre-alpha
-# Note           : 1D legend with min max and avg values;
- 
 
 kml_legend.bar <- function(x, width, height, pointsize = 14, legend.file, legend.pal, z.lim = range(x, na.rm = TRUE, finite = TRUE), factor.labels, png.type = "cairo-png"){
 

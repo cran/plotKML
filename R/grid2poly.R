@@ -1,9 +1,3 @@
-# Purpose        : Convert SGDF/raster map to a polygon map (grid cells);
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); Pierre Roudier (pierre.roudier@landcare.nz); 
-# Status         : working version
-# Note           : Not recommended for large grids;
-
 grid2poly <- function(obj, var.name = names(obj)[1], reproject = TRUE, method = c("sp", "raster", "RSAGA")[1], tmp.file = TRUE, saga_lib = "shapes_grid", saga_module = 3, silent = FALSE, ...){
 
     # print warning:

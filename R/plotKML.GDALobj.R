@@ -1,9 +1,4 @@
-# Purpose        : Generic methods to plot large rasters;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : ;
-# Dev Status     : Alpha
-# Note           : Implemented for parallel processing. SuperOverlay file (https://developers.google.com/kml/documentation/kml_21tutorial?csw=1#superoverlays);
-
+# Note: Implemented for parallel processing. SuperOverlay file (https://developers.google.com/kml/documentation/kml_21tutorial?csw=1#superoverlays);
 
 plotKML.GDALobj <- function(obj, file.name, block.x, tiles=NULL, tiles.sel=NULL, altitude=0, altitudeMode="relativeToGround", colour_scale, z.lim=NULL, breaks.lst=NULL, kml.logo, overwrite=TRUE, cpus, home.url=".", desc=NULL, open.kml=TRUE, CRS=attr(obj, "projection"), plot.legend=TRUE){
 

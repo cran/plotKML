@@ -1,8 +1,4 @@
-# Purpose        : Writing of irregular space-time objects to KML
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Benedikt Graeler (ben.graeler@uni-muenster.de), Pierre Roudier (pierre.roudier@landcare.nz); Edzer Pebesma (edzer.pebesma@uni-muenster.de); 
-# Status         : Alpha
-# Note           : This method works only with the Space time irregular data frame class objects from the spacetime package;
+# Note: This method works only with the Space time irregular data frame class objects from the spacetime package;
 
 kml_layer.STIDF <- function(
   obj,

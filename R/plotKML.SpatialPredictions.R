@@ -1,9 +1,3 @@
-# Purpose        : Generic methods to plot geostatistical mapping views in KML (a combination of objects)
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl); 
-# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); Pierre Roudier (pierre.roudier@landcare.nz);
-# Dev Status     : Alpha
-# Note           : standard geostat plot;
-
 
 setMethod("plotKML", "SpatialPredictions", function(
   obj,

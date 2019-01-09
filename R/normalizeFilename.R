@@ -1,9 +1,3 @@
-# Purpose        : User-friendly characters for "filename"
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); Pierre Roudier (pierre.roudier@landcare.nz);
-# Status         : Pre-alpha
-# Note           : see also: R.utils and utils packages;
-
 
 ## Fix characters following the naming conventions [http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v=vs.85).aspx]:
 normalizeFilename <- function(x, form = c("default", "8.3")[1], fix.encoding = TRUE, sub.sign = "_"){

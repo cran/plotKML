@@ -1,8 +1,3 @@
-# Purpose        : Standard plots of a geostatistical model;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : ;
-# Dev Status     : pre-Alpha
-# Note           : ;
 
 plot.SpatialPredictions <- function(x, plot.predictions=TRUE, vertical=FALSE, col=SAGA_pal[[1]], ...){
   if(plot.predictions==TRUE){    

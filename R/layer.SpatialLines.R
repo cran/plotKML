@@ -1,8 +1,3 @@
-# Purpose        : Write line-objects (SpatialLines) to KML;
-# Maintainer     : Pierre Roudier (pierre.roudier@landcare.nz);
-# Contributions  : Tomislav Hengl (tom.hengl@wur.nl); Dylan Beaudette (debeaudette@ucdavis.edu); 
-# Status         : pre-alpha
-# Note           : only 2-3 aesthetics can be used - color, width and names;
 
 kml_layer.SpatialLines <- function(
   obj,

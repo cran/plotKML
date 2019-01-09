@@ -1,8 +1,4 @@
-# Purpose        : Writing of Trajectory-type objects to KML
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Pierre Roudier (pierre.roudier@landcare.nz); Dylan Beaudette (debeaudette@ucdavis.edu); 
-# Status         : Alpha
-# Note           : This method works only with the Space time irregular data frame class objects from the spacetime package; see also how Time Stamps work at [http://kml-samples.googlecode.com]
+# Note: This method works only with the Space time irregular data frame class objects from the spacetime package; see also how Time Stamps work at [http://kml-samples.googlecode.com]
 
 kml_layer.STTDF <- function(
   obj,

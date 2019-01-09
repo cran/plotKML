@@ -1,8 +1,3 @@
-# Purpose        : Write a SpatialPixels object to KML;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : ; 
-# Status         : pre-alpha
-# Note           : ;
 
 kml_layer.SpatialPixels <- function(  
   obj,
@@ -16,10 +11,17 @@ kml_layer.SpatialPixels <- function(
   TimeSpan.begin,
   TimeSpan.end,
   layer.name,
-  png.type = "cairo-png",
+  png.type,
   ...
   ){
-
+  ## PNG type
+  if(missing(png.type)){ 
+    if(.Platform$OS.type == "windows") { 
+      png.type = "cairo-png" 
+    } else {
+      png.type = "cairo"
+    }
+  }
   ## get our invisible file connection from custom evnrionment
   kml.out <- get("kml.out", envir=plotKML.fileIO)
 
@@ -127,7 +129,7 @@ kml_layer.SpatialPixels <- function(
   ## Solution: add transparency using ImageMagick:
   convert <- get("convert", envir = plotKML.opts)
   if(nchar(convert)==0){
-    plotKML.env(silent = FALSE, show.env = FALSE)
+    plotKML.env(show.env = FALSE)
     convert <- get("convert", envir = plotKML.opts)
   } else {
     ## if it does manages to find ImageMagick:

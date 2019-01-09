@@ -1,8 +1,4 @@
-# Purpose        : Generate standard metadata fields;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : Michael Blaschek (blaschek@geographie.uni-kiel.de) and Eloi Ribeiro (eloi.carvalhoribeiro@wur.nl);
-# Dev Status     : Pre-Alpha
-# Note           : Human-readable field names suggested by the authors;
+# Contributions: Michael Blaschek (blaschek@geographie.uni-kiel.de) and Eloi Ribeiro (eloi.carvalhoribeiro@wur.nl);
 
 metadata <- new.env(hash=TRUE, parent = parent.frame())
 

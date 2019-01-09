@@ -4,7 +4,7 @@
 \alias{gpxbtour}
 \alias{trajectory}
 \title{GPS log of a bike tour}
-\description{GPS log of a bike tour from Wageningen (the Netherlands) to \enc{Münster}{Muenster} (Germany). The table contains 3228 records of GPS locations, speed and elevation.}
+\description{GPS log of a bike tour from Wageningen (the Netherlands) to \enc{MÃ¼nster}{Muenster} (Germany). The table contains 3228 records of GPS locations, speed and elevation.}
 \format{
   The data frame contains the following columns:
   \describe{
@@ -29,7 +29,7 @@ coordinates(gpxbtour) <- ~lon+lat
 proj4string(gpxbtour) <- CRS("+proj=longlat +datum=WGS84")
 ## convert to a STTDF class:
 library(spacetime)
-library(adehabitat)
+library(adehabitatLT)
 gpx.ltraj <- as.ltraj(coordinates(gpxbtour), gpxbtour$ctime, id = "th")
 gpx.st <- as(gpx.ltraj, "STTDF")
 ## Google maps plot:

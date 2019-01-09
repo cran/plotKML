@@ -8,7 +8,7 @@ kml_layer.Raster(obj, subfolder.name = paste(class(obj)), plot.legend = TRUE,
      metadata = NULL, raster_name, 
      png.width = ncol(obj), png.height = nrow(obj), 
      min.png.width = 800, TimeSpan.begin, TimeSpan.end,
-     layer.name, png.type = "cairo-png", \dots)
+     layer.name, png.type, \dots)
 }
 \arguments{
   \item{obj}{object of class \code{"RasterLayer"}, \code{"SpatialPixelsDataFrame"} or \code{"SpatialGridDataFrame"}}

@@ -1,10 +1,3 @@
-# Purpose        : List of available aesthetics is given .all_kml_aesthetics along with their default values
-# Maintainer     : Pierre Roudier (pierre.roudier@landcare.nz);
-# Contributions  : Tomislav Hengl (tom.hengl@wur.nl); Dylan Beaudette (debeaudette@ucdavis.edu); 
-# Dev Status     : Pre-Alpha
-# Note           : Functionality for constant transparency under development;
-
-
 .all_kml_aesthetics <- list(
   colour = "black",
   fill = "white",

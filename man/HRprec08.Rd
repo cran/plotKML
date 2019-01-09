@@ -1,6 +1,5 @@
 \name{HRprec08}
 \docType{data}
-\encoding{latin1}
 \alias{HRprec08}
 \title{Daily precipitation for Croatia for year 2008}
 \description{The daily measurements of precipitation (rain gauges) for year 2008 kindly contributed by the \href{http://meteo.hr}{Croatian National Meteorological Service}. \code{HRprec08} contains 175,059 measurements of precipitation sums (489 stations by 365 days). 

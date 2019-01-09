@@ -1,9 +1,3 @@
-# Purpose        : Compresses KML file using the system zip program;
-# Maintainer     : Dylan Beaudette (debeaudette@ucdavis.edu);
-# Contributions  : Pierre Roudier (pierre.roudier@landcare.nz); Tomislav Hengl (tom.hengl@wur.nl);   
-# Status         : pre-alpha
-# Note           : requires an internal or external ZIP program (If it is missing, then you need to install zip program and add a path to the zipping command line exe in "/etc/Renviron"); 
-
 
 kml_compress <- function(file.name, zip = Sys.getenv("R_ZIPCMD", "zip"), files = "", rm = FALSE, ...){
 

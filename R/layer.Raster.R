@@ -1,8 +1,3 @@
-# Purpose        : Write a raster layer to KML;
-# Maintainer     : Pierre Roudier (pierre.roudier@landcare.nz);
-# Contributions  : Tomislav Hengl (tom.hengl@wur.nl); Dylan Beaudette (debeaudette@ucdavis.edu); 
-# Status         : pre-alpha
-# Note           : Rasters can also be written as polygons; see "?grid2poly";
 
 kml_layer.Raster <- function(
   obj,
@@ -16,9 +11,17 @@ kml_layer.Raster <- function(
   TimeSpan.begin,
   TimeSpan.end,
   layer.name,
-  png.type = "cairo-png",
+  png.type,
   ...
   ){
+  ## PNG type
+  if(missing(png.type)){ 
+    if(.Platform$OS.type == "windows") { 
+      png.type = "cairo-png" 
+    } else {
+      png.type = "cairo"
+    }
+  }
 
   # get our invisible file connection from custom environment
   kml.out <- get("kml.out", envir=plotKML.fileIO)
@@ -136,7 +139,7 @@ kml_layer.Raster <- function(
   # Solution: add transparency using ImageMagick:
   convert <- get("convert", envir = plotKML.opts)
   if(nchar(convert)==0){
-    plotKML.env(silent = FALSE, show.env = FALSE)
+    plotKML.env(show.env = FALSE)
     convert <- get("convert", envir = plotKML.opts)
   } else {
     # if it does manages to find ImageMagick:

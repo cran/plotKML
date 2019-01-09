@@ -1,10 +1,3 @@
-# Purpose        : NEW plotKML CLASSES;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : Pierre Roudier (pierre.roudier@landcare.nz); Dylan Beaudette (debeaudette@ucdavis.edu); 
-# Dev Status     : Pre-Alpha
-# Note           : for more info see [http://cran.r-project.org/doc/manuals/R-exts.html];
-
-
 ## Color palette:
 setClass("sp.palette", representation(type = 'character', bounds = 'vector', color = 'character', names = 'character', icons = 'character'), validity = function(object) {
    if(!class(object@bounds)=="numeric")

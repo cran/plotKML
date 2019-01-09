@@ -1,8 +1,4 @@
-# Purpose        : Automated generation of (spatial) metadata
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Michael Blaschek (blaschek@geographie.uni-kiel.de) and Eloi Ribeiro (eloi.carvalhoribeiro@wur.nl); 
-# Dev Status     : Beta
-# Note           : Based on the US gov sp metadata standards [http://www.fgdc.gov/metadata/csdgm/], which can be converted to "ISO 19139" XML schema; and on the INSPIRE Metadata Implementing Rules [http://inspire.jrc.ec.europa.eu/documents/Metadata/MD_IR_and_ISO_20131029.pdf]
+# Note: Based on the US gov sp metadata standards [http://www.fgdc.gov/metadata/csdgm/], which can be converted to "ISO 19139" XML schema; and on the INSPIRE Metadata Implementing Rules [http://inspire.jrc.ec.europa.eu/documents/Metadata/MD_IR_and_ISO_20131029.pdf]
 
 ## internal methods:
 setMethod("GetNames", "SpatialMetadata", function(obj){paste(obj@field.names)})

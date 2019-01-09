@@ -1,9 +1,3 @@
-# Purpose        : Returns an altitude vector and a altitudeMode string;
-# Maintainer     : Pierre Roudier (pierre.roudier@landcare.nz)
-# Contributions  : Tomislav Hengl (tom.hengl@wur.nl); Dylan Beaudette (debeaudette@ucdavis.edu); 
-# Status         : pre-alpha
-# Note           : Altitude (points, polygons, lines, raster);
- 
 
 kml_altitude <- function(obj, altitude = NULL) {
 

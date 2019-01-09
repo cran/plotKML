@@ -1,9 +1,4 @@
-# Purpose        : Convert a vector map to a raster and (optional) write to a file;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl); 
-# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); Pierre Roudier (pierre.roudier@landcare.nz);
-# Status         : tested
-# Note           : The output pixel size is determined using simple cartographic principles (see [http://dx.doi.org/10.1016/j.cageo.2005.11.008]);
-
+# Note: The output pixel size is determined using simple cartographic principles (see [http://dx.doi.org/10.1016/j.cageo.2005.11.008]);
 
 ## POINTS
 vect2rast.SpatialPoints <- function(obj, fname = names(obj)[1], cell.size, bbox, file.name, silent = FALSE, method = c("raster", "SAGA")[1], FIELD = 0, MULTIPLE = 1, LINE_TYPE = 0, GRID_TYPE = 2, ...){

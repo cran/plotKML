@@ -11,7 +11,7 @@ A number of color palettes used to visualize various environmental categorical /
   \describe{
     \item{\code{anthroms}}{Color palette used for the global map of anthroms (Ellis and Ramankutty, 2008).}
     \item{\code{bodemfgr}}{A simplified color palette for soil types.}
-     \item{\code{corine2k}}{Color palette used in the Corine 2000 project for land cover classes (\enc{Büttner}{Buttner}, et al., 2002).}
+     \item{\code{corine2k}}{Color palette used in the Corine 2000 project for land cover classes (\enc{BÃ¼ttner}{Buttner}, et al., 2002).}
      \item{\code{glc2000}}{Color palette used for the Global Land Cover 2000 mapping project (Global Land Cover 2000).}
      \item{\code{globcov}}{Color palette used for the ENVISAT-based Global Land Cover map at resolution of 300 m (GlobCover Land Cover version V2.2).}
      \item{\code{gtkaart}}{Color palette used for the Ground water levels map of the Netherlands (Gaast et al. 2005).}
@@ -28,7 +28,7 @@ data(worldgrids_pal)
 \references{
 \itemize{
 \item Bicheron, P. et al. (2008) GLOBCOVER: Products Description and Validation Report. MEDIAS France, Toulouse, 47 p.
-\item \enc{Büttner}{Buttner}, G. et al. (2002) Corine Land Cover update 2000, Technical guidelines. EEA (European Environment Agency), Kopenhagen. 
+\item \enc{BÃ¼ttner}{Buttner}, G. et al. (2002) Corine Land Cover update 2000, Technical guidelines. EEA (European Environment Agency), Kopenhagen. 
 \item Ellis, E.C., Ramankutty, N. (2008) Putting people in the map: anthropogenic biomes of the world. Frontiers in Ecology and the Environment, Vol. 6, No. 8, pp. 439-447.
 \item Fritz, S. et al. (2003) Harmonisation, mosaicing and production of the Global Land Cover 2000 database. JRC report EUR 20849 EN, Luxembourg, 41 p.
 \item Gaast, J.W.J. van der, H.R.J. Vroon en M. Pleijter, (2006) De grondwaterdynamiek in het waterschap Regge en Dinkel. Wageningen, Alterra-rapport 1335.

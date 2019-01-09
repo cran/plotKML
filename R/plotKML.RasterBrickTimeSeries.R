@@ -1,8 +1,3 @@
-# Purpose        : Generic method to plot time-series data in Google Earth 
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl); 
-# Contributions  : ;
-# Dev Status     : Alpha
-# Note           : plots are in the description tag;
 
 setMethod("plotKML", "RasterBrickTimeSeries", function(
   obj,

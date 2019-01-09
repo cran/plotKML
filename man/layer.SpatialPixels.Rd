@@ -9,7 +9,7 @@ kml_layer.SpatialPixels(obj, subfolder.name = paste(class(obj)), raster_name,
      png.width = gridparameters(obj)[1,"cells.dim"], 
      png.height = gridparameters(obj)[2,"cells.dim"], 
      min.png.width = 800, TimeSpan.begin, TimeSpan.end,
-     layer.name, png.type = "cairo-png", \dots)
+     layer.name, png.type, \dots)
 }
 \arguments{
   \item{obj}{object of class \code{"RasterLayer"}, \code{"SpatialPixelsDataFrame"} or \code{"SpatialGridDataFrame"}}

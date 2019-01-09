@@ -1,8 +1,3 @@
-# Purpose        : Derive whitenned color based on the uncertainty;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); 
-# Status         : pre-alpha
-# Note           : this technique requires a special 2D legend;
 
 whitening <- function(
    z,      # target variable

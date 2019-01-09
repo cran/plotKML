@@ -1,9 +1,3 @@
-# Purpose        : Initial settings;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : Pierre Roudier (pierre.roudier@landcare.nz); Dylan Beaudette (debeaudette@ucdavis.edu); 
-# Dev Status     : Pre-Alpha
-# Note           : for more info see [http://cran.r-project.org/doc/manuals/R-exts.html]; this code was prepared for SAGA GIS 2.0.8
-
 
 ################## STANDARD ENVIRONMENTS ##############
 
@@ -19,15 +13,15 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
      ## Try locating SAGA GIS (R default setting)...
      if(saga_cmd==""){
       #require(RSAGA)
-      if(!inherits(try( suppressWarnings( x <- rsaga.env() ), silent = TRUE), "try-error")){
+      if(!inherits(try( suppressWarnings( x <- RSAGA::rsaga.env() ), silent = TRUE), "try-error")){
         if(!is.null(x)){ 
           if(.Platform$OS.type == "windows") {
-            suppressWarnings( saga_cmd <- utils::shortPathName(normalizePath(paste(rsaga.env()$path, rsaga.env()$cmd, sep="/"))) )
+            suppressWarnings( saga_cmd <- utils::shortPathName(normalizePath(paste(x$path, x$cmd, sep="/"))) )
           } else { 
-            suppressWarnings( saga_cmd <- paste(rsaga.env()$path, rsaga.env()$cmd, sep="/") )
+            saga_cmd <- paste(x$path, x$cmd, sep="/")
           } 
         if(nzchar(saga_cmd)){
-          suppressWarnings( saga.version <- rsaga.get.version() )
+          suppressWarnings( saga.version <- RSAGA::rsaga.get.version() )
         }
       } else {
         saga.version <- ""
@@ -38,13 +32,13 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
      ## Try locating path to ImageMagick (R default setting)...
      if(convert==""){
        if(requireNamespace("animation", quietly = TRUE)){
-          convert <- animation::ani.options("convert")
+          convert <- animation::ani.options('convert') # magick::magick_config()
        }
 
      ## If it does not work, try getting the path from the OS:     
-     if(is.null(convert)){
+     if(!is.null(convert)){
         im.dir <- NULL
-        if(.Platform$OS.type == "windows") {
+        if(.Platform$OS.type == "windows"){
           ## get paths and check for ImageMagick
           paths <- strsplit(Sys.getenv('PATH')[[1]], ";")[[1]]
           x <- grep(paths, pattern="Magick", ignore.case = TRUE)
@@ -52,9 +46,9 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
           ## if present
           if(!length(x) == 0) {
             im.dir <- paths[grep(paths, pattern="Magick", ignore.case = TRUE)[1]]
-            convert = shQuote(utils::shortPathName(normalizePath(file.path(im.dir, "convert.exe"))))
+            convert <- shQuote(utils::shortPathName(normalizePath(file.path(im.dir, "convert.exe"))))
             if(show.paths&file.exists(convert)){ 
-              try( om <- system(convert,  show.output.on.console = FALSE, intern = TRUE)[1] )
+              try( om <- system(convert, show.output.on.console = FALSE, intern = TRUE)[1] )
               if(!class(.Last.value)[1]=="try-error"){
                 message( paste(om) ) 
               } else {
@@ -90,7 +84,7 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
         }
      } else { 
      if(show.paths&file.exists(convert)){ 
-       try( om <- system(convert,  show.output.on.console = FALSE, intern = TRUE)[1] )
+       try( om <- system(convert, show.output.on.console = FALSE, intern = TRUE)[1] )
        if(!class(.Last.value)[1]=="try-error"){
          message( paste(om) ) 
        } else {
@@ -101,7 +95,7 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
     }  
   
     ## try to locate GDAL / Patyhon:
-    if(.Platform$OS.type == "windows") {
+    if(.Platform$OS.type == "windows"){
       if(gdalwarp==""|gdal_translate==""){
         if(requireNamespace("gdalUtils", quietly = TRUE)){
           gdalUtils::gdal_setInstallation(search_path=gdal.dir, rescan=FALSE)
@@ -146,46 +140,6 @@ paths <- function(gdalwarp = "", gdal_translate = "", convert = "", saga_cmd = "
         } 
              
         }
-        }
-         
-        ## 2nd chance to try to locate SAGA GIS (if not on a standard path):      
-        if(saga_cmd==""){
-          if(!nzchar(saga_cmd)&!nzchar(saga.version)){
-          if(nzchar(prog <- Sys.getenv("ProgramFiles")) &&
-            length(saga.dir <- list.files(prog, "^SAGA*"))>0 &&
-            length(saga_cmd <- list.files(file.path(prog, saga.dir), pattern = "^saga_cmd\\.exe$", full.names = TRUE, recursive = TRUE))>0  
-            ){
-          if(suppressWarnings(!is.null(myenv <- rsaga.env(path=shQuote(normalizePath(saga.dir[1])))))){ 
-            saga_cmd <- utils::shortPathName(normalizePath(paste(myenv$path, myenv$cmd, sep="/")))
-            saga.version <- myenv$version 
-            if(show.paths){ 
-              message(paste("Located SAGA GIS ", saga.version, " from the 'Program Files' directory: \"", utils::shortPathName(saga_cmd), "\"", sep="")) 
-            }
-       }} else{ if(nzchar(prog <- Sys.getenv("ProgramFiles(x86)")) &&
-            length(saga.dir <- list.files(prog, "^SAGA*"))>0 &&
-            length(saga_cmd <- list.files(file.path(prog, saga.dir), pattern = "^saga_cmd\\.exe$", full.names = TRUE, recursive = TRUE))>0   
-            ) {
-          if(suppressWarnings(!is.null(myenv <- rsaga.env(path=shQuote(normalizePath(saga.dir[1])))))){ 
-            saga_cmd <- utils::shortPathName(normalizePath(paste(myenv$path, myenv$cmd, sep="/")))
-            saga.version <- myenv$version 
-            if(show.paths){ 
-              message(paste("Located SAGA GIS ", saga.version, " from the 'Program Files' directory: \"", utils::shortPathName(saga_cmd), "\"", sep="")) 
-            }
-       }}
-       }
-        
-       if(!nzchar(saga_cmd)){
-         if(silent==FALSE){
-            warning("Could not locate SAGA GIS! Install program and add it to the Windows registry. See http://www.saga-gis.org/en/ for more info.")
-         }
-          saga_vc = "" 
-        }   
-       }
-       else {
-          if(show.paths){ 
-            message(paste("Located SAGA GIS ", saga.version, " from the 'Program Files' directory: \"", utils::shortPathName(saga_cmd), "\"", sep="")) 
-          }
-       }
       }
     }
     

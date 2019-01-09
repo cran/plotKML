@@ -1,10 +1,3 @@
-# Purpose        : Get EXIF info from Wikimedia 
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); Pierre Roudier (pierre.roudier@landcare.nz); 
-# Dev Status     : Pre-Alpha
-# Note           : The URLs might change in the near future;
-
-
 getWikiMedia.ImageInfo <- function(imagename, APIsource = "https://commons.wikimedia.org/w/api.php", module = "imageinfo", details = c("url", "metadata", "size", "extlinks"), testURL = TRUE){ 
   
   if(!requireNamespace("RCurl", quietly = TRUE)){

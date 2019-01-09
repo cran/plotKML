@@ -1,8 +1,4 @@
-# Purpose        : Read GPX files [http://www.topografix.com/gpx.asp] and convert the data to tables;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); Pierre Roudier (pierre.roudier@landcare.nz); 
-# Status         : working version
-# Note           : corrections in the code by: Berry Boessenkool (berryboessenkool@hotmail.com)
+# Note: corrections in the code by: Berry Boessenkool (berryboessenkool@hotmail.com)
 
 readGPX <- function(
     gpx.file,

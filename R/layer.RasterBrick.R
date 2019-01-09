@@ -1,8 +1,4 @@
-# Purpose        : Writes a time series of rasters to a KML (all with the same legend);
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Pierre Roudier (pierre.roudier@landcare.nz); Dylan Beaudette (debeaudette@ucdavis.edu); 
-# Status         : pre-alpha
-# Note           : this function is only suitable for writing time-series of data i.e. multiple realizations of the same variables; we assume that the time dimension is set via the @zvalue slot;
+# Note: this function is only suitable for writing time-series of data i.e. multiple realizations of the same variables; we assume that the time dimension is set via the @zvalue slot;
 
 kml_layer.RasterBrick <- function(
   obj,
@@ -19,9 +15,17 @@ kml_layer.RasterBrick <- function(
   png.width, 
   png.height,
   min.png.width = 800,
-  png.type = "cairo-png",
+  png.type,
   ...
-  ){
+ ){
+  ## PNG type
+  if(missing(png.type)){ 
+    if(.Platform$OS.type == "windows") { 
+      png.type = "cairo-png" 
+    } else {
+      png.type = "cairo"
+    }
+  }
    
   if(!is.numeric(obj@data@values)){
     stop('Values of class "numeric" required.') 

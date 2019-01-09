@@ -1,8 +1,4 @@
-# Purpose        : Insertion of metadata into a KML file
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : ; 
-# Dev Status     : Pre-Alpha
-# Note           : Based on the US gov sp metadata standards [http://www.fgdc.gov/metadata/csdgm/];
+# Note: Based on the US gov sp metadata standards [http://www.fgdc.gov/metadata/csdgm/];
 
 ## summary for an object of type "SpatialMetadata":
 .summary.metadata <- function(object, sel, fix.enc = TRUE, full.names = "", delim.sign){

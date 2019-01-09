@@ -1,8 +1,3 @@
-# Purpose        : Convert an attribute table associated with spatial data into an HTML <description> bubble
-# Maintainer     : Pierre Roudier (pierre.roudier@landcare.nz);
-# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); Tomislav Hengl (tom.hengl@wur.nl);
-# Status         : ready for R-forge
-# Note           : required by KML writing functions;
 
 .df2htmltable <- function(x, fix.enc = TRUE, columns = TRUE) {
 

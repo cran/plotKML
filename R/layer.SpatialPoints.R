@@ -1,9 +1,3 @@
-# Purpose        : Parsing SpatialPoints layer to KML
-# Maintainer     : Pierre Roudier (pierre.roudier@landcare.nz);
-# Contributions  : Tomislav Hengl (tom.hengl@wur.nl); Dylan Beaudette (debeaudette@ucdavis.edu); 
-# Status         : Pre-alpha
-# Note           : This file gathers the layer() methods. kml.compress(), kml.open() and kml.close();
-
 
 kml_layer.SpatialPoints <- function(
   obj,

@@ -1,10 +1,3 @@
-# Purpose        : Color conversion functions
-# Maintainer     : Pierre Roudier (pierre.roudier@landcare.nz);
-# Contributions  : Tomislav Hengl (tom.hengl@wur.nl); Dylan Beaudette (debeaudette@ucdavis.edu); 
-# Dev Status     : Alpha
-# Note           : Converts from HEX to KML and back;
-
-
 ## KML colour follow the scheme #aabbggrr
 col2kml <- function(colour){
 

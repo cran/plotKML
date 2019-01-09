@@ -2,7 +2,7 @@
 ### Encoding: UTF-8
 
 ###################################################
-### code chunk number 1: jss1079.Rnw:69-73
+### code chunk number 1: jss1079.Rnw:72-76
 ###################################################
 if(!require(gstat)){install.packages("gstat"); library(gstat)}
 if(!require(raster)){install.packages("raster"); library(raster)}
@@ -11,13 +11,13 @@ if(!require(GSIF)){install.packages("GSIF"); library(GSIF)}
 
 
 ###################################################
-### code chunk number 2: jss1079.Rnw:76-77
+### code chunk number 2: jss1079.Rnw:79-80
 ###################################################
 options(prompt = "R> ", continue = "+  ", width = 70, useFancyQuotes = FALSE)
 
 
 ###################################################
-### code chunk number 3: jss1079.Rnw:83-86
+### code chunk number 3: jss1079.Rnw:86-89
 ###################################################
 rm(list=ls())
 plotKML.version <- sessionInfo()[["otherPkgs"]][["plotKML"]][["Version"]]
@@ -25,7 +25,7 @@ plotKML.env(show.env = FALSE)
 
 
 ###################################################
-### code chunk number 4: jss1079.Rnw:185-192
+### code chunk number 4: jss1079.Rnw:188-195
 ###################################################
 library("sp")
 lat = 37.423156
@@ -37,7 +37,7 @@ proj4string(pnt) <- CRS("+proj=longlat +datum=WGS84")
 
 
 ###################################################
-### code chunk number 5: jss1079.Rnw:213-223
+### code chunk number 5: jss1079.Rnw:216-226
 ###################################################
 library("XML")
 pnt.kml <- newXMLNode("kml")
@@ -52,7 +52,7 @@ pnt.kml
 
 
 ###################################################
-### code chunk number 6: jss1079.Rnw:255-260
+### code chunk number 6: jss1079.Rnw:258-263
 ###################################################
 library("plotKML")
 data("eberg")
@@ -62,26 +62,26 @@ proj4string(eberg) <- CRS("+init=epsg:31467")
 
 
 ###################################################
-### code chunk number 7: jss1079.Rnw:265-266
+### code chunk number 7: jss1079.Rnw:268-269
 ###################################################
 eberg.ll <- reproject(eberg)
 
 
 ###################################################
-### code chunk number 8: jss1079.Rnw:271-272
+### code chunk number 8: jss1079.Rnw:274-275
 ###################################################
 kml(eberg.ll["CLYMHT_A"], colour=CLYMHT_A)
 
 
 ###################################################
-### code chunk number 9: jss1079.Rnw:289-291
+### code chunk number 9: jss1079.Rnw:292-294
 ###################################################
 spplot(eberg.ll["CLYMHT_A"], edge.col="black",
   alpha=0.8, cex=seq(.3,3,length=5))
 
 
 ###################################################
-### code chunk number 10: jss1079.Rnw:326-329
+### code chunk number 10: jss1079.Rnw:329-332
 ###################################################
 shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png"
 kml(eberg.ll, shape = shape, colour = CLYMHT_A, labels = SNDMHT_A,
@@ -89,7 +89,7 @@ kml(eberg.ll, shape = shape, colour = CLYMHT_A, labels = SNDMHT_A,
 
 
 ###################################################
-### code chunk number 11: jss1079.Rnw:366-370
+### code chunk number 11: jss1079.Rnw:369-373
 ###################################################
 data("eberg_grid")
 coordinates(eberg_grid) <- ~x+y
@@ -98,7 +98,7 @@ proj4string(eberg_grid) <- CRS("+init=epsg:31467")
 
 
 ###################################################
-### code chunk number 12: jss1079.Rnw:375-379
+### code chunk number 12: jss1079.Rnw:378-382
 ###################################################
 kml_open("eberg.kml")
 kml_layer(eberg_grid, colour=TWISRT6)
@@ -107,14 +107,14 @@ kml_close("eberg.kml")
 
 
 ###################################################
-### code chunk number 13: jss1079.Rnw:418-420
+### code chunk number 13: jss1079.Rnw:421-423
 ###################################################
 library("sp")
 demo(meuse, echo=FALSE)
 
 
 ###################################################
-### code chunk number 14: jss1079.Rnw:425-429
+### code chunk number 14: jss1079.Rnw:428-432
 ###################################################
 library("GSIF")
 omm <- fit.gstatModel(meuse, om~dist+ffreq, meuse.grid,
@@ -123,7 +123,7 @@ om.rk <- predict(omm, meuse.grid)
 
 
 ###################################################
-### code chunk number 15: jss1079.Rnw:475-488
+### code chunk number 15: jss1079.Rnw:478-491
 ###################################################
 data("fmd")
 fmd0 <- data.frame(fmd)
@@ -141,7 +141,7 @@ stplot(fmd_ST, sp.layout=list("sp.lines", NC), col.regions=SAGA_pal[[1]])
 
 
 ###################################################
-### code chunk number 16: jss1079.Rnw:495-496
+### code chunk number 16: jss1079.Rnw:498-499
 ###################################################
 kml(fmd_ST, colour=ReportedDay, colour_scale=SAGA_pal[[1]])
 

@@ -52,7 +52,7 @@ The external software tools are not required by default and most of operations i
 \code{library(plotKML); plotKML.env(..., show.env = FALSE)}\cr 
 in your \code{"/etc/Rprofile.site"}.
 }
-\section{Warning}{Under Linux OS you need to install GDAL binaries by using:\cr 
+\section{Warning}{Under Linux OS you need to install GDAL binaries by using e.g.:\cr 
 \code{sudo apt-get install gdal-bin}
 }
 \examples{

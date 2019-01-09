@@ -1,9 +1,4 @@
-# Purpose        : Insertion of table data into a KML file (HTML text)
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); Pierre Roudier (pierre.roudier@landcare.nz); 
-# Dev Status     : Pre-Alpha
-# Note           : Based on the US gov sp metadata standards [http://www.fgdc.gov/metadata/csdgm/];
-
+# Note: Based on the US gov sp metadata standards [http://www.fgdc.gov/metadata/csdgm/];
 
 ## Write metadata to a KML file:                             
 kml_description <- function(

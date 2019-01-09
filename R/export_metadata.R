@@ -1,10 +1,4 @@
-# Purpose        : Export of (spatial) metadata
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Michael Blaschek (blaschek@geographie.uni-kiel.de); 
-# Dev Status     : Pre-Alpha
-# Note           : Based on the US gov sp metadata standards [http://www.fgdc.gov/metadata/csdgm/], which can be converted to "ISO 19139" XML schema;
-
-
+# Note : Based on the US gov sp metadata standards [http://www.fgdc.gov/metadata/csdgm/], which can be converted to "ISO 19139" XML schema;
 ## Generate a SLD file (using the default legend):
 # [http://docs.geoserver.org/stable/en/user/styling/sld-introduction.html]
 

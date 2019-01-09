@@ -1,9 +1,4 @@
-# Purpose        : Generation of SpatialPhotoOverlay object 
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : ; 
-# Dev Status     : Pre-Alpha
-# Note           : Combination of the pixmap package and EXIF information [http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/EXIF.html];
-
+# Note: Combination of the pixmap package and EXIF information [http://www.sno.phy.queensu.ca/~phil/exiftool/TagNames/EXIF.html];
 
 ## Generate SpatialPhotoOverlay object:
 spPhoto <- function(

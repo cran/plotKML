@@ -10,7 +10,7 @@ kml_layer.RasterBrick(obj, plot.legend = TRUE, dtime = "", tz = "GMT",
           home_url = get("home_url", envir = plotKML.opts),
           metadata = NULL, html.table = NULL,
           altitudeMode = "clampToGround", balloon = FALSE,
-          png.width, png.height, min.png.width = 800, png.type = "cairo-png", \dots)
+          png.width, png.height, min.png.width = 800, png.type, \dots)
 }
 \arguments{
   \item{obj}{object of class \code{"RasterBrick"} (e.g. a time series of images)}

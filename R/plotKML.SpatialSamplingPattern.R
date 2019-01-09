@@ -1,9 +1,3 @@
-# Purpose        : Generic methods to plot sampling designs
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl); 
-# Contributions  : ;
-# Dev Status     : Alpha
-# Note           : it is largely based on the spcosa classes;
-
 
 setMethod("plotKML", "SpatialSamplingPattern", function(
   obj,

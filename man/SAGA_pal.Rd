@@ -10,10 +10,10 @@
 data(SAGA_pal)
 data(R_pal)
 }
-\author{\href{http://www.saga-gis.org}{SAGA GIS} has been created by the SAGA GIS development team (lead by J. \enc{B?hner}{Boehner} and O. Conrad, from the Institute of Geography, University of Hamburg, Germany). The colour palettes have been exported from SAGA (as \code{".sprm"} SAGA parameter files) and ported to R. All palletes described here were prepared for R by Tomislav Hengl (\email{tom.hengl@wur.nl}).}
+\author{\href{http://www.saga-gis.org}{SAGA GIS} has been created by the SAGA GIS development team (lead by J. \enc{Böhner}{Boehner} and O. Conrad, from the Institute of Geography, University of Hamburg, Germany). The colour palettes have been exported from SAGA (as \code{".sprm"} SAGA parameter files) and ported to R. All palletes described here were prepared for R by Tomislav Hengl (\email{tom.hengl@opengeohub.org}).}
 \references{
 \itemize{
-\item Conrad, O., (2007). \href{http://webdoc.sub.gwdg.de/diss/2007/conrad/conrad.pdf}{SAGA --- Entwurf, Funktionsumfang und Anwendung eines Systems f?r Automatisierte Geowissenschaftliche Analysen}. Electronic doctoral dissertation, University of \enc{G?ttingen}{Goettingen}.
+\item Conrad, O., (2007). \href{http://webdoc.sub.gwdg.de/diss/2007/conrad/conrad.pdf}{SAGA --- Entwurf, Funktionsumfang und Anwendung eines Systems \enc{für}{fur} Automatisierte Geowissenschaftliche Analysen}. Electronic doctoral dissertation, University of \enc{Göttingen}{Goettingen}.
 \item Rogowitz, B.E., Treinish, L.A., (1998, December). \href{http://dx.doi.org/10.1109/6.736450}{Data visualization: the end of the rainbow}. Spectrum, IEEE, 35(12):52-59 
 \item Borland, D. and Russell, M. T. II, (2007). \href{http://dx.doi.org/10.1109/MCG.2007.323435}{Rainbow Color Map (Still) Considered Harmful}. Computer Graphics and Applications, IEEE, 27(2):14-17.
 \item \url{https://cran.r-project.org/package=RColorBrewer}

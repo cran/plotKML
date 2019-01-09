@@ -1,10 +1,3 @@
-# Purpose        : Automatic reprojection of vector and raster features to geographic coordinates;
-# Maintainer     : Pierre Roudier (pierre.roudier@landcare.nz);
-# Contributions  : Tomislav Hengl (tom.hengl@wur.nl); Dylan Beaudette (debeaudette@ucdavis.edu); 
-# Status         : tested
-# Note           : in the case of gridded data, bounding box and cell size are estimated by the program (raster / GDAL);
-
-
 reproject.SpatialPoints <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts), ...) {
   message(paste("Reprojecting to", CRS, "..."))
   res <- spTransform(x = obj, CRSobj = CRS(CRS))
@@ -31,7 +24,7 @@ reproject.RasterLayer <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts
   
     # look for GDAL path:  
     if(nchar(gdalwarp)==0){
-      plotKML.env(silent = FALSE, show.env = FALSE)
+      plotKML.env(show.env = FALSE)
       gdalwarp <- get("gdalwarp", envir = plotKML.opts)
     }
   
@@ -112,7 +105,7 @@ reproject.SpatialGrid <- function(obj, CRS = get("ref_CRS", envir = plotKML.opts
   gdalwarp <- get("gdalwarp", envir = plotKML.opts)
   # look for GDAL path if missing:  
   if(nchar(gdalwarp)==0){
-    plotKML.env(silent = FALSE)
+    plotKML.env()
     gdalwarp <- get("gdalwarp", envir = plotKML.opts)
   }
   message(paste("Using gdalwarp function:", gdalwarp))

@@ -1,9 +1,4 @@
-# Purpose        : Reads GBIF celldensity records from KML to RasterBrick;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); 
-# Status         : pre-alpha
-# Note           : Description of the GBIF celldensity records is available at: [http://data.gbif.org/ws/rest/density];
-
+# Note: Description of the GBIF celldensity records is available at: [http://data.gbif.org/ws/rest/density];
 
 readKML.GBIFdensity <- function(kml.file, gbif.url = FALSE, silent = FALSE){
 

@@ -1,9 +1,3 @@
-# Purpose        : Generic methods to plot RasterBricks in Google Earth (simulations / Time Series)
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl); 
-# Contributions  : ;
-# Dev Status     : Alpha
-# Note           : it basically works only with a single variable;
-
 
 setMethod("plotKML", "RasterBrickSimulations", function(
   obj,

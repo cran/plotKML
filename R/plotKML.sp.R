@@ -1,9 +1,3 @@
-# Purpose        : Default methods to plot sp-type objects;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl); 
-# Contributions  : ;
-# Dev Status     : pre-Alpha
-# Note           : these functions can be further customized;
-
 
 setMethod("plotKML", "SpatialPointsDataFrame", function(obj, folder.name = normalizeFilename(deparse(substitute(obj, env=parent.frame()))), file.name = paste(folder.name, ".kml", sep=""), size, colour, points_names, shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png", metadata = NULL, kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, ...){
 

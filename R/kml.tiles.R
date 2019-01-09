@@ -1,8 +1,3 @@
-# Purpose        : Generic methods to plot large vectors;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : ;
-# Dev Status     : Alpha
-# Note           : Implemented for parallel processing;
 
 kml.tiles <- function(obj, 
   folder.name,

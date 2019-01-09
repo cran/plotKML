@@ -1,9 +1,3 @@
-# Purpose        : shortest path between two points on WGS84 ellipsoid;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); 
-# Status         : pre-alpha
-# Note           : usefull for plotting airroutes or networks between geographically distant places;
-
 geopath <- function(lon1, lon2, lat1, lat2, ID, n.points, print.geo = FALSE) {
     if(requireNamespace("fossil", quietly = TRUE)){
       ## Haversine Formula for Great Circle distance

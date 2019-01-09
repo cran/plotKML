@@ -1,9 +1,3 @@
-# Purpose        : Generic method to plot simulated equiprobable vectors in Google Earth 
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl); 
-# Contributions  : ;
-# Dev Status     : Alpha
-# Note           : it basically requires only a single input object;
-
 
 ## plot object:
 setMethod("plotKML", "SpatialVectorsSimulations", function(

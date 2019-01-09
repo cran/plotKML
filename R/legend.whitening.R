@@ -1,8 +1,3 @@
-# Purpose        : Produce a PNG legend file for whitening;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl);
-# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); 
-# Status         : pre-alpha
-# Note           : this technique requires a special 2D legend;
 
 kml_legend.whitening <- function(legend.res = 0.01, width=120, height=300, pointsize = 14, x.lim, e.lim, leg.asp = 0.3*width/height, legend.file = "whitening_legend.png", matte = FALSE, png.type="cairo-png"){
   
@@ -33,7 +28,7 @@ kml_legend.whitening <- function(legend.res = 0.01, width=120, height=300, point
   if(matte==TRUE){
   convert <- get("convert", envir = plotKML.opts)
   if(nchar(convert)==0){
-    plotKML.env(silent = FALSE, show.env = FALSE)
+    plotKML.env(show.env = FALSE)
     convert <- get("convert", envir = plotKML.opts)
     if(!nchar(convert)==0){
       system(paste(convert, ' ', legend.file, ' -matte -transparent "#FFFFFF" ', legend.file, sep=""))

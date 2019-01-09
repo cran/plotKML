@@ -14,7 +14,7 @@ LazyLoad: \tab yes\cr
 }
 }
 \author{
-Tomislav Hengl (\email{tom.hengl@wur.nl}), Pierre Roudier (\email{pierre.roudier@landcare.nz}), Dylan Beaudette (\email{debeaudette@ucdavis.edu}), Edzer Pebesma (\email{edzer.pebesma@uni-muenster.de})
+Tomislav Hengl (\email{tom.hengl@opengeohub.org}), Pierre Roudier (\email{pierre.roudier@landcare.nz}), Dylan Beaudette (\email{debeaudette@ucdavis.edu}), Edzer Pebesma (\email{edzer.pebesma@uni-muenster.de})
 }
 \references{
 \itemize{
@@ -23,5 +23,5 @@ Tomislav Hengl (\email{tom.hengl@wur.nl}), Pierre Roudier (\email{pierre.roudier
 \item Hengl, T., Roudier, P., Beaudette, D. and Pebesma, E. (2015) \href{http://www.jstatsoft.org/v63/i05/}{plotKML: Scientific Visualization of Spatio-Temporal Data}. Journal of Statistical Software, 63(5): 1--25.
 }
 }
-\note{This package has been developed as a part of the \href{http://gsif.isric.org/}{\strong{Global Soil Information Facilities}} project, which is run jointly by the ISRIC Institute and collaborators. ISRIC is a non-profit organization with a mandate to serve the international community as custodian of global soil information and to increase awareness and understanding of the role of soils in major global issues.}
+\note{This package has been developed as a part of the Global Soil Information Facilities project, which is run jointly by the ISRIC Institute and collaborators. ISRIC is a non-profit organization with a mandate to serve the international community as custodian of global soil information and to increase awareness and understanding of the role of soils in major global issues.}
 \keyword{spatial}

@@ -154,7 +154,7 @@ All ST-classes are coerced to the STIDF format and hence use the plotKML method 
 \seealso{ \code{\link{SpatialPredictions-class}}, \code{\link{SpatialVectorsSimulations-class}}, \code{\link{RasterBrickSimulations-class}}, \code{\link{RasterBrickTimeSeries-class}}, \code{\link{SpatialMaxEntOutput-class}}, \code{\link{SpatialSamplingPattern-class}}   
 }
 \examples{
-plotKML.env(silent = FALSE, kmz = FALSE)
+plotKML.env(kmz = FALSE)
 ## -------------- SpatialPointsDataFrame --------- ##
 library(sp)
 library(rgdal)
@@ -325,7 +325,7 @@ plotKML(rr, z.lim=z.lim)
 \dontrun{
 library(fossil)
 library(spacetime)
-library(adehabitat)
+library(adehabitatLT)
 data(gpxbtour)
 ## format the time column:
 gpxbtour$ctime <- as.POSIXct(gpxbtour$time, format="\%Y-\%m-\%dT\%H:\%M:\%SZ")

@@ -1,8 +1,3 @@
-# Purpose        : Open and close KML file;
-# Maintainer     : Pierre Roudier (pierre.roudier@landcare.nz);
-# Contributions  : Dylan Beaudette (debeaudette@ucdavis.edu); Tomislav Hengl (tom.hengl@wur.nl);   
-# Status         : tested (but not on the MacOS / Linux)
-# Note           : See [http://code.google.com/apis/kml/documentation/kmlreference.html] for more info.
 
 kml_open <- function(
   file.name,

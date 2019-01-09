@@ -1,9 +1,4 @@
-# Purpose        : Parsing "SoilPhotoOverlay" objects to KML
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
-# Contributions  : ;
-# Status         : alpha version
-# Note           : plots either a PhotoOverlay or a monolith (COLLADA model);
-
+# Note: plots either a PhotoOverlay or a monolith (COLLADA model);
 
 kml_layer.SpatialPhotoOverlay <- function(
   obj,

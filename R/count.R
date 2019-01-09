@@ -1,10 +1,3 @@
-# Purpose        : Count the number of vector objects for some GridTopology 
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl); 
-# Contributions  : Edzer Pebesma (edzer.pebesma@uni-muenster.de);
-# Dev Status     : Alpha
-# Note           : Compare with aggregate in utils, sp, and spacetime;
-
-
 ## get a summary of an object for a list of lines:
 count.GridTopology <- function(x, vectL, ...){
     if(any(class(x)=="GridTopology")){    
