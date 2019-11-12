@@ -33,7 +33,9 @@ data(eberg_contours)
 data(SAGA_pal)
 names(eberg_contours)
 # KML plot with elevations used as 'colour' argument:
-kml(eberg_contours, colour_scale = SAGA_pal[[1]], colour = Z, kmz = TRUE)
+kml.file = paste0(tempdir(), "/eberg_contours.kml")
+kml(eberg_contours, file.name = kml.file, 
+  colour_scale = SAGA_pal[[1]], colour = Z)
 }
 \keyword{spatial}
 

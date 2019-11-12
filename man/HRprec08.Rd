@@ -18,7 +18,7 @@ The \code{HRprec08} data frames contain the following columns:
 \author{ Tomislav Hengl and Melita Percec Tadic }
 \references{
 \itemize{
-\item Testik, F.Y. and Gebremichael, M. Eds (2011) \href{http://www.agu.org/books/gm/v191/}{Rainfall: State of the Science}. Geophysical monograph series, Vol. 191, 287 p.
+\item Testik, F.Y. and Gebremichael, M. Eds (2011) \href{https://dx.doi.org/10.1029/GM191}{Rainfall: State of the Science}. Geophysical monograph series, Vol. 191, 287 p.
 \item Zaninovic K., Gajic-Capka, M., Percec Tadic, M. et al., (2010) \href{http://klima.hr/razno.php?id=publikacije&param=atlas}{Klimatski atlas Hrvatske / Climate atlas of Croatia 1961-1990., 1971-2000}. Zagreb, Croatian National Meteorological Service, 200 p.
 \item AGGM book datasets (\url{http://spatial-analyst.net/book/HRclim2008})
 }

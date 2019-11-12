@@ -169,13 +169,17 @@ plotKML(eberg["CLYMHT_A"], colour_scale=rep("#FFFF00", 2), points_names="")
 }
 ## plot points with a legend:
 shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png" 
-kml_open("eberg_CLYMHT_A.kml")
+kml.file = paste0(tempdir(), "/eberg_CLYMHT_A.kml")
+leg.file = paste0(dirname(kml.file), "/kml_legend.png")
+kml_open(kml.file)
 kml_layer(eberg["CLYMHT_A"], colour=CLYMHT_A, z.lim=c(20,60),
-   colour_scale=SAGA_pal[[1]], shape=shape, points_names="")
-kml_legend.bar(x=eberg$CLYMHT_A, legend.file="kml_legend.png",
-   legend.pal=SAGA_pal[[1]], z.lim=c(20,60))
-kml_screen(image.file="kml_legend.png")
-kml_close("eberg_CLYMHT_A.kml")
+          colour_scale=SAGA_pal[[1]], shape=shape, points_names="")
+kml_legend.bar(x=eberg$CLYMHT_A, 
+               legend.file=leg.file,
+               legend.pal=SAGA_pal[[1]], z.lim=c(20,60))
+kml_screen(image.file=leg.file)
+kml_close(kml.file)
+
 
 ## -------------- SpatialLinesDataFrame --------- ##
 data(eberg_contours)
@@ -312,7 +316,7 @@ DE_pred <- STF(sp=as(DE_gridded,"SpatialPoints"), time=rr@time)
 DE_kriged <- krigeST(PM10~1, data=rr, newdata=DE_pred,
                      modelList=sumMetricVgm)
 gridded(DE_kriged@sp) <- TRUE
-stplot(DE_kriged)
+#stplot(DE_kriged)
 ## plot in Google Earth:
 z.lim = range(DE_kriged@data, na.rm=TRUE)
 \dontrun{

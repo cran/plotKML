@@ -33,11 +33,12 @@ library(rgdal)
 library(raster)
 coordinates(eberg) <- ~X+Y
 proj4string(eberg) <- CRS("+init=epsg:31467")
-kml_open("eberg.kml")
+kml.file = paste0(tempdir(), "/eberg.kml")
+kml_open(kml.file)
 kml_layer(eberg, colour = CLYMHT_A)
-kml_close("eberg.kml")
+kml_close(kml.file)
 # compress:
-kml_compress("eberg.kml")
+kml_compress(kml.file)
 }
 \keyword{utilities}
 

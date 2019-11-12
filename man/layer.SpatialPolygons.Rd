@@ -41,9 +41,11 @@ library(sp)
 data(eberg_zones)
 names(eberg_zones)
 ## visualize zones using random colors:
-kml(eberg_zones, colorMode = "random")
+kml.file = paste0(tempdir(), "/eberg_zones.kml")
+kml(eberg_zones, file.name=kml.file, colorMode = "random")
 ## with labels:
-kml(eberg_zones, colour = ZONES, plot.labpt = TRUE, 
-   labels = ZONES, kmz = TRUE, balloon=TRUE)
+kml.file2 = paste0(tempdir(), "/eberg_zones2.kml")
+kml(eberg_zones, file.name=kml.file2, colour = ZONES, 
+    plot.labpt = TRUE, labels = ZONES, kmz = TRUE, balloon=TRUE)
 }
 \keyword{spatial}

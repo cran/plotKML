@@ -35,13 +35,12 @@ grid2poly <- function(obj, var.name = names(obj)[1], reproject = TRUE, method = 
         
         else { stop("SAGA GIS path could not be located. See 'rsaga.env()' for more info.") }
     }
-    
-        else {
+      else {
         obj <- as(obj[var.name], "SpatialPixelsDataFrame")
         # pol <- as.SpatialPolygons.SpatialPixels(obj) # EJP: deprecated
         # pol <- SpatialPolygonsDataFrame(pol, data=data.frame(var.name = obj@data[,var.name]), match.ID=FALSE)
 		    pol = as(obj, "SpatialPolygonsDataFrame")
-    }
+      }
     }
     
     # Checking projection:

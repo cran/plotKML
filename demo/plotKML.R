@@ -60,26 +60,26 @@ if(urlExists){
   plotKML(sm)
 }
 
-## -------------- SoilProfileCollection --------- ##
-library(aqp)
-library(plyr)
-## sample profile from Nigeria:
-lon = 3.90; lat = 7.50; id = "ISRIC:NG0017"; FAO1988 = "LXp" 
-top = c(0, 18, 36, 65, 87, 127) 
-bottom = c(18, 36, 65, 87, 127, 181)
-ORCDRC = c(18.4, 4.4, 3.6, 3.6, 3.2, 1.2)
-hue = c("7.5YR", "7.5YR", "2.5YR", "5YR", "5YR", "10YR")
-value = c(3, 4, 5, 5, 5, 7); chroma = c(2, 4, 6, 8, 4, 3)
-## prepare a SoilProfileCollection:
-prof1 <- join(data.frame(id, top, bottom, ORCDRC, hue, value, chroma), 
-   data.frame(id, lon, lat, FAO1988), type='inner')
-prof1$soil_color <- with(prof1, munsell2rgb(hue, value, chroma))
-depths(prof1) <- id ~ top + bottom
-site(prof1) <- ~ lon + lat + FAO1988 
-coordinates(prof1) <- ~ lon + lat
-proj4string(prof1) <- CRS("+proj=longlat +datum=WGS84")
-prof1
-plotKML(prof1, var.name="ORCDRC", color.name="soil_color")
+# ## -------------- SoilProfileCollection --------- ##
+# library(aqp)
+# library(plyr)
+# ## sample profile from Nigeria:
+# lon = 3.90; lat = 7.50; id = "ISRIC:NG0017"; FAO1988 = "LXp" 
+# top = c(0, 18, 36, 65, 87, 127) 
+# bottom = c(18, 36, 65, 87, 127, 181)
+# ORCDRC = c(18.4, 4.4, 3.6, 3.6, 3.2, 1.2)
+# hue = c("7.5YR", "7.5YR", "2.5YR", "5YR", "5YR", "10YR")
+# value = c(3, 4, 5, 5, 5, 7); chroma = c(2, 4, 6, 8, 4, 3)
+# ## prepare a SoilProfileCollection:
+# prof1 <- join(data.frame(id, top, bottom, ORCDRC, hue, value, chroma), 
+#    data.frame(id, lon, lat, FAO1988), type='inner')
+# prof1$soil_color <- with(prof1, munsell2rgb(hue, value, chroma))
+# depths(prof1) <- id ~ top + bottom
+# site(prof1) <- ~ lon + lat + FAO1988 
+# coordinates(prof1) <- ~ lon + lat
+# proj4string(prof1) <- CRS("+proj=longlat +datum=WGS84")
+# prof1
+# plotKML(prof1, var.name="ORCDRC", color.name="soil_color")
 
 ## -------------- STIDF --------- ##
 library(spacetime)
