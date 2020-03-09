@@ -13,11 +13,11 @@ extractProjValue <- function(p4s_parameters, param){
     # Extract the parameter value
     value <- strsplit(param_value, param)[[1]]
     value <- value[value != ""]
+    return(value)
   } else { 
-    stop(paste("Proj4string does not contain", param, "parameter.\n Consider converting to the referent CRS", get("ref_CRS", envir = plotKML.opts),"manually."))
+    value <- NA
+    #warning(paste("Proj4string does not contain", param, "parameter.\n Consider converting to the referent CRS", get("ref_CRS", envir = plotKML.opts),"manually."))
   }
-
-  return(value)
 }
 
 
@@ -85,39 +85,35 @@ check_projection <- function(obj, control = TRUE, ref_CRS = get("ref_CRS", envir
   } 
 
   #  First, check if it is in the metric system or unprojected:
-  if(ref_CRS=="+proj=longlat +ellps=WGS84"&is.projected(obj)){
+  if(is.projected(obj)){
     ret = FALSE
-  }
+  } else {
+    # Using PROJ.4 to get the PROJ4 string
+    p4s <- getCRS(obj)
   
-  else {
-
-  # Using PROJ.4 to get the PROJ4 string
-  p4s <- getCRS(obj)
-
-  # Parsing the PROJ4 string for proj and datum values
-  params <- parse_proj4(p4s)
-
-  # the default target proj4 string:
-  value <- strsplit(ref_CRS, "\\+")[[1]]
-  value <- value[value != ""]
-  target_params <- stringr::str_trim(sapply(strsplit(value, "="), function(x){x[2]}))
-  names(target_params) <- sapply(strsplit(value, "="), function(x){x[1]})
-
-  # if already projection type is missing the string is invalid
-  if(params["proj"] != ""){  
-
-  # If test fails
-  if (sum(is.na(match(params, target_params)))>0) {
-    if (control==FALSE)
-      stop(paste("'", ref_CRS, "' coordinate system required"))
-    else
-      ret <- FALSE
-  }
-  # If test succeed
-  else {
-      ret <- TRUE
+    # Parsing the PROJ4 string for proj and datum values
+    params <- parse_proj4(p4s)
+  
+    # the default target proj4 string:
+    value <- strsplit(ref_CRS, "\\+")[[1]]
+    value <- value[value != ""]
+    target_params <- stringr::str_trim(sapply(strsplit(value, "="), function(x){x[2]}))
+    names(target_params) <- sapply(strsplit(value, "="), function(x){x[1]})
+  
+    # if already projection type is missing the string is invalid
+    if(params["proj"] != ""){  
+      # If test fails
+      if (sum(is.na(match(params, target_params)))>0) {
+        if (control==FALSE)
+          stop(paste("'", ref_CRS, "' coordinate system required"))
+        else
+          ret <- FALSE
     }
-  }
+    # If test succeed
+    else {
+        ret <- TRUE
+      }
+    }
   
   else {
     stop("A valid proj4string required. See 'CRS-methods' for more details.")

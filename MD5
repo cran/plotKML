@@ -1,13 +1,13 @@
-d0239243c2708e275ab7c3621c8b8cf6 *DESCRIPTION
-022e76f1864c4f0f6acb3e4b37d3ddb9 *NAMESPACE
-3ecbca33a6ab94e47c36e1903f83d21c *R/AAA-classes.R
+b78e3f3b6e700b1bd5f298153fded08e *DESCRIPTION
+aa4eb063623e87196d91b9c428111ef6 *NAMESPACE
+1a6047bb7fa283c9ff3b0bea02aa743b *R/AAA-classes.R
 72a2c0543a0138bef70c7d7f4892904f *R/AAA-md.R
-d8c0a86b600d757b0bfee00668d49ba9 *R/AAAA.R
+32f5fddacfe65651f889f1b17b5eaa79 *R/AAAA.R
 9b3042cca6ffd388db738ff6ebfac960 *R/ZZZ.R
 19df51a1044a318c93d5b957c4739e3e *R/aesthetics.R
 4d8b8e2058e748fd6fbcba9a87596407 *R/altitude.R
 755f560c42100896fc27833c0148279c *R/attributes.R
-c05e848dc0540bb741f0635386604b95 *R/check_projection.R
+b55c9d5ab3c9b6436424b34c193a4c12 *R/check_projection.R
 edd5fdd91e0ab07f9d67ea626644dc34 *R/col2kml.R
 0b12a90bbdd7ab82ff095d9f45fbbb57 *R/color_palettes.R
 b85a1ea8f127369d7625d2f14de296db *R/count.R
@@ -20,7 +20,7 @@ f3279c6b719e7fe352ea84569d8a8151 *R/kml.R
 b76e9c556e86328bc7f8c24fea19cad0 *R/kml_compress.R
 35ddf8d43c9f0fd089b87608dfc18e52 *R/kml_description.R
 4367b88a3824db301fda6c6ea21ab449 *R/kml_metadata.R
-ae4dad588f14b5b263d05a125a4f203e *R/kml_open.R
+33e3428e1a87c355c076e86a93bd8aaa *R/kml_open.R
 d5db69a887712b4422730b8d433810d8 *R/kml_screen.R
 b0cc0361cba4a7dc748d7da4aab3e19e *R/layer.Raster.R
 18d953e1e9894bcd1c8915e39c2b629a *R/layer.RasterBrick.R
@@ -40,7 +40,7 @@ aa74cbe88cf9295f8f6d27e6398328c5 *R/plotKML.GDALobj.R
 7534209df0cb239330ebe217676cb829 *R/plotKML.RasterBrickSimulations.R
 1e6f95de36dc91ebc8a740bc641b4b79 *R/plotKML.RasterBrickTimeSeries.R
 42119fbb1c4c004a3c5d55a03e41020a *R/plotKML.SpatialMaxEntOutput.R
-d3308856b49ebbaf4ea20f803d71c8dc *R/plotKML.SpatialPredictions.R
+29165d3672de5666f989b3053d010560 *R/plotKML.SpatialPredictions.R
 300c55a6a351b0ab6c596477a4e00d80 *R/plotKML.SpatialSamplingPattern.R
 e4f5c1d636daf99f1b6e89c8bbeb51c4 *R/plotKML.SpatialVectorsSimulations.R
 27f736844259708376163889cbcceb78 *R/plotKML.sp.R
@@ -65,7 +65,7 @@ b05a32b7374a03dd64f911c195de1f3b *data/R_pal.rda
 4d03498deeaa6bc34b0089ed66747818 *data/bigfoot.rda
 3b7f2ec646e6b4faae0b54e94a7c5f36 *data/datalist
 a92978c15fd0ae9d9887aab747ce5911 *data/eberg.rda
-39c39172a917ebd09656ee53d0a312ce *data/eberg_contours.rda
+28c23420a3a9f8324e3eba24e1a2590e *data/eberg_contours.rda
 97773caa72560db04d92e603040d6aef *data/eberg_grid.rda
 20dd238507da8b6db99a5a77934eda4d *data/eberg_grid25.rda
 e933b03f6f269719759c756f79b68c70 *data/eberg_zones.rda
@@ -81,7 +81,7 @@ b90137d302edc916b41e9377eeefa78c *inst/INSPIRE_ISO19139.xml
 d41d8cd98f00b204e9800998ecf8427e *inst/NEWS
 83ce254a012f24868233278ca985f12e *inst/doc/jss1079.R
 ae021f1564a08f85fd2c9d38e4c1c891 *inst/doc/jss1079.Rnw
-74b50c32ef73a8e671688c2e91a984dc *inst/doc/jss1079.pdf
+7f1294fd67a31c2234f7814f2867afbe *inst/doc/jss1079.pdf
 c4c84fc61344519d27e5b9ee06f4845e *inst/eberg.xml
 762124c8e05e5dbf332ec2acadb0af18 *inst/gpx.xsd
 28da50b2a17e0848877f44470a66db5b *inst/mdnames.csv
@@ -95,7 +95,7 @@ cc8a82ff70a5deec35b2b505ee63af15 *man/LST.Rd
 b4a442446034b793c49666e47b694a9f *man/SpatialMaxEntOutput.Rd
 f4281c628e9cbc2f528b2dfc60a7b168 *man/SpatialMetadata.Rd
 5f9cb124b7725341210f0075edb3a5a0 *man/SpatialPhotoOverlay.Rd
-a10cdf07ba2cfa5de1332a2424b54b9a *man/SpatialPredictions.Rd
+ca2d4e0733c72bc902c808a5dac04fdb *man/SpatialPredictions.Rd
 45cdf910ac4dcda989752beb521cd4ed *man/SpatialSamplingPattern.Rd
 757a373a6991e7d959770a322d188621 *man/SpatialVectorsSimulations.Rd
 4b5e18cd04b76b95b6540c305def9c8f *man/aesthetics.Rd
@@ -119,7 +119,7 @@ d5303eb2b21a793be8e30c2890a0c3d0 *man/kml_description.Rd
 9a636172d39a8da22750a3c64839ad1f *man/kml_layer.Rd
 95e0f1de8029e6eb4d9a083f28ec3e4f *man/kml_legend.bar.Rd
 26e699d6651b4a7acc0c5351aedd96d2 *man/kml_metadata.Rd
-4017103b4c048e1ab6902c3542ac4383 *man/kml_open.Rd
+f9ffb18895b6f8a6033e6e6b3754a94c *man/kml_open.Rd
 d202d839ea71f8fe430aba599595c91f *man/kml_screen.Rd
 c0312e09aa4d05ebf6e47d90e1930f65 *man/layer.Raster.Rd
 ff005c4253ce937f4f00c5bfc5989b96 *man/layer.RasterBrick.Rd

@@ -186,6 +186,4 @@ if (!isGeneric("vect2rast")){
 
 if (!isGeneric("plotKML")){
   setGeneric("plotKML", function(obj, ...){standardGeneric("plotKML")})
- }
- 
-# end of script;
+}

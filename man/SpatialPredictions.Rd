@@ -2,7 +2,7 @@
 \docType{class}
 \alias{SpatialPredictions-class}
 \alias{plot.SpatialPredictions}
-\alias{plot,SpatialPredictions,ANY-method}
+\alias{plot,SpatialPredictions-method}
 \title{A class for spatial predictions produced using \code{gstat} package}
 \description{A class containing input and output maps generated through the process of geostatistical mapping. Object of this class can be directly visualized in Google Earth by using the \code{\link{plotKML-method}}.}
 \section{Slots}{

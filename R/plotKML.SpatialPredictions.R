@@ -93,6 +93,3 @@ setMethod("plotKML", "SpatialPredictions", function(
     message(paste("Object written to:", file.name))
   }
 })
-
-
-# end of script;

@@ -239,7 +239,7 @@ plotKML.env <- function(
 	brewer3 = c("#FEEDDE","#FDBE85","#FD8D3C","#E6550D","#A63603")
     #if(missing(colour_scale_svar)) { colour_scale_svar <- brewer.pal(n = 5, name = "Oranges") }
     if(missing(colour_scale_svar)) { colour_scale_svar <- brewer3 }
-    if(missing(ref_CRS)) { ref_CRS <- "+proj=longlat +ellps=WGS84" }
+    if(missing(ref_CRS)) { ref_CRS <- CRSargs(CRS("+init=epsg:4326")) }
     if(missing(NAflag)) { NAflag <- -99999 }
     if(missing(icon)) { icon <- "icon3.png" }   # "http://maps.google.com/mapfiles/kml/shapes/donut.png"
     if(missing(LabelScale)) { LabelScale <- .5 }
@@ -302,4 +302,3 @@ plotKML.env <- function(
 ## generate all environmental settings:
 plotKML.env(show.env = FALSE)
 
-# end of script;

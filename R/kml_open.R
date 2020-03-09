@@ -76,4 +76,3 @@ kml_View <- function(file.name){
   }
 }
 
-# end of script;
