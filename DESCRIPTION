@@ -1,32 +1,36 @@
 Package: plotKML
-Version: 0.6-1
-Date: 2020-03-08
+Version: 0.8-0
+Date: 2021-04-12
 Title: Visualization of Spatial and Spatio-Temporal Objects in Google
         Earth
-Authors@R: c(person("Tomislav", "Hengl", role = c("cre", "aut"),
-        email = "tom.hengl@opengeohub.org"),
-    person("Pierre", "Roudier", role = "ctb"),
-    person("Dylan", "Beaudette", role = "ctb"),
-	person("Edzer", "Pebesma", role = "ctb"),
-  person("Michael", "Blaschek", role = "ctb"))
-Maintainer: Tomislav Hengl <tom.hengl@opengeohub.org>
-Depends: R (>= 3.5.0)
-Imports: methods, tools, utils, XML, sp, raster, rgdal, aqp, spacetime,
-        colorspace, plotrix, dismo, pixmap, plyr, stringr, colorRamps,
-        scales, gstat, zoo, RColorBrewer, RSAGA, classInt
-Suggests: adehabitatLT, maptools, fossil, spcosa, rjson, animation,
-        spatstat, RCurl, rgbif, Hmisc, GSIF, uuid, intervals, reshape,
-        gdalUtils, snowfall, parallel
-Description: Writes sp-class, spacetime-class, raster-class and similar spatial and spatio-temporal objects to KML following some basic cartographic rules.
-License: GPL
-URL: http://plotkml.r-forge.r-project.org/
-LazyLoad: yes
-NeedsCompilation: no
-Packaged: 2020-03-09 22:02:13 UTC; tomhe
 Author: Tomislav Hengl [cre, aut],
+  Andrea Gilardi [ctb],
   Pierre Roudier [ctb],
   Dylan Beaudette [ctb],
   Edzer Pebesma [ctb],
   Michael Blaschek [ctb]
+Authors@R: c(person("Tomislav", "Hengl", role = c("cre", "aut"),
+        email = "tom.hengl@opengeohub.org"),
+    person("Andrea", "Gilardi", role = "ctb"),
+    person("Pierre", "Roudier", role = "ctb"),
+    person("Dylan", "Beaudette", role = "ctb"),
+    person("Edzer", "Pebesma", role = "ctb"),
+    person("Michael", "Blaschek", role = "ctb"))
+Maintainer: Tomislav Hengl <tom.hengl@opengeohub.org>
+Depends: R (>= 3.5.0)
+Imports: methods, tools, utils, XML, landmap, sp, raster, rgdal, aqp,
+        gstat, spacetime, colorspace, plotrix, dismo, pixmap, plyr,
+        stringr, colorRamps, scales, zoo, RColorBrewer, RSAGA,
+        classInt, sf, stars
+Suggests: adehabitatLT, maptools, fossil, rjson, animation, spatstat,
+        spatstat.linnet, spatstat.geom, RCurl, rgbif, Hmisc, uuid,
+        intervals, reshape, gdalUtils, snowfall, parallel, tinytex,
+        testthat
+Description: Writes sp-class, spacetime-class, raster-class and similar spatial and spatio-temporal objects to KML following some basic cartographic rules.
+License: GPL
+URL: https://github.com/Envirometrix/plotKML
+LazyLoad: yes
+NeedsCompilation: no
+Packaged: 2021-04-12 12:29:21 UTC; tomislav
 Repository: CRAN
-Date/Publication: 2020-03-09 22:40:02 UTC
+Date/Publication: 2021-04-12 16:00:02 UTC

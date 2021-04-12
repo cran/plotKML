@@ -21,9 +21,15 @@
 \alias{plotKML,RasterBrickTimeSeries-method}
 \alias{plotKML,SpatialSamplingPattern-method}
 \alias{plotKML,list-method}
+\alias{plotKML,sf-method}
+\alias{plotKML,stars-method}
 \title{Methods for plotting results of spatial analysis in Google Earth}
 \description{The method writes inputs and outputs of spatial analysis (a list of point, gridded and/or polygon data usually) to KML and opens the KML file in Google Earth (or any other default package used to view KML/KMZ files).}
 \usage{
+\S4method{plotKML}{sf}(obj, 
+      folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))),
+      file.name = paste(folder.name, ".kml", sep=""), 
+      metadata = NULL, kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, \dots)
 \S4method{plotKML}{SpatialPointsDataFrame}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))),
       file.name = paste(folder.name, ".kml", sep=""), 
@@ -95,7 +101,7 @@
 \S4method{plotKML}{SpatialPredictions}(obj, 
       folder.name = normalizeFilename(deparse(substitute(obj, env = parent.frame()))), 
       file.name = paste(folder.name, ".kml", sep=""), colour, 
-      grid2poly = FALSE, obj.summary = TRUE, plot.svar = FALSE, 
+      grid2poly = FALSE, obj.summary = FALSE, plot.svar = FALSE, 
       pngwidth = 210, pngheight = 580, pngpointsize = 14, 
       metadata = NULL, kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, \dots)
 \S4method{plotKML}{SpatialSamplingPattern}(obj, 
@@ -116,7 +122,7 @@
       kmz = get("kmz", envir = plotKML.opts), open.kml = TRUE, \dots)
 }
 \arguments{
-  \item{obj}{input object of specific class; either some \href{https://cran.r-project.org/package=sp}{sp}, or \href{https://cran.r-project.org/package=raster}{raster} or \href{https://cran.r-project.org/package=spacetime}{spacetime} package class object, or plotKML composite objects containing both inputs and outputs of analysis}
+  \item{obj}{input object of specific class; either some \href{https://cran.r-project.org/package=sf}{sf}, or \href{https://cran.r-project.org/package=sp}{sp}, or \href{https://cran.r-project.org/package=raster}{raster} or \href{https://cran.r-project.org/package=spacetime}{spacetime} package class object, or plotKML composite objects containing both inputs and outputs of analysis}
   \item{folder.name}{character; folder name in the KML file}
   \item{file.name}{character; output KML file name}
   \item{size}{for point objects for plotting (see \link{aesthetics})}
@@ -148,8 +154,9 @@
 \details{This is a generic function to plot various spatial and spatio-temporal R objects that contain both inputs and outputs of spatial analysis. The resulting plots (referred to as \emph{`views'}) are expected to be cartographically complete as they should contain legends, and data and model descriptions. In principle, \code{plotKML} works with both simple spatial objects, and complex objects such as \code{"SpatialPredictions"}, \code{"SpatialVectorsSimulations"}, \code{"RasterBrickSimulations"}, \code{"RasterBrickTimeSeries"}, \code{"SpatialMaxEntOutput"} and similar. To further customize visualizations consider combining the lower level functions \code{\link{kml_open}}, \code{\link{kml_close}}, \code{\link{kml_compress}}, \code{\link{kml_screen}} into your own \code{plotKML()} method.
 
 All ST-classes are coerced to the STIDF format and hence use the plotKML method for STIDFs.
+The \code{sf} objects are processed according to the class of the geometry column. The aestethics are defined in the same way as for their {sp} counterparts. 
 }
-\note{To prepare a list of objects of class \code{"SpatialPointsDataFrame"}, \code{"SpatialLinesDataFrame"}, \code{"SpatialPolygonsDataFrame"}, or \code{"SpatialPixelsDataFrame"} consider using the \code{GSIF::tile} function. Writting large spatial objects via plotKML can be time consuming. Please refer to the package manual for more information.
+\note{To prepare a list of objects of class \code{"SpatialPointsDataFrame"}, \code{"SpatialLinesDataFrame"}, \code{"SpatialPolygonsDataFrame"}, or \code{"SpatialPixelsDataFrame"} consider using the \code{landmap::tile} function. Writting large spatial objects via plotKML can be time consuming. Please refer to the package manual for more information.
 }
 \seealso{ \code{\link{SpatialPredictions-class}}, \code{\link{SpatialVectorsSimulations-class}}, \code{\link{RasterBrickSimulations-class}}, \code{\link{RasterBrickTimeSeries-class}}, \code{\link{SpatialMaxEntOutput-class}}, \code{\link{SpatialSamplingPattern-class}}   
 }
@@ -180,6 +187,12 @@ kml_legend.bar(x=eberg$CLYMHT_A,
 kml_screen(image.file=leg.file)
 kml_close(kml.file)
 
+## ----- sf objects with sfc_POINT geometry ----- ##
+eberg_sf <- sf::st_as_sf(eberg)
+\dontrun{
+plotKML(eberg_sf["CLYMHT_A"])
+plotKML(eberg_sf["CLYMHT_A"], colour_scale = rep("#FFFF00", 2), points_names = "")
+}
 
 ## -------------- SpatialLinesDataFrame --------- ##
 data(eberg_contours)
@@ -189,6 +202,13 @@ plotKML(eberg_contours)
 plotKML(eberg_contours, colour=Z, altitude=Z)
 }
 
+## ---- sf objects with sfc_LINESTRING geometry ---- ##
+eberg_contours_sf <- sf::st_as_sf(eberg_contours)
+\dontrun{
+plotKML(eberg_contours_sf)
+plotKML(eberg_contours_sf, colour = Z, altitude = Z)
+}
+
 ## -------------- SpatialPolygonsDataFrame --------- ##
 data(eberg_zones)
 \dontrun{
@@ -196,6 +216,13 @@ plotKML(eberg_zones["ZONES"])
 ## add altitude:
 zmin = 230
 plotKML(eberg_zones["ZONES"], altitude=zmin+runif(length(eberg_zones))*500)
+}
+
+## ------ sf objects with sfc_POLYGON geometry ------ ##
+eberg_zones_sf <- sf::st_as_sf(eberg_zones)
+\dontrun{
+plotKML(eberg_zones_sf["ZONES"])
+plotKML(eberg_zones_sf["ZONES"], altitude = zmin + runif(length(eberg_zones)) * 500)
 }
 
 ## -------------- SpatialPixelsDataFrame --------- ##
@@ -225,7 +252,7 @@ plotKML(LNCCOR6, colour_scale=pal)
 \dontrun{
 library(RCurl)
 imagename = "Soil_monolith.jpg"
-urlExists = url.exists("http://commons.wikimedia.org")
+urlExists = url.exists("https://commons.wikimedia.org")
 if(urlExists){
   x1 <- getWikiMedia.ImageInfo(imagename)
   sm <- spPhoto(filename = x1$url$url, exif.info = x1$metadata)
@@ -291,6 +318,7 @@ plotKML(fmd_ST, colour_scale=SAGA_pal[[1]])
 
 ## -------------- STFDF --------- ##
 
+\dontrun{
 ## results of krigeST:
 library(gstat)
 library(sp)
@@ -319,7 +347,6 @@ gridded(DE_kriged@sp) <- TRUE
 #stplot(DE_kriged)
 ## plot in Google Earth:
 z.lim = range(DE_kriged@data, na.rm=TRUE)
-\dontrun{
 plotKML(DE_kriged, z.lim=z.lim)
 ## add observations points:
 plotKML(rr, z.lim=z.lim)
@@ -395,7 +422,7 @@ data(meuse.grid)
 gridded(meuse.grid) <- ~x+y
 proj4string(meuse.grid) <- CRS("+init=epsg:28992")
 \dontrun{## fit a model:
-library(GSIF)
+library(landmap)
 omm <- fit.gstatModel(observations = meuse, formulaString = om~dist, 
    family = gaussian(log), covariates = meuse.grid)
 ## produce SpatialPredictions:
@@ -404,38 +431,6 @@ om.rk <- predict(omm, predictionLocations = meuse.grid)
 plotKML(om.rk, colour_scale = SAGA_pal[[1]])
 ## plot each cell as polygon:
 plotKML(om.rk, colour_scale = SAGA_pal[[1]], grid2poly = TRUE)
-}
-
-## -------------- SpatialSamplingPattern --------- ##
-\dontrun{
-library(spcosa)
-library(sp)
-## read a polygon map:
-shpFarmsum <- readOGR(dsn = system.file("maps", package = "spcosa"), 
-  layer = "farmsum")
-## stratify `Farmsum' into 50 strata
-myStratification <- stratify(shpFarmsum, nStrata = 50)
-## sample two sampling units per stratum
-mySamplingPattern <- spsample(myStratification, n = 2)
-## attach the correct proj4 string:
-library(RCurl)
-urlExists = url.exists("http://spatialreference.org/ref/sr-org/6781/proj4/")
-if(urlExists){
-  nl.rd <- getURL("http://spatialreference.org/ref/sr-org/6781/proj4/")
-  proj4string(mySamplingPattern@sample) <- CRS(nl.rd) 
-  # prepare spatial domain (polygons):
-  sp.domain <- as(myStratification@cells, "SpatialPolygons")
-  sp.domain <- SpatialPolygonsDataFrame(sp.domain, 
-     data.frame(ID=as.factor(myStratification@stratumId)), match.ID = FALSE)
-  proj4string(sp.domain) <- CRS(nl.rd) 
-  # create new object:
-  mySamplingPattern.ssp <- new("SpatialSamplingPattern", 
-     method = class(mySamplingPattern), pattern = mySamplingPattern@sample, 
-     sp.domain = sp.domain)
-  # the same plot now in Google Earth:
-  shape = "http://maps.google.com/mapfiles/kml/pal2/icon18.png"
-  plotKML(mySamplingPattern.ssp, shape = shape)
-}
 }
 
 ## -------------- RasterBrickSimulations --------- ##
@@ -512,7 +507,7 @@ library(spatstat)
 bigfoot.aea <- as.ppp(spTransform(bigfoot, CRS(aea.prj)))
 ## Load the covariates:
 sel.grids <- c("globedem","nlights03","sdroads","gcarb","twi","globcov")
-library(GSIF)
+library(landmap)
 library(dismo)
 ## run MaxEnt analysis:
 jar <- paste(system.file(package="dismo"), "/java/maxent.jar", sep='')

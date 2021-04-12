@@ -29,8 +29,8 @@ The \code{eberg_grid} data frame (regular grid at 100 m resolution) contains the
   \item{\code{PRMGEO6}}{a vector containing factors, parent material classes from the geological map (mapping units)}
   \item{\code{DEMSRT6}}{a numeric vector; elevation values from the SRTM DEM}
   \item{\code{TWISRT6}}{a numeric vector; Topographic Wetness Index derived using the SAGA algorithm}
-  \item{\code{TIRAST6}}{a numeric vector; Thermal Infrared (TIR) reflection values from the ASTER L1 image band 14 (2010-06-05T10:26:50Z) obtained via the NASA's \href{http://glovis.usgs.gov}{GloVis browser}}
-  \item{\code{LNCCOR6}}{a vector containing factors; \href{http://www.eea.europa.eu/data-and-maps/data/corine-land-cover-2006-raster-1}{Corine Land Cover 2006} classes}
+  \item{\code{TIRAST6}}{a numeric vector; Thermal Infrared (TIR) reflection values from the ASTER L1 image band 14 (2010-06-05T10:26:50Z) obtained via the NASA's \href{https://glovis.usgs.gov}{GloVis browser}}
+  \item{\code{LNCCOR6}}{a vector containing factors; \href{https://www.eea.europa.eu/data-and-maps/data/clc-2006-raster-1}{Corine Land Cover 2006} classes}
 	\item{\code{x}}{a numeric vector; x-coordinate (m) in DHDN / Gauss-Krueger zone 3 (German coordinate system)}
 	\item{\code{y}}{a numeric vector; y-coordinate (m) in DHDN / Gauss-Krueger zone 3 (German coordinate system)} 
 }
@@ -50,11 +50,11 @@ The \code{eberg_grid25} data frame (regular grid at 25 m resolution) contains th
 \item Ad-hoc-AG Boden, (2005) Bodenkundliche Kartieranleitung. 5th Ed, Bundesanstalt \enc{für}{fur} Geowissenschaften und Rohstoffe und Niedersaechsisches Landesamt \enc{für}{fur} Bodenforshung, Hannover, p. 423.
 \item \enc{Böhner}{Boehner}, J., McCloy, K. R. and Strobl, J. (Eds), (2006) \href{http://www.saga-gis.org/}{SAGA --- Analysis and Modelling Applications}. \enc{Göttinger}{Goettinger} Geographische Abhandlungen, Heft 115. Verlag Erich Goltze GmbH, \enc{Göttingen}{Goettingen}, 117 pp.
 \item Gehrt, E., \enc{Böhner}{Boehner}, J., (2001) Vom punkt zur flache --- probleme des 'upscaling' in der bodenkartierung. In: Diskussionsforum Bodenwissenschaften: Vom Bohrstock zum Bildschirm. FH, \enc{Osnabrück}{Osnabruck}, pp. 17-34.
-\item Skaggs, T. H., Arya, L. M., Shouse, P. J., Mohanty, B. P., (2001) \href{https://www.soils.org/publications/sssaj/articles/65/4/1038}{Estimating Particle-Size Distribution from Limited Soil Texture Data}. Soil Science Society of America Journal 65 (4): 1038-1044.
+\item Skaggs, T. H., Arya, L. M., Shouse, P. J., Mohanty, B. P., (2001) Estimating Particle-Size Distribution from Limited Soil Texture Data. Soil Science Society of America Journal 65 (4): 1038-1044. \doi{10.2136/sssaj2001.6541038x}
 \item \url{http://geomorphometry.org/content/ebergotzen}
 }
 }
-\note{Texture by hand method can be used to determine the content of soil earth fractions only to an accuracy of \enc{±}{+-}5--10\% (\href{https://www.soils.org/publications/sssaj/articles/65/4/1038}{Skaggs et al. 2001}). A surveyor distinguishes to which of the 32 texture classes a soil samples belongs to, and then estimates the content of fractions; e.g. texture class \code{St2} has 10\% clay, 25\% silt and 65\% sand (Ad-hoc-AG Boden, 2005).}
+\note{Texture by hand method can be used to determine the content of soil earth fractions only to an accuracy of \enc{±}{+-}5--10\% (Skaggs et al., 2001). A surveyor distinguishes to which of the 32 texture classes a soil samples belongs to, and then estimates the content of fractions; e.g. texture class \code{St2} has 10\% clay, 25\% silt and 65\% sand (Ad-hoc-AG Boden, 2005).}
 \examples{
 data(eberg)
 data(eberg_grid)

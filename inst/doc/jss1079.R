@@ -6,7 +6,7 @@
 if(!require(gstat)){install.packages("gstat"); library(gstat)}
 if(!require(raster)){install.packages("raster"); library(raster)}
 if(!require(plotKML)){install.packages("plotKML"); library(plotKML)}
-if(!require(GSIF)){install.packages("GSIF"); library(GSIF)}
+if(!require(landmap)){install.packages("landmap"); library(landmap)}
 
 
 ###################################################
@@ -113,16 +113,7 @@ demo(meuse, echo=FALSE)
 
 
 ###################################################
-### code chunk number 14: jss1079.Rnw:428-432
-###################################################
-library("GSIF")
-omm <- fit.gstatModel(meuse, om~dist+ffreq, meuse.grid,
-   family = gaussian(log))
-om.rk <- predict(omm, meuse.grid)
-
-
-###################################################
-### code chunk number 15: jss1079.Rnw:478-491
+### code chunk number 14: jss1079.Rnw:481-494
 ###################################################
 data("fmd")
 fmd0 <- data.frame(fmd)
@@ -140,7 +131,7 @@ stplot(fmd_ST, sp.layout=list("sp.lines", NC), col.regions=SAGA_pal[[1]])
 
 
 ###################################################
-### code chunk number 16: jss1079.Rnw:498-499
+### code chunk number 15: jss1079.Rnw:501-502
 ###################################################
 kml(fmd_ST, colour=ReportedDay, colour_scale=SAGA_pal[[1]])
 
