@@ -1,8 +1,8 @@
-3b73331bd0f9cb598ed4a28b74409b26 *DESCRIPTION
+f489495eef0c52bd2268498b60f28a5d *DESCRIPTION
 2c9e4b2e9e72580bd0823ea6209684a4 *NAMESPACE
 66345030ba9ffd08fb0c7cffa73954c7 *R/AAA-classes.R
 72a2c0543a0138bef70c7d7f4892904f *R/AAA-md.R
-1932bd32e31789822bed599cc84d8e38 *R/AAAA.R
+ab7ccd0b34e7760c037d803e80bfc795 *R/AAAA.R
 b1b7ca8e6e9b09d03a7e9d7f9e55c273 *R/ZZZ.R
 c13fedeaeafcea349c443671553544cc *R/aesthetics.R
 0caebd9285c30ef74cfae6e2981e383b *R/altitude.R
@@ -55,7 +55,7 @@ ccc0b3a88ae373e2091ca44a7f2cf9ea *R/spPhoto.R
 efcb187f24b1d55e20b9c683370aad0b *R/vect2rast.R
 7a542f5f40c3d99631a489e5749034a9 *R/whitening.R
 d41d8cd98f00b204e9800998ecf8427e *TODO
-570c4e0265833f1cf0c2b64781407786 *build/partial.rdb
+4d5803aadc6049868527c3e227cab40d *build/partial.rdb
 4049efffe2ed56863ff940eb4e57b3ad *build/vignette.rds
 9060c942e52ce8a1939e2f36d145cbd4 *data/HRprec08.rda
 33060527d47b9b9095e5d2e0551d8b80 *data/HRtemp08.rda
@@ -85,7 +85,7 @@ b90137d302edc916b41e9377eeefa78c *inst/INSPIRE_ISO19139.xml
 d41d8cd98f00b204e9800998ecf8427e *inst/NEWS
 7ecc24514859fcf075f5c6ff7b57d940 *inst/doc/jss1079.R
 96daa354497eca2496fbc399734207d7 *inst/doc/jss1079.Rnw
-540712ef7363f9d0e7498e17b2102e20 *inst/doc/jss1079.pdf
+e36b76939e8d2ca9701729e49e553036 *inst/doc/jss1079.pdf
 c4c84fc61344519d27e5b9ee06f4845e *inst/eberg.xml
 762124c8e05e5dbf332ec2acadb0af18 *inst/gpx.xsd
 28da50b2a17e0848877f44470a66db5b *inst/mdnames.csv

@@ -1,5 +1,5 @@
 Package: plotKML
-Version: 0.8-0
+Version: 0.8-1
 Date: 2021-04-12
 Title: Visualization of Spatial and Spatio-Temporal Objects in Google
         Earth
@@ -31,6 +31,6 @@ License: GPL
 URL: https://github.com/Envirometrix/plotKML
 LazyLoad: yes
 NeedsCompilation: no
-Packaged: 2021-04-12 12:29:21 UTC; tomislav
+Packaged: 2021-04-29 13:23:47 UTC; tomislav
 Repository: CRAN
-Date/Publication: 2021-04-12 16:00:02 UTC
+Date/Publication: 2021-04-29 14:00:02 UTC
