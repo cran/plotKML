@@ -1,6 +1,6 @@
 Package: plotKML
-Version: 0.8-2
-Date: 2021-10-06
+Version: 0.8-3
+Date: 2022-06-05
 Title: Visualization of Spatial and Spatio-Temporal Objects in Google
         Earth
 Author: Tomislav Hengl [cre, aut],
@@ -19,17 +19,17 @@ Authors@R: c(person("Tomislav", "Hengl", role = c("cre", "aut"),
 Maintainer: Tomislav Hengl <tom.hengl@opengeohub.org>
 Depends: R (>= 3.5.0)
 Imports: methods, tools, gstat, colorRamps, pixmap, utils, XML, dismo,
-        landmap, sp, raster, rgdal, aqp, spacetime, colorspace, plyr,
-        stringr, scales, zoo, RColorBrewer, classInt, sf, stars
+        sp, raster, rgdal, aqp, spacetime, colorspace, plyr, stringr,
+        scales, zoo, RColorBrewer, classInt, sf, stars
 Suggests: RSAGA, plotrix, adehabitatLT, maptools, fossil, rjson,
         animation, spatstat, spatstat.linnet, spatstat.geom, RCurl,
-        rgbif, Hmisc, uuid, intervals, reshape, gdalUtils, snowfall,
+        rgbif, Hmisc, uuid, R.utils, intervals, reshape, snowfall,
         parallel, testthat
-Description: Writes sp-class, spacetime-class, raster-class and similar spatial and spatio-temporal objects to KML following some basic cartographic rules.
+Description: Writes spatial-class, spacetime-class, raster-class and similar spatial and spatiotemporal objects to KML following some basic cartographic rules.
 License: GPL
 URL: https://github.com/Envirometrix/plotKML
 LazyLoad: yes
 NeedsCompilation: no
-Packaged: 2021-10-18 15:37:11 UTC; tomhe
+Packaged: 2022-06-07 07:42:10 UTC; tomhe
 Repository: CRAN
-Date/Publication: 2021-10-30 13:50:06 UTC
+Date/Publication: 2022-06-07 14:00:02 UTC

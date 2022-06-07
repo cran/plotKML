@@ -6,7 +6,7 @@
 if(!require(gstat)){install.packages("gstat"); library(gstat)}
 if(!require(raster)){install.packages("raster"); library(raster)}
 if(!require(plotKML)){install.packages("plotKML"); library(plotKML)}
-if(!require(landmap)){install.packages("landmap"); library(landmap)}
+#if(!require(landmap)){install.packages("landmap"); library(landmap)}
 
 
 ###################################################

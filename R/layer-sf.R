@@ -43,7 +43,7 @@
   aes <- kml_aes(obj, ...)
   
   # Read the relevant aesthetics
-  if (missing(points_names)) {
+  if(missing(points_names)){
     points_names <- aes[["labels"]]
   }
   colours <- aes[["colour"]]
